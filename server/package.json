@@ -1,0 +1,33 @@
+{
+  "name": "bieysh2",
+  "version": "1.0.0",
+  "description": "crawler for bike offers with touch'e of react",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "client": "npm run start --prefix client",
+    "dev": "npm run server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hendels/bikeysh2.git"
+  },
+  "author": "hendels",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hendels/bikeysh2/issues"
+  },
+  "homepage": "https://github.com/hendels/bikeysh2#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "concurrently": "^3.6.0",
+    "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "mongodb": "^3.0.10",
+    "mongoose": "^5.1.6",
+    "nodemon": "^1.17.5",
+    "request": "^2.87.0",
+    "underscore": "^1.9.1"
+  }
+}
