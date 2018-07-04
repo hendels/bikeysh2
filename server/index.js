@@ -13,11 +13,8 @@ const app = express();
 console.log('==================start====================');
 
 require('./routes/getRoutes')(app);
-// app.get('/', (req, res) => {
-//     res.send({hi: 'hend'});
-// });
 
 
 
-app.listen(3000);
+app.listen(4000);
 console.log('===============end=================');
