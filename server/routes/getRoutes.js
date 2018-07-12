@@ -13,13 +13,26 @@ module.exports = app => {
             res.send({ dhframes });
         });
     });
-    app.get('/api/bm/category/cranks', async (req, res) => {
+    
+    app.get('/api/bm/category/cranks/:skipRange/:pageLimit', async (req, res) => {
+        var pageLimit = parseInt(req.params.pageLimit);
+        var skipRange = parseInt(req.params.skipRange);
         const Cranks = await mongoose
             .model('cranks')
             .find()
+            .skip(skipRange)
+            .limit(pageLimit)
             .select({ bmartId: false, __v: false });
-        res.send(Cranks);
+        res.send(Cranks);            
     });
+    // app.get('/api/bm/category/cranks', async (req, res) => {
+    //     const Cranks = await mongoose
+    //         .model('cranks')
+    //         .find()
+    //         .limit(10)
+    //         .select({ bmartId: false, __v: false });
+    //     res.send(Cranks);
+    // });
     app.get('/api/bm/category/enduroframes', (req, res) => {
         mongoose.model('enduroframes').find(function(err, enduroframes) {
             res.send({ enduroframes });
