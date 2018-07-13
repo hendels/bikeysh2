@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Toolbar.css';
-
+import NavigationItems from '../NavigationItems/NavigationItems'
 const toolbar = (props) => {
     return(
     <header className={classes.Toolbar}>
@@ -8,9 +8,7 @@ const toolbar = (props) => {
             siema
         </div>
         <nav>
-            item 1
-            item 2
-            item 3
+            <NavigationItems/>
         </nav>
     </header>)
 };

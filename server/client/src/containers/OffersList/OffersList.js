@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Aux from '../../hoc/Aux/Aux';
 import axios from 'axios';
-import Offer from '../../components/Offers/OfferBikeMarkt/OfferBIkeMarkt';
+import Offer from '../../components/Offers/OfferBikeMarkt/OfferBikeMarkt';
 import classes from './OffersList.css';
 
 const applyUpdateResult = (result) => (prevState) => ({
@@ -91,16 +91,21 @@ class OffersList extends Component {
                     return <Offer
                     key={offer._id}
                     title={offer.title}
-                    link={offer.productUrl}/>
+                    link={offer.productUrl}
+                    // firstImage={offer.pictures[0]}
+                    />
                 })
             }
             else {
-                offers = this.state.hits.map(offer => {
-                    return <Offer
-                    key={offer._id}
-                    title={offer.title}
-                    link={offer.productUrl}/>
-                })
+                // offers = this.state.hits.map(offer => {
+                //     return <Offer
+                //     key={offer._id}
+                //     title={offer.title}
+                //     link={offer.productUrl}
+                //     // firstImage={offer.pictures.picLink1}
+                //     />
+                // )}
+
 
             }
         }
@@ -119,7 +124,9 @@ class OffersList extends Component {
                     ===================
                     {rendering}
                     ===================
-                    {offers}
+                    <Offer
+                    offers={this.state.hits}
+                    />
                     {previousPage}
                     {nextPage}
                 </section>
