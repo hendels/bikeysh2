@@ -13,7 +13,7 @@ import Favorite from '@material-ui/icons/Favorite';
 import DesiredAdd from '@material-ui/icons/PlaylistAdd';
 import AddComment from '@material-ui/icons/NoteAdd';
 //elements
-import Aux from '../../../hoc/Aux/Aux';
+import Aux from '../../../hoc/Ax/Ax';
 import { Button } from '@material-ui/core';
 
 

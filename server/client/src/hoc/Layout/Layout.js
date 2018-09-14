@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Aux from '../Aux/Aux';
+import Aux from '../Ax/Ax';
 import OffersList from '../../containers/OffersList/OffersList';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import { Route } from 'react-router-dom';

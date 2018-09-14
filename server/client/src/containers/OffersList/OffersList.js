@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Aux from '../../hoc/Aux/Aux';
+import Aux from '../../hoc/Ax/Ax';
 import axios from 'axios';
 import OfferBikeMarkt from '../../components/Offers/OfferBikeMarkt/OfferBikeMarkt';
 import classes from './OffersList.css';
