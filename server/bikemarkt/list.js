@@ -35,12 +35,12 @@ exports.bmList = input => {
             if (err) {
                 reject(error);
             }
-
+            if (html === undefined) return null;
             var $ = cheerio.load(html);
 
             var items = [];
             var iCount = 0;
-            var allItems = $('li[class=productItem]').children();
+            var allItems = $('.productItem').children();
 
             allItems.each(function(i, element) {
                 if (iCount < setLimiter + 2) {
@@ -53,6 +53,7 @@ exports.bmList = input => {
                         .children()
                         .eq(0)
                         .text();
+                    
                     var seller = productItem
                         .children()
                         .eq(1)
@@ -76,7 +77,7 @@ exports.bmList = input => {
                         .children()
                         .eq(4)
                         .text();
-                    //console.log('====' + productLink);
+                    // console.log('====' + productLink);
                     var productUrl = productLink.find('a').attr('href');
                     var regex = /(\d{6,7})/g;
                     var bm_id = regex.exec(productUrl);

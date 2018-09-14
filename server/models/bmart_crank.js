@@ -23,6 +23,8 @@ const CrankSchema = new Schema({
     viewed: Number,
     dealer: String,
     weight: String,
+    //////////[app attributes]//////////
+    favorite: Boolean,
     //////////[specific attributes]//////////
     chainringMountType: String,
     crankStandard: String,
@@ -59,6 +61,9 @@ exports.create = (data, atributes) => {
         color: translate.matchField(atributes, 'color'),
         dealer: translate.matchField(atributes, 'dealer'),
         weight: translate.matchField(atributes, 'weight'),
+        //////////[app attributes]//////////
+        favorite: false,
+        //////////[specific attributes]//////////
         chainringMountType: translate.matchField(atributes, 'chainringMountType'),
         crankStandard: translate.matchField(atributes, 'crankStandard'),
         crankArmLength: translate.matchField(atributes, 'crankArmLength'),

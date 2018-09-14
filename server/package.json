@@ -23,6 +23,7 @@
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
     "concurrently": "^3.6.0",
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "fs": "0.0.1-security",
     "mongodb": "^3.0.10",

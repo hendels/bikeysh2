@@ -14,6 +14,7 @@ getCategories.categoryArray(pages, links => {
 for (var iLink = 0; iLink < categoryLinks.length; iLink++) {
     var url = categoryLinks[iLink];
     var getCategory = categoryDesc[iLink];
+    console.log('crawling category: ' + getCategory + '...');
     var input = {
         iUrl: url,
         iCategory: getCategory

@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
 import Aux from '../../hoc/Aux/Aux';
 import axios from 'axios';
-import Offer from '../../components/Offers/OfferBikeMarkt/OfferBikeMarkt';
+import OfferBikeMarkt from '../../components/Offers/OfferBikeMarkt/OfferBikeMarkt';
 import classes from './OffersList.css';
+//material-ui core elements
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button/Button';
+import Typography from '@material-ui/core/Typography';
+import GridList from '@material-ui/core/GridList';
+import Grid from '@material-ui/core/Grid';
 
 const applyUpdateResult = (result) => (prevState) => ({
     hits: [...prevState, ...result],
@@ -10,71 +16,95 @@ const applyUpdateResult = (result) => (prevState) => ({
     page: result.page,
   });
   
-  const applySetResult = (result) => (prevState) => ({
+const applySetResult = (result) => (prevState) => ({
     hits: result,
     page: result.page,
-  });
+    //totalResult: prevState.result + result.length
+});
+
 let renderCount = 0;
-let pageLimit = 10;
+
 class OffersList extends Component {
     constructor(props){
         super(props);
+        
         this.state = {
             offers: [],
             selectedItemId: null,
             error: null,
+            fetchUrl: props.fetchUrl,
             hits: [],
             page: null,
             skip: 0,
-            pageItems: pageLimit
+            pageItems: props.pageLimit,
+            totalResult: 0
+            
+            // pageItems: 10
         }
     }
     
     componentDidMount() {
-        var config = {
-            headers: {'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST, GET',
-            'Access-Control-Allow-Headers': 'X-PINGOTHER, Content-Type'}
-        };
 
         this.fetchData(this.state.skip, this.state.pageItems);
+        console.log("PROPS!!!!");
+        axios.get(this.state.fetchUrl).then(response  => response.data).then(result => {
+            this.setState({totalResult: result});
+            console.log('array count '+ this.state.fetchUrl + ' = ' + result[Object.keys(this.state.totalResult)[0]]);
+        });
+
+        //console.log(this.state);
     }
     fetchData = (skip, pageLimit) => {
-        axios.get('http://localhost:4000/api/bm/category/cranks/' + skip + '/' + pageLimit).then(
+        axios.get(this.state.fetchUrl + skip + '/' + pageLimit).then(
             response => response.data
         ).then(result => this.onSetResult(result, skip))
     }
     onSetResult = (result, skip) =>{
-       this.setState(applySetResult(result, skip));
-       console.log('setting hitz');
-       console.log('skip state: ' + this.state.skip + '/page items: ' + this.state.pageLimit);
-       console.log(result);
+        if (result.length !== 0){
+            this.setState(applySetResult(result, skip));}
+        //console.log(result);
     }
 
 
     onPaginatedSearchNext = () => {
-        const newSkip = this.state.skip + 10;
-        this.setState({skip: newSkip}); 
-        this.fetchData(this.state.skip + this.state.pageItems, this.state.pageItems);
+        const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
+        let newSkip = this.state.skip + 10;
+        if(newSkip >= totalArray)
+            newSkip = totalArray;
+        if(newSkip !== this.state.skip){
+             this.setState(state => ({
+                skip: newSkip
+            }));
+            this.fetchData(this.state.skip + this.state.pageItems, this.state.pageItems);
+            console.log("state SKIP : " + this.state.skip + " state RESULT.length : " + totalArray + " state pageItems : " + this.state.pageItems);
+        }
         
-        console.log('skip state: ' + this.state.skip + '/page items: ' + this.state.pageLimit);
     }
     onPaginatedSearchPrevious = () => {
-        const newSkip = this.state.skip + 10;
-        this.setState({skip: newSkip}); 
-        this.fetchData(this.state.skip - this.state.pageItems, this.state.pageItems);
+        // console.log("state SKIP : " + this.state.skip + " state RESULT.length : " + this.state.totalResult);
+        const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
+        let newSkip = this.state.skip - 10;
+        if(newSkip <= 0) newSkip = 0;
+
+        console.log("previous : " + this.state.skip);
+        if(newSkip !== this.state.skip){
+            this.setState(state => ({
+                skip: newSkip
+            }));
+            this.fetchData(this.state.skip - this.state.pageItems, this.state.pageItems);
+        }
         
-        console.log('skip state: ' + this.state.skip + '/page items: ' + this.state.pageLimit);
     }
         
 
     render(){
+
         console.log('RERENDER');
         renderCount += 1;
         let offers = <p style={{textAlign: 'center'}}>Something went wrong!</p>;
         if (!this.state.error && this.state.hits !== null){
-            console.log(this.state.offers);
-            console.log('hits arr:' + this.state.hits);
+            // console.log(this.state.offers);
+            // console.log('hits arr:' + this.state.hits);
             let firstLevel = 0;
             for (var x in this.state.hits){
                 firstLevel += 1;
@@ -85,52 +115,50 @@ class OffersList extends Component {
                 //     break;
                 // }
             }
-            console.log('first element count: ' + firstLevel);
-            if (firstLevel === 1){
-                offers = this.state.hits['hubs'].map(offer => {
-                    return <Offer
-                    key={offer._id}
-                    title={offer.title}
-                    link={offer.productUrl}
-                    // firstImage={offer.pictures[0]}
-                    />
-                })
-            }
-            else {
-                // offers = this.state.hits.map(offer => {
-                //     return <Offer
-                //     key={offer._id}
-                //     title={offer.title}
-                //     link={offer.productUrl}
-                //     // firstImage={offer.pictures.picLink1}
-                //     />
-                // )}
+            // console.log('first element count: ' + firstLevel);
+            // if (firstLevel === 1){
+            //     offers = this.state.hits['hubs'].map(offer => {
+            //         return <OfferBikeMarkt
+            //         key={offer._id}
+            //         title={offer.title}
+            //         link={offer.productUrl}
+            //         // firstImage={offer.pictures[0]}
+            //         />
+            //     })
+            // }
+            // else {
+            //     // offers = this.state.hits.map(offer => {
+            //     //     return <Offer
+            //     //     key={offer._id}
+            //     //     title={offer.title}
+            //     //     link={offer.productUrl}
+            //     //     // firstImage={offer.pictures.picLink1}
+            //     //     />
+            //     // )}
 
 
-            }
+            // }
         }
-        const rendering = <div>render no {renderCount}</div>
-        let nextPage = <button type="button" onClick={this.onPaginatedSearchNext} className={classes.interactions}>NEXT</button>
-        let previousPage = <button type="button" onClick={this.onPaginatedSearchPrevious} className={classes.interactions}>PREVIOUS</button>
         return(
             <Aux>
-                <section>
-                    ===================
-                    ===================
-                    ===================
-                    ===================
-                    ===================
-                    ===================
-                    ===================
-                    {rendering}
-                    ===================
-                    <Offer
+                <p>  &nbsp;</p>
+                <p>  &nbsp;</p>
+                <p>  &nbsp;</p>
+                <p>  &nbsp;</p>
+                <p>  &nbsp;</p>
+                <p>  &nbsp;</p>
+                    <Button onClick={this.onPaginatedSearchPrevious}>Previous</Button>
+                    <Button onClick={this.onPaginatedSearchNext}>Next</Button>
+                {/* <GridList cellHeight={140} className={classes.gridList} cols={2}> */}
+                <div style={{margin: '100px 50px 75px 100px'}}>
+                    <OfferBikeMarkt
                     offers={this.state.hits}
                     />
-                    {previousPage}
-                    {nextPage}
-                </section>
-                
+                </div>
+                {/* </GridList> */}
+                    <Button onClick={this.onPaginatedSearchPrevious}>Previous</Button>
+                    <Button onClick={this.onPaginatedSearchNext}>Next</Button>
+                    
             </Aux>
         )
     }
