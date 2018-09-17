@@ -23,6 +23,8 @@ const EnduroframesSchema = new Schema({
     viewed: Number,
     dealer: String,
     weight: String,
+    //////////[app attributes]//////////
+    favorite: Boolean,
     //////////[specific attributes]//////////
     frameSize: String,
     rearShockDimension: String,
@@ -61,6 +63,9 @@ exports.create = (data, atributes) => {
         color: translate.matchField(atributes, 'color'),
         dealer: translate.matchField(atributes, 'dealer'),
         weight: translate.matchField(atributes, 'weight'),
+        //////////[app attributes]//////////
+        favorite: false,
+        //////////[specificAtributes]///////
         frameSize: translate.matchField(atributes, 'frameSize'),
         rearShockDimension: translate.matchField(atributes, 'rearShockDimension'),
         wheelSize: translate.matchField(atributes, 'wheelSize'),
@@ -117,4 +122,13 @@ exports.update = (EnduroFrame, id, data, atributes) => {
             console.log('[][][] updating Enduro Frame...');
         });
     });
+};
+//# update colums
+exports.updateFavorite = (id, markAs) => {
+    EnduroFrame.findById(id, (err, enduroFrame) => {
+        enduroFrame.favorite = markAs;
+        enduroFrame.save().then(() => {
+            console.log('[][][] favorizing EnduroFrame...');
+        });
+    });    
 };

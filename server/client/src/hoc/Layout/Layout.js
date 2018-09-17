@@ -1,13 +1,21 @@
 import React, {Component} from 'react';
 import Aux from '../Ax/Ax';
+import { Route } from 'react-router-dom';
+// pages
+import HomePage from '../../pages/HomePage.jsx';
+// components
 import OffersList from '../../containers/OffersList/OffersList';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
-import { Route } from 'react-router-dom';
-// components
+
 import Header from '../../components/Header/Header.jsx';
 import HeaderLinks from '../../components/Header/HeaderLinks.jsx';
 //
 import Background from '../../components/Paper/Paper.jsx';
+//core MUI
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 
 const dashboardRoutes = [];
 
@@ -15,13 +23,7 @@ class Layout extends Component {
 
     render () {
         const { classes, ...rest } = this.props;
-        const styles = theme => ({
-            root: {
-                ...theme.mixins.gutters(),
-                paddingTop: theme.spacing.unit * 2,
-                paddingBottom: theme.spacing.unit * 2,
-            },
-        });
+
         return (
             <Aux>
                 {/* <Toolbar/> */}
@@ -37,28 +39,38 @@ class Layout extends Component {
                     }}
                     {...rest}
                 />
-                <Route path="/category/cranks" render={OffersListCranks}/>
-                <Route path="/category/hubs" render={OffersListHubs}/>
-                <Route path="/category/wheels" render={OffersListWheels}/>
-                <Route path="/category/dhframes" render={OffersListDhFrames}/>
-                <Route path="/category/enduroframes" render={OffersListEnduroFrames}/>
+                <Route exact path="/home" render={Home}/>
+                <Route exact path="/category/cranks" render={OffersListCranks}/>
+                <Route exact path="/category/hubs" render={OffersListHubs}/>
+                <Route exact path="/category/wheels" render={OffersListWheels}/>
+                <Route exact path="/category/dhframes" render={OffersListDhFrames}/>
+                <Route exact path="/category/enduroframes" render={OffersListEnduroFrames}/>
                 
             </Aux>
         )
     }
 }
+const Home = () => {
 
-const OffersListCranks = () => {
-    const classes  = this.props;
     return (
-               
+        <div>
+            <p>  &nbsp;</p>
+            <p>  &nbsp;</p>
+            <p>  &nbsp;</p>
+            <p>  &nbsp;</p>
+            <p>  &nbsp;</p>
+            <HomePage/>
+        </div>
+    )
+}
+const OffersListCranks = () => {
+    return (
         <OffersList 
         pageLimit={10} 
         fetchUrl={"/api/bm/category/cranks/"}         
         />
-
     );
-}
+    }
 const OffersListWheels = () => {
     return (
     <OffersList 

@@ -23,6 +23,8 @@ const HubsSchema = new Schema({
     viewed: Number,
     dealer: String,
     weight: String,
+    //////////[app attributes]//////////
+    favorite: Boolean,
     //////////[specific attributes]//////////
     frontSpokesNo: Number,
     rearSpokesNo: Number,
@@ -60,6 +62,9 @@ exports.create = (data, atributes) => {
         color: translate.matchField(atributes, 'color'),
         dealer: translate.matchField(atributes, 'dealer'),
         weight: translate.matchField(atributes, 'weight'),
+        //////////[app attributes]//////////
+        favorite: false,
+        //////////[specificAtributes]///////
         frontSpokesNo: translate.matchField(atributes, 'frontSpokesNo'),
         rearSpokesNo: translate.matchField(atributes, 'rearSpokesNo'),
         frontAxle: translate.matchField(atributes, 'frontAxle'),
@@ -112,4 +117,13 @@ exports.update = (Hub, id, data, atributes) => {
             console.log('[][][] updating hub...');
         });
     });
+};
+//# update colums
+exports.updateFavorite = (id, markAs) => {
+    Hub.findById(id, (err, hub) => {
+        hub.favorite = markAs;
+        hub.save().then(() => {
+            console.log('[][][] favorizing Hub...');
+        });
+    });    
 };

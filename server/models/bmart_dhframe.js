@@ -23,6 +23,8 @@ const DhframesSchema = new Schema({
     viewed: Number,
     dealer: String,
     weight: String,
+    //////////[app attributes]//////////
+    favorite: Boolean,
     //////////[specific attributes]//////////
     frameSize: String,
     rearShockDimension: String,
@@ -51,7 +53,7 @@ exports.create = (data, atributes) => {
         publishDate: data.publishDate.trim(),
         productUrl: data.productUrl,
         price: data.price.trim(),
-        //# inner atributes /specificAtributes
+        //# inner atributes
         description: translate.matchField(atributes, 'description'),
         watchedTimes: translate.matchField(atributes, 'watchedTimes'),
         manufacturer: translate.matchField(atributes, 'manufacturer'),
@@ -61,6 +63,9 @@ exports.create = (data, atributes) => {
         color: translate.matchField(atributes, 'color'),
         dealer: translate.matchField(atributes, 'dealer'),
         weight: translate.matchField(atributes, 'weight'),
+        //////////[app attributes]//////////
+        favorite: false,
+        //////////[specificAtributes]///////
         frameSize: translate.matchField(atributes, 'frameSize'),
         rearShockDimension: translate.matchField(atributes, 'rearShockDimension'),
         wheelSize: translate.matchField(atributes, 'wheelSize'),
@@ -89,7 +94,7 @@ exports.update = (DhFrame, id, data, atributes) => {
         dhFrame.publishDate = data.publishDate.trim();
         dhFrame.productUrl = data.productUrl;
         dhFrame.price = data.price.trim();
-        //# inner atributes /specificAtributes
+        //# inner atributes 
         dhFrame.description = translate.matchField(atributes, 'description');
         dhFrame.watchedTimes = translate.matchField(atributes, 'watchedTimes');
         dhFrame.manufacturer = translate.matchField(atributes, 'manufacturer');
@@ -99,6 +104,8 @@ exports.update = (DhFrame, id, data, atributes) => {
         dhFrame.color = translate.matchField(atributes, 'color');
         dhFrame.dealer = translate.matchField(atributes, 'dealer');
         dhFrame.weight = translate.matchField(atributes, 'weight');
+
+        //////////[specific attributes]//////////
         dhFrame.frameSize = translate.matchField(atributes, 'frameSize');
         dhFrame.rearShockDimension = translate.matchField(atributes, 'rearShockDimension');
         dhFrame.wheelSize = translate.matchField(atributes, 'wheelSize');
@@ -117,4 +124,13 @@ exports.update = (DhFrame, id, data, atributes) => {
             console.log('[][][] updating dhFrame...');
         });
     });
+};
+//# update colums
+exports.updateFavorite = (id, markAs) => {
+    DhFrame.findById(id, (err, dhframe) => {
+        dhframe.favorite = markAs;
+        dhframe.save().then(() => {
+            console.log('[][][] favorizing Dh Frame...');
+        });
+    });    
 };

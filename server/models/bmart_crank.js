@@ -117,3 +117,12 @@ exports.update = (Crank, id, data, atributes) => {
         });
     });
 };
+//# update colums
+exports.updateFavorite = (id, markAs) => {
+    Crank.findById(id, (err, crank) => {
+        crank.favorite = markAs;
+        crank.save().then(() => {
+            console.log('[][][] favorizing Crank...');
+        });
+    });    
+};

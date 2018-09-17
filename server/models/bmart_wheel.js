@@ -23,6 +23,8 @@ const WheelsSchema = new Schema({
     viewed: Number,
     dealer: String,
     weight: String,
+    //////////[app attributes]//////////
+    favorite: Boolean,
     //////////[specific attributes]//////////
     rimWidth: String,
     axleDiameterFrontWheel: String,
@@ -59,6 +61,9 @@ exports.create = (data, atributes) => {
         color: translate.matchField(atributes, 'color'),
         dealer: translate.matchField(atributes, 'dealer'),
         weight: translate.matchField(atributes, 'weight'),
+        //////////[app attributes]//////////
+        favorite: false,
+        //////////[specificAtributes]///////
         rimWidth: translate.matchField(atributes, 'rimWidth'),
         axleDiameterFrontWheel: translate.matchField(atributes, 'axleDiameterFrontWheel'),
         axleDiameterRearWheel: translate.matchField(atributes, 'axleDiameterRearWheel'),
@@ -111,4 +116,13 @@ exports.update = (Wheel, id, data, atributes) => {
             console.log('[][][] updating wheel...');
         });
     });
+};
+//# update colums
+exports.updateFavorite = (id, markAs) => {
+    Wheel.findById(id, (err, wheel) => {
+        wheel.favorite = markAs;
+        wheel.save().then(() => {
+            console.log('[][][] favorizing Wheel...');
+        });
+    });    
 };

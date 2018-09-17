@@ -1,4 +1,9 @@
 const mongoose = require('mongoose');
+const bm_crank = require('../models/bmart_crank');
+const bm_hub = require('../models/bmart_hub');
+const bm_dhframe = require('../models/bmart_dhframe');
+const bm_enduroframe = require('../models/bmart_enduroframe');
+const bm_wheel = require('../models/bmart_wheel');
 
 module.exports = app => {
     app.get('/', (req, res) => {
@@ -6,7 +11,7 @@ module.exports = app => {
     });
     app.get('/api/bm/run', (req, res) => {
         require('../server.js');
-        console.log('running bikemarkt crawler...')
+        console.log('running bikemarkt crawler...');
         res.send({ crawler: 'running' });
     });
     //<<dhframes
@@ -26,6 +31,10 @@ module.exports = app => {
             res.send({ dhframes });
         });
     });
+    app.post('/api/bm/category/dhframes/fav', async (req, res) => {
+        console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
+        bm_dhframe.updateFavorite(req.body.id, req.body.markAs);
+    })
     //>>dhframes
     //<<cranks
     app.get('/api/bm/category/cranks/:skipRange/:pageLimit', async (req, res) => {
@@ -45,6 +54,10 @@ module.exports = app => {
             res.send({cranks});
         });
     });
+    app.post('/api/bm/category/cranks/fav', async (req, res) => {
+        console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
+        bm_crank.updateFavorite(req.body.id, req.body.markAs);
+    })
     //>>cranks
     //<<enduroframes
     app.get('/api/bm/category/enduroframes/:skipRange/:pageLimit', async (req, res) => {
@@ -63,6 +76,10 @@ module.exports = app => {
             res.send({ enduroframes });
         });
     });
+    app.post('/api/bm/category/enduroframes/fav', async (req, res) => {
+        console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
+        bm_enduroframe.updateFavorite(req.body.id, req.body.markAs);
+    })
     //>>enduroframes
     //<<hubs
     app.get('/api/bm/category/hubs/:skipRange/:pageLimit', async (req, res) => {
@@ -81,6 +98,10 @@ module.exports = app => {
             res.send({hubs});
         });
     });
+    app.post('/api/bm/category/hubs/fav', async (req, res) => {
+        console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
+        bm_hub.updateFavorite(req.body.id, req.body.markAs);
+    })
     //>>hubs
     //<<wheels
     app.get('/api/bm/category/wheels/:skipRange/:pageLimit', async (req, res) => {
@@ -100,5 +121,9 @@ module.exports = app => {
             res.send({ wheels });
         });
     });
+    app.post('/api/bm/category/wheels/fav', async (req, res) => {
+        console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
+        bm_wheel.updateFavorite(req.body.id, req.body.markAs);
+    })
     //>>wheels
 };

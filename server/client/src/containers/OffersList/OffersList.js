@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import Aux from '../../hoc/Ax/Ax';
 import axios from 'axios';
 import OfferBikeMarkt from '../../components/Offers/OfferBikeMarkt/OfferBikeMarkt';
-import classes from './OffersList.css';
+// import classes from './OffersList.css';
 //material-ui core elements
 import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+
 import Button from '@material-ui/core/Button/Button';
-import Typography from '@material-ui/core/Typography';
 import GridList from '@material-ui/core/GridList';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 const applyUpdateResult = (result) => (prevState) => ({
     hits: [...prevState, ...result],
@@ -23,6 +26,14 @@ const applySetResult = (result) => (prevState) => ({
 });
 
 let renderCount = 0;
+
+const styles = theme => ({
+    root: {
+      ...theme.mixins.gutters(),
+      paddingTop: theme.spacing.unit * 2,
+      paddingBottom: theme.spacing.unit * 2,
+    },
+  });
 
 class OffersList extends Component {
     constructor(props){
@@ -98,7 +109,8 @@ class OffersList extends Component {
         
 
     render(){
-
+        const { classes } = this.props;
+        const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
         console.log('RERENDER');
         renderCount += 1;
         let offers = <p style={{textAlign: 'center'}}>Something went wrong!</p>;
@@ -141,27 +153,39 @@ class OffersList extends Component {
         }
         return(
             <Aux>
-                <p>  &nbsp;</p>
-                <p>  &nbsp;</p>
-                <p>  &nbsp;</p>
-                <p>  &nbsp;</p>
-                <p>  &nbsp;</p>
-                <p>  &nbsp;</p>
-                    <Button onClick={this.onPaginatedSearchPrevious}>Previous</Button>
-                    <Button onClick={this.onPaginatedSearchNext}>Next</Button>
-                {/* <GridList cellHeight={140} className={classes.gridList} cols={2}> */}
-                <div style={{margin: '100px 50px 75px 100px'}}>
-                    <OfferBikeMarkt
-                    offers={this.state.hits}
-                    />
+                <div className={classNames(classes.main, classes.mainRaised)}>
+                    {/* <div className={classes.container}> */}
+                        <Paper className={classes.root} elevation={1}>
+                        <p>  &nbsp;</p>
+                        <p>  &nbsp;</p>
+                        <p>  &nbsp;</p>
+                        <Typography variant="headline" component="h3">
+                            This is a sheet of paper.
+                        </Typography>
+                        <p>  &nbsp;</p>
+                        
+                            <Button variant="outlined" onClick={this.onPaginatedSearchPrevious}>Previous</Button>
+                            <Button variant="outlined" onClick={this.onPaginatedSearchNext}>Next</Button>
+                            <p>{this.state.skip} of {totalArray}</p>
+                        {/* <GridList cellHeight={140} className={classes.gridList} cols={2}> */}
+                        <div style={{margin: '10px 10px 15px 10px'}}>
+                            <OfferBikeMarkt
+                            offers={this.state.hits}
+                            fetchUrl={this.state.fetchUrl}
+                            />
+                        </div>
+                        {/* </GridList> */}
+                            <Button variant="outlined" onClick={this.onPaginatedSearchPrevious}>Previous</Button>
+                            <Button variant="outlined" onClick={this.onPaginatedSearchNext}>Next</Button>
+                            <p>{this.state.skip} of {totalArray}</p>
+                        </Paper>   
+                        <p>  &nbsp;</p>
+                        <p>  &nbsp;</p>
+                    {/* </div> */}
                 </div>
-                {/* </GridList> */}
-                    <Button onClick={this.onPaginatedSearchPrevious}>Previous</Button>
-                    <Button onClick={this.onPaginatedSearchNext}>Next</Button>
-                    
             </Aux>
         )
     }
 }
 
-export default OffersList;
+export default withStyles(styles)(OffersList);

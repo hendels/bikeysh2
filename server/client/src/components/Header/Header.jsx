@@ -15,6 +15,8 @@ import Drawer from "@material-ui/core/Drawer";
 import Menu from "@material-ui/icons/Menu";
 // core components
 import headerStyle from "../../styles/components/headerStyle.jsx";
+// app components
+import Logo from '../Logo/Logo.jsx';
 
 class Header extends React.Component {
   constructor(props) {
@@ -84,7 +86,7 @@ class Header extends React.Component {
                 {leftLinks}
               </Hidden>
             ) : (
-              brandComponent
+              <Logo name={brand} />
             )}
           </div>
           <Hidden smDown implementation="css">

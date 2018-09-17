@@ -95,38 +95,23 @@ function HeaderLinks({ ...props }) {
         />
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Tooltip
-          id="instagram-twitter"
-          title="Follow us on twitter"
-          placement={window.innerWidth > 959 ? "top" : "left"}
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <Button
-            href="https://twitter.com/CreativeTim"
-            target="_blank"
-            color="transparent"
-            className={classes.navLink}
-          >
-            <i className={classes.socialIcons + " fab fa-twitter"} />
-          </Button>
-        </Tooltip>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <Tooltip
-          id="instagram-facebook"
-          title="Follow us on facebook"
-          placement={window.innerWidth > 959 ? "top" : "left"}
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <Button
-            color="transparent"
-            href="https://www.facebook.com/CreativeTim"
-            target="_blank"
-            className={classes.navLink}
-          >
-            <i className={classes.socialIcons + " fab fa-facebook"} />
-          </Button>
-        </Tooltip>
+        <Dropdown
+          noLiPadding
+          buttonText="user"
+          buttonProps={{
+            className: classes.navLink,
+            color: "primary"
+          }}
+          buttonIcon={Apps}
+          dropdownList={[
+            <Link to="/home" className={classes.dropdownLink}>
+              Favorites
+            </Link>,
+            <Link to="/home" className={classes.dropdownLink}>
+              Color Theme
+            </Link>,
+          ]}
+        />
       </ListItem>
       <ListItem className={classes.listItem}>
         <Tooltip
@@ -136,12 +121,11 @@ function HeaderLinks({ ...props }) {
           classes={{ tooltip: classes.tooltip }}
         >
           <Button
-            color="transparent"
-            href="https://www.instagram.com/CreativeTimOfficial"
+            color="rose"
             target="_blank"
             className={classes.navLink}
           >
-            <i className={classes.socialIcons + " fab fa-instagram"} />
+            COG
           </Button>
         </Tooltip>
       </ListItem>
