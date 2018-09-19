@@ -127,8 +127,16 @@ function HeaderLinks({ ...props }) {
           >
             COG
           </Button>
+          
         </Tooltip>
       </ListItem>
+      <Button
+            color="rose"
+            target="_blank"
+            className={classes.navLink}
+          >
+            Bike assembler + split bike to parts and show stats for parts
+          </Button>
     </List>
   );
 }

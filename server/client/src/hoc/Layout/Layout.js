@@ -23,7 +23,13 @@ class Layout extends Component {
 
     render () {
         const { classes, ...rest } = this.props;
-
+        const fetchUrls = {
+            hubs: '/api/bm/category/hubs/',
+            wheels: '/api/bm/category/wheels/',
+            dhFrames: '/api/bm/category/dhframes/',
+            enduroFrames: 'api/bm/category/enduroframes/',
+            cranks: '/api/bm/category/cranks/'
+        }
         return (
             <Aux>
                 {/* <Toolbar/> */}
@@ -39,18 +45,53 @@ class Layout extends Component {
                     }}
                     {...rest}
                 />
-                <Route exact path="/home" render={Home}/>
-                <Route exact path="/category/cranks" render={OffersListCranks}/>
-                <Route exact path="/category/hubs" render={OffersListHubs}/>
-                <Route exact path="/category/wheels" render={OffersListWheels}/>
-                <Route exact path="/category/dhframes" render={OffersListDhFrames}/>
-                <Route exact path="/category/enduroframes" render={OffersListEnduroFrames}/>
+                <Route exact path="/home" render={(props) => 
+                    <div>
+                        <p>  &nbsp;</p>
+                        <p>  &nbsp;</p>
+                        <p>  &nbsp;</p>
+                        <p>  &nbsp;</p>
+                        <p>  &nbsp;</p>
+                        <HomePage fetchUrls={fetchUrls}/>
+                    </div>
+                }
+                />
+                <Route exact path="/category/cranks" render={(props) => 
+                    <OffersList 
+                        pageLimit={10} 
+                        fetchUrl={fetchUrls.cranks}         
+                    />}
+                />
+                <Route exact path="/category/hubs" render={(props) => 
+                    <OffersList 
+                        pageLimit={10} 
+                        fetchUrl={fetchUrls.hubs}         
+                    />}
+                />
+                <Route exact path="/category/wheels" render={(props) => 
+                    <OffersList 
+                        pageLimit={10} 
+                        fetchUrl={fetchUrls.wheels}         
+                    />}
+                />
+                <Route exact path="/category/dhframes" render={(props) => 
+                    <OffersList 
+                        pageLimit={10} 
+                        fetchUrl={fetchUrls.dhFrames}         
+                    />}
+                />
+                <Route exact path="/category/enduroframes" render={(props) => 
+                    <OffersList 
+                        pageLimit={10} 
+                        fetchUrl={fetchUrls.enduroFrames}         
+                    />}
+                />
                 
             </Aux>
         )
     }
 }
-const Home = () => {
+const Home = (urls) => {
 
     return (
         <div>
@@ -59,15 +100,15 @@ const Home = () => {
             <p>  &nbsp;</p>
             <p>  &nbsp;</p>
             <p>  &nbsp;</p>
-            <HomePage/>
+            <HomePage fetchUrls={urls}/>
         </div>
     )
 }
-const OffersListCranks = () => {
+const OffersListCranks = (urls) => {
     return (
         <OffersList 
         pageLimit={10} 
-        fetchUrl={"/api/bm/category/cranks/"}         
+        fetchUrl={'/api/bm/category/cranks/'}         
         />
     );
     }

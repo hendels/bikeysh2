@@ -31,7 +31,8 @@ class FavoriteButtonBikeMarkt extends React.Component {
         // this.forceUpdate();
         this.setState({
             markedAs: false
-        }, () => {})
+        }, () => {});
+        
     }
     handle
     render(){

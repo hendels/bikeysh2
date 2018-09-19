@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 
 
@@ -18,17 +19,27 @@ const BestOfferBar = (props) => (
         <Grid key={offer} item>       
             {index === 0 ? (
             // <Card className={classes.card}>
-            <Card >
-                <CardContent>
-                <Typography component="h1">
-                    {props.category} CATEGRORY
-                </Typography>
-                </CardContent>
-            </Card> 
+            <Aux>
+                <CardHeader
+                    action={
+                        <Aux>
+                            <Button>+3</Button>
+                            <Button>-3</Button>
+                        </Aux>
+                    }
+                />
+                <Card >
+                    <CardContent>
+                    <Typography component="h1">
+                        {props.category} Category
+                    </Typography>
+                    </CardContent>
+                </Card> 
+            </Aux>
             ): null}
         </Grid>
-        <Grid key={offer} item>   
-            <BestOffer id={offer} />
+        <Grid key={offer._id} item>   
+            <BestOffer offer={offer} fetchUrl={props.fetchUrl}/>
         </Grid>
         </Aux>
         )

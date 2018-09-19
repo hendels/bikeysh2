@@ -4,10 +4,20 @@ const bm_hub = require('../models/bmart_hub');
 const bm_dhframe = require('../models/bmart_dhframe');
 const bm_enduroframe = require('../models/bmart_enduroframe');
 const bm_wheel = require('../models/bmart_wheel');
+// let agenda = require('../jobs/agenda.js');
+var cron = require('node-cron');
 
 module.exports = app => {
     app.get('/', (req, res) => {
-        res.send({ crawler: 'standby app' });
+        // agenda.every("2 minutes",
+        // 'crawl bikemarkt'
+        // );
+        let counter = 0;
+        cron.schedule('* * * * *', () => {
+            counter += 1;
+            console.log('running a task every min ' + counter);
+          });
+        res.send({ crawler: 'standby app - testing agenda' });
     });
     app.get('/api/bm/run', (req, res) => {
         require('../server.js');
@@ -35,6 +45,16 @@ module.exports = app => {
         console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
         bm_dhframe.updateFavorite(req.body.id, req.body.markAs);
     })
+    app.get('/api/bm/category/dhframes/bestOffer/:pageLimit', async (req, res) => {
+        var pageLimit = parseInt(req.params.pageLimit);
+        const Dhframes = await mongoose
+            .model('dhframes')
+            .find()
+            .limit(pageLimit)
+            .sort({'publishDate': -1})
+            .select({ bmartId: false, __v: false });
+        res.send(Dhframes);            
+    });
     //>>dhframes
     //<<cranks
     app.get('/api/bm/category/cranks/:skipRange/:pageLimit', async (req, res) => {
@@ -58,6 +78,16 @@ module.exports = app => {
         console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
         bm_crank.updateFavorite(req.body.id, req.body.markAs);
     })
+    app.get('/api/bm/category/cranks/bestOffer/:pageLimit', async (req, res) => {
+        var pageLimit = parseInt(req.params.pageLimit);
+        const Cranks = await mongoose
+            .model('cranks')
+            .find()
+            .limit(pageLimit)
+            .sort({'publishDate': -1})
+            .select({ bmartId: false, __v: false });
+        res.send(Cranks);            
+    });
     //>>cranks
     //<<enduroframes
     app.get('/api/bm/category/enduroframes/:skipRange/:pageLimit', async (req, res) => {
@@ -102,6 +132,16 @@ module.exports = app => {
         console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
         bm_hub.updateFavorite(req.body.id, req.body.markAs);
     })
+    app.get('/api/bm/category/hubs/bestOffer/:pageLimit', async (req, res) => {
+        var pageLimit = parseInt(req.params.pageLimit);
+        const Hubs = await mongoose
+            .model('hubs')
+            .find()
+            .limit(pageLimit)
+            .sort({'publishDate': -1})
+            .select({ bmartId: false, __v: false });
+        res.send(Hubs);            
+    });
     //>>hubs
     //<<wheels
     app.get('/api/bm/category/wheels/:skipRange/:pageLimit', async (req, res) => {

@@ -6,6 +6,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 //>>
+require('dotenv').config();
 require('./models/bmart_crank');
 require('./models/bmart_dhframe');
 require('./models/bmart_enduroframe');
@@ -26,7 +27,6 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 require('./routes/getRoutes')(app);
-
 
 
 app.listen(4000);

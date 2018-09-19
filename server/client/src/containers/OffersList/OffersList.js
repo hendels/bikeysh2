@@ -57,7 +57,6 @@ class OffersList extends Component {
     componentDidMount() {
 
         this.fetchData(this.state.skip, this.state.pageItems);
-        console.log("PROPS!!!!");
         axios.get(this.state.fetchUrl).then(response  => response.data).then(result => {
             this.setState({totalResult: result});
             console.log('array count '+ this.state.fetchUrl + ' = ' + result[Object.keys(this.state.totalResult)[0]]);
