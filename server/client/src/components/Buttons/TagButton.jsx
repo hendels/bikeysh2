@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import LibraryAdd from '@material-ui/icons/LibraryAdd';
-import TagDialog from '../Dialogs/TagDialog.jsx';
+import TagDialog from '../Dialogs/TagDialog';
 import Aux from '../../hoc/Ax/Ax';
 
 const styles = theme => ({
@@ -34,8 +34,8 @@ class TagBadge extends React.Component {
     });
   };
 
-  handleCloseTagDialog = () => {
-      this.setState({ 
+  handleCloseTagDialog = async (value) => {
+      await this.setState({ 
           openTagDialog: false 
       });
   };
@@ -52,6 +52,8 @@ class TagBadge extends React.Component {
         <TagDialog
           open={this.state.openTagDialog}
           onClose={this.handleCloseTagDialog}
+          category={this.props.category}
+          offer={this.props.offer}
         />
       </Aux>
     );

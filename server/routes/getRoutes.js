@@ -4,6 +4,7 @@ const bm_hub = require('../models/bmart_hub');
 const bm_dhframe = require('../models/bmart_dhframe');
 const bm_enduroframe = require('../models/bmart_enduroframe');
 const bm_wheel = require('../models/bmart_wheel');
+const tags = require('../models/tags');
 // let agenda = require('../jobs/agenda.js');
 var cron = require('node-cron');
 
@@ -24,6 +25,12 @@ module.exports = app => {
         console.log('running bikemarkt crawler...');
         res.send({ crawler: 'running' });
     });
+    //<<tags
+    app.post('/api/tags/create', (req, res) => {
+        res.send({ crawler: 'running' });
+    });
+
+    //>>
     //<<dhframes
     app.get('/api/bm/category/dhframes/:skipRange/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);

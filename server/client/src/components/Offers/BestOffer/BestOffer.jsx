@@ -18,7 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 //app components
 import FavoriteButton from '../../FavButton/FavButtonBikeMarkt.jsx';
-import TagButton from '../../CustomizedBadges/TagBadge.jsx';
+import TagButton from '../../Buttons/TagButton';
 import TagDialog from '../../Dialogs/TagDialog.jsx';
 //hoc components
 
@@ -122,7 +122,7 @@ class BestOffer extends React.Component {
                 </CardContent>
                 <CardActions className={classes.actions} disableActionSpacing>
                     <FavoriteButton dataKey={this.props.offer._id} favorite={this.props.offer.favorite} fetchUrl={this.props.fetchUrl}/>
-                    <TagButton onClick={this.handleClickOpenTagDialog}/>
+                    <TagButton onClick={this.handleClickOpenTagDialog} category={this.props.category} offer={this.props.offer}/>
                     {/* <TagDialog
                         open={this.state.openTagDialog}
                         onClose={this.handleClose}

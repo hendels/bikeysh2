@@ -39,7 +39,7 @@ const BestOfferBar = (props) => (
             ): null}
         </Grid>
         <Grid key={offer._id} item>   
-            <BestOffer offer={offer} fetchUrl={props.fetchUrl}/>
+            <BestOffer offer={offer} fetchUrl={props.fetchUrl} category={props.category}/>
         </Grid>
         </Aux>
         )
