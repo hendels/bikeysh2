@@ -28,7 +28,7 @@ const styles = theme => ({
       minWidth: 400,
       maxWidth: 400,
       minHeight: 400,
-      maxHeight: 500
+    //   maxHeight: 500
     },
     media: {
       height: 0,
@@ -91,6 +91,7 @@ class BestOffer extends React.Component {
                 break;
             }
         }
+        
         return(
             
             <Card className={classes.card}>
@@ -122,7 +123,7 @@ class BestOffer extends React.Component {
                 </CardContent>
                 <CardActions className={classes.actions} disableActionSpacing>
                     <FavoriteButton dataKey={this.props.offer._id} favorite={this.props.offer.favorite} fetchUrl={this.props.fetchUrl}/>
-                    <TagButton onClick={this.handleClickOpenTagDialog} category={this.props.category} offer={this.props.offer}/>
+                    <TagButton onClick={this.handleClickOpenTagDialog} category={this.props.category} offer={this.props.offer} tagUrl={this.props.tagUrl}/>
                     {/* <TagDialog
                         open={this.state.openTagDialog}
                         onClose={this.handleClose}

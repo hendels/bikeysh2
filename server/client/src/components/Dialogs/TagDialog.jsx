@@ -20,8 +20,7 @@ import AddIcon from '@material-ui/icons/Add';
 import blue from '@material-ui/core/colors/blue';
 //app components
 import TagChip from '../Chips/TagChip.jsx';
-
-
+import Spinner from '../UI/Spinner.jsx';
 
 const emails = ['username@gmail.com', 'user02@gmail.com', 'asd', 'qew', 'asd', 'qew', 'asd', 'qew', 'asd', 'qew', 'asd', 'qew'];
 const styles = {
@@ -35,7 +34,12 @@ const styles = {
   };
 
 class SimpleDialog extends React.Component {
-
+    constructor(props){
+      super(props);
+      this.state = {
+        loading: false
+      }
+    }
     handleClose = () => {
       this.props.onClose(this.props.selectedValue);
     };
@@ -49,6 +53,7 @@ class SimpleDialog extends React.Component {
       //<<split data to array
       const titleWords = this.props.offer.title.split(" ");
       //>>
+      
       return (
         <Dialog onClose={this.handleClose} aria-labelledby="confirmation-dialog-title" maxWidth="xs"{...other}>
           <DialogTitle id="confirmation-dialog-title">Set tags for {this.props.category}</DialogTitle>
@@ -56,7 +61,7 @@ class SimpleDialog extends React.Component {
           <Grid container justify="center" spacing="0" >
               {titleWords.map(word => (
                 <Grid key={word} item xs={6} >
-                  <TagChip word={word}/>
+                  <TagChip offerId={this.props.offer._id} word={word} tagUrl={this.props.tagUrl} offerOrigin="bikemarkt"/>
                 </Grid>
               ))}
             </Grid>

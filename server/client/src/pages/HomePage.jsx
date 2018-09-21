@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 
 //app components
 import BestOfferBar from '../containers/BestOfferBar/BestOfferBar.jsx';
+import Spinner from '../components/UI/Spinner.jsx';
 
 const styles = theme => ({
     root: {
@@ -55,7 +56,8 @@ class HomePage extends React.Component {
             wheelsHits: [],
             hubsHits: [],
             enduroFramesHits: [],
-            page: null
+            page: null,
+            loading: false
         }
     }
     componentWillMount(){
@@ -74,14 +76,19 @@ class HomePage extends React.Component {
 
     }
     fetchData = async (fetchUrl, pageLimit, type) => {
+        this.setState({loading: true});
         await axios.get(fetchUrl +  '/' + pageLimit).then(
             response => response.data
-        ).then(result => this.onSetResult(result, type))
+        ).then(result => {
+            this.onSetResult(result, type)
+            this.setState({loading: false});})
     }
     onSetResult = async (result, offerType) => {
         switch(offerType){
-            case 'cranks':
+            case 'cranks':   
+                             
                 if (result.length !== 0) await this.setState(applyCrankResult(result));
+                
                 break;
             case 'dhframes':
                 if (result.length !== 0) await this.setState(applyDhFramesResult(result));
@@ -106,7 +113,11 @@ class HomePage extends React.Component {
         var cranks = this.state.crankHits;
         var dhframes = this.state.dhFramesHits;
         var hubs = this.state.hubsHits;
-        
+
+        // let bestOfferCranks = this.state.crankHits;
+        // if(this.state.loading) {
+        //     bestOfferCranks = <Spinner/>;
+        // }
         return(
             <div className={classNames(classes.main, classes.mainRaised)}>
                 <div className={classes.container}>
@@ -118,24 +129,29 @@ class HomePage extends React.Component {
                     <p>  &nbsp;</p>
                     <p>  &nbsp;</p>
                     <Typography variant="headline" component="h3">
-                    This is a sheet of paper.
+                    Your best offers for today:
                     </Typography>
                     <p>  &nbsp;</p>
-                    <Typography component="p">
+                    {/* <Typography component="p">
                     Paper can be used to build surface or other elements for your application.
                     </Typography>
-                    <p>  &nbsp;</p>
+                    <p>  &nbsp;</p> */}
                     {/* best offer section */}
-                    <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
-                        <BestOfferBar offerCount={cranks} category="CRANKS" fetchUrl={this.props.fetchUrls.cranks}/>
-                    </Grid>
+                    {this.state.loading ? <Spinner/> : 
+                    (<Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
+                        <BestOfferBar offerCount={cranks} category="CRANKS" fetchUrl={this.props.fetchUrls.cranks} tagUrl={this.props.fetchUrls.tags}/>
+                    </Grid>)}
+                    {/* <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
+                        <BestOfferBar offerCount={cranks} category="CRANKS" fetchUrl={this.props.fetchUrls.cranks} tagUrl={this.props.fetchUrls.tags}/>
+                    </Grid> */}
+                    {/* <Spinner/> */}
                     <p>&nbsp;</p>
                     <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
-                        <BestOfferBar offerCount={dhframes} category="DHFRAMES" fetchUrl={this.props.fetchUrls.dhFrames}/>
+                        <BestOfferBar offerCount={dhframes} category="DHFRAMES" fetchUrl={this.props.fetchUrls.dhFrames} tagUrl={this.props.fetchUrls.tags}/>
                     </Grid>
                     <p>&nbsp;</p>
-                    <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
-                        <BestOfferBar offerCount={hubs} category="HUBS" fetchUrl={this.props.fetchUrls.hubs}/>
+                    <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>                        
+                        <BestOfferBar offerCount={hubs} category="HUBS" fetchUrl={this.props.fetchUrls.hubs} tagUrl={this.props.fetchUrls.tags}/>
                     </Grid>
                         
                     <p>&nbsp;</p>

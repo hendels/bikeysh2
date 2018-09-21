@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
@@ -25,8 +27,15 @@ class TagBadge extends React.Component {
     super(props);
 
     this.state = {
-        openTagDialog: false
+        openTagDialog: false,
+        tagCount: 0
     }
+  }
+  componentWillMount(){
+    axios.get(this.props.tagUrl + 'tagCount/' + this.props.offer._id).then(response  => response.data).then(result => {
+      this.setState({tagCount: result});
+      console.log('tags count  = ' + result[Object.keys(this.state.tagCount)[0]]);
+  });
   }
   handleClickOpenTagDialog = () => {
     this.setState({
@@ -41,11 +50,11 @@ class TagBadge extends React.Component {
   };
   render(){
     const { classes } = this.props;
-
+    
     return (
       <Aux>
         <IconButton aria-label="Cart" onClick={this.handleClickOpenTagDialog}>
-          <Badge badgeContent={4} color="primary" classes={{ badge: classes.badge }}>
+          <Badge badgeContent={this.state.tagCount[Object.keys(this.state.tagCount)[0]]} color="primary" classes={{ badge: classes.badge }}>
             <LibraryAdd />
           </Badge>
         </IconButton>
@@ -54,6 +63,7 @@ class TagBadge extends React.Component {
           onClose={this.handleCloseTagDialog}
           category={this.props.category}
           offer={this.props.offer}
+          tagUrl={this.props.tagUrl}
         />
       </Aux>
     );

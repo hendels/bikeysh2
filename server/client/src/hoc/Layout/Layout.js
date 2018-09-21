@@ -28,7 +28,8 @@ class Layout extends Component {
             wheels: '/api/bm/category/wheels/',
             dhFrames: '/api/bm/category/dhframes/',
             enduroFrames: 'api/bm/category/enduroframes/',
-            cranks: '/api/bm/category/cranks/'
+            cranks: '/api/bm/category/cranks/',
+            tags: '/api/tags/'
         }
         return (
             <Aux>

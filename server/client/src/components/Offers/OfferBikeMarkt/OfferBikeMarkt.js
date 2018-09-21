@@ -73,7 +73,7 @@ const offerBikeMarkt = (props) => (
                         <InfoIcon />
                     </IconButton>
                     <FavoriteButton dataKey={offer._id} favorite={offer.favorite} fetchUrl={props.fetchUrl}/>
-
+                    {/* <TagButton onClick={this.handleClickOpenTagDialog} category={this.props.category} offer={this.props.offer} tagUrl={this.props.tagUrl}/>         */}
                     {/* add to desired list -  */}
                     {/* <IconButton style={{color: "#FD8505"}}> 
                         <DesiredAdd />
@@ -81,9 +81,9 @@ const offerBikeMarkt = (props) => (
                     {/* add to search tags  - offers would be searched by tags and future offers would be analyzed by this tags and marked*/}
 
                     {/* add comment */}
-                    <IconButton style={{color: "#FD8505"}}> 
+                    {/* <IconButton style={{color: "#FD8505"}}> 
                         <AddComment />
-                    </IconButton>
+                    </IconButton> */}
                     </Aux>
                     }
                 />

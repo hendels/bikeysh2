@@ -2,20 +2,30 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const TagSchema = new Schema({
-    bmartId: String,
-    olxId: String,
+    offerId: String,
+    offerOrigin: String,
     name: String,
     count: Number,
     active: Boolean,
-    ignore: Boolean
+    ignore: Boolean,
+    manufacturerTag: String,
+    groupTag: String,
+    modelTag: String,
+    preciseName: String,
+    surePercent: Number,
+    category: String,
+    price: Number,
+    currency: String,
+    year: Number
 });
 //#create mongo model (table) - two arguments [name, schema]
 mongoose.model('tags', TagSchema);
 //# create record
 const Tag = mongoose.model('tags');
-exports.create = (data, atributes) => {
+exports.create = (data) => {
     new Tag({
-        bmartId: data.bm_id,
+        offerId: data.offerId,
+        offerOrigin: data.offerOrigin,
         name: data.name.trim(),
         count: 1,
         active: true,
@@ -27,22 +37,22 @@ exports.create = (data, atributes) => {
         });
 };
 //# update record
-exports.update = (Tag, id, data, atributes) => {
+exports.update = (Tag, id, data) => {
     Tag.findById(id, (err, tag) => {
-        tag.name = data.item.trim();
+        tag.name = data.name.trim();
         tag.count = 2;
-        tag.active = data.publishDate.trim();
-        tag.ignore = data.productUrl;
-        crank.save().then(() => {
+        tag.active = data.active;
+        tag.ignore = data.ignore;
+        tag.save().then(() => {
             console.log('[][][] updating Tag...');
         });
     });
 };
 //# update colums
 exports.updateFavorite = (id, markAs) => {
-    Crank.findById(id, (err, crank) => {
-        crank.favorite = markAs;
-        crank.save().then(() => {
+    Tag.findById(id, (err, tag) => {
+        tag.favorite = markAs;
+        tag.save().then(() => {
             console.log('[][][] favorizing Crank...');
         });
     });    

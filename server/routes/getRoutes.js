@@ -5,6 +5,7 @@ const bm_dhframe = require('../models/bmart_dhframe');
 const bm_enduroframe = require('../models/bmart_enduroframe');
 const bm_wheel = require('../models/bmart_wheel');
 const tags = require('../models/tags');
+const Tags = mongoose.model('tags');
 // let agenda = require('../jobs/agenda.js');
 var cron = require('node-cron');
 
@@ -27,9 +28,34 @@ module.exports = app => {
     });
     //<<tags
     app.post('/api/tags/create', (req, res) => {
-        res.send({ crawler: 'running' });
+        console.log('im in tags');
+        Tags.findOne({ name: req.body.name }).then(existingId => {
+            console.log('existing Id: '+ existingId);
+            if (existingId) {
+                tags.update(Tags, existingId.id, req.body);
+            } else {                
+                tags.create(req.body);
+            }        
+        })
     });
+    app.get('/api/tags/findTag/:tagName', (req, res) => {
+        console.log('searching for tag...' + req.params.tagName);
+        Tags.findOne({ name: req.params.tagName }).then(existingId => {
+            console.log('existing Id: '+ existingId);
+            if (existingId) {
+                res.send(true);
+            } else {                
+                res.send(false);
+            }        
+        })
 
+    });
+    app.get('/api/tags/tagCount/:offerId', (req, res) => {
+        console.log('searching for tag count for...' + req.params.offerId);
+        mongoose.model('tags').count({offerId: req.params.offerId}, function(err, tags) {
+            res.send({ tags });
+        });
+    });
     //>>
     //<<dhframes
     app.get('/api/bm/category/dhframes/:skipRange/:pageLimit', async (req, res) => {
