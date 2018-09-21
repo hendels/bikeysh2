@@ -3,10 +3,10 @@ import Aux from '../Ax/Ax';
 import { Route } from 'react-router-dom';
 // pages
 import HomePage from '../../pages/HomePage.jsx';
-// components
+// app components
 import OffersList from '../../containers/OffersList/OffersList';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
-
+import Dnd from '../../components/Dnd/dragDrop';
 import Header from '../../components/Header/Header.jsx';
 import HeaderLinks from '../../components/Header/HeaderLinks.jsx';
 //
@@ -87,6 +87,16 @@ class Layout extends Component {
                         fetchUrl={fetchUrls.enduroFrames}         
                     />}
                 />
+                <Route exact path="/dnd" render={(props) => 
+                    <div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <Dnd/>
+                    </div>
+                    }
+                />
                 
             </Aux>
         )
@@ -97,52 +107,8 @@ const Home = (urls) => {
     return (
         <div>
             <p>  &nbsp;</p>
-            <p>  &nbsp;</p>
-            <p>  &nbsp;</p>
-            <p>  &nbsp;</p>
-            <p>  &nbsp;</p>
             <HomePage fetchUrls={urls}/>
         </div>
     )
-}
-const OffersListCranks = (urls) => {
-    return (
-        <OffersList 
-        pageLimit={10} 
-        fetchUrl={'/api/bm/category/cranks/'}         
-        />
-    );
-    }
-const OffersListWheels = () => {
-    return (
-    <OffersList 
-    pageLimit={10} 
-    fetchUrl={"/api/bm/category/wheels/"}         
-    />
-    );
-}
-const OffersListDhFrames = () => {
-    return (
-    <OffersList 
-    pageLimit={10} 
-    fetchUrl={"/api/bm/category/dhframes/"}         
-    />
-    );
-}
-const OffersListEnduroFrames = () => {
-    return (
-    <OffersList 
-    pageLimit={10} 
-    fetchUrl={"/api/bm/category/enduroframes/"}         
-    />
-    );
-}
-const OffersListHubs = () => {
-    return (
-    <OffersList 
-    pageLimit={10} 
-    fetchUrl={"/api/bm/category/hubs/"}         
-    />
-    );
 }
 export default Layout;

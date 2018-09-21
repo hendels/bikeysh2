@@ -110,6 +110,9 @@ function HeaderLinks({ ...props }) {
             <Link to="/home" className={classes.dropdownLink}>
               Color Theme
             </Link>,
+            <Link to="/dnd" className={classes.dropdownLink}>
+              Dnd test
+            </Link>,
           ]}
         />
       </ListItem>

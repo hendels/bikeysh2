@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import initialData from './initial-data';
 import styled from 'styled-components';
 import Column from './column';
@@ -11,7 +10,7 @@ const Container = styled.div`
     display:flex;
 `;
 
-class App extends React.Component{
+export default class DragDrop extends React.Component{
     state = initialData;
 
     onDragStart = () => {
@@ -108,4 +107,3 @@ class App extends React.Component{
         );
     }
 }
-ReactDOM.render(<App />, document.getElementById('root'));
