@@ -5,7 +5,7 @@ import {Droppable} from 'react-beautiful-dnd';
 
 
 const Container = styled.div`
-    margin: 8px;
+    margin: 2px;
     border: 1px solid lightgrey;
     border-radius: 2px;
     width: 220px;
@@ -18,10 +18,11 @@ const Title = styled.h3`
 `;
 const TaskList = styled.div`
     padding: 8px;
-    transition: background-color 0.2 ease;
+    transition: background-color 0.05 ease;
     background-color: ${props => (props.isDraggingOver ? 'skyblue' : 'white')};
     flex-grow: 1;
     min-height: 100px;
+    min-width: 100px;
 `;
 
 

@@ -1,6 +1,5 @@
 const initialData = {
     tasks: {
-        // taskzero: {id: 'taskzero', content: 'initial task'},
     },
     columns: {
         column1: {
@@ -25,11 +24,16 @@ const initialData = {
         },
         column5: {
             id: 'column5',
+            title: 'Unwanted',
+            taskIds: [],
+        },
+        column6: {
+            id: 'column6',
             title: 'Helpers',
             taskIds: [],
         },
     },
-    columnOrder: ['column1', 'column2', 'column3', 'column4', 'column5'],
+    columnOrder: ['column1', 'column2', 'column3', 'column4', 'column5', 'column6'],
 };
 
 export default initialData;

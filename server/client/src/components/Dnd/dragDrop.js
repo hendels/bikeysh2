@@ -10,33 +10,13 @@ import TagChip from '../Chips/TagChip.jsx';
 
 const Container = styled.div`
     display:flex;
+    flex-direction: row;
 `;
-const cloneOfInitialData = JSON.parse(JSON.stringify(initialData));
 
 export default class DragDrop extends React.Component{
     constructor(props){
         super(props);
-        //let modifiedData = initialData;
-        
-        // // console.log(modifiedData);
-        // //     <TagChip offerId={this.props.offer._id} word={word} tagUrl={this.props.tagUrl} offerOrigin="bikemarkt"/>
-        // for (var i = 0; i < this.props.titleWords.length; i++){
-        //     var key = "task" + i;
-        //     let newObj = {[key]:{id: key, content: this.props.titleWords[i]}};
-        //     Object.assign(modifiedData.tasks, newObj);
-        //     modifiedData.columns.column1.taskIds.push([key]);
-        //     // console.log(this.props.titleWords[i]);
-        //     // console.log(modifiedData);
-        // }
-        // console.log(cloneOfInitialData);
         this.state = initialData;
-        //console.log(this.baseState);
-        //console.log('constructor!')
-    }
-    //state = initialData;
-    createBlankObject = () => {
-        
-        // return blankObject;
     }
     getByValue = (obj, value, i) => {
         var Break = {};
@@ -44,7 +24,7 @@ export default class DragDrop extends React.Component{
         try {
         Object.keys(obj).forEach(
             (e, index) => {
-                console.log(`iteration::: ${i} content::: ${obj[e].content} e:::${e} checking value::: ${value}`);
+                //console.log(`iteration::: ${i} content::: ${obj[e].content} e:::${e} checking value::: ${value}`);
                 if (obj[e].content === value) {
                     found = index;
                     throw Break;
@@ -57,11 +37,10 @@ export default class DragDrop extends React.Component{
         return found;
       }
     loadDndData = async () => {
-        console.log("blankObject :");
+        // console.log("blankObject :");
         var blankObject = JSON.parse(JSON.stringify(initialData));
         console.log(blankObject);
         
-        //modifiedData.columns.column1.taskIds.length = 0;
         for (var i = 0; i < this.props.titleWords.length; i++){
             var key = "task" + i;
             let newObj = {[key]:{id: key, content: this.props.titleWords[i]}};
@@ -74,30 +53,16 @@ export default class DragDrop extends React.Component{
 
                 blankObject.columns.column1.taskIds.push([key]);
             } 
-            // else {
-            //     modifiedData.columns.column1.taskIds.splice(foundIndex);
-            // }
-            
         }
         var modifiedData = Object.assign({}, blankObject);
-        console.log("modifiedData:");
-        console.log(modifiedData);
-        console.log("state:");
+        // console.log("modifiedData:");
+        // console.log(modifiedData);
+        // console.log("state:");
         this.state = blankObject;
-        console.log(this.state);
+        // console.log(this.state);
     }
     componentWillMount() {
         this.loadDndData();
-    }
-    componentDidMount() {
-    }
-    componentDidUpdate() {
-        //console.log('updated');
-    }
-    componentWillUnmount(){
-        // console.log(`unmounted`);
-        // console.log(`initial data:`);
-        // console.log(cloneOfInitialData);
     }
     onDragStart = () => {
         document.body.style.color = 'grey';

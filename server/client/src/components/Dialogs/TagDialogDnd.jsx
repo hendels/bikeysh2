@@ -55,8 +55,8 @@ class SimpleDialog extends React.Component {
       //>>
       
       return (
-        <Dialog onClose={this.handleClose} aria-labelledby="confirmation-dialog-title" maxWidth="xs"{...other}>
-          <DialogTitle id="confirmation-dialog-title">Set tags for {this.props.category}</DialogTitle>
+        <Dialog onClose={this.handleClose} aria-labelledby="confirmation-dialog-title" maxWidth="xm"{...other}>
+          <DialogTitle id="confirmation-dialog-title">Set tags for looooooooooooooooooooooooooooooong {this.props.category}</DialogTitle>
           <div className={classes.root}>
             <Dnd offerId={this.props.offer._id} titleWords={titleWords} tagUrl={this.props.tagUrl} offerOrigin="bikemarkt"/>
           {/* <Grid container justify="center" spacing="0" >
