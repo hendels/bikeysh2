@@ -35,7 +35,7 @@ class TagChip extends React.Component{
     }
     handleSearchTag = async (event) => {
       console.log('getting tag...' + this.props.word); 
-      const create = await axios.get(this.props.tagUrl + 'findTag/' + this.props.word)
+      const create = await axios.get(this.props.tagUrl + 'findTag/' + this.props.word) // + [todo]offerID!
         .then(response  => response.data)
         .then(result => {
           this.setState({tagExist: result}, () => {});

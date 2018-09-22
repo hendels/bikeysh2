@@ -1,28 +1,35 @@
 const initialData = {
     tasks: {
-        'task-1': {id: 'task-1', content: 'Take out the garbage'},
-        'task-2': {id: 'task-2', content: 'Take out the cat'},
-        'task-3': {id: 'task-3', content: 'Take out the ssimpson'},
-        'task-4': {id: 'task-4', content: 'Take out the morty'},
+        // taskzero: {id: 'taskzero', content: 'initial task'},
     },
     columns: {
-        'column-1': {
-            id: 'column-1',
-            title: 'to do',
-            taskIds: ['task-1', 'task-2', 'task-3', 'task-4'],
-        },
-        'column-2': {
-            id: 'column-2',
-            title: 'In progress',
+        column1: {
+            id: 'column1',
+            title: 'Unsettled',
             taskIds: [],
         },
-        'column-3': {
-            id: 'column-3',
-            title: 'Done',
+        column2: {
+            id: 'column2',
+            title: 'Manufacturer',
+            taskIds: [],
+        },
+        column3: {
+            id: 'column3',
+            title: 'Model',
+            taskIds: [],
+        },
+        column4: {
+            id: 'column4',
+            title: 'Group',
+            taskIds: [],
+        },
+        column5: {
+            id: 'column5',
+            title: 'Helpers',
             taskIds: [],
         },
     },
-    columnOrder: ['column-1', 'column-2', 'column-3'],
+    columnOrder: ['column1', 'column2', 'column3', 'column4', 'column5'],
 };
 
 export default initialData;

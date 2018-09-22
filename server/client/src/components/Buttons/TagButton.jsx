@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import LibraryAdd from '@material-ui/icons/LibraryAdd';
-import TagDialog from '../Dialogs/TagDialog';
+import TagDialog from '../Dialogs/TagDialogDnd';
 import Aux from '../../hoc/Ax/Ax';
 
 const styles = theme => ({
@@ -34,7 +34,7 @@ class TagBadge extends React.Component {
   componentWillMount(){
     axios.get(this.props.tagUrl + 'tagCount/' + this.props.offer._id).then(response  => response.data).then(result => {
       this.setState({tagCount: result});
-      console.log('tags count  = ' + result[Object.keys(this.state.tagCount)[0]]);
+      //console.log('tags count  = ' + result[Object.keys(this.state.tagCount)[0]]);
   });
   }
   handleClickOpenTagDialog = () => {

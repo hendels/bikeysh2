@@ -26,7 +26,9 @@ const TaskList = styled.div`
 
 
 export default class Column extends React.Component{
+    
     render(){
+        // console.log(this.props.tasks);
         return (
             <Container>
                 <Title>{this.props.column.title}</Title>
@@ -38,6 +40,7 @@ export default class Column extends React.Component{
                             isDraggingOver={snapshot.isDraggingOver}
                         >
                             {this.props.tasks.map((task, index) => 
+                                
                                 <Task key={task.id} task={task} index={index}/>)}
                             {provided.placeholder}
                             </TaskList>

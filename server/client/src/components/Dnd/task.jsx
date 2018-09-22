@@ -12,7 +12,7 @@ const Container = styled.div`
     display:flex;
 `;
 const Handle = styled.div`
-    width: 20px;
+    width: 40px;
     height: 20px;
     background-color: orange;
     border-radius: 4px;
