@@ -39,7 +39,7 @@ module.exports = app => {
     });
     app.get('/api/tags/findTag/:tagName/:offerId', (req, res) => {
         console.log(`searching for tag... + ${req.params.tagName} offer id: ${req.params.offerId}`);
-        Tags.findOne({ offerId: req.params.offerId, name: req.params.tagName }).then(existingTag => {
+        Tags.findOne({ offerId: req.params.offerId, tagName: req.params.tagName }).then(existingTag => {
             //console.log('existing Id: '+ existingId);
             if (existingTag) {
                 res.send(existingTag);
@@ -83,7 +83,39 @@ module.exports = app => {
                 console.log(`tag ${req.body.tagName} not found!`);
             }        
         })
-        
+    })
+    app.post('/api/tags/update/ignore', async (req, res) => {
+        console.log('update ignore to tag: '+ req.body.id + ' / ' + req.body.tagName);
+        Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
+            console.log('existing TAg Id: '+ existingTag);
+            if (existingTag) {
+                tags.updateIgnore(existingTag, req.body.tagName);
+            } else {                
+                console.log(`tag ${req.body.tagName} not found!`);
+            }        
+        })
+    })
+    app.post('/api/tags/update/helpers', async (req, res) => {
+        console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName);
+        Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
+            console.log('existing TAg Id: '+ existingTag);
+            if (existingTag) {
+                tags.updateHelpers(existingTag, req.body.tagName);
+            } else {        
+                var createTag = new Promise(async function(resolve, reject) {
+                    await tags.create(req.body);
+                    resolve();
+                  });
+                createTag.then(() => {
+                // console.log(`after create --- offerId: ${req.body.id} tagName: ${req.body.tagName}`);
+                Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(exTag => {
+                    if (exTag) {
+                        // console.log(`tag ${req.body.tagName} update after create!`);
+                        tags.updateHelpers(exTag, req.body.tagName);
+                    }});  
+                })
+            }        
+        })
     })
     app.get('/api/tags/tagCount/:offerId', (req, res) => {
         //console.log('searching for tag count for...' + req.params.offerId);

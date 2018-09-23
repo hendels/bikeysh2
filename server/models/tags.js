@@ -4,11 +4,11 @@ const {Schema} = mongoose;
 const TagSchema = new Schema({
     offerId: String,
     offerOrigin: String,
-    name: String,
+    tagName: String,
     count: Number,
     active: Boolean,
-    ignore: Boolean,
-    helperTag: Boolean,
+    ignoreTag: String,
+    helperTag: String,
     manufacturerTag: String,
     groupTag: String,
     modelTag: String,
@@ -23,25 +23,22 @@ const TagSchema = new Schema({
 mongoose.model('tags', TagSchema);
 //# create record
 const Tag = mongoose.model('tags');
-exports.create = (data) => {
-    new Tag({
+exports.create = async (data) => {
+    await new Tag({
         offerId: data.offerId,
         offerOrigin: data.offerOrigin,
-        name: data.name.trim(),
+        tagName: data.tagName.trim(),
         count: 1,
-        active: true,
-        ignore: false,
-        manufacturerTag: ""
     })
-        .save()
-        .then(() => {
-            console.log('[*][*][*] creating Tag...');
-        });
+    .save()
+    .then(() => {
+        console.log('[*][*][*] creating Tag...');
+    });
 };
 //# update record
 exports.update = (Tag, id, data) => {
     Tag.findById(id, (err, tag) => {
-        tag.name = data.name.trim();
+        tag.tagName = data.tagName.trim();
         tag.count = 2;
         tag.active = data.active;
         tag.ignore = data.ignore;
@@ -53,9 +50,9 @@ exports.update = (Tag, id, data) => {
 //# update colums
 exports.updateManufacturer = (id, tagName) => {
     Tag.findById(id, (err, tag) => {
+        console.log('========================[update]===============================');
+        eraseTags(tag);
         tag.manufacturerTag = tagName;
-        tag.groupTag === tagName ? tag.groupTag = "" : null;
-        tag.modelTag === tagName ? tag.modelTag = "" : null;
         tag.save().then(() => {
             console.log('[][][] tag manufacturer update..');
         });
@@ -63,21 +60,64 @@ exports.updateManufacturer = (id, tagName) => {
 };
 exports.updateGroup = (id, tagName) => {
     Tag.findById(id, (err, tag) => {
-        tag.manufacturerTag === tagName ? tag.manufacturerTag = "" : null;
+        console.log('========================[update]===============================');
+        eraseTags(tag);
         tag.groupTag = tagName;
-        tag.modelTag === tagName ? tag.modelTag = "" : null;
         tag.save().then(() => {
             console.log('[][][] tag group update..');
         });
     });    
 };
+// exports.updateGroup = (id, tagName) => {
+//     Tag.findById(id, (err, tag) => {
+//         tag.manufacturerTag === tagName ? tag.manufacturerTag = "" : null;
+//         tag.groupTag = tagName;
+//         tag.modelTag === tagName ? tag.modelTag = "" : null;
+//         tag.save().then(() => {
+//             console.log('[][][] tag group update..');
+//         });
+//     });    
+// };
 exports.updateModel = (id, tagName) => {
     Tag.findById(id, (err, tag) => {
-        tag.manufacturerTag === tagName ? tag.manufacturerTag = "" : null;
-        tag.groupTag === tagName ? tag.groupTag = "" : null;
+        console.log('========================[update]===============================');
+        eraseTags(tag);
         tag.modelTag = tagName;
+
         tag.save().then(() => {
             console.log('[][][] tag model update..');
         });
     });    
 };
+exports.updateIgnore = (id, tagName) => {
+    Tag.findById(id, (err, tag) => {
+        console.log('========================[update]===============================');
+        eraseTags(tag);
+        tag.ignoreTag = tagName;
+
+        tag.save().then(() => {
+            console.log('[][][] tag ignore update..');
+        });
+    });    
+};
+exports.updateHelpers = (id, tagName) => {
+    Tag.findById(id, (err, tag) => {
+        console.log('========================[update]===============================');
+        eraseTags(tag);
+        tag.helperTag = tagName;
+
+        tag.save().then(() => {
+            console.log('[][][] tag helper update..');
+        });
+    });    
+};
+const eraseTags = (obj) => {
+
+    if (obj.modelTag !== ``) obj.modelTag = ``;
+    if (obj.groupTag !== ``) obj.groupTag = ``;
+    if (obj.manufacturerTag !== ``) obj.manufacturerTag = ``;
+    if (obj.ignoreTag !== ``) obj.ignoreTag = ``;
+    if (obj.helperTag !== ``) obj.helperTag = ``;
+
+    return obj;
+  }

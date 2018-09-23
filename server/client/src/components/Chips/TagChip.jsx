@@ -47,7 +47,7 @@ class TagChip extends React.Component{
         const create = await axios.post(this.props.tagUrl + 'create', {
           offerId: this.props.offerId,
           offerOrigin: this.props.offerOrigin,
-          name: this.props.word,
+          tagName: this.props.word,
           active: true,
           ignore: false
         })

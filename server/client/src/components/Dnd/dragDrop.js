@@ -17,13 +17,21 @@ const Container = styled.div`
 export default class DragDrop extends React.Component{
     constructor(props){
         super(props);
-        this.state = initialData;
-        this.handleAddToManufacturer = this.handleAddToManufacturer.bind(this);
+        this.state = ({
+            mainData: initialData,
+            tagData: {
+                manufacturerTag: ``,
+                groupTag: ``,
+                modelTag: ``,
+                ignoreTag: ``,
+                helperTag: ``,
+            }
+        });
     }
     handleAddToManufacturer = async (tagName) => {
         const addToManufacturer = await axios.post(this.props.tagUrl + 'update/manufacturer', {
             id: this.props.offerId,
-            tagName: tagName
+            tagName: tagName,
           }) 
     }
     handleAddToGroup = async (tagName) => {
@@ -38,14 +46,37 @@ export default class DragDrop extends React.Component{
             tagName: tagName
           }) 
     }
+    handleAddToIgnore = async (tagName) => {
+        const addToIgnore = await axios.post(this.props.tagUrl + 'update/ignore', {
+            id: this.props.offerId,
+            tagName: tagName
+          }) 
+    }
+    handleAddToHelpers = async (tagName) => {
+        const addToHelpers = await axios.post(this.props.tagUrl + 'update/helpers', {
+            id: this.props.offerId,
+            tagName: tagName,
+            offerId: this.props.offerId,
+            offerOrigin: this.props.offerOrigin,
+            active: true,
+          }) 
+    }
     handleSearchTag = async (tagName) => {
+        console.log(`==============================[search]=================================`); 
         console.log(`getting tag...${tagName} offerId... ${this.props.offerId}`); 
         const tagInfo = await axios.get(this.props.tagUrl + 'findTag/' + tagName + `/` + this.props.offerId) 
           .then(response  => response.data)
           .then(result => {
-            console.log(`offer: ${result._id} tag: ${result.name} manufacturer: ${result.manufacturerTag} group:${result.groupTag} model:${result.modelTag}`); 
+            console.log(`offer: ${result._id} tag: ${result.tagName} manufacturer: ${result.manufacturerTag} group:${result.groupTag} model:${result.modelTag}
+            ignore: ${result.ignoreTag} helper ${result.helperTag}`); 
             // return new Promise((resolve, reject) => {resolve(result)});
-            
+            this.setState({tagData: {
+                manufacturerTag: result.manufacturerTag,
+                groupTag: result.groupTag,
+                modelTag: result.modelTag,
+                ignoreTag: result.ignoreTag,
+                helperTag: result.helperTag,
+            }});
           });
       }
     getByValue = (obj, value, i) => {
@@ -68,7 +99,7 @@ export default class DragDrop extends React.Component{
       }
     loadDndData = async () => {
         var blankObject = JSON.parse(JSON.stringify(initialData));
-        console.log(blankObject);
+        //console.log(blankObject);
         
         for (var i = 0; i < this.props.titleWords.length; i++){
             var key = "task" + i;
@@ -78,12 +109,34 @@ export default class DragDrop extends React.Component{
                 foundIndex = this.getByValue(blankObject.tasks, this.props.titleWords[i], i + 1);
             }
             if (foundIndex === null) {
-                this.handleSearchTag(this.props.titleWords[i]);
+                await this.handleSearchTag(this.props.titleWords[i]);
                 Object.assign(blankObject.tasks, newObj);
-                blankObject.columns.column1.taskIds.push([key]);
+                switch(true){
+                    case this.state.tagData.manufacturerTag !== "" && this.state.tagData.manufacturerTag !== undefined:
+                        blankObject.columns.column2.taskIds.push([key]);
+                        break;
+                    case this.state.tagData.modelTag !== "" && this.state.tagData.modelTag !== undefined:
+                        blankObject.columns.column3.taskIds.push([key]);
+                        break;
+                    case this.state.tagData.groupTag !== "" && this.state.tagData.groupTag !== undefined:
+                        blankObject.columns.column4.taskIds.push([key]);
+                        break;
+                    case this.state.tagData.ignoreTag !== "" && this.state.tagData.ignoreTag !== undefined:
+                        blankObject.columns.column5.taskIds.push([key]);
+                        break;
+                    case this.state.tagData.helperTag !== "" && this.state.tagData.helperTag !== undefined:
+                        blankObject.columns.column6.taskIds.push([key]);
+                        break;
+                    default:
+                        blankObject.columns.column1.taskIds.push([key]);
+                        break;
+                }
+
+                console.log(`state for tag: ${this.props.titleWords[i]}`);
+                console.log(this.state.tagData);
             } 
         }
-        this.setState(blankObject);
+        this.setState({mainData: blankObject});
     }
     componentWillMount() {
         this.loadDndData();
@@ -94,9 +147,8 @@ export default class DragDrop extends React.Component{
     };
     onDragUpdate = update => {
         const {destination} =  update;
-        console.log(destination.index);
         const opacity = destination
-        ? destination.index / Object.keys(this.state.tasks).length
+        ? destination.index / Object.keys(this.state.mainData.tasks).length
         : 0;
         document.body.style.backgroundColor = `rgba(153, 141, 217, ${opacity})`;
     };
@@ -114,9 +166,9 @@ export default class DragDrop extends React.Component{
             return;
         }
 
-        const start = this.state.columns[source.droppableId];
-        const startTasks = this.state.tasks;
-        const finish = this.state.columns[destination.droppableId];
+        const start = this.state.mainData.columns[source.droppableId];
+        const startTasks = this.state.mainData.tasks;
+        const finish = this.state.mainData.columns[destination.droppableId];
         // console.log( start);
         // console.log( finish);
         if (start === finish){
@@ -131,21 +183,21 @@ export default class DragDrop extends React.Component{
             };
     
             const newState = {
-                ...this.state,
+                ...this.state.mainData,
                 columns: {
-                    ...this.state.columns,
+                    ...this.state.mainData.columns,
                     [newColumn.id]: newColumn,
                 },
             };
-            console.log(`same column:  ${newColumn.title}`);
-            this.setState(newState);
+            //console.log(`same column:  ${newColumn.title}`);
+            this.setState({mainData: newState});
             return;
         };
 
         // moving from one list to another
         const startTaskIds = Array.from(start.taskIds);
-        console.log(`old guy id: ${start.taskIds[source.index]}`);
-        console.log(`task name is: ${startTasks[start.taskIds[source.index]].content}`);
+        //console.log(`old guy id: ${start.taskIds[source.index]}`);
+        //console.log(`task name is: ${startTasks[start.taskIds[source.index]].content}`);
         const taskName = startTasks[start.taskIds[source.index]].content;
 
         startTaskIds.splice(source.index, 1);
@@ -161,9 +213,9 @@ export default class DragDrop extends React.Component{
             taskIds: finishTaskIds,
         };
         const newState = {
-            ...this.state,
+            ...this.state.mainData,
             columns: {
-                ...this.state.columns,
+                ...this.state.mainData.columns,
                 [newStart.id]: newStart,
                 [newFinish.id]: newFinish,
             },
@@ -180,11 +232,17 @@ export default class DragDrop extends React.Component{
             case `Model`:
                 this.handleAddToModel(taskName);
                 break;
+            case `Ignore`:
+                this.handleAddToIgnore(taskName);
+                break;
+            case `Helpers`:
+                this.handleAddToHelpers(taskName);
+                break;
             default:
                 break;
         }
-        console.log(`new column:  ${newFinish.title} for tag:${source.index} and offer: ${this.props.offerId}`);
-        this.setState(newState);
+        //console.log(`new column:  ${newFinish.title} for tag:${source.index} and offer: ${this.props.offerId}`);
+        this.setState({mainData: newState});
     }
 
     render(){
@@ -196,9 +254,9 @@ export default class DragDrop extends React.Component{
                 onDragEnd={this.onDragEnd}
             >
             <Container>
-                {this.state.columnOrder.map((columnId) => {
-                    const column = this.state.columns[columnId];
-                    const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
+                {this.state.mainData.columnOrder.map((columnId) => {
+                    const column = this.state.mainData.columns[columnId];
+                    const tasks = column.taskIds.map(taskId => this.state.mainData.tasks[taskId]);
         
                     return <Column 
                         key={column.id} 
