@@ -21,8 +21,6 @@ class FavoriteButtonBikeMarkt extends React.Component {
     handleAddToFavorite = async (event) => {
         console.log(this.props.dataKey);
         console.log(this.props.fetchUrl);
-        // const selectedIndex = event.target.options.selectedIndex;
-        // console.log(event.target.options[selectedIndex].getAttribute('data-key'));
         const favorite = await axios.post(this.props.fetchUrl + 'fav', {
             userId: 'przemy',
             id: this.props.dataKey,
@@ -34,7 +32,6 @@ class FavoriteButtonBikeMarkt extends React.Component {
         }, () => {});
         
     }
-    handle
     render(){
         return(
         <IconButton style={{color: "#E31B23"}} onClick={this.handleAddToFavorite}>

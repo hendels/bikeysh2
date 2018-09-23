@@ -8,6 +8,7 @@ const TagSchema = new Schema({
     count: Number,
     active: Boolean,
     ignore: Boolean,
+    helperTag: Boolean,
     manufacturerTag: String,
     groupTag: String,
     modelTag: String,
@@ -29,7 +30,8 @@ exports.create = (data) => {
         name: data.name.trim(),
         count: 1,
         active: true,
-        ignore: false
+        ignore: false,
+        manufacturerTag: ""
     })
         .save()
         .then(() => {
@@ -49,11 +51,33 @@ exports.update = (Tag, id, data) => {
     });
 };
 //# update colums
-exports.updateFavorite = (id, markAs) => {
+exports.updateManufacturer = (id, tagName) => {
     Tag.findById(id, (err, tag) => {
-        tag.favorite = markAs;
+        tag.manufacturerTag = tagName;
+        tag.groupTag === tagName ? tag.groupTag = "" : null;
+        tag.modelTag === tagName ? tag.modelTag = "" : null;
         tag.save().then(() => {
-            console.log('[][][] favorizing Crank...');
+            console.log('[][][] tag manufacturer update..');
+        });
+    });    
+};
+exports.updateGroup = (id, tagName) => {
+    Tag.findById(id, (err, tag) => {
+        tag.manufacturerTag === tagName ? tag.manufacturerTag = "" : null;
+        tag.groupTag = tagName;
+        tag.modelTag === tagName ? tag.modelTag = "" : null;
+        tag.save().then(() => {
+            console.log('[][][] tag group update..');
+        });
+    });    
+};
+exports.updateModel = (id, tagName) => {
+    Tag.findById(id, (err, tag) => {
+        tag.manufacturerTag === tagName ? tag.manufacturerTag = "" : null;
+        tag.groupTag === tagName ? tag.groupTag = "" : null;
+        tag.modelTag = tagName;
+        tag.save().then(() => {
+            console.log('[][][] tag model update..');
         });
     });    
 };

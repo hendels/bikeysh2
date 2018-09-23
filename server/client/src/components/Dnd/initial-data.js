@@ -24,7 +24,7 @@ const initialData = {
         },
         column5: {
             id: 'column5',
-            title: 'Unwanted',
+            title: 'Ignore',
             taskIds: [],
         },
         column6: {

@@ -34,13 +34,13 @@ class TagChip extends React.Component{
       
     }
     handleSearchTag = async (event) => {
-      console.log('getting tag...' + this.props.word); 
-      const create = await axios.get(this.props.tagUrl + 'findTag/' + this.props.word) // + [todo]offerID!
-        .then(response  => response.data)
-        .then(result => {
-          this.setState({tagExist: result}, () => {});
-          console.log('response tag...' + this.state.tagExist); 
-        });
+      // console.log('getting tag...' + this.props.word); 
+      // const create = await axios.get(this.props.tagUrl + 'findTag/' + this.props.word) // + [todo]offerID!
+      //   .then(response  => response.data)
+      //   .then(result => {
+      //     this.setState({tagExist: result}, () => {});
+      //     console.log('response tag...' + this.state.tagExist); 
+      //   });
     }
     handleDeleteTag = async () => {
         console.log('You clicked the delete icon.'); 

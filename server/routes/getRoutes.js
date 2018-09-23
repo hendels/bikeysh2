@@ -8,7 +8,6 @@ const tags = require('../models/tags');
 const Tags = mongoose.model('tags');
 // let agenda = require('../jobs/agenda.js');
 var cron = require('node-cron');
-
 module.exports = app => {
     app.get('/', (req, res) => {
         // agenda.every("2 minutes",
@@ -38,20 +37,56 @@ module.exports = app => {
             }        
         })
     });
-    app.get('/api/tags/findTag/:tagName', (req, res) => {
-        console.log('searching for tag...' + req.params.tagName);
-        Tags.findOne({ name: req.params.tagName }).then(existingId => {
-            console.log('existing Id: '+ existingId);
-            if (existingId) {
-                res.send(true);
+    app.get('/api/tags/findTag/:tagName/:offerId', (req, res) => {
+        console.log(`searching for tag... + ${req.params.tagName} offer id: ${req.params.offerId}`);
+        Tags.findOne({ offerId: req.params.offerId, name: req.params.tagName }).then(existingTag => {
+            //console.log('existing Id: '+ existingId);
+            if (existingTag) {
+                res.send(existingTag);
             } else {                
-                res.send(false);
+                res.send(null);
             }        
         })
 
     });
+    app.post('/api/tags/update/manufacturer', async (req, res) => {
+        console.log('update manufacturer to tag: '+ req.body.id + ' / ' + req.body.tagName);
+        Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
+            console.log('existing TAg Id: '+ existingTag);
+            if (existingTag) {
+                tags.updateManufacturer(existingTag, req.body.tagName);
+            } else {                
+                console.log(`tag ${req.body.tagName} not found!`);
+            }        
+        })
+        
+    })
+    app.post('/api/tags/update/group', async (req, res) => {
+        console.log('update group to tag: '+ req.body.id + ' / ' + req.body.tagName);
+        Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
+            console.log('existing TAg Id: '+ existingTag);
+            if (existingTag) {
+                tags.updateGroup(existingTag, req.body.tagName);
+            } else {                
+                console.log(`tag ${req.body.tagName} not found!`);
+            }        
+        })
+        
+    })
+    app.post('/api/tags/update/model', async (req, res) => {
+        console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName);
+        Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
+            console.log('existing TAg Id: '+ existingTag);
+            if (existingTag) {
+                tags.updateModel(existingTag, req.body.tagName);
+            } else {                
+                console.log(`tag ${req.body.tagName} not found!`);
+            }        
+        })
+        
+    })
     app.get('/api/tags/tagCount/:offerId', (req, res) => {
-        console.log('searching for tag count for...' + req.params.offerId);
+        //console.log('searching for tag count for...' + req.params.offerId);
         mongoose.model('tags').count({offerId: req.params.offerId}, function(err, tags) {
             res.send({ tags });
         });
