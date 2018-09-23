@@ -36,14 +36,31 @@ exports.create = async (data) => {
     });
 };
 //# update record
-exports.update = (Tag, id, data) => {
+exports.updateTagSet = (id, tagName, updateCase) => {
     Tag.findById(id, (err, tag) => {
-        tag.tagName = data.tagName.trim();
-        tag.count = 2;
-        tag.active = data.active;
-        tag.ignore = data.ignore;
+        console.log('========================[update]===============================');
+        eraseTags(tag);
+        switch(updateCase){
+            case `Manufacturer`:
+                tag.manufacturerTag = tagName;
+                break;
+            case `Group`:
+                tag.groupTag = tagName;
+                break;
+            case `Model`:
+                tag.modelTag = tagName;
+                break;
+            case `Ignore`:
+                tag.ignoreTag = tagName;
+                break;
+            case `Helpers`:
+                tag.helperTag = tagName;
+                break;
+            default:
+                break;
+        }
         tag.save().then(() => {
-            console.log('[][][] updating Tag...');
+            console.log('[][][] updating in smart way Tag...');
         });
     });
 };
@@ -68,16 +85,6 @@ exports.updateGroup = (id, tagName) => {
         });
     });    
 };
-// exports.updateGroup = (id, tagName) => {
-//     Tag.findById(id, (err, tag) => {
-//         tag.manufacturerTag === tagName ? tag.manufacturerTag = "" : null;
-//         tag.groupTag = tagName;
-//         tag.modelTag === tagName ? tag.modelTag = "" : null;
-//         tag.save().then(() => {
-//             console.log('[][][] tag group update..');
-//         });
-//     });    
-// };
 exports.updateModel = (id, tagName) => {
     Tag.findById(id, (err, tag) => {
         console.log('========================[update]===============================');

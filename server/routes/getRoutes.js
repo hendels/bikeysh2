@@ -6,13 +6,9 @@ const bm_enduroframe = require('../models/bmart_enduroframe');
 const bm_wheel = require('../models/bmart_wheel');
 const tags = require('../models/tags');
 const Tags = mongoose.model('tags');
-// let agenda = require('../jobs/agenda.js');
 var cron = require('node-cron');
 module.exports = app => {
     app.get('/', (req, res) => {
-        // agenda.every("2 minutes",
-        // 'crawl bikemarkt'
-        // );
         let counter = 0;
         cron.schedule('* * * * *', () => {
             counter += 1;
@@ -49,7 +45,7 @@ module.exports = app => {
         })
 
     });
-    app.post('/api/tags/update/manufacturer', async (req, res) => {
+    app.post('/api/tags/update/manufacturerx', async (req, res) => {
         console.log('update manufacturer to tag: '+ req.body.id + ' / ' + req.body.tagName);
         Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
             console.log('existing TAg Id: '+ existingTag);
@@ -61,7 +57,7 @@ module.exports = app => {
         })
         
     })
-    app.post('/api/tags/update/group', async (req, res) => {
+    app.post('/api/tags/update/groupx', async (req, res) => {
         console.log('update group to tag: '+ req.body.id + ' / ' + req.body.tagName);
         Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
             console.log('existing TAg Id: '+ existingTag);
@@ -73,7 +69,7 @@ module.exports = app => {
         })
         
     })
-    app.post('/api/tags/update/model', async (req, res) => {
+    app.post('/api/tags/update/modelx', async (req, res) => {
         console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName);
         Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
             console.log('existing TAg Id: '+ existingTag);
@@ -84,7 +80,7 @@ module.exports = app => {
             }        
         })
     })
-    app.post('/api/tags/update/ignore', async (req, res) => {
+    app.post('/api/tags/update/ignorex', async (req, res) => {
         console.log('update ignore to tag: '+ req.body.id + ' / ' + req.body.tagName);
         Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
             console.log('existing TAg Id: '+ existingTag);
@@ -94,25 +90,31 @@ module.exports = app => {
                 console.log(`tag ${req.body.tagName} not found!`);
             }        
         })
-    })
-    app.post('/api/tags/update/helpers', async (req, res) => {
-        console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName);
+    });
+    const updateModel = (model, existingTag, tagName, setTagTo) => {
+        model.updateTagSet(existingTag, tagName, setTagTo);
+    }
+    app.post('/api/tags/update/:setTagTo', async (req, res) => {
+        console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName + ' - setTagTo: ' + req.params.setTagTo);
         Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
             console.log('existing TAg Id: '+ existingTag);
             if (existingTag) {
-                tags.updateHelpers(existingTag, req.body.tagName);
+                updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo);
             } else {        
-                var createTag = new Promise(async function(resolve, reject) {
+                var createTag = new Promise(async (resolve, reject) => {
                     await tags.create(req.body);
                     resolve();
                   });
                 createTag.then(() => {
                 // console.log(`after create --- offerId: ${req.body.id} tagName: ${req.body.tagName}`);
-                Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(exTag => {
-                    if (exTag) {
-                        // console.log(`tag ${req.body.tagName} update after create!`);
-                        tags.updateHelpers(exTag, req.body.tagName);
-                    }});  
+                    Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(existingTag => {
+                        // console.log(`existingTag: `);
+                        // console.log(existingTag);
+                        if (existingTag) {
+                            // console.log(`tag ${req.body.tagName} update after create!`);
+                            updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo);
+                        }
+                    });  
                 })
             }        
         })

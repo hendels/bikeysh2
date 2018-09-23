@@ -28,32 +28,9 @@ export default class DragDrop extends React.Component{
             }
         });
     }
-    handleAddToManufacturer = async (tagName) => {
-        const addToManufacturer = await axios.post(this.props.tagUrl + 'update/manufacturer', {
-            id: this.props.offerId,
-            tagName: tagName,
-          }) 
-    }
-    handleAddToGroup = async (tagName) => {
-        const addToGroup = await axios.post(this.props.tagUrl + 'update/group', {
-            id: this.props.offerId,
-            tagName: tagName
-          }) 
-    }
-    handleAddToModel = async (tagName) => {
-        const addToModel = await axios.post(this.props.tagUrl + 'update/model', {
-            id: this.props.offerId,
-            tagName: tagName
-          }) 
-    }
-    handleAddToIgnore = async (tagName) => {
-        const addToIgnore = await axios.post(this.props.tagUrl + 'update/ignore', {
-            id: this.props.offerId,
-            tagName: tagName
-          }) 
-    }
-    handleAddToHelpers = async (tagName) => {
-        const addToHelpers = await axios.post(this.props.tagUrl + 'update/helpers', {
+    handleAddToTagSet = async (tagName, targetColumnName) => {
+        console.log(`column name react: ${targetColumnName}`);
+        const addToHelpers = await axios.post(this.props.tagUrl + `update/${targetColumnName}`, {
             id: this.props.offerId,
             tagName: tagName,
             offerId: this.props.offerId,
@@ -62,14 +39,13 @@ export default class DragDrop extends React.Component{
           }) 
     }
     handleSearchTag = async (tagName) => {
-        console.log(`==============================[search]=================================`); 
-        console.log(`getting tag...${tagName} offerId... ${this.props.offerId}`); 
+        // console.log(`==============================[search]=================================`); 
+        // console.log(`getting tag...${tagName} offerId... ${this.props.offerId}`); 
         const tagInfo = await axios.get(this.props.tagUrl + 'findTag/' + tagName + `/` + this.props.offerId) 
           .then(response  => response.data)
           .then(result => {
-            console.log(`offer: ${result._id} tag: ${result.tagName} manufacturer: ${result.manufacturerTag} group:${result.groupTag} model:${result.modelTag}
-            ignore: ${result.ignoreTag} helper ${result.helperTag}`); 
-            // return new Promise((resolve, reject) => {resolve(result)});
+            // console.log(`offer: ${result._id} tag: ${result.tagName} manufacturer: ${result.manufacturerTag} group:${result.groupTag} model:${result.modelTag}
+            // ignore: ${result.ignoreTag} helper ${result.helperTag}`); 
             this.setState({tagData: {
                 manufacturerTag: result.manufacturerTag,
                 groupTag: result.groupTag,
@@ -132,8 +108,8 @@ export default class DragDrop extends React.Component{
                         break;
                 }
 
-                console.log(`state for tag: ${this.props.titleWords[i]}`);
-                console.log(this.state.tagData);
+                // console.log(`state for tag: ${this.props.titleWords[i]}`);
+                // console.log(this.state.tagData);
             } 
         }
         this.setState({mainData: blankObject});
@@ -222,25 +198,8 @@ export default class DragDrop extends React.Component{
         };
         // console.log(newState);
         // console.log(newState.columns);
-        switch (newFinish.title) {
-            case `Manufacturer`:
-                this.handleAddToManufacturer(taskName);
-                break;
-            case `Group`:
-                this.handleAddToGroup(taskName);
-                break;
-            case `Model`:
-                this.handleAddToModel(taskName);
-                break;
-            case `Ignore`:
-                this.handleAddToIgnore(taskName);
-                break;
-            case `Helpers`:
-                this.handleAddToHelpers(taskName);
-                break;
-            default:
-                break;
-        }
+        const targetColumnName = newFinish.title;
+        this.handleAddToTagSet(taskName, targetColumnName);
         //console.log(`new column:  ${newFinish.title} for tag:${source.index} and offer: ${this.props.offerId}`);
         this.setState({mainData: newState});
     }
