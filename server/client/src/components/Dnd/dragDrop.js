@@ -7,7 +7,8 @@ import Column from './column';
 import {DragDropContext} from 'react-beautiful-dnd';
 //
 import '@atlaskit/css-reset';
-
+//app components
+import Spinner from '../UI/Spinner.jsx';
 
 const Container = styled.div`
     display:flex;
@@ -25,7 +26,9 @@ export default class DragDrop extends React.Component{
                 modelTag: ``,
                 ignoreTag: ``,
                 helperTag: ``,
-            }
+            },
+            existingTags: [],
+            loading: false
         });
     }
     handleAddToTagSet = async (tagName, targetColumnName) => {
@@ -39,6 +42,7 @@ export default class DragDrop extends React.Component{
           }) 
     }
     handleSearchTag = async (tagName) => {
+        
         // console.log(`==============================[search]=================================`); 
         // console.log(`getting tag...${tagName} offerId... ${this.props.offerId}`); 
         const tagInfo = await axios.get(this.props.tagUrl + 'findTag/' + tagName + `/` + this.props.offerId) 
@@ -46,6 +50,13 @@ export default class DragDrop extends React.Component{
           .then(result => {
             // console.log(`offer: ${result._id} tag: ${result.tagName} manufacturer: ${result.manufacturerTag} group:${result.groupTag} model:${result.modelTag}
             // ignore: ${result.ignoreTag} helper ${result.helperTag}`); 
+            if (result){
+                let newObj = result.tagName;
+                let existingTags = this.state.existingTags;
+                existingTags.push(newObj);
+                this.setState({existingTags: existingTags});
+                // console.log(this.state.existingTags);
+            }
             this.setState({tagData: {
                 manufacturerTag: result.manufacturerTag,
                 groupTag: result.groupTag,
@@ -53,6 +64,7 @@ export default class DragDrop extends React.Component{
                 ignoreTag: result.ignoreTag,
                 helperTag: result.helperTag,
             }});
+            
           });
       }
     getByValue = (obj, value, i) => {
@@ -76,7 +88,7 @@ export default class DragDrop extends React.Component{
     loadDndData = async () => {
         var blankObject = JSON.parse(JSON.stringify(initialData));
         //console.log(blankObject);
-        
+        this.setState({loading: true})
         for (var i = 0; i < this.props.titleWords.length; i++){
             var key = "task" + i;
             let newObj = {[key]:{id: key, content: this.props.titleWords[i]}};
@@ -113,8 +125,10 @@ export default class DragDrop extends React.Component{
             } 
         }
         this.setState({mainData: blankObject});
+        this.setState({loading: false})
     }
     componentWillMount() {
+        this.setState({existingTags: []});
         this.loadDndData();
     }
     onDragStart = () => {
@@ -207,12 +221,14 @@ export default class DragDrop extends React.Component{
     render(){
         const {offerId, tagUrl, offerOrigin} = this.props;
         return (
+            <div>
+            {this.state.loading ? <Spinner/> :(
             <DragDropContext
                 onDragStart={this.onDragStart}
                 OnDragUpdate={this.OnDragUpdate}
                 onDragEnd={this.onDragEnd}
             >
-            <Container>
+                <Container>
                 {this.state.mainData.columnOrder.map((columnId) => {
                     const column = this.state.mainData.columns[columnId];
                     const tasks = column.taskIds.map(taskId => this.state.mainData.tasks[taskId]);
@@ -224,10 +240,14 @@ export default class DragDrop extends React.Component{
                         offerId={offerId} 
                         tagUrl={tagUrl} 
                         offerOrigin={offerOrigin}
+                        existingTags={this.state.existingTags}
                     />;
                 })}
-            </Container>
+                </Container>
+            
             </DragDropContext>
+            )}
+            </div>
         );
     }
 }

@@ -46,7 +46,9 @@ export default class Task extends React.Component {
                     offerId={this.props.offerId} 
                     word={this.props.task.content} 
                     tagUrl={this.props.tagUrl} 
-                    offerOrigin="bikemarkt"/>
+                    offerOrigin="bikemarkt"
+                    existingTags={this.props.existingTags}
+                    />
                 </Container> 
                 // </div>
             )}

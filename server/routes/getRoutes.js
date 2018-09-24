@@ -45,52 +45,6 @@ module.exports = app => {
         })
 
     });
-    app.post('/api/tags/update/manufacturerx', async (req, res) => {
-        console.log('update manufacturer to tag: '+ req.body.id + ' / ' + req.body.tagName);
-        Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
-            console.log('existing TAg Id: '+ existingTag);
-            if (existingTag) {
-                tags.updateManufacturer(existingTag, req.body.tagName);
-            } else {                
-                console.log(`tag ${req.body.tagName} not found!`);
-            }        
-        })
-        
-    })
-    app.post('/api/tags/update/groupx', async (req, res) => {
-        console.log('update group to tag: '+ req.body.id + ' / ' + req.body.tagName);
-        Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
-            console.log('existing TAg Id: '+ existingTag);
-            if (existingTag) {
-                tags.updateGroup(existingTag, req.body.tagName);
-            } else {                
-                console.log(`tag ${req.body.tagName} not found!`);
-            }        
-        })
-        
-    })
-    app.post('/api/tags/update/modelx', async (req, res) => {
-        console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName);
-        Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
-            console.log('existing TAg Id: '+ existingTag);
-            if (existingTag) {
-                tags.updateModel(existingTag, req.body.tagName);
-            } else {                
-                console.log(`tag ${req.body.tagName} not found!`);
-            }        
-        })
-    })
-    app.post('/api/tags/update/ignorex', async (req, res) => {
-        console.log('update ignore to tag: '+ req.body.id + ' / ' + req.body.tagName);
-        Tags.findOne({ offerId: req.body.id, name: req.body.tagName}).then(existingTag => {
-            console.log('existing TAg Id: '+ existingTag);
-            if (existingTag) {
-                tags.updateIgnore(existingTag, req.body.tagName);
-            } else {                
-                console.log(`tag ${req.body.tagName} not found!`);
-            }        
-        })
-    });
     const updateModel = (model, existingTag, tagName, setTagTo) => {
         model.updateTagSet(existingTag, tagName, setTagTo);
     }

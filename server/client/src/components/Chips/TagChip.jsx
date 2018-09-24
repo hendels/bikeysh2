@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import DeleteIcon from '@material-ui/icons/Close';
-import ExistIcon from '@material-ui/icons/Done';
+import NoTag from '@material-ui/icons/AddCircle';
 
 const styles = theme => ({
     root: {
@@ -34,23 +34,23 @@ class TagChip extends React.Component{
       
     }
     handleSearchTag = async (event) => {
-      // console.log('getting tag...' + this.props.word); 
-      // const create = await axios.get(this.props.tagUrl + 'findTag/' + this.props.word) // + [todo]offerID!
-      //   .then(response  => response.data)
-      //   .then(result => {
-      //     this.setState({tagExist: result}, () => {});
-      //     console.log('response tag...' + this.state.tagExist); 
-      //   });
+      for(var i=0; i<this.props.existingTags.length; i++){
+        console.log(this.props.existingTags[i])
+        if(this.props.word === this.props.existingTags[i]){
+          this.setState({tagExist: true});
+          break;
+        }
+      }
     }
     handleDeleteTag = async () => {
         console.log('You clicked the delete icon.'); 
-        const create = await axios.post(this.props.tagUrl + 'create', {
-          offerId: this.props.offerId,
-          offerOrigin: this.props.offerOrigin,
-          tagName: this.props.word,
-          active: true,
-          ignore: false
-        })
+        // const create = await axios.post(this.props.tagUrl + 'create', {
+        //   offerId: this.props.offerId,
+        //   offerOrigin: this.props.offerOrigin,
+        //   tagName: this.props.word,
+        //   active: true,
+        //   ignore: false
+        // })
       }
       
       handleAddTag() {
@@ -70,7 +70,7 @@ class TagChip extends React.Component{
             }
             label={this.props.word}
             onDelete={this.handleDeleteTag}
-            deleteIcon={this.state.tagExist ? <DeleteIcon /> : <ExistIcon/>}
+            deleteIcon={this.state.tagExist ? <DeleteIcon /> : <NoTag/>}
             onClick={this.handleAddTag}
             className={classes.chip}
             color={this.state.tagExist ? "secondary" : "primary"}

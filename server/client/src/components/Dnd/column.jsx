@@ -29,7 +29,7 @@ const TaskList = styled.div`
 export default class Column extends React.Component{
     
     render(){
-        const {offerId, tagUrl, offerOrigin} = this.props;
+        const {offerId, tagUrl, offerOrigin, existingTags} = this.props;
 
         return (
             <Container>
@@ -49,6 +49,7 @@ export default class Column extends React.Component{
                                     offerId={offerId} 
                                     tagUrl={tagUrl} 
                                     offerOrigin={offerOrigin}
+                                    existingTags={existingTags}
                                 />)}
 
                             {provided.placeholder}

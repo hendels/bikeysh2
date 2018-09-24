@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import LibraryAdd from '@material-ui/icons/LibraryAdd';
-import TagDialog from '../Dialogs/TagDialogDnd';
+import TagDialogDnd from '../Dialogs/TagDialogDnd';
 import Aux from '../../hoc/Ax/Ax';
 
 const styles = theme => ({
@@ -58,7 +58,7 @@ class TagBadge extends React.Component {
             <LibraryAdd />
           </Badge>
         </IconButton>
-        <TagDialog
+        <TagDialogDnd
           open={this.state.openTagDialog}
           onClose={this.handleCloseTagDialog}
           category={this.props.category}

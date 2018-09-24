@@ -86,9 +86,7 @@ class HomePage extends React.Component {
     onSetResult = async (result, offerType) => {
         switch(offerType){
             case 'cranks':   
-                             
                 if (result.length !== 0) await this.setState(applyCrankResult(result));
-                
                 break;
             case 'dhframes':
                 if (result.length !== 0) await this.setState(applyDhFramesResult(result));
