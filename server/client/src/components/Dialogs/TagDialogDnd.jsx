@@ -47,7 +47,6 @@ class SimpleDialog extends React.Component {
     handleListItemClick = value => {
       this.props.onClose(value);
     };
-  
     render() {
       const { classes, onClose, selectedValue, ...other } = this.props;
       //<<split data to array
@@ -59,13 +58,6 @@ class SimpleDialog extends React.Component {
           <DialogTitle id="confirmation-dialog-title">Set tags for {this.props.category}</DialogTitle>
           <div className={classes.root}>
             <Dnd offerId={this.props.offer._id} titleWords={titleWords} tagUrl={this.props.tagUrl} offerOrigin="bikemarkt"/>
-          {/* <Grid container justify="center" spacing="0" >
-              {titleWords.map(word => (
-                <Grid key={word} item xs={6} >
-                  <TagChip offerId={this.props.offer._id} word={word} tagUrl={this.props.tagUrl} offerOrigin="bikemarkt"/>
-                </Grid>
-              ))}
-            </Grid> */}
           </div>
             <List>
               <ListItem button onClick={() => this.handleListItemClick('addAccount')}>
@@ -77,15 +69,11 @@ class SimpleDialog extends React.Component {
                 <ListItemText primary="Add tag" />
               </ListItem>
             </List>
-          {/* </div> */}
-          {/* <DialogActions>
+          <DialogActions>
           <Button onClick={this.handleCancel} color="primary">
             Cancel
           </Button>
-          <Button onClick={this.handleOk} color="primary">
-            Ok
-          </Button>
-          </DialogActions> */}
+          </DialogActions>
         </Dialog>
       );
     }

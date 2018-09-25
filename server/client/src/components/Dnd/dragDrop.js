@@ -14,7 +14,9 @@ const Container = styled.div`
     display:flex;
     flex-direction: row;
 `;
-
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 export default class DragDrop extends React.Component{
     constructor(props){
         super(props);
@@ -28,19 +30,40 @@ export default class DragDrop extends React.Component{
                 helperTag: ``,
             },
             existingTags: [],
-            loading: false
+            loading: false,
+            rerenderChip: false,
         });
     }
     handleAddToTagSet = async (tagName, targetColumnName) => {
-        console.log(`column name react: ${targetColumnName}`);
+        // console.log(`column name react: ${targetColumnName}`);
         const addToHelpers = await axios.post(this.props.tagUrl + `update/${targetColumnName}`, {
             id: this.props.offerId,
             tagName: tagName,
             offerId: this.props.offerId,
             offerOrigin: this.props.offerOrigin,
             active: true,
-          }) 
+          }).then(response => response.data).then(async result => {
+              if (result){
+
+                //   console.log("dude - it's time after post.");
+                //   console.log(`this is result : ${result}`);
+                  let newObj = {[result]: true};
+                  let existingTags = this.state.existingTags;
+                  let foundIndex = this.getByValue(existingTags, tagName, -1);
+                  if (foundIndex !== null){
+                    existingTags[foundIndex] = true;
+                  } else 
+                        existingTags.push(newObj);
+
+                  this.setState({existingTags: existingTags}, ()=>{});
+                  await sleep(1000);
+                  console.log(this.state.existingTags);
+                  this.setState({rerenderChip: !this.state.rerenderChip}, ()=>{});
+              }
+          }); 
     }
+
+    
     handleSearchTag = async (tagName) => {
         
         // console.log(`==============================[search]=================================`); 
@@ -51,11 +74,12 @@ export default class DragDrop extends React.Component{
             // console.log(`offer: ${result._id} tag: ${result.tagName} manufacturer: ${result.manufacturerTag} group:${result.groupTag} model:${result.modelTag}
             // ignore: ${result.ignoreTag} helper ${result.helperTag}`); 
             if (result){
-                let newObj = result.tagName;
+                let newObj = {[result.tagName]: result.tagName === tagName ? true : false};
                 let existingTags = this.state.existingTags;
                 existingTags.push(newObj);
-                this.setState({existingTags: existingTags});
-                // console.log(this.state.existingTags);
+                this.setState({existingTags: existingTags}, () => {});
+
+                console.log(this.state.existingTags);
             }
             this.setState({tagData: {
                 manufacturerTag: result.manufacturerTag,
@@ -73,21 +97,29 @@ export default class DragDrop extends React.Component{
         try {
         Object.keys(obj).forEach(
             (e, index) => {
-                //console.log(`iteration::: ${i} content::: ${obj[e].content} e:::${e} checking value::: ${value}`);
-                if (obj[e].content === value) {
-                    found = index;
-                    throw Break;
+                if(i > -1){
+                    //console.log(`iteration::: ${i} content::: ${obj[e].content} e:::${e} checking value::: ${value}`);
+                    if (obj[e].content === value) {
+                        found = index;
+                        throw Break;
+                    } 
                 } 
+                if(i === -1){
+                    if (obj[e].content === value) {
+                        found = index;
+                        throw Break;
+                    } 
+                }
             }
         );
         } catch (e) {
             if (e !== Break) throw e;
         }
         return found;
-      }
+    }
     loadDndData = async () => {
         var blankObject = JSON.parse(JSON.stringify(initialData));
-        //console.log(blankObject);
+
         this.setState({loading: true})
         for (var i = 0; i < this.props.titleWords.length; i++){
             var key = "task" + i;
@@ -119,7 +151,6 @@ export default class DragDrop extends React.Component{
                         blankObject.columns.column1.taskIds.push([key]);
                         break;
                 }
-
                 // console.log(`state for tag: ${this.props.titleWords[i]}`);
                 // console.log(this.state.tagData);
             } 
@@ -159,8 +190,6 @@ export default class DragDrop extends React.Component{
         const start = this.state.mainData.columns[source.droppableId];
         const startTasks = this.state.mainData.tasks;
         const finish = this.state.mainData.columns[destination.droppableId];
-        // console.log( start);
-        // console.log( finish);
         if (start === finish){
             const newTaskIds = Array.from(start.taskIds);
 
@@ -210,11 +239,8 @@ export default class DragDrop extends React.Component{
                 [newFinish.id]: newFinish,
             },
         };
-        // console.log(newState);
-        // console.log(newState.columns);
         const targetColumnName = newFinish.title;
         this.handleAddToTagSet(taskName, targetColumnName);
-        //console.log(`new column:  ${newFinish.title} for tag:${source.index} and offer: ${this.props.offerId}`);
         this.setState({mainData: newState});
     }
 

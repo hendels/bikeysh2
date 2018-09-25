@@ -67,6 +67,7 @@ module.exports = app => {
                         if (existingTag) {
                             // console.log(`tag ${req.body.tagName} update after create!`);
                             updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo);
+                            res.send(existingTag.tagName);
                         }
                     });  
                 })

@@ -27,42 +27,55 @@ class TagChip extends React.Component{
       }
       this.handleSearchTag = this.handleSearchTag.bind(this);
     }
-    componentWillMount(){
-      
-
-      this.handleSearchTag();
-      
+    componentWillReceiveProps(){
+      console.log(this.props.existingTags);
+      this.handleSearchTagx(this.props.existingTags);
     }
-    handleSearchTag = async (event) => {
-      for(var i=0; i<this.props.existingTags.length; i++){
-        console.log(this.props.existingTags[i])
-        if(this.props.word === this.props.existingTags[i]){
+    componentDidMount(){
+      this.handleSearchTagx(this.props.existingTags);
+    }
+    handleSearchTag = async (tagName) => {
+        
+      const tagInfo = await axios.get(this.props.tagUrl + 'findTag/' + tagName + `/` + this.props.offerId) 
+        .then(response  => response.data)
+        .then(result => {
+          if (result){
+              this.setState({tagExist: true});
+              // console.log('TAG FOUND');
+              this.forceUpdate();
+
+          }
+        });
+    }
+    handleSearchTagx = async (tagList) => {
+      for(var i=0; i<tagList.length; i++){
+        var obj = tagList[i];
+        let currentKey = null;
+        let currentValue = null;
+        Object.keys(obj).forEach((key,index)=>{
+          currentKey = key;
+        })
+        for(var getTag in obj){
+          currentValue = obj[getTag];
+        }
+        if(this.props.word === currentKey && currentValue === true){
           this.setState({tagExist: true});
+          // console.log('TAG FOUND');
+          this.forceUpdate();
           break;
         }
       }
     }
     handleDeleteTag = async () => {
         console.log('You clicked the delete icon.'); 
-        // const create = await axios.post(this.props.tagUrl + 'create', {
-        //   offerId: this.props.offerId,
-        //   offerOrigin: this.props.offerOrigin,
-        //   tagName: this.props.word,
-        //   active: true,
-        //   ignore: false
-        // })
       }
       
-      handleAddTag() {
-        console.log('You clicked the Chip.'); 
-      }
+    handleAddTag() {
+      console.log('You clicked the Chip.'); 
+    }
         
-      handleIgnoreTag() {
-        console.log('You ignored the Chip.'); 
-      }
     render(){
         const { classes } = this.props;
-        // console.log(this.props.tagUrl + '/' + this.props.offerId  + '/' + this.props.offerOrigin  + '/' + this.props.word);
         return(
             <Chip
             avatar={

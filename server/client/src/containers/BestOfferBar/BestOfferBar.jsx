@@ -9,8 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 
-
-
 const BestOfferBar = (props) => (
     props.offerCount.map(offer => {  
         var index = props.offerCount.indexOf(offer);  
@@ -18,7 +16,6 @@ const BestOfferBar = (props) => (
         <Aux>
         <Grid key={offer} item>       
             {index === 0 ? (
-            // <Card className={classes.card}>
             <Aux>
                 <CardHeader
                     action={

@@ -31,22 +31,27 @@ class TagBadge extends React.Component {
         tagCount: 0
     }
   }
+
   componentWillMount(){
-    axios.get(this.props.tagUrl + 'tagCount/' + this.props.offer._id).then(response  => response.data).then(result => {
-      this.setState({tagCount: result});
-      //console.log('tags count  = ' + result[Object.keys(this.state.tagCount)[0]]);
-  });
+    this.countAddedTags();
   }
+  
   handleClickOpenTagDialog = () => {
     this.setState({
         openTagDialog: true
     });
   };
-
+  countAddedTags = async () => {
+    await axios.get(this.props.tagUrl + 'tagCount/' + this.props.offer._id).then(response  => response.data).then(result => {
+      this.setState({tagCount: result}, () => {});
+      console.log('tags count  = ' + result[Object.keys(this.state.tagCount)[0]]);
+  });
+  }
   handleCloseTagDialog = async (value) => {
       await this.setState({ 
           openTagDialog: false 
       });
+      this.countAddedTags();
   };
   render(){
     const { classes } = this.props;
