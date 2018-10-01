@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
+import Delete from '@material-ui/icons/DeleteSweep';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 //app components
@@ -128,6 +128,8 @@ class BestOffer extends React.Component {
                         open={this.state.openTagDialog}
                         onClose={this.handleClose}
                     /> */}
+                    {/* delete from best offers + [todo] add modal popup */}
+                    <Delete/>
                     <IconButton
                         className={classnames(classes.expand, {
                         [classes.expandOpen]: this.state.expanded,

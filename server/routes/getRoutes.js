@@ -1,21 +1,44 @@
+//dependencies
 const mongoose = require('mongoose');
+var cron = require('node-cron');
+//models
 const bm_crank = require('../models/bmart_crank');
 const bm_hub = require('../models/bmart_hub');
 const bm_dhframe = require('../models/bmart_dhframe');
 const bm_enduroframe = require('../models/bmart_enduroframe');
 const bm_wheel = require('../models/bmart_wheel');
 const tags = require('../models/tags');
+const globalSetup = require('../models/global_setup');
 const Tags = mongoose.model('tags');
-var cron = require('node-cron');
+//management
+const tagMgt = require(`../db_management/tagManagement`);
+//jobs
+// fillTagsJob = require('../jobs/jobs/fillTags');
+
 module.exports = app => {
-    app.get('/', (req, res) => {
-        let counter = 0;
-        cron.schedule('* * * * *', () => {
-            counter += 1;
-            console.log('running a task every min ' + counter);
-          });
-        res.send({ crawler: 'standby app - testing agenda' });
+    //<<jobs
+    app.get('/fillTags', (req, res) => {
+        require('../jobs/jobs/fillTags');
+        res.send({ server: 'filling tags' });
     });
+    app.get('/api/createSetup', (req, res) => {
+        let counter = 0;
+        globalSetup.createSetup();
+        res.send({ server: 'creating setup' });
+    });
+    app.get('/fillNameSets', (req, res) => {
+        require('../jobs/jobs/fillNameSets');
+        res.send({ server: 'filling nameSets' });
+    });
+    app.get('/fillScoring', (req, res) => {
+        require('../jobs/jobs/fillScoring');
+        res.send({ server: 'filling scoring' });
+    });
+    app.get('/test', (req, res) => {
+        findExistingPair('Race');
+    });
+    //>>jobs
+    //==================================================================================================================
     app.get('/api/bm/run', (req, res) => {
         require('../server.js');
         console.log('running bikemarkt crawler...');
@@ -45,15 +68,19 @@ module.exports = app => {
         })
 
     });
-    const updateModel = (model, existingTag, tagName, setTagTo) => {
-        model.updateTagSet(existingTag, tagName, setTagTo);
+    const updateModel = (model, existingTag, tagName, setTagTo, tagPairNo) => {
+        model.updateTagSet(existingTag, tagName, setTagTo, tagPairNo);
     }
+    
     app.post('/api/tags/update/:setTagTo', async (req, res) => {
         console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName + ' - setTagTo: ' + req.params.setTagTo);
         Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
             console.log('existing TAg Id: '+ existingTag);
             if (existingTag) {
-                updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo);
+
+                const tagPairNo = await tagMgt.defineTagPair(req.body.id, req.body.tagName, req.params.setTagTo)
+                tagMgt.updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo, tagPairNo);
+
             } else {        
                 var createTag = new Promise(async (resolve, reject) => {
                     await tags.create(req.body);
@@ -61,12 +88,13 @@ module.exports = app => {
                   });
                 createTag.then(() => {
                 // console.log(`after create --- offerId: ${req.body.id} tagName: ${req.body.tagName}`);
-                    Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(existingTag => {
+                    Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
                         // console.log(`existingTag: `);
                         // console.log(existingTag);
                         if (existingTag) {
                             // console.log(`tag ${req.body.tagName} update after create!`);
-                            updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo);
+                            const tagPairNo = await tagMgt.defineTagPair(req.body.id, req.body.tagName, req.params.setTagTo);
+                            tagMgt.updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo, tagPairNo);
                             res.send(existingTag.tagName);
                         }
                     });  
@@ -81,6 +109,7 @@ module.exports = app => {
         });
     });
     //>>
+    //==================================================================================================================
     //<<dhframes
     app.get('/api/bm/category/dhframes/:skipRange/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
@@ -90,7 +119,7 @@ module.exports = app => {
         .find()
         .skip(skipRange)
         .limit(pageLimit)
-        .select({ bmartId: false, __v: false });
+        .select({ __v: false });
         res.send(DhFrames);            
     });
     app.get('/api/bm/category/dhframes', (req, res) => {
@@ -109,10 +138,11 @@ module.exports = app => {
             .find()
             .limit(pageLimit)
             .sort({'publishDate': -1})
-            .select({ bmartId: false, __v: false });
+            .select({ __v: false });
         res.send(Dhframes);            
     });
     //>>dhframes
+    //==================================================================================================================
     //<<cranks
     app.get('/api/bm/category/cranks/:skipRange/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
@@ -223,4 +253,73 @@ module.exports = app => {
         bm_wheel.updateFavorite(req.body.id, req.body.markAs);
     })
     //>>wheels
+    //<<exported
+// const getLastPairNumber = async () => {
+    //     const GlobalSetup = await mongoose
+    //             .model('globalSetups')
+    //             .find({setupId: 1})
+    //             .select({ setupId: false });
+    //     const data = {
+    //         lastSetNumber: GlobalSetup[0].lastNumberPairOfNameSets + 1
+    //     }
+    //     await globalSetup.updateLastNumberPairOfNameSets(GlobalSetup[0]._id, data.lastSetNumber);
+    //     return data.lastSetNumber
+    // }
+    // const findExistingPair = async (offerId, tagName, setTagTo) => {
+    //     const OfferTags = await mongoose
+    //             .model('tags')
+    //             .find({offerId: offerId})
+    //             .select({ __v: false });
+    //     const Tags = await mongoose
+    //             .model('tags')
+    //             .find({tagName: tagName})
+    //             .select({ __v: false });
+
+    //     let filteredOffer = [];
+    //     let filteredTags = [];
+    //     let definedPair = 0;
+
+    //     switch(setTagTo){
+    //         case `Manufacturer`:
+    //             filteredOffer = OfferTags.filter(value => {return value.manufacturerTagPair !== undefined});
+    //             if (filteredOffer.length !== 0){
+    //                 definedPair = filteredOffer[0].manufacturerTagPair;
+    //             } else {
+    //                 filteredTags = Tags.filter(value => {return value.manufacturerTagPair !== undefined;});
+    //                 filteredTags.length !== 0 ? definedPair = filteredTags[0].manufacturerTagPair : definedPair = 0;
+    //             }
+    //             break;
+    //         case `Model`:
+    //             filteredOffer = OfferTags.filter(value => {return value.modelTagPair !== undefined});
+    //             if (filteredOffer.length !== 0){
+    //                 definedPair = filteredOffer[0].modelTagPair;
+    //             } else {
+    //                 filteredTags = Tags.filter(value => {return value.modelTagPair !== undefined;});
+    //                 filteredTags.length !== 0 ? definedPair = filteredTags[0].modelTagPair : definedPair = 0;
+    //             }
+    //             break;
+    //         case `Group`:
+    //             filteredOffer = OfferTags.filter(value => {return value.groupTagPair !== undefined});
+    //             if (filteredOffer.length !== 0){
+    //                 definedPair = filteredOffer[0].groupTagPair;
+    //             } else {
+    //                 filteredTags = Tags.filter(value => {return value.groupTagPair !== undefined;});
+    //                 filteredTags.length !== 0 ? definedPair = filteredTags[0].groupTagPair : definedPair = 0;
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    //     console.log(filteredTags);
+
+    //     return definedPair !== 0 ? definedPair : 0
+    // }
+    // const defineTagPair = async (offerId, tagName, setTagTo) => {
+    //     let tagPairNo = await findExistingPair(offerId, tagName, setTagTo);
+    //         if (tagPairNo === 0 || tagPairNo === undefined){
+    //             tagPairNo = await getLastPairNumber();
+    //         } 
+    //     return tagPairNo !== 0 ? tagPairNo : 999999
+    // }
+    //>>exported
 };

@@ -113,6 +113,16 @@ function HeaderLinks({ ...props }) {
             <Link to="/dnd" className={classes.dropdownLink}>
               Dnd test
             </Link>,
+            <Link to="/" className={classes.dropdownLink}>
+              add manually tag ITEMS
+            </Link>,
+            <Link to="/" className={classes.dropdownLink}>
+              Bike assembler + split bike to parts and show stats for parts
+            </Link>,
+            <Link to="/" className={classes.dropdownLink}>
+              Stats
+              {/* Page for each group and statistics for example - Dh frames, count all types by manufacturer and show models */}
+          </Link>,
           ]}
         />
       </ListItem>
@@ -133,13 +143,6 @@ function HeaderLinks({ ...props }) {
           
         </Tooltip>
       </ListItem>
-      <Button
-            color="rose"
-            target="_blank"
-            className={classes.navLink}
-          >
-            Bike assembler + split bike to parts and show stats for parts
-          </Button>
     </List>
   );
 }

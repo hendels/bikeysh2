@@ -28,6 +28,5 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 require('./routes/getRoutes')(app);
 
-
 app.listen(4000);
 console.log('===============end=================');

@@ -34,6 +34,13 @@ export default class DragDrop extends React.Component{
             rerenderChip: false,
         });
     }
+    handleAddPairNumber = async () => {
+        // const GlobalSetup = await mongoose
+        //         .model('globalSetups')
+        //         .find({setupId: 1})
+        //         .select({ setupId: false });
+        
+    }
     handleAddToTagSet = async (tagName, targetColumnName) => {
         // console.log(`column name react: ${targetColumnName}`);
         const addToHelpers = await axios.post(this.props.tagUrl + `update/${targetColumnName}`, {
@@ -42,6 +49,8 @@ export default class DragDrop extends React.Component{
             offerId: this.props.offerId,
             offerOrigin: this.props.offerOrigin,
             active: true,
+            category: this.props.category.toLowerCase(),
+            price: this.props.offer.price
           }).then(response => response.data).then(async result => {
               if (result){
 

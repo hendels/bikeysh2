@@ -17,11 +17,5 @@
             "name": "Launch Node API",
             "program": "${workspaceFolder}/index.js"
         },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch React",
-            "program": "${workspaceFolder}/client/src/index.js"
-        }
     ]
 }

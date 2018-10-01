@@ -33,7 +33,7 @@ const styles = {
     },
   };
 
-class SimpleDialog extends React.Component {
+class DialogDragAndDrop extends React.Component {
     constructor(props){
       super(props);
       this.state = {
@@ -50,14 +50,19 @@ class SimpleDialog extends React.Component {
     render() {
       const { classes, onClose, selectedValue, ...other } = this.props;
       //<<split data to array
-      const titleWords = this.props.offer.title.split(" ");
+      let cleanTitle = this.props.offer.title.split('.').join(``).split(',').join(``);
+      cleanTitle = cleanTitle.split('/').join(``).split(" ");
+      cleanTitle = cleanTitle.filter(function(e) {return e});
+      const titleWords = cleanTitle;
+      console.log(titleWords);
       //>>
       
       return (
         <Dialog onClose={this.handleClose} aria-labelledby="confirmation-dialog-title" maxWidth="xm"{...other}>
           <DialogTitle id="confirmation-dialog-title">Set tags for {this.props.category}</DialogTitle>
           <div className={classes.root}>
-            <Dnd offerId={this.props.offer._id} titleWords={titleWords} tagUrl={this.props.tagUrl} offerOrigin="bikemarkt"/>
+            <Dnd offerId={this.props.offer._id} titleWords={titleWords} tagUrl={this.props.tagUrl} 
+                 offerOrigin="bikemarkt" category={this.props.category} offer={this.props.offer}/>
           </div>
             <List>
               <ListItem button onClick={() => this.handleListItemClick('addAccount')}>
@@ -79,10 +84,10 @@ class SimpleDialog extends React.Component {
     }
 }
   
-SimpleDialog.propTypes = {
+DialogDragAndDrop.propTypes = {
 classes: PropTypes.object.isRequired,
 onClose: PropTypes.func,
 selectedValue: PropTypes.string,
 };
 
-export default withStyles(styles)(SimpleDialog);
+export default withStyles(styles)(DialogDragAndDrop);

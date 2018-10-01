@@ -17,6 +17,7 @@ import AddComment from '@material-ui/icons/NoteAdd';
 //custom components
 import Aux from '../../../hoc/Ax/Ax';
 import FavoriteButton from '../../FavButton/FavButtonBikeMarkt.jsx';
+import TagButton from '../../Buttons/TagButton.jsx';
 
 const styles = theme => ({
     root: {
@@ -36,27 +37,35 @@ const styles = theme => ({
   });
 
 
-// class offerBikeMarkt extends React.Component{
-//     constructor(){
-//         super();
-//     }
-//     render(){
-const offerBikeMarkt = (props) => (
-    props.offers.map(offer => {
+class offerBikeMarkt extends React.Component{
+componentDidMount(){
+    console.log(this.props);
+}
+    render(){
+// const offerBikeMarkt = (props) => (
+    var listElements = this.props.offers.map(offer => {
         let piclink = <a>No image at all.</a>;
         if(offer.pictures !== null || offer.pictures !== undefined){
             for (var x in offer.pictures){
                 piclink = <img src={offer.pictures[x]} alt={"No Image for: " + offer._id}/>
                 break;
             }
-        }
+        };
+        
         return(
             <Aux>
             {/* <div className={classes.root}> */}
                 <GridList cellHeight={200} className={classes.gridList} cols={2}>
-                {/* <GridListTile key="Subheader" cols={1} style={{ height: 'auto' }}>
-                    <ListSubheader component="div">{offer.title}</ListSubheader>
-                </GridListTile> */}
+                <GridListTile key="Subheader" cols={1} style={{ height: 'auto' }}>
+                    <ListSubheader component="div">
+                    <div>
+                        <li>czescczescczescczescczescczescczescczescczescczescczescczescczescczescczescczescczescczesc</li>
+                        <li>dwa</li>
+                        <li>3</li>
+                    </div>
+                    <b>{offer.title}</b> a tu?
+                    </ListSubheader>
+                </GridListTile>
                 <GridListTile key={offer._id}>
                 {piclink}
                 <GridListTileBar
@@ -68,22 +77,16 @@ const offerBikeMarkt = (props) => (
                     titlePosition='bottom'
                     actionIcon={
                     <Aux>
-                    {/* info opens dialog with detailed item information + photos */}
+                    {/* info open dialog with detailed item information + photos */}
                     <IconButton href={offer.productUrl} className={classes.icon} >
                         <InfoIcon />
                     </IconButton>
-                    <FavoriteButton dataKey={offer._id} favorite={offer.favorite} fetchUrl={props.fetchUrl}/>
-                    {/* <TagButton onClick={this.handleClickOpenTagDialog} category={this.props.category} offer={this.props.offer} tagUrl={this.props.tagUrl}/>         */}
+                    <TagButton onClick={this.handleClickOpenTagDialog} category={this.props.category} offer={offer} tagUrl={this.props.tagUrl}/>        
+                    <FavoriteButton dataKey={offer._id} favorite={offer.favorite} fetchUrl={this.props.fetchUrl}/>
                     {/* add to desired list -  */}
-                    {/* <IconButton style={{color: "#FD8505"}}> 
-                        <DesiredAdd />
-                    </IconButton> */}
                     {/* add to search tags  - offers would be searched by tags and future offers would be analyzed by this tags and marked*/}
 
                     {/* add comment */}
-                    {/* <IconButton style={{color: "#FD8505"}}> 
-                        <AddComment />
-                    </IconButton> */}
                     </Aux>
                     }
                 />
@@ -92,10 +95,12 @@ const offerBikeMarkt = (props) => (
             {/* </div> */}
             </Aux>
         )
-    }) 
-    // return (
-    // <div>PRZEMY</div>
-    // )}   
-)
-
+    }) ;
+    return (
+    <div>
+        {listElements}
+    </div>
+    )}   ;
+// )
+    }
 export default withStyles(styles)(offerBikeMarkt);

@@ -7,15 +7,19 @@ const TagSchema = new Schema({
     tagName: String,
     count: Number,
     active: Boolean,
+    tagPairNo: Number,
     ignoreTag: String,
     helperTag: String,
     manufacturerTag: String,
+    manufacturerTagPair: Number,
     groupTag: String,
+    groupTagPair: Number,
     modelTag: String,
+    modelTagPair: Number,
     preciseName: String,
     surePercent: Number,
     category: String,
-    price: Number,
+    price: String,
     currency: String,
     year: Number
 });
@@ -28,27 +32,35 @@ exports.create = async (data) => {
         offerId: data.offerId,
         offerOrigin: data.offerOrigin,
         tagName: data.tagName.trim(),
-        count: 1,
+        category: data.category,
+        manufacturerTag: data.manufacturerTag,
+        modelTag: data.modelTag,
+        groupTag: data.groupTag,
+        count: 0,
+        price: data.price
     })
     .save()
     .then(() => {
-        console.log('[*][*][*] creating Tag...');
+        console.log(`[*][*][*] creating Tag [${data.tagName} offer: ${data.offerId}]...`);
     });
 };
 //# update record
-exports.updateTagSet = (id, tagName, updateCase) => {
-    Tag.findById(id, (err, tag) => {
-        console.log('========================[update]===============================');
+exports.updateTagSet = async (id, tagName, updateCase, tagPairNo) => {
+    await Tag.findById(id, (err, tag) => {
+        // console.log('========================[update]===============================');
         eraseTags(tag);
         switch(updateCase){
             case `Manufacturer`:
                 tag.manufacturerTag = tagName;
+                tag.manufacturerTagPair = tagPairNo;
                 break;
             case `Group`:
                 tag.groupTag = tagName;
+                tag.groupTagPair = tagPairNo;
                 break;
             case `Model`:
                 tag.modelTag = tagName;
+                tag.modelTagPair = tagPairNo;
                 break;
             case `Ignore`:
                 tag.ignoreTag = tagName;
@@ -64,65 +76,25 @@ exports.updateTagSet = (id, tagName, updateCase) => {
         });
     });
 };
+//# job functions
+
 //# update colums
-exports.updateManufacturer = (id, tagName) => {
-    Tag.findById(id, (err, tag) => {
-        console.log('========================[update]===============================');
-        eraseTags(tag);
-        tag.manufacturerTag = tagName;
-        tag.save().then(() => {
-            console.log('[][][] tag manufacturer update..');
-        });
-    });    
-};
-exports.updateGroup = (id, tagName) => {
-    Tag.findById(id, (err, tag) => {
-        console.log('========================[update]===============================');
-        eraseTags(tag);
-        tag.groupTag = tagName;
-        tag.save().then(() => {
-            console.log('[][][] tag group update..');
-        });
-    });    
-};
-exports.updateModel = (id, tagName) => {
-    Tag.findById(id, (err, tag) => {
-        console.log('========================[update]===============================');
-        eraseTags(tag);
-        tag.modelTag = tagName;
 
-        tag.save().then(() => {
-            console.log('[][][] tag model update..');
-        });
-    });    
-};
-exports.updateIgnore = (id, tagName) => {
-    Tag.findById(id, (err, tag) => {
-        console.log('========================[update]===============================');
-        eraseTags(tag);
-        tag.ignoreTag = tagName;
-
-        tag.save().then(() => {
-            console.log('[][][] tag ignore update..');
-        });
-    });    
-};
-exports.updateHelpers = (id, tagName) => {
-    Tag.findById(id, (err, tag) => {
-        console.log('========================[update]===============================');
-        eraseTags(tag);
-        tag.helperTag = tagName;
-
-        tag.save().then(() => {
-            console.log('[][][] tag helper update..');
-        });
-    });    
-};
+//# functions
 const eraseTags = (obj) => {
 
-    if (obj.modelTag !== ``) obj.modelTag = ``;
-    if (obj.groupTag !== ``) obj.groupTag = ``;
-    if (obj.manufacturerTag !== ``) obj.manufacturerTag = ``;
+    if (obj.manufacturerTag !== ``) {
+        obj.manufacturerTag = ``;
+        obj.manufacturerTagPair = 0;
+    }
+    if (obj.modelTag !== ``){
+        obj.modelTag = ``;
+        obj.modelTagPair = 0;
+    }
+    if (obj.groupTag !== ``) {
+        obj.groupTag = ``;
+        obj.groupTagPair = 0;
+    }
     if (obj.ignoreTag !== ``) obj.ignoreTag = ``;
     if (obj.helperTag !== ``) obj.helperTag = ``;
 

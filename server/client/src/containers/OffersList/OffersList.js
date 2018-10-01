@@ -171,6 +171,8 @@ class OffersList extends Component {
                             <OfferBikeMarkt
                             offers={this.state.hits}
                             fetchUrl={this.state.fetchUrl}
+                            tagUrl={this.props.tagUrl}
+                            category={this.props.category}
                             />
                         </div>
                         {/* </GridList> */}

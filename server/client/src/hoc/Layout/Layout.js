@@ -60,31 +60,41 @@ class Layout extends Component {
                 <Route exact path="/category/cranks" render={(props) => 
                     <OffersList 
                         pageLimit={10} 
-                        fetchUrl={fetchUrls.cranks}         
+                        fetchUrl={fetchUrls.cranks}    
+                        tagUrl={fetchUrls.tags}    
+                        category={`CRANKS`} 
                     />}
                 />
                 <Route exact path="/category/hubs" render={(props) => 
                     <OffersList 
                         pageLimit={10} 
-                        fetchUrl={fetchUrls.hubs}         
+                        fetchUrl={fetchUrls.hubs}   
+                        tagUrl={fetchUrls.tags}    
+                        category={`HUBS`}       
                     />}
                 />
                 <Route exact path="/category/wheels" render={(props) => 
                     <OffersList 
                         pageLimit={10} 
-                        fetchUrl={fetchUrls.wheels}         
+                        fetchUrl={fetchUrls.wheels}     
+                        tagUrl={fetchUrls.tags}    
+                        category={`WHEELS`}     
                     />}
                 />
                 <Route exact path="/category/dhframes" render={(props) => 
                     <OffersList 
                         pageLimit={10} 
-                        fetchUrl={fetchUrls.dhFrames}         
+                        fetchUrl={fetchUrls.dhFrames}    
+                        tagUrl={fetchUrls.tags}    
+                        category={`DHFRAMES`}      
                     />}
                 />
                 <Route exact path="/category/enduroframes" render={(props) => 
                     <OffersList 
                         pageLimit={10} 
-                        fetchUrl={fetchUrls.enduroFrames}         
+                        fetchUrl={fetchUrls.enduroFrames}      
+                        tagUrl={fetchUrls.tags}    
+                        category={`ENDUROFRAMES`}    
                     />}
                 />
                 <Route exact path="/dnd" render={(props) => 

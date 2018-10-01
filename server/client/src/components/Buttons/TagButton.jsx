@@ -42,9 +42,10 @@ class TagBadge extends React.Component {
     });
   };
   countAddedTags = async () => {
+    console.log(`tags count / offer id: ${this.props.offer._id} tag url: ${this.props.tagUrl}`);
     await axios.get(this.props.tagUrl + 'tagCount/' + this.props.offer._id).then(response  => response.data).then(result => {
+      console.log(`tags count: ${result[Object.keys(this.state.tagCount)[0]]} for offer id: ${this.props.offer._id}`);
       this.setState({tagCount: result}, () => {});
-      console.log('tags count  = ' + result[Object.keys(this.state.tagCount)[0]]);
   });
   }
   handleCloseTagDialog = async (value) => {
