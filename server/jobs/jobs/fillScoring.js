@@ -6,7 +6,7 @@ const _ = require('underscore');
 
 return new Promise(async (resolve, reject) => {
     let counter = 0;
-    console.log(`starting job === fill tags [job no. ${counter}]`);
+    console.log(`starting job === create scoring [beta] [job no. ${counter}]`);
     let modelList = [`cranks`, `dhframes`, `enduroframes`, `wheels`, `hubs`];
     for (var iModel = 0; iModel < modelList.length; iModel++){
         let currentCategory = modelList[iModel];
@@ -55,14 +55,14 @@ return new Promise(async (resolve, reject) => {
                             tagCounter.groupCount += 1;
                             arrayGroup.push(specificOffer.groupTag);
                         }
-                        offerInfo.category = specificOffer.offerOrigin;
-                        offerInfo.origin = specificOffer.category;
+                        offerInfo.category = specificOffer.category;
+                        offerInfo.origin = specificOffer.offerOrigin;
                         offerInfo.price = specificOffer.price;
                     })
                     
                     if (tagCounter.manufacturerCount !== 0 && tagCounter.modelCount !== 0){
                         //collide together tags => check for duplicate tags => erase duplicates 
-                        function defineArray() {
+                        function defineArray(offerDetails) {
                             return new Promise(async resolve => {
                                 var uniqManufacturer = [...new Set(arrayManufacturer)];
                                 arrayManufacturer = [];
@@ -121,15 +121,15 @@ return new Promise(async (resolve, reject) => {
                                     });
 
                                     Promise.all(defineModels).then(async () => {
-                                        console.log(arrayManufacturer);
-                                        console.log(arrayModel);
+                                        //console.log(arrayManufacturer);
+                                        //console.log(arrayModel);
                                         // sprawdz czy pairNumber jest równy we wszystkich elementach, jezeli nie to olej
                                         // arrayManufacturer.map(item => {
                                             var countPairManufacturer = {};
                                             var countPairModel = {};
                                             arrayManufacturer.forEach((x) => {countPairManufacturer[x.pairNum] = (countPairManufacturer[x.pairNum] || 0)+1;});
                                             arrayModel.forEach((x) => {countPairModel[x.pairNum] = (countPairModel[x.pairNum] || 0)+1;});
-                                            console.log(countPairManufacturer);
+                                            //console.log(countPairManufacturer);
                                             let allowInsert = false;
                                             switch (true){
                                                 case Object.keys(countPairManufacturer).length > 1 || 
@@ -140,7 +140,7 @@ return new Promise(async (resolve, reject) => {
                                                      Object.keys(countPairModel).length === 0: 
                                                     //fatal error
                                                     break;
-                                                case Object.keys(countPairManufacturer).length === 1 || 
+                                                case Object.keys(countPairManufacturer).length === 1 && 
                                                      Object.keys(countPairModel).length === 1: 
                                                     //dodaj
                                                     allowInsert = true;
@@ -154,15 +154,84 @@ return new Promise(async (resolve, reject) => {
                                                 .find({offerId: offer.id})
                                                 .select();
                                                 if (Scoring.length === 0){
+                                                    
+                                                    const TagPairManufacturer = await mongoose
+                                                        .model('tags')
+                                                        .find({manufacturerTagPair: arrayManufacturer[0].pairNum})
+                                                        .select();
+                                                    countPairManufacturer = {};
+                                                    TagPairManufacturer.forEach((x) => {
+                                                        countPairManufacturer[x.manufacturerTag] = (countPairManufacturer[x.manufacturerTag] || 0)+1;
+                                                    });
+                                                    let arrValues = Object.values(countPairManufacturer);
+                                                    let arrKeys = Object.keys(countPairManufacturer);
+                                                    let maxValue = Math.max(...arrValues);
+                                                        
+                                                    let sortedObj = _.sortBy(TagPairManufacturer, (obj)=> {return obj.manufacturerTagPair});
+                                                    let uniqueObj = _.uniq(sortedObj, (item, key, name) => {return item.manufacturerTag;});
+                                                    Array.prototype.forEach.call(uniqueObj, function(child) {
+                                                        //countPairManufacturer
+                                                        for (var z = 0 ; z < arrKeys.length; z++){
+                                                            if(arrKeys[z] === child.manufacturerTag){
+                                                                objCount = {tagCounter: arrValues[z]};
+                                                                Object.assign(child, objCount);
+                                                            }
+                                                        }
+                                                    });
+
+                                                    // let filteredArray = uniqueObj.filter(value => {return value.tagCounter >= maxValue * 0.8});
+                                                    // let ManufacturerName = filteredArray.tagName.join(" ");
+                                                    let ManufacturerName = uniqueObj.map(e => {
+                                                        if(e.tagCounter >= maxValue * 0.8 ) //<< 20% of usage spread is acceptable
+                                                        {return e.tagName}
+                                                    }).join(" ");
+
+                                                    const TagPairModel = await mongoose
+                                                        .model('tags')
+                                                        .find({modelTagPair: arrayModel[0].pairNum})
+                                                        .select();
+                                                    countPairModel = {};
+                                                    TagPairModel.forEach((x) => {
+                                                        countPairModel[x.modelTag] = (countPairModel[x.modelTag] || 0)+1;
+                                                    });
+                                                    arrValues = Object.values(countPairModel);
+                                                    arrKeys = Object.keys(countPairModel);
+                                                    maxValue = Math.max(...arrValues);
+
+                                                    sortedObj = _.sortBy(TagPairModel, (obj)=> {return obj.modelTagPair});
+                                                    uniqueObj = _.uniq(sortedObj, (item, key, name) => {return item.modelTag;})
+
+                                                    Array.prototype.forEach.call(uniqueObj, function(child) {
+                                                        //countPairManufacturer
+                                                        for (var z = 0 ; z < arrKeys.length; z++){
+                                                            if(arrKeys[z] === child.modelTag){
+                                                                objCount = {tagCounter: arrValues[z]};
+                                                                Object.assign(child, objCount);
+                                                            }
+                                                        }
+                                                    });
+                                                    // let ModelName = uniqueObj.map(e => e.tagName).join(" ");
+                                                    let ModelName = uniqueObj.map(e => {
+                                                        if(e.tagCounter >= maxValue * 0.8 ) //<< 20% of usage spread is acceptable
+                                                        {return e.tagName}
+                                                    }).join(" ");
+                                                    // let ModelName = uniqueObj.filter(value => {return value.tagCounter >= maxValue * 0.8})
+                                                    // .join(" ");
+                                                    // # tweak price
+                                                    var amountRegex = /^[0-9]{1,2}([,.][0-9]{1,2})?/;
+                                                    let getAmount = parseFloat(parseFloat(amountRegex.exec(offer.price)).toFixed(2));
+                                                    console.log(offer.price);
+                                                    //
                                                     scoringObj = {
                                                         offerId: offer.id,
                                                         offerOrigin: offerInfo.origin,
-                                                        fullName: `to define`,
-                                                        category: offerInfo.category,
+                                                        fullName: `${ManufacturerName} - ${ModelName}`,
+                                                        category: offerDetails.category,
                                                         manufacturerSetId: arrayManufacturer[0].pairNum,
                                                         modelSetId: arrayModel[0].pairNum,
-                                                        price: offerInfo.price,
+                                                        price: getAmount,
                                                     }
+
                                                     scoring.create(scoringObj);
                                                 } else{
                                                     console.log(`scoring exist for offer ${offer.id}`)
@@ -195,7 +264,7 @@ return new Promise(async (resolve, reject) => {
                                 resolve()                                 
                             });
                         }
-                        await defineArray();
+                        await defineArray(offerInfo);
                         // console.log(`wait for it!`);
                     }
                 }           

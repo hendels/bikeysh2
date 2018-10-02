@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
@@ -63,8 +65,13 @@ class BestOffer extends React.Component {
             offerCount: this.props.offerCount,
             expanded: false,
             grade: 'S',
-            openTagDialog: false
+            openTagDialog: false,
+            trueName: ``,
         }
+    }
+    componentWillMount(){
+        this.getDeductedName();
+        console.log(`mounting best offer...`);
     }
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
@@ -80,7 +87,14 @@ class BestOffer extends React.Component {
             openTagDialog: false 
         });
     };
-    
+    getDeductedName = async () => {
+        await axios.get('/api/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
+            this.setState({trueName: result.scoring[0].fullName}, () => {});
+            // console.log(`scoring name: ${result[Object.keys(this.state.trueName)[0]]} for offer id: ${this.props.offer._id}`);
+            // console.log(result[Object.keys(this.state.trueName)[0]]);
+            console.log(result.scoring[0].fullName);
+      });
+    }
     render(){
         const { classes } = this.props;
         let piclink = <a>No image at all.</a>;
@@ -117,7 +131,7 @@ class BestOffer extends React.Component {
                 />
                 <CardContent>
                 <Typography component="h3">
-                    {this.props.offer.title}
+                    {this.state.trueName}
                     <p>  &nbsp;</p>
                 </Typography>
                 </CardContent>

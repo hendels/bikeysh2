@@ -19,8 +19,8 @@ class FavoriteButtonBikeMarkt extends React.Component {
         this.handleAddToFavorite = this.handleAddToFavorite.bind(this);
     }
     handleAddToFavorite = async (event) => {
-        console.log(this.props.dataKey);
-        console.log(this.props.fetchUrl);
+        //console.log(this.props.dataKey);
+        //console.log(this.props.fetchUrl);
         const favorite = await axios.post(this.props.fetchUrl + 'fav', {
             userId: 'przemy',
             id: this.props.dataKey,

@@ -31,7 +31,7 @@ const styles = {
       backgroundColor: blue[100],
       color: blue[600],
     },
-  };
+};
 
 class DialogDragAndDrop extends React.Component {
     constructor(props){
@@ -54,7 +54,7 @@ class DialogDragAndDrop extends React.Component {
       cleanTitle = cleanTitle.split('/').join(``).split(" ");
       cleanTitle = cleanTitle.filter(function(e) {return e});
       const titleWords = cleanTitle;
-      console.log(titleWords);
+      //console.log(titleWords);
       //>>
       
       return (

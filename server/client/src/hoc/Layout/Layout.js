@@ -29,6 +29,7 @@ class Layout extends Component {
             dhFrames: '/api/bm/category/dhframes/',
             enduroFrames: 'api/bm/category/enduroframes/',
             cranks: '/api/bm/category/cranks/',
+            bestoffer: '/api/bm/bestoffer/',
             tags: '/api/tags/'
         }
         return (

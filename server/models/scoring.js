@@ -11,7 +11,7 @@ const ScoringSchema = new Schema({
     groupSetId: Number,
     surePercent: Number,
     category: String,
-    price: String,
+    price: Number,
     currency: String,
     year: Number
 });
@@ -23,7 +23,7 @@ exports.create = async (data) => {
     await new Scoring({
         offerId: data.offerId,
         offerOrigin: data.offerOrigin,
-        fullName: "full name dummy",
+        fullName: data.fullName,
         category: data.category,
         manufacturerSetId: data.manufacturerSetId,
         modelSetId: data.modelSetId,

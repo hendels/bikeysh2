@@ -61,23 +61,15 @@ class HomePage extends React.Component {
         }
     }
     componentWillMount(){
-        this.fetchData(this.props.fetchUrls.cranks + 'bestOffer', 3, 'cranks');
-        this.fetchData(this.props.fetchUrls.hubs + 'bestOffer', 3, 'hubs');
-        this.fetchData(this.props.fetchUrls.dhFrames + 'bestOffer', 3, 'dhframes');
-
-    }
-    componentDidMount() {
-
-        
-        // axios.get(this.state.fetchUrl).then(response  => response.data).then(result => {
-        //     this.setState({totalResult: result});
-        //     console.log('array count '+ this.state.fetchUrl + ' = ' + result[Object.keys(this.state.totalResult)[0]]);
-        // });
-
+        this.fetchData(this.props.fetchUrls.bestoffer, 3, 'cranks');
+        this.fetchData(this.props.fetchUrls.bestoffer, 3, 'hubs');
+        this.fetchData(this.props.fetchUrls.bestoffer, 3, 'dhframes');
     }
     fetchData = async (fetchUrl, pageLimit, type) => {
         this.setState({loading: true});
-        await axios.get(fetchUrl +  '/' + pageLimit).then(
+        const url = `${fetchUrl}${type}/${pageLimit}`;
+        console.log(url);
+        const elo = await axios.get(url).then(
             response => response.data
         ).then(result => {
             this.onSetResult(result, type)

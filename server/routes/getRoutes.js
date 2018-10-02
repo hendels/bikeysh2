@@ -9,7 +9,9 @@ const bm_enduroframe = require('../models/bmart_enduroframe');
 const bm_wheel = require('../models/bmart_wheel');
 const tags = require('../models/tags');
 const globalSetup = require('../models/global_setup');
+const scoring = require('../models/scoring');
 const Tags = mongoose.model('tags');
+// const Scoring = mongoose.model('scoring');
 //management
 const tagMgt = require(`../db_management/tagManagement`);
 //jobs
@@ -68,10 +70,6 @@ module.exports = app => {
         })
 
     });
-    const updateModel = (model, existingTag, tagName, setTagTo, tagPairNo) => {
-        model.updateTagSet(existingTag, tagName, setTagTo, tagPairNo);
-    }
-    
     app.post('/api/tags/update/:setTagTo', async (req, res) => {
         console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName + ' - setTagTo: ' + req.params.setTagTo);
         Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
@@ -108,6 +106,17 @@ module.exports = app => {
             res.send({ tags });
         });
     });
+    //>>
+    //==================================================================================================================
+    //<<general
+    app.get('/api/scoring/:offerId', async (req, res) => {
+        //console.log('searching for tag count for...' + req.params.offerId);
+        await mongoose.model('scoring').find({offerId: req.params.offerId}, (err, scoring) => {
+            res.send({ scoring });
+            console.log('got scored offer...')
+        });
+    });
+
     //>>
     //==================================================================================================================
     //<<dhframes
@@ -165,15 +174,21 @@ module.exports = app => {
         console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
         bm_crank.updateFavorite(req.body.id, req.body.markAs);
     })
-    app.get('/api/bm/category/cranks/bestOffer/:pageLimit', async (req, res) => {
+    app.get('/api/bm/bestoffer/:category/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
-        const Cranks = await mongoose
-            .model('cranks')
-            .find()
+        const Scoring = await mongoose
+            .model('scoring')
+            .find({category: req.params.category})
+            // .limit(pageLimit)
+            .sort({'price': -1})
+            .select({ __v: false });
+        var obj_ids = Scoring.map(id => {return id.offerId;});
+        const Model = await mongoose
+            .model(req.params.category)
+            .find({_id: {$in: obj_ids}})
             .limit(pageLimit)
-            .sort({'publishDate': -1})
-            .select({ bmartId: false, __v: false });
-        res.send(Cranks);            
+            .select({ __v: false }); 
+        res.send(Model);       
     });
     //>>cranks
     //<<enduroframes
@@ -253,73 +268,4 @@ module.exports = app => {
         bm_wheel.updateFavorite(req.body.id, req.body.markAs);
     })
     //>>wheels
-    //<<exported
-// const getLastPairNumber = async () => {
-    //     const GlobalSetup = await mongoose
-    //             .model('globalSetups')
-    //             .find({setupId: 1})
-    //             .select({ setupId: false });
-    //     const data = {
-    //         lastSetNumber: GlobalSetup[0].lastNumberPairOfNameSets + 1
-    //     }
-    //     await globalSetup.updateLastNumberPairOfNameSets(GlobalSetup[0]._id, data.lastSetNumber);
-    //     return data.lastSetNumber
-    // }
-    // const findExistingPair = async (offerId, tagName, setTagTo) => {
-    //     const OfferTags = await mongoose
-    //             .model('tags')
-    //             .find({offerId: offerId})
-    //             .select({ __v: false });
-    //     const Tags = await mongoose
-    //             .model('tags')
-    //             .find({tagName: tagName})
-    //             .select({ __v: false });
-
-    //     let filteredOffer = [];
-    //     let filteredTags = [];
-    //     let definedPair = 0;
-
-    //     switch(setTagTo){
-    //         case `Manufacturer`:
-    //             filteredOffer = OfferTags.filter(value => {return value.manufacturerTagPair !== undefined});
-    //             if (filteredOffer.length !== 0){
-    //                 definedPair = filteredOffer[0].manufacturerTagPair;
-    //             } else {
-    //                 filteredTags = Tags.filter(value => {return value.manufacturerTagPair !== undefined;});
-    //                 filteredTags.length !== 0 ? definedPair = filteredTags[0].manufacturerTagPair : definedPair = 0;
-    //             }
-    //             break;
-    //         case `Model`:
-    //             filteredOffer = OfferTags.filter(value => {return value.modelTagPair !== undefined});
-    //             if (filteredOffer.length !== 0){
-    //                 definedPair = filteredOffer[0].modelTagPair;
-    //             } else {
-    //                 filteredTags = Tags.filter(value => {return value.modelTagPair !== undefined;});
-    //                 filteredTags.length !== 0 ? definedPair = filteredTags[0].modelTagPair : definedPair = 0;
-    //             }
-    //             break;
-    //         case `Group`:
-    //             filteredOffer = OfferTags.filter(value => {return value.groupTagPair !== undefined});
-    //             if (filteredOffer.length !== 0){
-    //                 definedPair = filteredOffer[0].groupTagPair;
-    //             } else {
-    //                 filteredTags = Tags.filter(value => {return value.groupTagPair !== undefined;});
-    //                 filteredTags.length !== 0 ? definedPair = filteredTags[0].groupTagPair : definedPair = 0;
-    //             }
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    //     console.log(filteredTags);
-
-    //     return definedPair !== 0 ? definedPair : 0
-    // }
-    // const defineTagPair = async (offerId, tagName, setTagTo) => {
-    //     let tagPairNo = await findExistingPair(offerId, tagName, setTagTo);
-    //         if (tagPairNo === 0 || tagPairNo === undefined){
-    //             tagPairNo = await getLastPairNumber();
-    //         } 
-    //     return tagPairNo !== 0 ? tagPairNo : 999999
-    // }
-    //>>exported
 };
