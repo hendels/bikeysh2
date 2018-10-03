@@ -217,11 +217,26 @@ return new Promise(async (resolve, reject) => {
                                                     }).join(" ");
                                                     // let ModelName = uniqueObj.filter(value => {return value.tagCounter >= maxValue * 0.8})
                                                     // .join(" ");
+                                                    // # define year from offer title => if not found from description
+                                                    let search = offer.title.split(/[^\d]/).filter(n => {if((n>=2000)&&(n<=2030)) return n});
+                                                    let yearTitle = search.length > 0 ? search[0]: 0;
+                                                    let yearDescription = 0;
+                                                    if (search.length === 0){
+                                                        //# search in description
+                                                        search = offer.description.split(/[^\d]/).filter(n => {if((n>=2000)&&(n<=2030)) return n});
+                                                        yearDescription = search.length > 0 ? search[0]: 0;
+                                                    }
+                                                    // # define currency
+                                                    let getCurrency = offer.price.search('€') > -1 ? 'EUR' : 'none';
                                                     // # tweak price
-                                                    var amountRegex = /^[0-9]{1,2}([,.][0-9]{1,2})?/;
-                                                    let getAmount = parseFloat(parseFloat(amountRegex.exec(offer.price)).toFixed(2));
-                                                    console.log(offer.price);
-                                                    //
+                                                    let priceString = offer.price;
+                                                    priceString = priceString.split('€').join(``);
+                                                    var amountRegex = /(^([1-9]+?\.?\,*[0-9]+))/;
+                                                    var execRegex = amountRegex.exec(priceString);
+                                                    var cut = execRegex[0].split(`,`).join(``).split(`.`).join(``);
+                                                    let getAmount = parseInt(cut);
+                                                    console.log(`orginal price ${offer.price} --- converted to: ${getAmount}`);
+                                                    // 
                                                     scoringObj = {
                                                         offerId: offer.id,
                                                         offerOrigin: offerInfo.origin,
@@ -230,6 +245,9 @@ return new Promise(async (resolve, reject) => {
                                                         manufacturerSetId: arrayManufacturer[0].pairNum,
                                                         modelSetId: arrayModel[0].pairNum,
                                                         price: getAmount,
+                                                        currency: getCurrency,
+                                                        yearTitle: yearTitle,
+                                                        yearDescription: yearDescription                                        
                                                     }
 
                                                     scoring.create(scoringObj);

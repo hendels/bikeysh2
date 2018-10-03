@@ -66,7 +66,7 @@ class BestOffer extends React.Component {
             expanded: false,
             grade: 'S',
             openTagDialog: false,
-            trueName: ``,
+            scoringData: {trueName: '', price: 0, currency: "currency"},
         }
     }
     componentWillMount(){
@@ -89,10 +89,15 @@ class BestOffer extends React.Component {
     };
     getDeductedName = async () => {
         await axios.get('/api/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
-            this.setState({trueName: result.scoring[0].fullName}, () => {});
+            var scoringData = {
+                trueName: result.scoring[0].fullName,
+                price: result.scoring[0].price,
+                currency: result.scoring[0].currency
+            }
+            this.setState({scoringData: scoringData}, () => {});
             // console.log(`scoring name: ${result[Object.keys(this.state.trueName)[0]]} for offer id: ${this.props.offer._id}`);
             // console.log(result[Object.keys(this.state.trueName)[0]]);
-            console.log(result.scoring[0].fullName);
+            console.log(`scoring - name: ${result.scoring[0].fullName} price: ${result.scoring[0].price}`);
       });
     }
     render(){
@@ -120,7 +125,7 @@ class BestOffer extends React.Component {
                     <MoreVertIcon />
                     </IconButton>
                 }
-                title={this.props.offer.price + " to PLN"}
+                title={`${this.state.scoringData.price} ${this.state.scoringData.currency}`}
                 subheader={this.props.offer.publishDate}
                 
                 />
@@ -131,7 +136,7 @@ class BestOffer extends React.Component {
                 />
                 <CardContent>
                 <Typography component="h3">
-                    {this.state.trueName}
+                    {this.state.scoringData.trueName}
                     <p>  &nbsp;</p>
                 </Typography>
                 </CardContent>

@@ -174,13 +174,17 @@ module.exports = app => {
         console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
         bm_crank.updateFavorite(req.body.id, req.body.markAs);
     })
+    //>>cranks
+    //==================================================================================================================
+    //<<bestoffer
     app.get('/api/bm/bestoffer/:category/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
         const Scoring = await mongoose
             .model('scoring')
             .find({category: req.params.category})
             // .limit(pageLimit)
-            .sort({'price': -1})
+            .sort({'price': 1})
+            .limit(pageLimit)
             .select({ __v: false });
         var obj_ids = Scoring.map(id => {return id.offerId;});
         const Model = await mongoose
@@ -190,7 +194,8 @@ module.exports = app => {
             .select({ __v: false }); 
         res.send(Model);       
     });
-    //>>cranks
+    //>>bestoffer
+    //==================================================================================================================
     //<<enduroframes
     app.get('/api/bm/category/enduroframes/:skipRange/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
@@ -213,6 +218,7 @@ module.exports = app => {
         bm_enduroframe.updateFavorite(req.body.id, req.body.markAs);
     })
     //>>enduroframes
+    //==================================================================================================================
     //<<hubs
     app.get('/api/bm/category/hubs/:skipRange/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
@@ -245,6 +251,7 @@ module.exports = app => {
         res.send(Hubs);            
     });
     //>>hubs
+    //==================================================================================================================
     //<<wheels
     app.get('/api/bm/category/wheels/:skipRange/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);

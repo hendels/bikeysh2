@@ -13,7 +13,8 @@ const ScoringSchema = new Schema({
     category: String,
     price: Number,
     currency: String,
-    year: Number
+    yearTitle: Number,
+    yearDescription: Number
 });
 //#create mongo model (table) - two arguments [name, schema]
 mongoose.model('scoring', ScoringSchema);
@@ -29,10 +30,13 @@ exports.create = async (data) => {
         modelSetId: data.modelSetId,
         groupSetId: 0,
         price: data.price,
+        currency: data.currency,
+        yearTitle: data.yearTitle,
+        yearDescription: data.yearDescription
     })
     .save()
     .then(() => {
-        console.log(`[*][*][*] creating Scoring [Manufacturer pair : ${data.manufacturerSetId} / Model pair : ${data.modelSetId} 
-            offer: ${data.offerId}]...`);
+        // console.log(`[*][*][*] creating Scoring [Manufacturer pair : ${data.manufacturerSetId} / Model pair : ${data.modelSetId} 
+        //     offer: ${data.offerId}]...`);
     });
 };
