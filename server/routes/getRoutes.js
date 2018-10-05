@@ -36,6 +36,10 @@ module.exports = app => {
         require('../jobs/jobs/fillScoring');
         res.send({ server: 'filling scoring' });
     });
+    app.get('/applyScores', (req, res) => {
+        require('../jobs/jobs/addScores');
+        res.send({ server: 'apply scores' });
+    });
     app.get('/test', (req, res) => {
         findExistingPair('Race');
     });
@@ -183,7 +187,7 @@ module.exports = app => {
             .model('scoring')
             .find({category: req.params.category})
             // .limit(pageLimit)
-            .sort({'price': 1})
+            .sort({'scores': -1})
             .limit(pageLimit)
             .select({ __v: false });
         var obj_ids = Scoring.map(id => {return id.offerId;});

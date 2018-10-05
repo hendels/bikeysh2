@@ -61,9 +61,9 @@ class HomePage extends React.Component {
         }
     }
     componentWillMount(){
-        this.fetchData(this.props.fetchUrls.bestoffer, 3, 'cranks');
-        this.fetchData(this.props.fetchUrls.bestoffer, 3, 'hubs');
-        this.fetchData(this.props.fetchUrls.bestoffer, 3, 'dhframes');
+        this.fetchData(this.props.fetchUrls.bestoffer, 8, 'cranks');
+        this.fetchData(this.props.fetchUrls.bestoffer, 8, 'hubs');
+        this.fetchData(this.props.fetchUrls.bestoffer, 8, 'dhframes');
     }
     fetchData = async (fetchUrl, pageLimit, type) => {
         this.setState({loading: true});

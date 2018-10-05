@@ -66,7 +66,7 @@ class BestOffer extends React.Component {
             expanded: false,
             grade: 'S',
             openTagDialog: false,
-            scoringData: {trueName: '', price: 0, currency: "currency"},
+            scoringData: {trueName: '', price: 0, currency: "currency", median: 0, countTotal: 0, scores: 0},
         }
     }
     componentWillMount(){
@@ -92,7 +92,10 @@ class BestOffer extends React.Component {
             var scoringData = {
                 trueName: result.scoring[0].fullName,
                 price: result.scoring[0].price,
-                currency: result.scoring[0].currency
+                currency: result.scoring[0].currency,
+                median: result.scoring[0].median,
+                countTotal: result.scoring[0].countTotal,
+                scores: result.scoring[0].scores
             }
             this.setState({scoringData: scoringData}, () => {});
             // console.log(`scoring name: ${result[Object.keys(this.state.trueName)[0]]} for offer id: ${this.props.offer._id}`);
@@ -163,10 +166,13 @@ class BestOffer extends React.Component {
                 <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph variant="body2">
-                    Method:
+                    Scores: {this.state.scoringData.scores}
                     </Typography>
-                    <Typography paragraph>
-                    Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
+                    <Typography paragraph variant="body2">
+                    Median: {this.state.scoringData.median}
+                    </Typography>
+                    <Typography paragraph variant="body2">
+                    Scores based on {this.state.scoringData.countTotal} offers.
                     </Typography>
                     <Typography paragraph>
                     Based on: 453 similar offers with tag ratio: 

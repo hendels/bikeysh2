@@ -5,6 +5,8 @@ const ScoringSchema = new Schema({
     offerId: String,
     offerOrigin: String,
     fullName: String,
+    scores: Number,
+    grade: String,
     category: String,
     manufacturerSetId: Number,
     modelSetId: Number,
@@ -14,7 +16,9 @@ const ScoringSchema = new Schema({
     price: Number,
     currency: String,
     yearTitle: Number,
-    yearDescription: Number
+    yearDescription: Number,
+    countTotal: Number,
+    median: Number
 });
 //#create mongo model (table) - two arguments [name, schema]
 mongoose.model('scoring', ScoringSchema);
@@ -39,4 +43,14 @@ exports.create = async (data) => {
         // console.log(`[*][*][*] creating Scoring [Manufacturer pair : ${data.manufacturerSetId} / Model pair : ${data.modelSetId} 
         //     offer: ${data.offerId}]...`);
     });
+};
+exports.updateScores = async (id, data) => {
+    await Scoring.findById(id, (err, scoring) => {
+        scoring.scores = data.scores;
+        scoring.countTotal = data.countTotal;
+        scoring.median = data.median;
+        scoring.save().then(() => {
+            console.log(`[][][] update scores for Offer... ${id} scores: ${scores}`);
+        });
+    });    
 };
