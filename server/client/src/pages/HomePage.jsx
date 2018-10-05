@@ -18,6 +18,7 @@ import Spinner from '../components/UI/Spinner.jsx';
 const styles = theme => ({
     root: {
       flexGrow: 1,
+      background: '#344054',
     },
     paper: {
       height: 140,
@@ -111,7 +112,7 @@ class HomePage extends React.Component {
         return(
             <div className={classNames(classes.main, classes.mainRaised)}>
                 <div className={classes.container}>
-                <Paper className={classes.root} elevation={1}>
+                <Paper className={classes.root} elevation={10}>
                     <p>  &nbsp;</p>
                     <Typography variant="headline" component="h2">
                     Some Chart?
@@ -119,7 +120,7 @@ class HomePage extends React.Component {
                     <p>  &nbsp;</p>
                     <p>  &nbsp;</p>
                     <Typography variant="headline" component="h3">
-                    Your best offers for today:
+                    Your best offers for today / best offers this week so far:
                     </Typography>
                     <p>  &nbsp;</p>
                     {/* <Typography component="p">

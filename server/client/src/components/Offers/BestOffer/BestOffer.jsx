@@ -14,7 +14,9 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
+//icons
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import InfoIcon from '@material-ui/icons/Info';
 import Delete from '@material-ui/icons/DeleteSweep';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -30,6 +32,7 @@ const styles = theme => ({
       minWidth: 400,
       maxWidth: 400,
       minHeight: 400,
+      background: '#677784',
     //   maxHeight: 500
     },
     media: {
@@ -66,11 +69,15 @@ class BestOffer extends React.Component {
             expanded: false,
             grade: 'S',
             openTagDialog: false,
-            scoringData: {trueName: '', price: 0, currency: "currency", median: 0, countTotal: 0, scores: 0},
+            scoringData: {
+                trueName: '', price: 0, currency: "...Loading", median: 0, 
+                countTotal: 0, scores: 0, itemState: "not defined",
+                yearTitle: 0, yearDescription: 0
+            }
         }
     }
     componentWillMount(){
-        this.getDeductedName();
+        this.getScoringData();
         console.log(`mounting best offer...`);
     }
     handleExpandClick = () => {
@@ -87,7 +94,7 @@ class BestOffer extends React.Component {
             openTagDialog: false 
         });
     };
-    getDeductedName = async () => {
+    getScoringData = async () => {
         await axios.get('/api/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
             var scoringData = {
                 trueName: result.scoring[0].fullName,
@@ -95,12 +102,15 @@ class BestOffer extends React.Component {
                 currency: result.scoring[0].currency,
                 median: result.scoring[0].median,
                 countTotal: result.scoring[0].countTotal,
-                scores: result.scoring[0].scores
+                scores: result.scoring[0].scores,
+                itemState: result.scoring[0].itemState,
+                yearTitle: result.scoring[0].yearTitle,
+                yearDescription: result.scoring[0].yearDescription
             }
             this.setState({scoringData: scoringData}, () => {});
             // console.log(`scoring name: ${result[Object.keys(this.state.trueName)[0]]} for offer id: ${this.props.offer._id}`);
             // console.log(result[Object.keys(this.state.trueName)[0]]);
-            console.log(`scoring - name: ${result.scoring[0].fullName} price: ${result.scoring[0].price}`);
+            // console.log(`scoring - name: ${result.scoring[0].fullName} price: ${result.scoring[0].price}`);
       });
     }
     render(){
@@ -113,7 +123,22 @@ class BestOffer extends React.Component {
                 break;
             }
         }
-        
+        const yearTitle = this.state.scoringData.yearTitle !== undefined && this.state.scoringData.yearTitle !== 0 ? 
+            this.state.scoringData.yearTitle : ``;
+        const yearDescription = this.state.scoringData.yearDescription !== undefined && this.state.scoringData.yearTitle !== 0 ? 
+            this.state.scoringData.yearDescription : ``;
+
+        let yearString = ``;
+        switch(true){
+            case (yearTitle !== ``):
+                yearString = ` [${yearTitle}]`
+                break;
+            case (yearDescription !== ``):
+                yearString = ` [${yearDescription}]`
+                break;
+            default:
+                break;
+        }
         return(
             
             <Card className={classes.card}>
@@ -139,7 +164,7 @@ class BestOffer extends React.Component {
                 />
                 <CardContent>
                 <Typography component="h3">
-                    {this.state.scoringData.trueName}
+                    {`${this.state.scoringData.trueName}${yearString} [${this.state.scoringData.itemState}]`}
                     <p>  &nbsp;</p>
                 </Typography>
                 </CardContent>
@@ -151,7 +176,13 @@ class BestOffer extends React.Component {
                         onClose={this.handleClose}
                     /> */}
                     {/* delete from best offers + [todo] add modal popup */}
-                    <Delete/>
+                    <IconButton>
+                        {/* [to do] erase tags, and make them ignored? */}
+                        <Delete/> 
+                    </IconButton>
+                    <IconButton href={this.props.offer.productUrl} target={`_blank`} className={classes.icon} >
+                        <InfoIcon />
+                    </IconButton>
                     <IconButton
                         className={classnames(classes.expand, {
                         [classes.expandOpen]: this.state.expanded,
@@ -166,22 +197,19 @@ class BestOffer extends React.Component {
                 <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph variant="body2">
+                    Original title: {this.props.offer.title}
+                    </Typography>
+                    <Typography paragraph variant="body2">
                     Scores: {this.state.scoringData.scores}
                     </Typography>
                     <Typography paragraph variant="body2">
                     Median: {this.state.scoringData.median}
                     </Typography>
                     <Typography paragraph variant="body2">
-                    Scores based on {this.state.scoringData.countTotal} offers.
+                    Scores based on {this.state.scoringData.countTotal} offers with tag ratio: `ratio?`.
                     </Typography>
                     <Typography paragraph>
-                    Based on: 453 similar offers with tag ratio: 
-                    </Typography>
-                    <Typography paragraph>
-                    Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-                    </Typography>
-                    <Typography>
-                    Set aside off of the heat to let rest for 10 minutes, and then serve.
+                    Offer id: {this.props.offer._id}
                     </Typography>
                 </CardContent>
                 </Collapse>

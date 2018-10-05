@@ -8,10 +8,10 @@ const ScoringSchema = new Schema({
     scores: Number,
     grade: String,
     category: String,
+    itemState: String,
     manufacturerSetId: Number,
     modelSetId: Number,
     groupSetId: Number,
-    surePercent: Number,
     category: String,
     price: Number,
     currency: String,
@@ -19,6 +19,7 @@ const ScoringSchema = new Schema({
     yearDescription: Number,
     countTotal: Number,
     median: Number
+
 });
 //#create mongo model (table) - two arguments [name, schema]
 mongoose.model('scoring', ScoringSchema);
@@ -36,7 +37,8 @@ exports.create = async (data) => {
         price: data.price,
         currency: data.currency,
         yearTitle: data.yearTitle,
-        yearDescription: data.yearDescription
+        yearDescription: data.yearDescription,
+        itemState: data.itemState
     })
     .save()
     .then(() => {

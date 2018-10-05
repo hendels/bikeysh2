@@ -117,7 +117,8 @@ module.exports = app => {
         //console.log('searching for tag count for...' + req.params.offerId);
         await mongoose.model('scoring').find({offerId: req.params.offerId}, (err, scoring) => {
             res.send({ scoring });
-            console.log('got scored offer...')
+            console.log('got scored offer...');
+            console.log(scoring);
         });
     });
 

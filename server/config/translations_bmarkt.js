@@ -43,15 +43,29 @@ var translateAttributeLabel = [
     { GER: 'Description', ENG: 'Description', fieldTag: 'description', regex: '' },
     { GER: 'Pictures', ENG: 'Pictures', fieldTag: 'pictures', regex: '' }
 ];
-
+var valuesTranslation = [
+    { GER: 'gebraucht', ENG: 'used'},
+    { GER: 'gebraucht, wie neu', ENG: 'used, like new'},
+    { GER: 'neu', ENG: 'brand new'},
+    { GER: 'defekt', ENG: 'corrupted'}
+]
 exports.translation = (germanString, eng) => {
     eng(translateAttributes(germanString));
 };
+exports.translationValues = (germanString, eng) => {
+    eng(translateValues(germanString));
+};
+
+function translateValues(germanString) {
+    var index = valuesTranslation.findIndex(x => x.GER === germanString);
+    if (index !== -1) return valuesTranslation[index].ENG;
+    else return 'not found';
+}
 
 function translateAttributes(germanString) {
     var index = translateAttributeLabel.findIndex(x => x.GER == germanString);
     if (index !== -1) return translateAttributeLabel[index].ENG;
-    else return 'skip';
+    else return 'not found';
 }
 exports.matchField = (artibutes, fieldCaption, arrayIndex) => {
     var i = 0;

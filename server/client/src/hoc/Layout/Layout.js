@@ -18,9 +18,9 @@ import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
 const dashboardRoutes = [];
-
+var backgroundColor = '#344054';
 class Layout extends Component {
-
+    state = {backgroundColor: backgroundColor}
     render () {
         const { classes, ...rest } = this.props;
         const fetchUrls = {
@@ -34,17 +34,18 @@ class Layout extends Component {
         }
         return (
             <Aux>
+                <div style={{background: this.state.backgroundColor}}>
                 {/* <Toolbar/> */}
                 <Header
-                    color="white"
+                    color="rose"
                     routes={dashboardRoutes}
                     brand="Bikeysh"
                     rightLinks={<HeaderLinks />}
                     fixed
-                    changeColorOnScroll={{
-                        height: 400,
-                        color: "gray"
-                    }}
+                    // changeColorOnScroll={{
+                    //     height: 400,
+                    //     color: "gray"
+                    // }}
                     {...rest}
                 />
                 <Route exact path="/home" render={(props) => 
@@ -98,17 +99,7 @@ class Layout extends Component {
                         category={`ENDUROFRAMES`}    
                     />}
                 />
-                <Route exact path="/dnd" render={(props) => 
-                    <div>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <Dnd/>
-                    </div>
-                    }
-                />
-                
+                </div>
             </Aux>
         )
     }

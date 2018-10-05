@@ -25,13 +25,15 @@ return new Promise(async (resolve, reject) => {
             {threshold: 200, multiplier: 14},
             {threshold: 300, multiplier: 15}
         ]
-        scores = {
+        const additionalScores = {
             price:50,
             yearTitle: 5,
             yearDescription: 2.5,
             regularSeller: 5,
             proffesionalSeller: -10,
             usedItem : 5,
+            corruptedItem: 10,
+            newItem: -10,
             defected : 5,
             sizeMedium :10,
             sizeLarge : 5,
@@ -65,14 +67,35 @@ return new Promise(async (resolve, reject) => {
                     let arrThreshold = historyMultiplier.filter(hm => {if((hm.threshold <= search.length)) return hm});
                     let threshold = arrThreshold.slice(-1)[0];
                     console.log(`multiplier : ${threshold.multiplier}`);
-
-                    let scores = (median / uniqItem.price) * threshold.multiplier;
+                    // # additional points
+                    let addScores = 0;
+                    switch(uniqItem.itemState){
+                        case `used, like new`:
+                            addScores += additionalScores.usedItem;
+                            break;
+                        case `used`:
+                            addScores += additionalScores.usedItem;
+                            break;
+                        case `brand new`:
+                            addScores += additionalScores.newItem;
+                            break;
+                        case `corrupted`:
+                            addScores += additionalScores.corruptedItem;
+                            break;
+                        default:
+                            break;
+                    }   
+                    let scores = ((median / uniqItem.price) * threshold.multiplier) + addScores;
                     console.log(`SCORE = ${scores}`);
                     var objScores = {
                         scores: scores, 
                         median: median,
                         countTotal: search.length
                     }
+                    // [todo]
+                    //<< # if wheel size !== 26 inch, preferable 27,5" / 650b - can be 29"
+
+                    //>>
                     await scoring.updateScores(uniqItem._id, objScores);
                     // for (var i in search) {
                     //     let price = search[i].price;

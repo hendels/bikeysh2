@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 var cron = require('node-cron');
+const _ = require('underscore');
+
 const scoring = require('../../models/scoring');
 const nameSets = require('../../models/name_sets');
-const _ = require('underscore');
+const translation = require(`../../config/translations_bmarkt`);
 
 return new Promise(async (resolve, reject) => {
     let counter = 0;
@@ -236,7 +238,11 @@ return new Promise(async (resolve, reject) => {
                                                     var cut = execRegex[0].split(`,`).join(``).split(`.`).join(``);
                                                     let getAmount = parseInt(cut);
                                                     console.log(`orginal price ${offer.price} --- converted to: ${getAmount}`);
-                                                    // 
+                                                    // # define item state
+                                                    let translatedValue = `not found`;
+                                                    translation.translationValues(offer.state, eng => {translatedValue = eng});                    
+                                                    
+
                                                     scoringObj = {
                                                         offerId: offer.id,
                                                         offerOrigin: offerInfo.origin,
@@ -247,7 +253,8 @@ return new Promise(async (resolve, reject) => {
                                                         price: getAmount,
                                                         currency: getCurrency,
                                                         yearTitle: yearTitle,
-                                                        yearDescription: yearDescription                                        
+                                                        yearDescription: yearDescription,
+                                                        itemState: translatedValue                                   
                                                     }
 
                                                     scoring.create(scoringObj);
