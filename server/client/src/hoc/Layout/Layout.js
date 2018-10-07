@@ -5,17 +5,9 @@ import { Route } from 'react-router-dom';
 import HomePage from '../../pages/HomePage.jsx';
 // app components
 import OffersList from '../../containers/OffersList/OffersList';
-import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
-import Dnd from '../../components/Dnd/dragDrop';
 import Header from '../../components/Header/Header.jsx';
 import HeaderLinks from '../../components/Header/HeaderLinks.jsx';
 //
-import Background from '../../components/Paper/Paper.jsx';
-//core MUI
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
 
 const dashboardRoutes = [];
 var backgroundColor = '#344054';
@@ -37,21 +29,19 @@ class Layout extends Component {
                 <div style={{background: this.state.backgroundColor}}>
                 {/* <Toolbar/> */}
                 <Header
-                    color="rose"
+                    color="bikeysh3"
                     routes={dashboardRoutes}
                     brand="Bikeysh"
                     rightLinks={<HeaderLinks />}
                     fixed
-                    // changeColorOnScroll={{
-                    //     height: 400,
-                    //     color: "gray"
-                    // }}
+                    changeColorOnScroll={{
+                        height: 400,
+                        color: "bikeysh3_1"
+                    }}
                     {...rest}
                 />
                 <Route exact path="/home" render={(props) => 
                     <div>
-                        <p>  &nbsp;</p>
-                        <p>  &nbsp;</p>
                         <p>  &nbsp;</p>
                         <p>  &nbsp;</p>
                         <p>  &nbsp;</p>
@@ -104,13 +94,13 @@ class Layout extends Component {
         )
     }
 }
-const Home = (urls) => {
+// const Home = (urls) => {
 
-    return (
-        <div>
-            <p>  &nbsp;</p>
-            <HomePage fetchUrls={urls}/>
-        </div>
-    )
-}
+//     return (
+//         <div>
+//             <p>  &nbsp;</p>
+//             <HomePage fetchUrls={urls}/>
+//         </div>
+//     )
+// }
 export default Layout;

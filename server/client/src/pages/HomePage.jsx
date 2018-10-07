@@ -10,11 +10,14 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
-
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 //app components
 import BestOfferBar from '../containers/BestOfferBar/BestOfferBar.jsx';
 import Spinner from '../components/UI/Spinner.jsx';
-
+import BestOfferInfo from '../containers/PageInfos/BestOfferInfo.jsx';
+import CategoryBar from '../components/UI/CategoryBar';
 const styles = theme => ({
     root: {
       flexGrow: 1,
@@ -62,15 +65,16 @@ class HomePage extends React.Component {
         }
     }
     componentWillMount(){
-        this.fetchData(this.props.fetchUrls.bestoffer, 8, 'cranks');
-        this.fetchData(this.props.fetchUrls.bestoffer, 8, 'hubs');
-        this.fetchData(this.props.fetchUrls.bestoffer, 8, 'dhframes');
+        const setResult = 6;
+        this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'cranks');
+        this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'hubs');
+        this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'dhframes');
     }
     fetchData = async (fetchUrl, pageLimit, type) => {
         this.setState({loading: true});
         const url = `${fetchUrl}${type}/${pageLimit}`;
         console.log(url);
-        const elo = await axios.get(url).then(
+        await axios.get(url).then(
             response => response.data
         ).then(result => {
             this.onSetResult(result, type)
@@ -105,49 +109,60 @@ class HomePage extends React.Component {
         var dhframes = this.state.dhFramesHits;
         var hubs = this.state.hubsHits;
 
-        // let bestOfferCranks = this.state.crankHits;
-        // if(this.state.loading) {
-        //     bestOfferCranks = <Spinner/>;
-        // }
         return(
+            <div>
+            <BestOfferInfo/>
             <div className={classNames(classes.main, classes.mainRaised)}>
                 <div className={classes.container}>
                 <Paper className={classes.root} elevation={10}>
-                    <p>  &nbsp;</p>
-                    <Typography variant="headline" component="h2">
+                    {/* <Typography variant="headline" component="h2">
                     Some Chart?
-                    </Typography>
-                    <p>  &nbsp;</p>
-                    <p>  &nbsp;</p>
-                    <Typography variant="headline" component="h3">
-                    Your best offers for today / best offers this week so far:
-                    </Typography>
-                    <p>  &nbsp;</p>
-                    {/* <Typography component="p">
-                    Paper can be used to build surface or other elements for your application.
-                    </Typography>
-                    <p>  &nbsp;</p> */}
-                    {/* best offer section */}
-                    {this.state.loading ? <Spinner/> : 
-                    (<Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
-                        <BestOfferBar offerCount={cranks} category="CRANKS" fetchUrl={this.props.fetchUrls.cranks} tagUrl={this.props.fetchUrls.tags}/>
-                    </Grid>)}
+                    </Typography> */}
+                    {/* loading section => best offer section*/}
+                    {this.state.loading ? <Spinner/> : (
+                        <div>
+                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
+                            <Grid container direction="column" justify="center" alignItems="stretch">
+                                <CategoryBar category="Cranks"/>
+                            </Grid>
+                            <br/>
+                            <BestOfferBar offerCount={cranks} fetchUrl={this.props.fetchUrls.cranks} tagUrl={this.props.fetchUrls.tags}/>
+                        </Grid>
+                        <br/>
+                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
+                            <Grid container direction="column" justify="center" alignItems="stretch">
+                                <CategoryBar category="Downhill Frames"/>
+                            </Grid>
+                            <br/>
+                            <BestOfferBar offerCount={dhframes} fetchUrl={this.props.fetchUrls.dhFrames} tagUrl={this.props.fetchUrls.tags}/>
+                        </Grid>
+                        <br/>
+                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
+                            <Grid container direction="column" justify="center" alignItems="stretch">
+                                <CategoryBar category="Hubs"/>
+                            </Grid>
+                            <br/>
+                            <BestOfferBar offerCount={hubs} fetchUrl={this.props.fetchUrls.hubs} tagUrl={this.props.fetchUrls.tags}/>
+                        </Grid>
+                    
+                        {/* <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
+                            <BestOfferBar offerCount={dhframes} category="DHFRAMES" fetchUrl={this.props.fetchUrls.dhFrames} tagUrl={this.props.fetchUrls.tags}/>
+                        </Grid>
+                        <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>                        
+                            <BestOfferBar offerCount={hubs} category="HUBS" fetchUrl={this.props.fetchUrls.hubs} tagUrl={this.props.fetchUrls.tags}/>
+                        </Grid> */}
+                        </div>
+                    )}
+        
                     {/* <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
                         <BestOfferBar offerCount={cranks} category="CRANKS" fetchUrl={this.props.fetchUrls.cranks} tagUrl={this.props.fetchUrls.tags}/>
                     </Grid> */}
                     {/* <Spinner/> */}
-                    <p>&nbsp;</p>
-                    <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
-                        <BestOfferBar offerCount={dhframes} category="DHFRAMES" fetchUrl={this.props.fetchUrls.dhFrames} tagUrl={this.props.fetchUrls.tags}/>
-                    </Grid>
-                    <p>&nbsp;</p>
-                    <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>                        
-                        <BestOfferBar offerCount={hubs} category="HUBS" fetchUrl={this.props.fetchUrls.hubs} tagUrl={this.props.fetchUrls.tags}/>
-                    </Grid>
                         
                     <p>&nbsp;</p>
                 </Paper>
                 </div>
+            </div>
             </div>
         )
     }

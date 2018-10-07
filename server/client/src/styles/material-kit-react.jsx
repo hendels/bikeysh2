@@ -76,6 +76,11 @@ const successColor = "#4caf50";
 const infoColor = "#00acc1";
 const roseColor = "#e91e63";
 const grayColor = "#999999";
+const bikeyshColor1 = `#314455`;
+const bikeyshColor2 = `#644E5B`;
+const bikeyshColor3 = `#9E5A63`;
+const bikeyshColor4 = `#C96567`;
+const bikeyshColor5 = `#97AABD`;
 
 const primaryBoxShadow = {
   boxShadow:
@@ -195,6 +200,11 @@ export {
   infoColor,
   roseColor,
   grayColor,
+  bikeyshColor1,
+  bikeyshColor2,
+  bikeyshColor3,
+  bikeyshColor4,
+  bikeyshColor5,
   primaryBoxShadow,
   infoBoxShadow,
   successBoxShadow,

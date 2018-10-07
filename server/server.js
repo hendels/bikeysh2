@@ -1,5 +1,5 @@
 const urls = require('./config/urls.js');
-const scraper = require('./bikemarkt/list.js');
+const scraper = require('./crawler_bikemarkt/list.js');
 const config = require('./config/config.js');
 const getCategories = require('./config/categories_bmarkt.js');
 

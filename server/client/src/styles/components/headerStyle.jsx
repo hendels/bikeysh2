@@ -9,7 +9,12 @@ import {
   roseColor,
   transition,
   boxShadow,
-  drawerWidth
+  drawerWidth,
+  bikeyshColor1,
+  bikeyshColor2,
+  bikeyshColor3,
+  bikeyshColor4,
+  bikeyshColor5,
 } from "../material-kit-react.jsx";
 
 const headerStyle = {
@@ -98,6 +103,42 @@ const headerStyle = {
   },
   rose: {
     backgroundColor: roseColor,
+    color: "#FFFFFF",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
+  },
+  bikeysh1: {
+    backgroundColor: bikeyshColor1,
+    color: "#FFFFFF",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
+  },
+  bikeysh2: {
+    backgroundColor: bikeyshColor2,
+    color: "#FFFFFF",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
+  },
+  bikeysh3: {
+    backgroundColor: bikeyshColor3,
+    color: "#000",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
+  },
+  bikeysh3_1: {
+    backgroundColor: "#000",
+    color: bikeyshColor3,
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(194, 216, 239, 0.46)"
+  },
+  bikeysh4: {
+    backgroundColor: bikeyshColor4,
+    color: "#FFFFFF",
+    boxShadow:
+      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
+  },
+  bikeysh5: {
+    backgroundColor: bikeyshColor5,
     color: "#FFFFFF",
     boxShadow:
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"

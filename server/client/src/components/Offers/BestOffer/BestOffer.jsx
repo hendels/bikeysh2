@@ -29,15 +29,18 @@ import TagDialog from '../../Dialogs/TagDialog.jsx';
 
 const styles = theme => ({
     card: {
-      minWidth: 400,
-      maxWidth: 400,
-      minHeight: 400,
-      background: '#677784',
+      minWidth: 250,
+      maxWidth: 250,
+      minHeight: 250,
+    //   background: '#97AABD',
+      background: 'linear-gradient(180deg, #97aabd 0%,#314455 100%)',
     //   maxHeight: 500
     },
     media: {
       height: 0,
       paddingTop: '56.25%', // 16:9
+    //   background: '#000',
+      opacity: 0.6
     },
     actions: {
       display: 'flex',
@@ -157,7 +160,7 @@ class BestOffer extends React.Component {
                 subheader={this.props.offer.publishDate}
                 
                 />
-                <CardMedia
+                <CardMedia 
                 className={classes.media}
                 image={piclink}
                 title={this.props.offer.price}

@@ -138,7 +138,12 @@ Header.propTypes = {
     "transparent",
     "white",
     "rose",
-    "dark"
+    "dark",
+    `bikeysh1`,
+    `bikeysh2`,
+    `bikeysh3`,
+    `bikeysh3_1`,
+    `bikeysh5`,
   ]),
   rightLinks: PropTypes.node,
   leftLinks: PropTypes.node,
@@ -162,7 +167,12 @@ Header.propTypes = {
       "transparent",
       "white",
       "rose",
-      "dark"
+      "dark",
+      `bikeysh1`,
+      `bikeysh2`,
+      `bikeysh3`,
+      `bikeysh3_1`,
+      `bikeysh5`,
     ]).isRequired
   })
 };

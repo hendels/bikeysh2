@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const scoring = require('../../models/scoring');
 const _ = require('underscore');
+var http = require('http');
 
 return new Promise(async (resolve, reject) => {
 
@@ -32,7 +33,7 @@ return new Promise(async (resolve, reject) => {
             regularSeller: 5,
             proffesionalSeller: -10,
             usedItem : 5,
-            corruptedItem: 10,
+            corruptedItem: 6,
             newItem: -10,
             defected : 5,
             sizeMedium :10,
@@ -96,6 +97,7 @@ return new Promise(async (resolve, reject) => {
                     //<< # if wheel size !== 26 inch, preferable 27,5" / 650b - can be 29"
 
                     //>>
+                    //check if link is still available => if not count time from checking to insertion
                     await scoring.updateScores(uniqItem._id, objScores);
                     // for (var i in search) {
                     //     let price = search[i].price;
