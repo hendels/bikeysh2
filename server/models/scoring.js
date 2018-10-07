@@ -9,6 +9,7 @@ const ScoringSchema = new Schema({
     grade: String,
     category: String,
     itemState: String,
+    stateCategory: Number,
     manufacturerSetId: Number,
     modelSetId: Number,
     groupSetId: Number,
@@ -18,7 +19,8 @@ const ScoringSchema = new Schema({
     yearTitle: Number,
     yearDescription: Number,
     countTotal: Number,
-    median: Number
+    median: Number,
+    urlActive: Boolean
 
 });
 //#create mongo model (table) - two arguments [name, schema]
@@ -38,7 +40,9 @@ exports.create = async (data) => {
         currency: data.currency,
         yearTitle: data.yearTitle,
         yearDescription: data.yearDescription,
-        itemState: data.itemState
+        itemState: data.itemState,
+        stateCategory: data.stateCategory,
+        urlActive: true
     })
     .save()
     .then(() => {
@@ -51,8 +55,9 @@ exports.updateScores = async (id, data) => {
         scoring.scores = data.scores;
         scoring.countTotal = data.countTotal;
         scoring.median = data.median;
+        scoring.urlActive = data.urlActive;
         scoring.save().then(() => {
-            console.log(`[][][] update scores for Offer... ${id} scores: ${scores}`);
+            console.log(`[][][] update scores for Offer... ${id} scores: ${data.scores}`);
         });
     });    
 };

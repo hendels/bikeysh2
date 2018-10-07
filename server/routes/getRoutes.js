@@ -186,7 +186,11 @@ module.exports = app => {
         var pageLimit = parseInt(req.params.pageLimit);
         const Scoring = await mongoose
             .model('scoring')
-            .find({category: req.params.category})
+            .find({
+                category: req.params.category,
+                urlActive: true,
+                countTotal: {$gt: 1}
+            })
             // .limit(pageLimit)
             .sort({'scores': -1})
             .limit(pageLimit)

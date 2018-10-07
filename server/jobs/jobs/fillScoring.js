@@ -240,7 +240,11 @@ return new Promise(async (resolve, reject) => {
                                                     console.log(`orginal price ${offer.price} --- converted to: ${getAmount}`);
                                                     // # define item state
                                                     let translatedValue = `not found`;
-                                                    translation.translationValues(offer.state, eng => {translatedValue = eng});                    
+                                                    let stateCategory = 0;
+                                                    translation.translationValues(offer.state, eng => {
+                                                        translatedValue = eng.translation;
+                                                        stateCategory = eng.stateCategory;
+                                                    });                    
                                                     
 
                                                     scoringObj = {
@@ -254,7 +258,8 @@ return new Promise(async (resolve, reject) => {
                                                         currency: getCurrency,
                                                         yearTitle: yearTitle,
                                                         yearDescription: yearDescription,
-                                                        itemState: translatedValue                                   
+                                                        itemState: translatedValue,
+                                                        stateCategory: stateCategory                                   
                                                     }
 
                                                     scoring.create(scoringObj);

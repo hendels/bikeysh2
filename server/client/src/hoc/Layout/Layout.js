@@ -8,6 +8,7 @@ import OffersList from '../../containers/OffersList/OffersList';
 import Header from '../../components/Header/Header.jsx';
 import HeaderLinks from '../../components/Header/HeaderLinks.jsx';
 //
+import PageInfo from '../../containers/PageInfos/PageInfo.jsx';
 
 const dashboardRoutes = [];
 var backgroundColor = '#344054';
@@ -65,6 +66,19 @@ class Layout extends Component {
                         color: "bikeysh3_1"
                     }}
                     {...rest}
+                />
+                <Route exact path="/" render={(props) => 
+                    <div>
+                        <p>  &nbsp;</p>
+                        <p>  &nbsp;</p>
+                        <PageInfo imageUrl={imageUrls.defaultImage.url} pageInfoTitle={`best offers this week so far ...`} tweak={imageUrls.defaultImage.tweak}/>
+                        <PageInfo imageUrl={imageUrls.dhframesImage.url} pageInfoTitle={`Downhill Frames`} tweak={imageUrls.dhframesImage.tweak}/>
+                        <PageInfo imageUrl={imageUrls.cranksImage.url} pageInfoTitle={`Downhill Frames`} tweak={imageUrls.cranksImage.tweak}/>
+                        <PageInfo imageUrl={imageUrls.hubsImage.url} pageInfoTitle={`Downhill Frames`} tweak={imageUrls.hubsImage.tweak}/>
+                        <PageInfo imageUrl={imageUrls.enduroframesImage.url} pageInfoTitle={`Downhill Frames`} tweak={imageUrls.enduroframesImage.tweak}/>
+                        <PageInfo imageUrl={imageUrls.wheelsImage.url} pageInfoTitle={`Downhill Frames`} tweak={imageUrls.wheelsImage.tweak}/>
+                    </div>
+                }
                 />
                 <Route exact path="/home" render={(props) => 
                     <div>

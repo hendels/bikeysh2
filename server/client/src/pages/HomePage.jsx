@@ -121,10 +121,10 @@ class HomePage extends React.Component {
                     {/* loading section => best offer section*/}
                     {this.state.loading ? <Spinner/> : (
                         <div>
-                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
-                            <Grid container direction="column" justify="center" alignItems="stretch">
-                                <CategoryBar category="Cranks"/>
-                            </Grid>
+                        <Grid container direction="column" justify="center" alignItems="stretch">
+                            <CategoryBar category="Cranks"/>
+                        </Grid>
+                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="flex-start" spacing={Number(spacing)}>
                             <br/>
                             <BestOfferBar category="Cranks" offerCount={cranks} fetchUrl={this.props.fetchUrls.cranks} tagUrl={this.props.fetchUrls.tags}/>
                         </Grid>
@@ -144,21 +144,8 @@ class HomePage extends React.Component {
                             <br/>
                             <BestOfferBar category="Hubs" offerCount={hubs} fetchUrl={this.props.fetchUrls.hubs} tagUrl={this.props.fetchUrls.tags}/>
                         </Grid>
-                    
-                        {/* <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
-                            <BestOfferBar offerCount={dhframes} category="DHFRAMES" fetchUrl={this.props.fetchUrls.dhFrames} tagUrl={this.props.fetchUrls.tags}/>
-                        </Grid>
-                        <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>                        
-                            <BestOfferBar offerCount={hubs} category="HUBS" fetchUrl={this.props.fetchUrls.hubs} tagUrl={this.props.fetchUrls.tags}/>
-                        </Grid> */}
                         </div>
                     )}
-        
-                    {/* <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>
-                        <BestOfferBar offerCount={cranks} category="CRANKS" fetchUrl={this.props.fetchUrls.cranks} tagUrl={this.props.fetchUrls.tags}/>
-                    </Grid> */}
-                    {/* <Spinner/> */}
-                        
                     <p>&nbsp;</p>
                 </Paper>
                 </div>

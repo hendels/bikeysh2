@@ -13,6 +13,9 @@ const styles = theme => ({
   badge: {
     top: 6,
     right: -15,
+    width: `15px`,
+    height: `15px`,
+    backgroundColor: `#C96567`,
     // The border color match the background color.
     border: `1px solid ${
       theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[900]
@@ -60,7 +63,8 @@ class TagBadge extends React.Component {
     return (
       <Aux>
         <IconButton aria-label="Cart" onClick={this.handleClickOpenTagDialog}>
-          <Badge badgeContent={this.state.tagCount[Object.keys(this.state.tagCount)[0]]} color="primary" classes={{ badge: classes.badge }}>
+          {/* <Badge badgeContent={this.state.tagCount[Object.keys(this.state.tagCount)[0]]} color="primary" classes={{ badge: classes.badge }}> */}
+          <Badge badgeContent={this.state.tagCount[Object.keys(this.state.tagCount)[0]]} color="primary" classes={{ badge: classes.badge }} >
             <LibraryAdd />
           </Badge>
         </IconButton>

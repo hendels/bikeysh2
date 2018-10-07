@@ -43,11 +43,12 @@ var translateAttributeLabel = [
     { GER: 'Description', ENG: 'Description', fieldTag: 'description', regex: '' },
     { GER: 'Pictures', ENG: 'Pictures', fieldTag: 'pictures', regex: '' }
 ];
+// # stateCategory is used to filtering in addScores offers => there are two cases only - used [1] and new [2], rest is informative
 var valuesTranslation = [
-    { GER: 'gebraucht', ENG: 'used'},
-    { GER: 'gebraucht, wie neu', ENG: 'used, like new'},
-    { GER: 'neu', ENG: 'brand new'},
-    { GER: 'defekt', ENG: 'corrupted'}
+    { GER: 'gebraucht', ENG: 'used', stateCategory: 1},
+    { GER: 'gebraucht, wie neu', ENG: 'used, like new', stateCategory: 1},
+    { GER: 'neu', ENG: 'brand new', stateCategory: 2},
+    { GER: 'defekt', ENG: 'corrupted', stateCategory: 1}
 ]
 exports.translation = (germanString, eng) => {
     eng(translateAttributes(germanString));
@@ -58,7 +59,10 @@ exports.translationValues = (germanString, eng) => {
 
 function translateValues(germanString) {
     var index = valuesTranslation.findIndex(x => x.GER === germanString);
-    if (index !== -1) return valuesTranslation[index].ENG;
+    if (index !== -1) return {
+        translation: valuesTranslation[index].ENG, 
+        stateCategory: valuesTranslation[index].stateCategory
+    };
     else return 'not found';
 }
 
