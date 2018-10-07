@@ -8,7 +8,7 @@ import {DragDropContext} from 'react-beautiful-dnd';
 //
 import '@atlaskit/css-reset';
 //app components
-import Spinner from '../UI/Spinner.jsx';
+import Spinner from '../UI/SpinnerTags';
 
 const Container = styled.div`
     display:flex;
@@ -35,15 +35,11 @@ export default class DragDrop extends React.Component{
         });
     }
     handleAddPairNumber = async () => {
-        // const GlobalSetup = await mongoose
-        //         .model('globalSetups')
-        //         .find({setupId: 1})
-        //         .select({ setupId: false });
         
     }
     handleAddToTagSet = async (tagName, targetColumnName) => {
         // console.log(`column name react: ${targetColumnName}`);
-        const addToHelpers = await axios.post(this.props.tagUrl + `update/${targetColumnName}`, {
+        await axios.post(this.props.tagUrl + `update/${targetColumnName}`, {
             id: this.props.offerId,
             tagName: tagName,
             offerId: this.props.offerId,

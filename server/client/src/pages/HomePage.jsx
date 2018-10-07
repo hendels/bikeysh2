@@ -15,8 +15,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 //app components
 import BestOfferBar from '../containers/BestOfferBar/BestOfferBar.jsx';
-import Spinner from '../components/UI/Spinner.jsx';
-import BestOfferInfo from '../containers/PageInfos/BestOfferInfo.jsx';
+import Spinner from '../components/UI/SpinnerOffers';
+import BestOfferInfo from '../containers/PageInfos/PageInfo.jsx';
 import CategoryBar from '../components/UI/CategoryBar';
 const styles = theme => ({
     root: {
@@ -111,7 +111,7 @@ class HomePage extends React.Component {
 
         return(
             <div>
-            <BestOfferInfo/>
+            <BestOfferInfo imageUrl={this.props.imageUrls.defaultImage} pageInfoTitle={`best offers this week so far ...`}/>
             <div className={classNames(classes.main, classes.mainRaised)}>
                 <div className={classes.container}>
                 <Paper className={classes.root} elevation={10}>
@@ -126,7 +126,7 @@ class HomePage extends React.Component {
                                 <CategoryBar category="Cranks"/>
                             </Grid>
                             <br/>
-                            <BestOfferBar offerCount={cranks} fetchUrl={this.props.fetchUrls.cranks} tagUrl={this.props.fetchUrls.tags}/>
+                            <BestOfferBar category="Cranks" offerCount={cranks} fetchUrl={this.props.fetchUrls.cranks} tagUrl={this.props.fetchUrls.tags}/>
                         </Grid>
                         <br/>
                         <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
@@ -134,7 +134,7 @@ class HomePage extends React.Component {
                                 <CategoryBar category="Downhill Frames"/>
                             </Grid>
                             <br/>
-                            <BestOfferBar offerCount={dhframes} fetchUrl={this.props.fetchUrls.dhFrames} tagUrl={this.props.fetchUrls.tags}/>
+                            <BestOfferBar category="Downhill Frames" offerCount={dhframes} fetchUrl={this.props.fetchUrls.dhFrames} tagUrl={this.props.fetchUrls.tags}/>
                         </Grid>
                         <br/>
                         <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
@@ -142,7 +142,7 @@ class HomePage extends React.Component {
                                 <CategoryBar category="Hubs"/>
                             </Grid>
                             <br/>
-                            <BestOfferBar offerCount={hubs} fetchUrl={this.props.fetchUrls.hubs} tagUrl={this.props.fetchUrls.tags}/>
+                            <BestOfferBar category="Hubs" offerCount={hubs} fetchUrl={this.props.fetchUrls.hubs} tagUrl={this.props.fetchUrls.tags}/>
                         </Grid>
                     
                         {/* <Grid container className={classes.root} justify="center" spacing={Number(spacing)}>

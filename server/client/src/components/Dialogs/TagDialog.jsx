@@ -20,7 +20,7 @@ import AddIcon from '@material-ui/icons/Add';
 import blue from '@material-ui/core/colors/blue';
 //app components
 import TagChip from '../Chips/TagChip.jsx';
-import Spinner from '../UI/Spinner.jsx';
+import Spinner from '../UI/SpinnerOffers';
 
 const emails = ['username@gmail.com', 'user02@gmail.com', 'asd', 'qew', 'asd', 'qew', 'asd', 'qew', 'asd', 'qew', 'asd', 'qew'];
 const styles = {

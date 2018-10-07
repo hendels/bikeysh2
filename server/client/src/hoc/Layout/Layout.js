@@ -23,6 +23,32 @@ class Layout extends Component {
             cranks: '/api/bm/category/cranks/',
             bestoffer: '/api/bm/bestoffer/',
             tags: '/api/tags/'
+        };
+        const imageUrls = {
+            defaultImage: {
+                url: `https://testy.bikeboard.pl/images/biblioteka/slider-d8683q_sender_testing_nice_canyon_greber_3nvv.jpg)`,
+                tweak: `0px -70px`
+            },
+            dhframesImage: {
+                url: `https://static.canyon.com/_img/bg/gravity/gravity-technology-sender.jpg`,
+                tweak: `0px -250px`
+            },
+            cranksImage: {
+                url: `https://cdn.dirtmountainbike.com/featured_image/5acb91737dbc8.jpeg`,
+                tweak: `0px -450px`
+            },
+            hubsImage: {
+                url: `https://cdn.dirtmountainbike.com/embedded_full/5abb00a13121c.jpg`,
+                tweak: `0px -200px`
+            },
+            enduroframesImage: {
+                url: `https://brink.uk/assets/images/products/Bikes/Santa-Cruz-Nomad-4-CC-Frame-2018-3.jpg`,
+                tweak: `0px -400px`
+            },
+            wheelsImage: {
+                url: `https://kolawarszawa.pl/wp-content/uploads/2018/03/TRACE_29.jpg`,
+                tweak: `-500px -1900px`
+            }
         }
         return (
             <Aux>
@@ -31,7 +57,7 @@ class Layout extends Component {
                 <Header
                     color="bikeysh3"
                     routes={dashboardRoutes}
-                    brand="Bikeysh"
+                    brand="bikeysh"
                     rightLinks={<HeaderLinks />}
                     fixed
                     changeColorOnScroll={{
@@ -44,8 +70,7 @@ class Layout extends Component {
                     <div>
                         <p>  &nbsp;</p>
                         <p>  &nbsp;</p>
-                        <p>  &nbsp;</p>
-                        <HomePage fetchUrls={fetchUrls}/>
+                        <HomePage fetchUrls={fetchUrls} imageUrls={imageUrls}/>
                     </div>
                 }
                 />
@@ -55,6 +80,7 @@ class Layout extends Component {
                         fetchUrl={fetchUrls.cranks}    
                         tagUrl={fetchUrls.tags}    
                         category={`CRANKS`} 
+                        imageUrls={imageUrls}
                     />}
                 />
                 <Route exact path="/category/hubs" render={(props) => 
@@ -62,7 +88,8 @@ class Layout extends Component {
                         pageLimit={10} 
                         fetchUrl={fetchUrls.hubs}   
                         tagUrl={fetchUrls.tags}    
-                        category={`HUBS`}       
+                        category={`HUBS`}     
+                        imageUrls={imageUrls}  
                     />}
                 />
                 <Route exact path="/category/wheels" render={(props) => 
@@ -70,7 +97,8 @@ class Layout extends Component {
                         pageLimit={10} 
                         fetchUrl={fetchUrls.wheels}     
                         tagUrl={fetchUrls.tags}    
-                        category={`WHEELS`}     
+                        category={`WHEELS`}   
+                        imageUrls={imageUrls}  
                     />}
                 />
                 <Route exact path="/category/dhframes" render={(props) => 
@@ -78,7 +106,8 @@ class Layout extends Component {
                         pageLimit={10} 
                         fetchUrl={fetchUrls.dhFrames}    
                         tagUrl={fetchUrls.tags}    
-                        category={`DHFRAMES`}      
+                        category={`DHFRAMES`} 
+                        imageUrls={imageUrls}     
                     />}
                 />
                 <Route exact path="/category/enduroframes" render={(props) => 
@@ -86,7 +115,8 @@ class Layout extends Component {
                         pageLimit={10} 
                         fetchUrl={fetchUrls.enduroFrames}      
                         tagUrl={fetchUrls.tags}    
-                        category={`ENDUROFRAMES`}    
+                        category={`ENDUROFRAMES`} 
+                        imageUrls={imageUrls}   
                     />}
                 />
                 </div>

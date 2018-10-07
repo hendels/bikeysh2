@@ -7,7 +7,13 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+
 import Paper from '@material-ui/core/Paper';
+//app components
+import CategoryInfo from '../../components/UI/CategoryInfoCard.jsx';
+// # icons
+import Arrow from '@material-ui/icons/KeyboardArrowRight';
 
 const BestOfferBar = (props) => (
     props.offerCount.map(offer => {  
@@ -16,16 +22,8 @@ const BestOfferBar = (props) => (
         return(
         <Aux>
         {index === 0 ? (
-        <Grid key={offer} item>       
-            <Aux>
-                <Card >
-                    <CardContent>
-                    <Typography component="h1">
-                        {props.category} Category
-                    </Typography>
-                    </CardContent>
-                </Card> 
-            </Aux>
+        <Grid key={'categoryInfo'} item>       
+            <CategoryInfo category={props.category}/>
         </Grid>
         ): null}
         <Grid key={offer._id} item>   
@@ -36,7 +34,7 @@ const BestOfferBar = (props) => (
         {index + 1 === props.offerCount.length ? (
         <Grid key={`lastButton`} item>   
             {/* <Paper>elo</Paper> */}
-            <Button>{`>>`}</Button>
+            <Button variant="fab" ><Arrow/></Button>
         </Grid>
         ) : null}
         </Aux>

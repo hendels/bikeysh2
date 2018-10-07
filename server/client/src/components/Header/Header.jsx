@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router-dom';
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // nodejs library to set properties for components
@@ -76,6 +77,7 @@ class Header extends React.Component {
       [classes.fixed]: fixed
     });
     const brandComponent = <Button className={classes.title}>{brand}</Button>;
+    console.log(`color header: ${color}`);
     return (
       <AppBar className={appBarClasses}>
         <Toolbar className={classes.container}>
@@ -86,7 +88,16 @@ class Header extends React.Component {
                 {leftLinks}
               </Hidden>
             ) : (
-              <Logo name={brand} />
+              // <Logo name={brand} color={color}/>
+              <Button 
+                  className={classes.title}
+                  component={Link} to="/home" 
+                  mini={true} 
+                  variant={`text`} 
+                  style={{ color: color}}
+              >
+                  {brand}
+              </Button>
             )}
           </div>
           <Hidden smDown implementation="css">

@@ -12,6 +12,8 @@ import GridList from '@material-ui/core/GridList';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+// # app components
+import PageInfo from '../../containers/PageInfos/PageInfo.jsx';
 
 const applyUpdateResult = (result) => (prevState) => ({
     hits: [...prevState, ...result],
@@ -111,59 +113,42 @@ class OffersList extends Component {
     render(){
         const { classes } = this.props;
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
-        console.log('RERENDER');
         renderCount += 1;
         let offers = <p style={{textAlign: 'center'}}>Something went wrong!</p>;
         if (!this.state.error && this.state.hits !== null){
-            // console.log(this.state.offers);
-            // console.log('hits arr:' + this.state.hits);
             let firstLevel = 0;
             for (var x in this.state.hits){
                 firstLevel += 1;
-                // console.log('element 1: ' + x);
-                // for(var n in this.state.offers[x]){
-                //     // console.log(this.state.offers[x][n]);
-                //     console.log('element 2: ' + n);
-                //     break;
-                // }
             }
-            // console.log('first element count: ' + firstLevel);
-            // if (firstLevel === 1){
-            //     offers = this.state.hits['hubs'].map(offer => {
-            //         return <OfferBikeMarkt
-            //         key={offer._id}
-            //         title={offer.title}
-            //         link={offer.productUrl}
-            //         // firstImage={offer.pictures[0]}
-            //         />
-            //     })
-            // }
-            // else {
-            //     // offers = this.state.hits.map(offer => {
-            //     //     return <Offer
-            //     //     key={offer._id}
-            //     //     title={offer.title}
-            //     //     link={offer.productUrl}
-            //     //     // firstImage={offer.pictures.picLink1}
-            //     //     />
-            //     // )}
-
-
-            // }
         }
+        let pageInfo = null;
+        switch(this.props.category){
+            case(`DHFRAMES`):
+                pageInfo = <PageInfo imageUrl={this.props.imageUrls.dhframesImage.url} pageInfoTitle={`Downhill Frames`} tweak={this.props.imageUrls.dhframesImage.tweak}/>
+                break;
+            case(`ENDUROFRAMES`):
+                pageInfo = <PageInfo imageUrl={this.props.imageUrls.enduroframesImage.url} pageInfoTitle={`Enduro Frames`} tweak={this.props.imageUrls.enduroframesImage.tweak}/>
+                break;
+            case(`CRANKS`):
+                pageInfo = <PageInfo imageUrl={this.props.imageUrls.cranksImage.url} pageInfoTitle={`Cranks`} tweak={this.props.imageUrls.cranksImage.tweak}/>
+                break;
+            case(`WHEELS`):
+                pageInfo = <PageInfo imageUrl={this.props.imageUrls.wheelsImage.url} pageInfoTitle={`Wheels`} tweak={this.props.imageUrls.wheelsImage.tweak}/>
+                break;
+            case(`HUBS`):
+                pageInfo = <PageInfo imageUrl={this.props.imageUrls.hubsImage.url} pageInfoTitle={`Hubs`} tweak={this.props.imageUrls.hubsImage.tweak}/>
+                break;
+            default:
+                break;
+        }
+            
+        
         return(
             <Aux>
+                {pageInfo}
                 <div className={classNames(classes.main, classes.mainRaised)}>
                     {/* <div className={classes.container}> */}
                         <Paper className={classes.root} elevation={1}>
-                        <p>  &nbsp;</p>
-                        <p>  &nbsp;</p>
-                        <p>  &nbsp;</p>
-                        <Typography variant="headline" component="h3">
-                            This is a sheet of paper.
-                        </Typography>
-                        <p>  &nbsp;</p>
-                        
                             <Button variant="outlined" onClick={this.onPaginatedSearchPrevious}>Previous</Button>
                             <Button variant="outlined" onClick={this.onPaginatedSearchNext}>Next</Button>
                             <p>{this.state.skip} of {totalArray}</p>

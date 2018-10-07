@@ -20,7 +20,7 @@ import AddIcon from '@material-ui/icons/Add';
 import blue from '@material-ui/core/colors/blue';
 //app components
 import TagChip from '../Chips/TagChip';
-import Spinner from '../UI/Spinner';
+import Spinner from '../UI/SpinnerOffers';
 import Dnd from '../Dnd/dragDrop';
 
 const styles = {

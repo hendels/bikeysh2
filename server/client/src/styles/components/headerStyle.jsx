@@ -57,9 +57,11 @@ const headerStyle = {
     flex: 1
   },
   title: {
-    ...defaultFont,
+    // ...defaultFont,
+    fontFamily: 'Lobster, cursive', 
+    fontSize: `30px`,
+    textTransform: "lowercase",
     lineHeight: "30px",
-    fontSize: "18px",
     borderRadius: "3px",
     textTransform: "none",
     color: "inherit",
@@ -127,7 +129,7 @@ const headerStyle = {
   },
   bikeysh3_1: {
     backgroundColor: "#000",
-    color: bikeyshColor3,
+    color: bikeyshColor4,
     boxShadow:
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(194, 216, 239, 0.46)"
   },
