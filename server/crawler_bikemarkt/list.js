@@ -48,11 +48,7 @@ exports.bmList = input => {
                     var productItem = $(this);
 
                     var item = productItem
-                        .children()
-                        .eq(0)
-                        .children()
-                        .eq(0)
-                        .text();
+                        .children().eq(0).children().eq(0).text();
                     
                     var seller = productItem
                         .children()

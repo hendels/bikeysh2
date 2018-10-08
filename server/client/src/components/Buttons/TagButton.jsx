@@ -13,13 +13,13 @@ const styles = theme => ({
   badge: {
     top: 6,
     right: -15,
-    width: `15px`,
-    height: `15px`,
+    width: `17px`,
+    height: `17px`,
     backgroundColor: `#C96567`,
     // The border color match the background color.
-    border: `1px solid ${
-      theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[900]
-    }`,
+    // border: `1px solid ${
+    //   theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[900]
+    // }`,
   },
 });
 
@@ -49,7 +49,7 @@ class TagBadge extends React.Component {
     await axios.get(this.props.tagUrl + 'tagCount/' + this.props.offer._id).then(response  => response.data).then(result => {
       //console.log(`tags count: ${result[Object.keys(this.state.tagCount)[0]]} for offer id: ${this.props.offer._id}`);
       this.setState({tagCount: result}, () => {});
-  });
+    });
   }
   handleCloseTagDialog = async (value) => {
       await this.setState({ 

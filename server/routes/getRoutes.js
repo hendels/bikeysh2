@@ -14,6 +14,8 @@ const Tags = mongoose.model('tags');
 // const Scoring = mongoose.model('scoring');
 //management
 const tagMgt = require(`../db_management/tagManagement`);
+const genMgt = require('../db_management/generalManagement');
+
 //jobs
 // fillTagsJob = require('../jobs/jobs/fillTags');
 
@@ -113,15 +115,35 @@ module.exports = app => {
     //>>
     //==================================================================================================================
     //<<general
-    app.get('/api/scoring/:offerId', async (req, res) => {
+    app.get('/scoring/:offerId', async (req, res) => {
         //console.log('searching for tag count for...' + req.params.offerId);
         await mongoose.model('scoring').find({offerId: req.params.offerId}, (err, scoring) => {
             res.send({ scoring });
             console.log('got scored offer...');
-            console.log(scoring);
+            // console.log(scoring);
         });
     });
+    app.post('/api/bm/offer/fav', async (req, res) => {
+        console.log('fav to id: '+ req.body.id + ' / ' + req.body.model);
+        const model = req.body.model.toLowerCase();
+        genMgt.updateFavorite(req.body.id, model, favorite => {
+            res.send(favorite);
+            console.log(`favorite send = ${favorite}`)
+        });
+    })
+    
+    //>>
+    //==================================================================================================================
+    //<<scoring
+    app.get('/api/scoring/update/visibility/:offerId', async (req, res) => {
+        //console.log('searching for tag count for...' + req.params.offerId);
+        await mongoose.model('scoring').find({offerId: req.params.offerId}, (err, record) => {
 
+            scoring.updateVisibility(record[0]._id, visible => {
+                res.send(visible)
+            });
+        });
+    });
     //>>
     //==================================================================================================================
     //<<dhframes
@@ -141,10 +163,10 @@ module.exports = app => {
             res.send({ dhframes });
         });
     });
-    app.post('/api/bm/category/dhframes/fav', async (req, res) => {
-        console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
-        bm_dhframe.updateFavorite(req.body.id, req.body.markAs);
-    })
+    // app.post('/api/bm/category/dhframes/fav', async (req, res) => {
+    //     console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
+    //     bm_dhframe.updateFavorite(req.body.id, req.body.markAs);
+    // })
     app.get('/api/bm/category/dhframes/bestOffer/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
         const Dhframes = await mongoose
@@ -175,10 +197,10 @@ module.exports = app => {
             res.send({cranks});
         });
     });
-    app.post('/api/bm/category/cranks/fav', async (req, res) => {
-        console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
-        bm_crank.updateFavorite(req.body.id, req.body.markAs);
-    })
+    // app.post('/api/bm/category/cranks/fav', async (req, res) => {
+    //     console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
+    //     bm_crank.updateFavorite(req.body.id, req.body.markAs);
+    // })
     //>>cranks
     //==================================================================================================================
     //<<bestoffer
@@ -189,6 +211,7 @@ module.exports = app => {
             .find({
                 category: req.params.category,
                 urlActive: true,
+                showOffer: true,
                 countTotal: {$gt: 1}
             })
             // .limit(pageLimit)
@@ -222,10 +245,10 @@ module.exports = app => {
             res.send({ enduroframes });
         });
     });
-    app.post('/api/bm/category/enduroframes/fav', async (req, res) => {
-        console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
-        bm_enduroframe.updateFavorite(req.body.id, req.body.markAs);
-    })
+    // app.post('/api/bm/category/enduroframes/fav', async (req, res) => {
+    //     console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
+    //     bm_enduroframe.updateFavorite(req.body.id, req.body.markAs);
+    // })
     //>>enduroframes
     //==================================================================================================================
     //<<hubs
@@ -245,10 +268,10 @@ module.exports = app => {
             res.send({hubs});
         });
     });
-    app.post('/api/bm/category/hubs/fav', async (req, res) => {
-        console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
-        bm_hub.updateFavorite(req.body.id, req.body.markAs);
-    })
+    // app.post('/api/bm/category/hubs/fav', async (req, res) => {
+    //     console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
+    //     bm_hub.updateFavorite(req.body.id, req.body.markAs);
+    // })
     app.get('/api/bm/category/hubs/bestOffer/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
         const Hubs = await mongoose
@@ -279,9 +302,9 @@ module.exports = app => {
             res.send({ wheels });
         });
     });
-    app.post('/api/bm/category/wheels/fav', async (req, res) => {
-        console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
-        bm_wheel.updateFavorite(req.body.id, req.body.markAs);
-    })
+    // app.post('/api/bm/category/wheels/fav', async (req, res) => {
+    //     console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
+    //     bm_wheel.updateFavorite(req.body.id, req.body.markAs);
+    // })
     //>>wheels
 };

@@ -24,8 +24,10 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteButton from '../../FavButton/FavButtonBikeMarkt.jsx';
 import TagButton from '../../Buttons/TagButton';
 import TagDialog from '../../Dialogs/TagDialog.jsx';
-//hoc components
+import SnackbarHideOffer from '../../Snackbars/Snackbar.jsx';
 
+//hoc components
+import Aux from '../../../hoc/Ax/Ax';
 
 const styles = theme => ({
     card: {
@@ -59,7 +61,10 @@ const styles = theme => ({
       transform: 'rotate(180deg)',
     },
     avatar: {
-      backgroundColor: red[500],
+      backgroundColor: `#C96567`,
+      fontSize: `20px`,
+      fontFamily: `Lobster`,
+      textShadow: `1px 1px #314455`,
     },
 });
 
@@ -72,11 +77,15 @@ class BestOffer extends React.Component {
             expanded: false,
             grade: 'S',
             openTagDialog: false,
+            favorite: false,
+            visible: true,
+            showSnackHideOffer: false,
             scoringData: {
                 trueName: '', price: 0, currency: "...Loading", median: 0, 
                 countTotal: 0, scores: 0, itemState: "not defined",
                 yearTitle: 0, yearDescription: 0
-            }
+            },
+
         }
     }
     componentWillMount(){
@@ -97,8 +106,14 @@ class BestOffer extends React.Component {
             openTagDialog: false 
         });
     };
+    handleAddToFavorites = () => {
+
+    }
+    getOfferData = async () => {
+
+    }
     getScoringData = async () => {
-        await axios.get('/api/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
+        await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
             var scoringData = {
                 trueName: result.scoring[0].fullName,
                 price: result.scoring[0].price,
@@ -114,6 +129,18 @@ class BestOffer extends React.Component {
             // console.log(`scoring name: ${result[Object.keys(this.state.trueName)[0]]} for offer id: ${this.props.offer._id}`);
             // console.log(result[Object.keys(this.state.trueName)[0]]);
             // console.log(`scoring - name: ${result.scoring[0].fullName} price: ${result.scoring[0].price}`);
+      });
+    }
+    setOfferVisibility = async () => {
+        console.log(`setting offer visibility`);
+        await axios.get('/api/scoring/update/visibility/' + this.props.offer._id).then(response  => response.data).then(result => {
+            this.setState({visible: result}, () => {
+                if (!this.state.visible){
+                    this.props.reload();
+                    this.setState({showSnackHideOffer: true}, () => {})
+                }
+            });
+            
       });
     }
     render(){
@@ -143,12 +170,12 @@ class BestOffer extends React.Component {
                 break;
         }
         return(
-            
+            <Aux>
             <Card className={classes.card}>
                 <CardHeader
                 avatar={
                     <Avatar aria-label="Recipe" className={classes.avatar}>
-                    {this.state.grade}
+                    {parseFloat(this.state.scoringData.scores).toFixed(1)}
                     </Avatar>
                 }
                 action={
@@ -172,14 +199,14 @@ class BestOffer extends React.Component {
                 </Typography>
                 </CardContent>
                 <CardActions className={classes.actions} disableActionSpacing>
-                    <FavoriteButton dataKey={this.props.offer._id} favorite={this.props.offer.favorite} fetchUrl={this.props.fetchUrl}/>
+                    <FavoriteButton dataKey={this.props.offer._id} favorite={this.props.offer.favorite} fetchUrl={this.props.fetchUrl} model={this.props.model}/>
                     <TagButton onClick={this.handleClickOpenTagDialog} category={this.props.category} offer={this.props.offer} tagUrl={this.props.tagUrl}/>
                     {/* <TagDialog
                         open={this.state.openTagDialog}
                         onClose={this.handleClose}
                     /> */}
                     {/* delete from best offers + [todo] add modal popup */}
-                    <IconButton>
+                    <IconButton onClick={this.setOfferVisibility}>
                         {/* [to do] erase tags, and make them ignored? */}
                         <Delete/> 
                     </IconButton>
@@ -217,6 +244,8 @@ class BestOffer extends React.Component {
                 </CardContent>
                 </Collapse>
             </Card>
+            <SnackbarHideOffer open={this.state.showSnackHideOffer}/>
+            </Aux>
         )
     }
 }

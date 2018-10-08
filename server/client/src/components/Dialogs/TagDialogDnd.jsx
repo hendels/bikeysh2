@@ -49,7 +49,7 @@ class DialogDragAndDrop extends React.Component {
     };
     render() {
       const { classes, onClose, selectedValue, ...other } = this.props;
-      //<<split data to array
+      //<<split data to array [todo << da sie to zrobić lepiej] 
       let cleanTitle = this.props.offer.title.split('.').join(``).split(',').join(``);
       cleanTitle = cleanTitle.split('/').join(``).split(" ");
       cleanTitle = cleanTitle.filter(function(e) {return e});
@@ -71,7 +71,15 @@ class DialogDragAndDrop extends React.Component {
                     <AddIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary="Add tag" />
+                <ListItemText primary="Add new tag" />
+              </ListItem>
+              <ListItem button onClick={() => this.handleListItemClick('addAccount')}>
+                <ListItemAvatar>
+                  <Avatar>
+                    <AddIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Show ignored" />
               </ListItem>
             </List>
           <DialogActions>

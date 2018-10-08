@@ -19,22 +19,22 @@ class FavoriteButtonBikeMarkt extends React.Component {
         this.handleAddToFavorite = this.handleAddToFavorite.bind(this);
     }
     handleAddToFavorite = async (event) => {
-        //console.log(this.props.dataKey);
-        //console.log(this.props.fetchUrl);
-        const favorite = await axios.post(this.props.fetchUrl + 'fav', {
+        console.log(this.props.category);
+        // await axios.post(this.props.fetchUrl + 'fav', {
+        await axios.post(`/api/bm/offer/fav`, {
             userId: 'przemy',
             id: this.props.dataKey,
-            markAs: !this.props.favorite
-          }) 
-        // this.forceUpdate();
-        this.setState({
-            markedAs: false
-        }, () => {});
-        
+            markAs: !this.props.favorite,
+            model: this.props.model
+          })
+          .then(response  => response.data)
+          .then(result => {
+                this.setState({markedAs: result}, () => {});
+          })
     }
     render(){
         return(
-        <IconButton style={{color: "#E31B23"}} onClick={this.handleAddToFavorite}>
+        <IconButton style={{color: "#9E5A63"}} onClick={this.handleAddToFavorite}>
             {this.state.markedAs ? <Favorite/> : <FavoriteBorder />}
         </IconButton>
         )

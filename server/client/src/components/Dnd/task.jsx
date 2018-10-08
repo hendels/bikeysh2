@@ -29,11 +29,6 @@ export default class Task extends React.Component {
 
             <Draggable draggableId={this.props.task.id} index={this.props.index}>
             {(provided, snapshot)=>(
-                // <div
-                //     {...provided.draggableProps}
-                //     innerRef={provided.innerRef}
-                //     isDragging={snapshot.isDragging}
-                //     {...provided.dragHandleProps}>
                 <Container
                     {...provided.draggableProps}
                     innerRef={provided.innerRef}
@@ -50,7 +45,6 @@ export default class Task extends React.Component {
                     existingTags={this.props.existingTags}
                     />
                 </Container> 
-                // </div>
             )}
 
             </Draggable>

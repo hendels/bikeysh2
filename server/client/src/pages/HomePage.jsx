@@ -31,26 +31,26 @@ const styles = theme => ({
       padding: theme.spacing.unit * 2,
     },
   });
-  const applyCrankResult = (result) => (prevState) => ({
-    crankHits: result,
-    page: result.page,
-  });
-  const applyDhFramesResult = (result) => (prevState) => ({
-    dhFramesHits: result,
-    page: result.page,
-  });
-  const applyHubsResult = (result) => (prevState) => ({
-    hubsHits: result,
-    page: result.page,
-  });
-  const applyWheelsResult = (result) => (prevState) => ({
-    wheelsHits: result,
-    page: result.page,
-  });
-  const applyEnduroFramesResult = (result) => (prevState) => ({
-    enduroFramesHits: result,
-    page: result.page,
-  });
+//   const applyCrankResult = (result) => (prevState) => ({
+//     crankHits: result,
+//     page: result.page,
+//   });
+//   const applyDhFramesResult = (result) => (prevState) => ({
+//     dhFramesHits: result,
+//     page: result.page,
+//   });
+//   const applyHubsResult = (result) => (prevState) => ({
+//     hubsHits: result,
+//     page: result.page,
+//   });
+//   const applyWheelsResult = (result) => (prevState) => ({
+//     wheelsHits: result,
+//     page: result.page,
+//   });
+//   const applyEnduroFramesResult = (result) => (prevState) => ({
+//     enduroFramesHits: result,
+//     page: result.page,
+//   });
 class HomePage extends React.Component {
     constructor(props){
         super(props);
@@ -61,46 +61,47 @@ class HomePage extends React.Component {
             hubsHits: [],
             enduroFramesHits: [],
             page: null,
-            loading: false
+            loading: false,
+            reload: false,
         }
     }
     componentWillMount(){
         const setResult = 6;
-        this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'cranks');
-        this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'hubs');
-        this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'dhframes');
+        // this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'cranks');
+        // this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'hubs');
+        // this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'dhframes');
     }
-    fetchData = async (fetchUrl, pageLimit, type) => {
-        this.setState({loading: true});
-        const url = `${fetchUrl}${type}/${pageLimit}`;
-        console.log(url);
-        await axios.get(url).then(
-            response => response.data
-        ).then(result => {
-            this.onSetResult(result, type)
-            this.setState({loading: false});})
-    }
-    onSetResult = async (result, offerType) => {
-        switch(offerType){
-            case 'cranks':   
-                if (result.length !== 0) await this.setState(applyCrankResult(result));
-                break;
-            case 'dhframes':
-                if (result.length !== 0) await this.setState(applyDhFramesResult(result));
-                break;
-            case 'wheels':
-                if (result.length !== 0) await this.setState(applyWheelsResult(result));
-                break;
-            case 'enduroframes':
-                if (result.length !== 0) await this.setState(applyEnduroFramesResult(result));
-                break;
-            case 'hubs':
-                if (result.length !== 0) await this.setState(applyHubsResult(result));
-                break;
-            default:
-                break;
-        }
-    }
+    // fetchData = async (fetchUrl, pageLimit, type) => {
+    //     this.setState({loading: true});
+    //     const url = `${fetchUrl}${type}/${pageLimit}`;
+    //     console.log(url);
+    //     await axios.get(url).then(
+    //         response => response.data
+    //     ).then(result => {
+    //         this.onSetResult(result, type)
+    //         this.setState({loading: false});})
+    // }
+    // onSetResult = async (result, offerType) => {
+    //     switch(offerType){
+    //         case 'cranks':   
+    //             if (result.length !== 0) await this.setState(applyCrankResult(result));
+    //             break;
+    //         case 'dhframes':
+    //             if (result.length !== 0) await this.setState(applyDhFramesResult(result));
+    //             break;
+    //         case 'wheels':
+    //             if (result.length !== 0) await this.setState(applyWheelsResult(result));
+    //             break;
+    //         case 'enduroframes':
+    //             if (result.length !== 0) await this.setState(applyEnduroFramesResult(result));
+    //             break;
+    //         case 'hubs':
+    //             if (result.length !== 0) await this.setState(applyHubsResult(result));
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
     
     render(){
         const { classes } = this.props;
@@ -126,7 +127,14 @@ class HomePage extends React.Component {
                         </Grid>
                         <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="flex-start" spacing={Number(spacing)}>
                             <br/>
-                            <BestOfferBar category="Cranks" offerCount={cranks} fetchUrl={this.props.fetchUrls.cranks} tagUrl={this.props.fetchUrls.tags}/>
+                            <BestOfferBar 
+                                category="Cranks" 
+                                bestUrl={this.props.fetchUrls.bestoffer}
+                                //offerCount={cranks} 
+                                fetchUrl={this.props.fetchUrls.cranks} 
+                                tagUrl={this.props.fetchUrls.tags}
+                                model={this.props.models.cranks}
+                            />
                         </Grid>
                         <br/>
                         <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
@@ -134,7 +142,14 @@ class HomePage extends React.Component {
                                 <CategoryBar category="Downhill Frames"/>
                             </Grid>
                             <br/>
-                            <BestOfferBar category="Downhill Frames" offerCount={dhframes} fetchUrl={this.props.fetchUrls.dhFrames} tagUrl={this.props.fetchUrls.tags}/>
+                            <BestOfferBar 
+                                category="Downhill Frames" 
+                                //offerCount={dhframes} 
+                                bestUrl={this.props.fetchUrls.bestoffer}
+                                fetchUrl={this.props.fetchUrls.dhFrames} 
+                                tagUrl={this.props.fetchUrls.tags}
+                                model={this.props.models.dhframes}
+                            />
                         </Grid>
                         <br/>
                         <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
@@ -142,7 +157,13 @@ class HomePage extends React.Component {
                                 <CategoryBar category="Hubs"/>
                             </Grid>
                             <br/>
-                            <BestOfferBar category="Hubs" offerCount={hubs} fetchUrl={this.props.fetchUrls.hubs} tagUrl={this.props.fetchUrls.tags}/>
+                            <BestOfferBar 
+                                category="Hubs" 
+                                //offerCount={hubs} 
+                                bestUrl={this.props.fetchUrls.bestoffer}
+                                fetchUrl={this.props.fetchUrls.hubs} 
+                                tagUrl={this.props.fetchUrls.tags}
+                                model={this.props.models.hubs}/>
                         </Grid>
                         </div>
                     )}

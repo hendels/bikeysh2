@@ -4,6 +4,7 @@ const {Schema} = mongoose;
 const ScoringSchema = new Schema({
     offerId: String,
     offerOrigin: String,
+    showOffer: Boolean,
     fullName: String,
     scores: Number,
     grade: String,
@@ -20,7 +21,7 @@ const ScoringSchema = new Schema({
     yearDescription: Number,
     countTotal: Number,
     median: Number,
-    urlActive: Boolean
+    urlActive: Boolean,
 
 });
 //#create mongo model (table) - two arguments [name, schema]
@@ -31,6 +32,7 @@ exports.create = async (data) => {
     await new Scoring({
         offerId: data.offerId,
         offerOrigin: data.offerOrigin,
+        showOffer: true,
         fullName: data.fullName,
         category: data.category,
         manufacturerSetId: data.manufacturerSetId,
@@ -57,7 +59,18 @@ exports.updateScores = async (id, data) => {
         scoring.median = data.median;
         scoring.urlActive = data.urlActive;
         scoring.save().then(() => {
-            console.log(`[][][] update scores for Offer... ${id} scores: ${data.scores}`);
+            console.log(`[][][] update scores for Offer[scoring]... ${id} scores: ${data.scores}`);
+        });
+    });    
+};
+exports.updateVisibility = async (id, visible) => {
+    await Scoring.findById(id, (err, scoring) => {
+        // scoring.showOffer === null ? scoring.showOffer = false : null;
+        const currentStatus = scoring.showOffer;
+        scoring.showOffer = !currentStatus;
+        scoring.save().then(() => {
+            console.log(`[][][] setting visibility for Offer[scoring]... ${id} visibility: ${scoring.showOffer}`);
+            visible(scoring.showOffer);
         });
     });    
 };
