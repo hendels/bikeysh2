@@ -6,8 +6,8 @@ import {
   const categoryInfoStyle = theme => ({
     card: {
       display: "inline-block",
-      minWidth: 250,
-      maxWidth: 250,
+      minWidth: 180,
+      maxWidth: 180,
       minHeight: 350,
       background: 'linear-gradient(180deg, #314455 0%, #97aabd 85%,#314455 100%)',
     },

@@ -24,7 +24,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteButton from '../../FavButton/FavButtonBikeMarkt.jsx';
 import TagButton from '../../Buttons/TagButton';
 import TagDialog from '../../Dialogs/TagDialog.jsx';
-import SnackbarHideOffer from '../../Snackbars/Snackbar.jsx';
+
 
 //hoc components
 import Aux from '../../../hoc/Ax/Ax';
@@ -79,7 +79,6 @@ class BestOffer extends React.Component {
             openTagDialog: false,
             favorite: false,
             visible: true,
-            showSnackHideOffer: false,
             scoringData: {
                 trueName: '', price: 0, currency: "...Loading", median: 0, 
                 countTotal: 0, scores: 0, itemState: "not defined",
@@ -135,9 +134,12 @@ class BestOffer extends React.Component {
         console.log(`setting offer visibility`);
         await axios.get('/api/scoring/update/visibility/' + this.props.offer._id).then(response  => response.data).then(result => {
             this.setState({visible: result}, () => {
+                let objOffer = {
+                    id: this.props.offer._id,
+                    trueName: this.state.scoringData.trueName
+                }
                 if (!this.state.visible){
-                    this.props.reload();
-                    this.setState({showSnackHideOffer: true}, () => {})
+                    this.props.reload(objOffer);
                 }
             });
             
@@ -199,8 +201,18 @@ class BestOffer extends React.Component {
                 </Typography>
                 </CardContent>
                 <CardActions className={classes.actions} disableActionSpacing>
-                    <FavoriteButton dataKey={this.props.offer._id} favorite={this.props.offer.favorite} fetchUrl={this.props.fetchUrl} model={this.props.model}/>
-                    <TagButton onClick={this.handleClickOpenTagDialog} category={this.props.category} offer={this.props.offer} tagUrl={this.props.tagUrl}/>
+                    <FavoriteButton 
+                        dataKey={this.props.offer._id} 
+                        favorite={this.props.offer.favorite} 
+                        fetchUrl={this.props.fetchUrl} 
+                        model={this.props.model}
+                    />
+                    <TagButton 
+                        onClick={this.handleClickOpenTagDialog} 
+                        category={this.props.category} 
+                        offer={this.props.offer} 
+                        tagUrl={this.props.tagUrl}
+                    />
                     {/* <TagDialog
                         open={this.state.openTagDialog}
                         onClose={this.handleClose}
@@ -210,7 +222,11 @@ class BestOffer extends React.Component {
                         {/* [to do] erase tags, and make them ignored? */}
                         <Delete/> 
                     </IconButton>
-                    <IconButton href={this.props.offer.productUrl} target={`_blank`} className={classes.icon} >
+                    <IconButton q
+                        href={this.props.offer.productUrl} 
+                        target={`_blank`} 
+                        className={classes.icon} 
+                    >
                         <InfoIcon />
                     </IconButton>
                     <IconButton
@@ -244,7 +260,7 @@ class BestOffer extends React.Component {
                 </CardContent>
                 </Collapse>
             </Card>
-            <SnackbarHideOffer open={this.state.showSnackHideOffer}/>
+            
             </Aux>
         )
     }

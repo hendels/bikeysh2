@@ -1,8 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-
-
-
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -18,6 +15,8 @@ import BestOfferBar from '../containers/BestOfferBar/BestOfferBar.jsx';
 import Spinner from '../components/UI/SpinnerOffers';
 import BestOfferInfo from '../containers/PageInfos/PageInfo.jsx';
 import CategoryBar from '../components/UI/CategoryBar';
+import SnackbarHideOffer from '../components/Snackbars/Snackbar.jsx';
+
 const styles = theme => ({
     root: {
       flexGrow: 1,
@@ -31,30 +30,12 @@ const styles = theme => ({
       padding: theme.spacing.unit * 2,
     },
   });
-//   const applyCrankResult = (result) => (prevState) => ({
-//     crankHits: result,
-//     page: result.page,
-//   });
-//   const applyDhFramesResult = (result) => (prevState) => ({
-//     dhFramesHits: result,
-//     page: result.page,
-//   });
-//   const applyHubsResult = (result) => (prevState) => ({
-//     hubsHits: result,
-//     page: result.page,
-//   });
-//   const applyWheelsResult = (result) => (prevState) => ({
-//     wheelsHits: result,
-//     page: result.page,
-//   });
-//   const applyEnduroFramesResult = (result) => (prevState) => ({
-//     enduroFramesHits: result,
-//     page: result.page,
-//   });
+
 class HomePage extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            //unused?
             crankHits: [],
             dhFramesHits: [],
             wheelsHits: [],
@@ -62,8 +43,16 @@ class HomePage extends React.Component {
             enduroFramesHits: [],
             page: null,
             loading: false,
-            reload: false,
+            reloadBars: false,
+            //snack
+            showSnackHideOffer: true,
+            objOffer: {id: 0, trueName: ''}
+            //
         }
+    }
+    componentDidUpdate(){
+        console.log('updated!');
+
     }
     componentWillMount(){
         const setResult = 6;
@@ -71,7 +60,100 @@ class HomePage extends React.Component {
         // this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'hubs');
         // this.fetchData(this.props.fetchUrls.bestoffer, setResult, 'dhframes');
     }
-    // fetchData = async (fetchUrl, pageLimit, type) => {
+    handleSnack = (objOffer) => {
+
+        this.setState({showSnackHideOffer: true, objOffer: objOffer});
+        console.log(`snack state on homepage = ${this.state.showSnackHideOffer}`);
+    }
+    handleReload = () => {
+        this.setState({reloadBars: !this.state.reload});
+        this.forceUpdate();
+    }
+    render(){
+        const { classes } = this.props;
+        const spacing = 8;
+        // var cranks = this.state.crankHits;
+        // var dhframes = this.state.dhFramesHits;
+        // var hubs = this.state.hubsHits;
+
+        return(
+            <div>
+            <SnackbarHideOffer open={this.state.showSnackHideOffer} objOffer={this.state.objOffer} reload={this.handleReload}/>
+            <BestOfferInfo imageUrl={this.props.imageUrls.defaultImage} pageInfoTitle={`best offers this week so far ...`}/>
+            <div className={classNames(classes.main, classes.mainRaised)}>
+                <div className={classes.container}>
+                <Paper className={classes.root} elevation={10}>
+                    {/* <Typography variant="headline" component="h2">
+                    Some Chart?
+                    </Typography> */}
+                    {/* loading section => best offer section*/}
+                    {this.state.loading ? <Spinner/> : (
+                        <div>
+                        <Grid container direction="column" justify="center" alignItems="stretch">
+                            <CategoryBar category="Cranks"/>
+                        </Grid>
+                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="flex-start" spacing={Number(spacing)}>
+                            <br/>
+                            <BestOfferBar 
+                                category="Cranks" 
+                                bestUrl={this.props.fetchUrls.bestoffer}
+                                //offerCount={cranks} 
+                                fetchUrl={this.props.fetchUrls.cranks} 
+                                tagUrl={this.props.fetchUrls.tags}
+                                model={this.props.models.cranks}
+                                showSnack={this.handleSnack}
+                                reloadBar={this.state.reloadBars}
+                            />
+                        </Grid>
+                        <br/>
+                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
+                            <Grid container direction="column" justify="center" alignItems="stretch">
+                                <CategoryBar category="Downhill Frames"/>
+                            </Grid>
+                            <br/>
+                            <BestOfferBar 
+                                category="Downhill Frames" 
+                                //offerCount={dhframes} 
+                                bestUrl={this.props.fetchUrls.bestoffer}
+                                fetchUrl={this.props.fetchUrls.dhFrames} 
+                                tagUrl={this.props.fetchUrls.tags}
+                                model={this.props.models.dhframes}
+                                showSnack={this.handleSnack}
+                            />
+                        </Grid>
+                        <br/>
+                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
+                            <Grid container direction="column" justify="center" alignItems="stretch">
+                                <CategoryBar category="Hubs"/>
+                            </Grid>
+                            <br/>
+                            <BestOfferBar 
+                                category="Hubs" 
+                                //offerCount={hubs} 
+                                bestUrl={this.props.fetchUrls.bestoffer}
+                                fetchUrl={this.props.fetchUrls.hubs} 
+                                tagUrl={this.props.fetchUrls.tags}
+                                model={this.props.models.hubs}
+                                showSnack={this.handleSnack}
+                            />
+                        </Grid>
+                        </div>
+                    )}
+                    <p>&nbsp;</p>
+                </Paper>
+                </div>
+            </div>
+            </div>
+        )
+    }
+}
+HomePage.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(HomePage);
+
+// fetchData = async (fetchUrl, pageLimit, type) => {
     //     this.setState({loading: true});
     //     const url = `${fetchUrl}${type}/${pageLimit}`;
     //     console.log(url);
@@ -102,81 +184,23 @@ class HomePage extends React.Component {
     //             break;
     //     }
     // }
-    
-    render(){
-        const { classes } = this.props;
-        const spacing = 8;
-        var cranks = this.state.crankHits;
-        var dhframes = this.state.dhFramesHits;
-        var hubs = this.state.hubsHits;
-
-        return(
-            <div>
-            <BestOfferInfo imageUrl={this.props.imageUrls.defaultImage} pageInfoTitle={`best offers this week so far ...`}/>
-            <div className={classNames(classes.main, classes.mainRaised)}>
-                <div className={classes.container}>
-                <Paper className={classes.root} elevation={10}>
-                    {/* <Typography variant="headline" component="h2">
-                    Some Chart?
-                    </Typography> */}
-                    {/* loading section => best offer section*/}
-                    {this.state.loading ? <Spinner/> : (
-                        <div>
-                        <Grid container direction="column" justify="center" alignItems="stretch">
-                            <CategoryBar category="Cranks"/>
-                        </Grid>
-                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="flex-start" spacing={Number(spacing)}>
-                            <br/>
-                            <BestOfferBar 
-                                category="Cranks" 
-                                bestUrl={this.props.fetchUrls.bestoffer}
-                                //offerCount={cranks} 
-                                fetchUrl={this.props.fetchUrls.cranks} 
-                                tagUrl={this.props.fetchUrls.tags}
-                                model={this.props.models.cranks}
-                            />
-                        </Grid>
-                        <br/>
-                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
-                            <Grid container direction="column" justify="center" alignItems="stretch">
-                                <CategoryBar category="Downhill Frames"/>
-                            </Grid>
-                            <br/>
-                            <BestOfferBar 
-                                category="Downhill Frames" 
-                                //offerCount={dhframes} 
-                                bestUrl={this.props.fetchUrls.bestoffer}
-                                fetchUrl={this.props.fetchUrls.dhFrames} 
-                                tagUrl={this.props.fetchUrls.tags}
-                                model={this.props.models.dhframes}
-                            />
-                        </Grid>
-                        <br/>
-                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
-                            <Grid container direction="column" justify="center" alignItems="stretch">
-                                <CategoryBar category="Hubs"/>
-                            </Grid>
-                            <br/>
-                            <BestOfferBar 
-                                category="Hubs" 
-                                //offerCount={hubs} 
-                                bestUrl={this.props.fetchUrls.bestoffer}
-                                fetchUrl={this.props.fetchUrls.hubs} 
-                                tagUrl={this.props.fetchUrls.tags}
-                                model={this.props.models.hubs}/>
-                        </Grid>
-                        </div>
-                    )}
-                    <p>&nbsp;</p>
-                </Paper>
-                </div>
-            </div>
-            </div>
-        )
-    }
-}
-HomePage.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(HomePage);
+    //   const applyCrankResult = (result) => (prevState) => ({
+//     crankHits: result,
+//     page: result.page,
+//   });
+//   const applyDhFramesResult = (result) => (prevState) => ({
+//     dhFramesHits: result,
+//     page: result.page,
+//   });
+//   const applyHubsResult = (result) => (prevState) => ({
+//     hubsHits: result,
+//     page: result.page,
+//   });
+//   const applyWheelsResult = (result) => (prevState) => ({
+//     wheelsHits: result,
+//     page: result.page,
+//   });
+//   const applyEnduroFramesResult = (result) => (prevState) => ({
+//     enduroFramesHits: result,
+//     page: result.page,
+//   });

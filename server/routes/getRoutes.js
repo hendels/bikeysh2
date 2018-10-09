@@ -17,7 +17,6 @@ const tagMgt = require(`../db_management/tagManagement`);
 const genMgt = require('../db_management/generalManagement');
 
 //jobs
-// fillTagsJob = require('../jobs/jobs/fillTags');
 
 module.exports = app => {
     //<<jobs
@@ -43,7 +42,7 @@ module.exports = app => {
         res.send({ server: 'apply scores' });
     });
     app.get('/test', (req, res) => {
-        findExistingPair('Race');
+        genMgt.clearHidesFromScoringTable();
     });
     //>>jobs
     //==================================================================================================================
@@ -93,10 +92,7 @@ module.exports = app => {
                 createTag.then(() => {
                 // console.log(`after create --- offerId: ${req.body.id} tagName: ${req.body.tagName}`);
                     Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
-                        // console.log(`existingTag: `);
-                        // console.log(existingTag);
                         if (existingTag) {
-                            // console.log(`tag ${req.body.tagName} update after create!`);
                             const tagPairNo = await tagMgt.defineTagPair(req.body.id, req.body.tagName, req.params.setTagTo);
                             tagMgt.updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo, tagPairNo);
                             res.send(existingTag.tagName);
@@ -163,10 +159,6 @@ module.exports = app => {
             res.send({ dhframes });
         });
     });
-    // app.post('/api/bm/category/dhframes/fav', async (req, res) => {
-    //     console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
-    //     bm_dhframe.updateFavorite(req.body.id, req.body.markAs);
-    // })
     app.get('/api/bm/category/dhframes/bestOffer/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
         const Dhframes = await mongoose
@@ -197,15 +189,11 @@ module.exports = app => {
             res.send({cranks});
         });
     });
-    // app.post('/api/bm/category/cranks/fav', async (req, res) => {
-    //     console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
-    //     bm_crank.updateFavorite(req.body.id, req.body.markAs);
-    // })
     //>>cranks
     //==================================================================================================================
     //<<bestoffer
-    app.get('/api/bm/bestoffer/:category/:pageLimit', async (req, res) => {
-        var pageLimit = parseInt(req.params.pageLimit);
+    app.get('/scoring/category/:category', async (req, res) => {
+        console.log('in scoring/cat');
         const Scoring = await mongoose
             .model('scoring')
             .find({
@@ -214,8 +202,28 @@ module.exports = app => {
                 showOffer: true,
                 countTotal: {$gt: 1}
             })
-            // .limit(pageLimit)
+            .select({ __v: false });
+        //console.log(Scoring);
+        var obj_ids = Scoring.map(id => {return id.offerId;});
+        const Model = await mongoose
+            .model(req.params.category)
+            .find({_id: {$in: obj_ids}})
+            .select({ __v: false }); 
+        res.send(Model);       
+    });
+    app.get('/api/bm/bestoffer/:category/:skipRange/:pageLimit', async (req, res) => {
+        var pageLimit = parseInt(req.params.pageLimit);
+        var skipRange = parseInt(req.params.skipRange);
+        const Scoring = await mongoose
+            .model('scoring')
+            .find({
+                category: req.params.category,
+                urlActive: true,
+                showOffer: true,
+                countTotal: {$gt: 1}
+            })
             .sort({'scores': -1})
+            .skip(skipRange)
             .limit(pageLimit)
             .select({ __v: false });
         var obj_ids = Scoring.map(id => {return id.offerId;});
@@ -245,10 +253,6 @@ module.exports = app => {
             res.send({ enduroframes });
         });
     });
-    // app.post('/api/bm/category/enduroframes/fav', async (req, res) => {
-    //     console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
-    //     bm_enduroframe.updateFavorite(req.body.id, req.body.markAs);
-    // })
     //>>enduroframes
     //==================================================================================================================
     //<<hubs
@@ -267,20 +271,6 @@ module.exports = app => {
         mongoose.model('hubs').count(function(err, hubs) {
             res.send({hubs});
         });
-    });
-    // app.post('/api/bm/category/hubs/fav', async (req, res) => {
-    //     console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
-    //     bm_hub.updateFavorite(req.body.id, req.body.markAs);
-    // })
-    app.get('/api/bm/category/hubs/bestOffer/:pageLimit', async (req, res) => {
-        var pageLimit = parseInt(req.params.pageLimit);
-        const Hubs = await mongoose
-            .model('hubs')
-            .find()
-            .limit(pageLimit)
-            .sort({'publishDate': -1})
-            .select({ bmartId: false, __v: false });
-        res.send(Hubs);            
     });
     //>>hubs
     //==================================================================================================================
@@ -302,9 +292,5 @@ module.exports = app => {
             res.send({ wheels });
         });
     });
-    // app.post('/api/bm/category/wheels/fav', async (req, res) => {
-    //     console.log('fav to id: '+ req.body.id + ' / ' + req.body.userId);
-    //     bm_wheel.updateFavorite(req.body.id, req.body.markAs);
-    // })
     //>>wheels
 };

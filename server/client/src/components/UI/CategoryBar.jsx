@@ -8,6 +8,7 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 // # style
 import categoryBarStyle from "../../styles/components/categoryBarStyle.jsx";
 
@@ -29,6 +30,7 @@ class CategoryBar extends React.Component {
                         <Typography component="h1">
                             {this.props.category} + option 'reveal all offers' + arrows which will show next 8 => var offers
                         </Typography>
+                        <Button>Reveal all</Button>
                         </CardContent>
                     </Card> 
                 </Grid>
