@@ -33,7 +33,7 @@ exports.bmList = input => {
     return new Promise((resolve, reject) => {
         request(input.iUrl, function(err, response, html) {
             if (err) {
-                reject(error);
+                reject(err);
             }
             if (html === undefined) return null;
             var $ = cheerio.load(html);

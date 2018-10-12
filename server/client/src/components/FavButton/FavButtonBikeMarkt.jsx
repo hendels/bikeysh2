@@ -34,7 +34,7 @@ class FavoriteButtonBikeMarkt extends React.Component {
     }
     render(){
         return(
-        <IconButton style={{color: "#9E5A63"}} onClick={this.handleAddToFavorite}>
+        <IconButton style={{color: "#c4273b"}} onClick={this.handleAddToFavorite}>
             {this.state.markedAs ? <Favorite/> : <FavoriteBorder />}
         </IconButton>
         )

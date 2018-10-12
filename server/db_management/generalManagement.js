@@ -21,13 +21,13 @@ exports.clearHidesFromScoringTable = async () => {
     });
 
 };
-exports.unhideSpecificScoring = async (offerId) => {
-    const Scoring = await mongoose.model('scoring').find({offerId: offerId}).select({ __v: false });
-    Scoring.map(score => {
-        score.showOffer = true;
-        score.save().then(()=>{
-            console.log(`${score.offerId} changed to visible.`)
-        });
-    });
+// exports.unhideSpecificScoring = async (offerId) => {
+//     const Scoring = await mongoose.model('scoring').find({offerId: offerId}).select({ __v: false });
+//     Scoring.map(score => {
+//         score.showOffer = true;
+//         score.save().then(()=>{
+//             console.log(`${score.offerId} changed to visible.`)
+//         });
+//     });
 
-};
+// };

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import BestOffer from '../../components/Offers/BestOffer/BestOffer.jsx';
+import BestOffer from '../../components/Offers/BestOffer/BestOfferCustom.jsx';
 import Grid from '@material-ui/core/Grid';
 import Aux from '../../hoc/Ax/Ax.js';
 import Button from '@material-ui/core/Button';
@@ -48,6 +48,7 @@ class BestOfferBar extends React.Component {
         reload: false,
         skipRange: 0,
         totalResult: 0,
+        barTail: 0
     }
     fetchData = async (fetchUrl, skipRange, pageLimit, model) => {
         this.setState({loading: true});
@@ -60,8 +61,11 @@ class BestOfferBar extends React.Component {
             await axios.get(url).then(
                 response => response.data
             ).then(result => {
+
+                const countTail = (Math.ceil(totalResult.length / pageLimit) * pageLimit) - totalResult.length;
+                console.log(`${model} === count tail: ${countTail}`);
                 this.onSetResult(result, model, totalResult.length)
-                this.setState({loading: false});})
+                this.setState({loading: false, barTail: countTail});})
         })
     }
     handleReload = (objOffer) => {
@@ -126,23 +130,27 @@ class BestOfferBar extends React.Component {
         )
         const previousButton = (
             <Grid key={`previousButton`} item>   
-                    <LoadNext onClick={this.handleShowPreviousOffers} caseHorizontal='left'/>
+                <LoadNext onClick={this.handleShowPreviousOffers} caseHorizontal='left'/>
             </Grid>
         )
         const nextButton = (
             <Grid key={`nextButton`} item>   
-                {/* <Button variant="fab" onClick={this.handleShowNextOffers} ><Arrow/></Button> */}
                 <LoadNext onClick={this.handleShowNextOffers} caseHorizontal='right'/>
             </Grid>
         )
+        const offersArray = this.state.offers;
+        if (this.state.barTail !== 0 && this.state.offers.length !== pageLimit){
+            for(let iTail = 0; iTail < this.state.barTail; iTail++){
+                offersArray.push({_id: `dummy`, title:`dummy`});
+                console.log(`bar tail: ${this.state.barTail } i = ${iTail}`)
+            }
+        }
+        console.log(`offers ===`);
+        console.log(offersArray);
+
         const offers = (
-            this.state.offers.map(offer => {  
-                var index = this.state.offers.indexOf(offer);  
+            offersArray.map(offer => {  
                 return(
-                    <Aux>
-                    {index === 0 ? (
-                    null
-                    ): null}
                     <Grid key={offer._id} item>   
                         <BestOffer 
                             offer={offer} 
@@ -153,23 +161,17 @@ class BestOfferBar extends React.Component {
                             reload={this.handleReload}
                         />
                     </Grid>
-                    
-                    {index + 1 === this.state.offers.length ? (
-                    null
-                    ) : null}
-                    </Aux>
                 )
             })
         )
         return(
-            this.state.loading ? <Spinner/> : (
             <Aux>
                 {categoryInfo}
                 {previousButton}
-                {offers}
+                {this.state.loading ? <Spinner/> : (<Aux>{offers}</Aux>)}
+                
                 {nextButton}
             </Aux>
-            )   
         )
     }
 }

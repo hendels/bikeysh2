@@ -13,7 +13,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
+import ButtonBase from '@material-ui/core/ButtonBase';
 //icons
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import InfoIcon from '@material-ui/icons/Info';
@@ -28,8 +28,15 @@ import TagDialog from '../../Dialogs/TagDialog.jsx';
 
 //hoc components
 import Aux from '../../../hoc/Ax/Ax';
+import { Grid } from '@material-ui/core';
 
 const styles = theme => ({
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        minWidth: '200px',
+        // width: '100%',
+    },
     card: {
       minWidth: 250,
       maxWidth: 250,
@@ -66,8 +73,117 @@ const styles = theme => ({
       fontFamily: `Lobster`,
       textShadow: `1px 1px #314455`,
     },
+    image: {
+        position: 'relative',
+        height: 350,
+        width: 250,
+        [theme.breakpoints.down('xs')]: {
+          width: '100% !important', // Overrides inline-style
+          height: 100,
+        },
+        '&:hover, &$focusVisible': {
+          zIndex: 1,
+          '& $imageBackdrop': {
+            opacity: 0.15,
+          },
+          '& $imageMarked': {
+            opacity: 0,
+          },
+          '& $imageTitle': {
+            border: '2px solid currentColor',
+          },
+        },
+    },
+    focusVisible: {},
+    imageButton: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: theme.palette.common.white,
+    },
+    imagePrice: {
+        position: 'relative',
+        left: 175,
+        right: 0,
+        top: -150,
+        opacity: 1,
+        color: '#fff',
+        fontSize: '15px'
+    },
+    imageScoring: {
+        position: 'relative',
+        left: 15,
+        right: 0,
+        top: -150,
+        opacity: 1,
+    },
+    imageSrc: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 40%',
+    },
+    imageBackdrop: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        backgroundColor: theme.palette.common.black,
+        opacity: 0.4,
+        transition: theme.transitions.create('opacity'),
+    },
+    imageTitle: {
+        position: 'relative',
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 4}px ${theme.spacing.unit + 6}px`,
+    },
+    imageMarked: {
+        height: 3,
+        width: 18,
+        backgroundColor: theme.palette.common.white,
+        position: 'absolute',
+        bottom: -2,
+        left: 'calc(50% - 9px)',
+        transition: theme.transitions.create('opacity'),
+    },
+    imageActionsFavorite: {
+        position: 'relative',
+        left: movePoint,
+        right: 0,
+        top: 150,
+        opacity: 1,
+    },
+    imageActionsTags: {
+        position: 'relative',
+        left: movePoint,
+        right: 0,
+        top: 150,
+        opacity: 1,
+    },
+    imageActionsHide: {
+        position: 'relative',
+        left: movePoint,
+        right: 0,
+        top: 150,
+        opacity: 1,
+    },
+    imageActionsInfo: {
+        position: 'relative',
+        left: movePoint,
+        right: 0,
+        top: 150,
+        opacity: 1,
+    }
 });
-
+const movePoint = -35;
 class BestOffer extends React.Component {
     constructor(props){
         super(props);
@@ -105,30 +221,26 @@ class BestOffer extends React.Component {
             openTagDialog: false 
         });
     };
-    handleAddToFavorites = () => {
-
-    }
-    getOfferData = async () => {
-
-    }
     getScoringData = async () => {
-        await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
-            var scoringData = {
-                trueName: result.scoring[0].fullName,
-                price: result.scoring[0].price,
-                currency: result.scoring[0].currency,
-                median: result.scoring[0].median,
-                countTotal: result.scoring[0].countTotal,
-                scores: result.scoring[0].scores,
-                itemState: result.scoring[0].itemState,
-                yearTitle: result.scoring[0].yearTitle,
-                yearDescription: result.scoring[0].yearDescription
-            }
-            this.setState({scoringData: scoringData}, () => {});
-            // console.log(`scoring name: ${result[Object.keys(this.state.trueName)[0]]} for offer id: ${this.props.offer._id}`);
-            // console.log(result[Object.keys(this.state.trueName)[0]]);
-            // console.log(`scoring - name: ${result.scoring[0].fullName} price: ${result.scoring[0].price}`);
-      });
+        if (this.props.offer._id !== `dummy`){
+            await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
+                var scoringData = {
+                    trueName: result.scoring[0].fullName,
+                    price: result.scoring[0].price,
+                    currency: result.scoring[0].currency,
+                    median: result.scoring[0].median,
+                    countTotal: result.scoring[0].countTotal,
+                    scores: result.scoring[0].scores,
+                    itemState: result.scoring[0].itemState,
+                    yearTitle: result.scoring[0].yearTitle,
+                    yearDescription: result.scoring[0].yearDescription
+                }
+                this.setState({scoringData: scoringData}, () => {});
+                // console.log(`scoring name: ${result[Object.keys(this.state.trueName)[0]]} for offer id: ${this.props.offer._id}`);
+                // console.log(result[Object.keys(this.state.trueName)[0]]);
+                // console.log(`scoring - name: ${result.scoring[0].fullName} price: ${result.scoring[0].price}`);
+          });
+        }
     }
     setOfferVisibility = async () => {
         console.log(`setting offer visibility`);
@@ -142,7 +254,6 @@ class BestOffer extends React.Component {
                     this.props.reload(objOffer);
                 }
             });
-            
       });
     }
     render(){
@@ -172,96 +283,69 @@ class BestOffer extends React.Component {
                 break;
         }
         return(
-            <Aux>
-            <Card className={classes.card} square="true">;
-                <CardHeader
-                avatar={
+            <div className={classes.root}>
+                <ButtonBase
+                    focusRipple
+                    className={classes.image}
+                    focusVisibleClassName={classes.focusVisible}
+                    onClick={this.props.onClick}
+                >
+                <span
+                    className={classes.imageSrc}
+                    style={{
+                        backgroundImage: `url(${piclink})`,
+                    }}
+                />
+                <span className={classes.imageBackdrop} />
+                {this.props.offer._id !== `dummy` ? (
+                <Aux>
+                <span className={classes.imageScoring}>
                     <Avatar aria-label="Recipe" className={classes.avatar}>
-                    {parseFloat(this.state.scoringData.scores).toFixed(1)}
+                        {parseFloat(this.state.scoringData.scores).toFixed(1)}
                     </Avatar>
-                }
-                action={
-                    <IconButton>
-                    <MoreVertIcon />
-                    </IconButton>
-                }
-                title={`${this.state.scoringData.price} ${this.state.scoringData.currency}`}
-                subheader={this.props.offer.publishDate}
-                
-                />
-                <CardMedia 
-                className={classes.media}
-                image={piclink}
-                title={this.props.offer.price}
-                />
-                <CardContent>
-                <Typography component="h3">
-                    {`${this.state.scoringData.trueName}${yearString} [${this.state.scoringData.itemState}]`}
-                    <p>  &nbsp;</p>
-                </Typography>
-                </CardContent>
-                <CardActions className={classes.actions} disableActionSpacing>
+                </span>
+                <span className={classes.imagePrice}>
+                    {`${this.state.scoringData.price} ${this.state.scoringData.currency}`}  
+                </span>
+                <span className={classes.imageButton}>
+                    {`${this.state.scoringData.trueName}${yearString} [${this.state.scoringData.itemState}]`}  
+                </span>
+                <span className={classes.imageActionsFavorite}>
                     <FavoriteButton 
                         dataKey={this.props.offer._id} 
                         favorite={this.props.offer.favorite} 
                         fetchUrl={this.props.fetchUrl} 
                         model={this.props.model}
                     />
+                </span>
+                <span className={classes.imageActionsTags}>
                     <TagButton 
                         onClick={this.handleClickOpenTagDialog} 
                         category={this.props.category} 
                         offer={this.props.offer} 
                         tagUrl={this.props.tagUrl}
                     />
-                    {/* <TagDialog
-                        open={this.state.openTagDialog}
-                        onClose={this.handleClose}
-                    /> */}
-                    {/* delete from best offers + [todo] add modal popup */}
+                </span>
+                <span className={classes.imageActionsHide}>
                     <IconButton onClick={this.setOfferVisibility}>
                         {/* [to do] erase tags, and make them ignored? */}
                         <Delete/> 
                     </IconButton>
-                    <IconButton q
+                </span>
+                <span className={classes.imageActionsInfo}>
+                    <IconButton 
                         href={this.props.offer.productUrl} 
                         target={`_blank`} 
                         className={classes.icon} 
                     >
                         <InfoIcon />
                     </IconButton>
-                    <IconButton
-                        className={classnames(classes.expand, {
-                        [classes.expandOpen]: this.state.expanded,
-                        })}
-                        onClick={this.handleExpandClick}
-                        aria-expanded={this.state.expanded}
-                        aria-label="Show more"
-                    >
-                    <ExpandMoreIcon />
-                </IconButton>
-                </CardActions>
-                <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph variant="body2">
-                    Original title: {this.props.offer.title}
-                    </Typography>
-                    <Typography paragraph variant="body2">
-                    Scores: {this.state.scoringData.scores}
-                    </Typography>
-                    <Typography paragraph variant="body2">
-                    Median: {this.state.scoringData.median}
-                    </Typography>
-                    <Typography paragraph variant="body2">
-                    Scores based on {this.state.scoringData.countTotal} offers with tag ratio: `ratio?`.
-                    </Typography>
-                    <Typography paragraph>
-                    Offer id: {this.props.offer._id}
-                    </Typography>
-                </CardContent>
-                </Collapse>
-            </Card>
-            
-            </Aux>
+                </span>
+                </Aux>
+                ): null}
+                
+                </ButtonBase>
+            </div>
         )
     }
 }

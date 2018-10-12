@@ -23,16 +23,19 @@ const drawerWidth = 260;
 const transition = {
   transition: "all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
 };
-
+const containerColor = {
+  opacity: "0.4"
+};
 const conatinerFluid = {
   paddingRight: "15px",
   paddingLeft: "15px",
   marginRight: "auto",
   marginLeft: "auto",
-  width: "100%"
+  width: "100%",
+  
 };
 const container = {
-  ...conatinerFluid,
+  ...conatinerFluid,  
   "@media (min-width: 576px)": {
     maxWidth: "540px"
   },
@@ -43,9 +46,13 @@ const container = {
     maxWidth: "960px"
   },
   "@media (min-width: 1200px)": {
-    maxWidth: "1140px"
+    maxWidth: "1600px"
   }
 };
+const containerBackground = {
+  ...container,
+  ...containerColor,
+}
 
 const boxShadow = {
   boxShadow:
@@ -189,6 +196,7 @@ export {
   drawerWidth,
   transition,
   container,
+  containerBackground,
   conatinerFluid,
   boxShadow,
   card,

@@ -91,7 +91,7 @@ class Header extends React.Component {
               // <Logo name={brand} color={color}/>
               <Button 
                   className={classes.title}
-                  component={Link} to="/home" 
+                  component={Link} to="/" 
                   mini={true} 
                   variant={`text`} 
                   style={{ color: color}}
@@ -135,7 +135,7 @@ class Header extends React.Component {
 }
 
 Header.defaultProp = {
-  color: "white"
+  color: "bikeysh3_1"
 };
 
 Header.propTypes = {

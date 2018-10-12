@@ -72,9 +72,6 @@ class HomePage extends React.Component {
     render(){
         const { classes } = this.props;
         const spacing = 8;
-        // var cranks = this.state.crankHits;
-        // var dhframes = this.state.dhFramesHits;
-        // var hubs = this.state.hubsHits;
 
         return(
             <div>
@@ -98,7 +95,7 @@ class HomePage extends React.Component {
                                 category="Cranks" 
                                 bestUrl={this.props.fetchUrls.bestoffer}
                                 //offerCount={cranks} 
-                                fetchUrl={this.props.fetchUrls.cranks} 
+                                //fetchUrl={this.props.fetchUrls.cranks} 
                                 tagUrl={this.props.fetchUrls.tags}
                                 model={this.props.models.cranks}
                                 showSnack={this.handleSnack}
@@ -115,10 +112,11 @@ class HomePage extends React.Component {
                                 category="Downhill Frames" 
                                 //offerCount={dhframes} 
                                 bestUrl={this.props.fetchUrls.bestoffer}
-                                fetchUrl={this.props.fetchUrls.dhFrames} 
+                                //fetchUrl={this.props.fetchUrls.dhFrames} 
                                 tagUrl={this.props.fetchUrls.tags}
                                 model={this.props.models.dhframes}
                                 showSnack={this.handleSnack}
+                                reloadBar={this.state.reloadBars}
                             />
                         </Grid>
                         <br/>
@@ -131,10 +129,43 @@ class HomePage extends React.Component {
                                 category="Hubs" 
                                 //offerCount={hubs} 
                                 bestUrl={this.props.fetchUrls.bestoffer}
-                                fetchUrl={this.props.fetchUrls.hubs} 
+                                //fetchUrl={this.props.fetchUrls.hubs} 
                                 tagUrl={this.props.fetchUrls.tags}
                                 model={this.props.models.hubs}
                                 showSnack={this.handleSnack}
+                                reloadBar={this.state.reloadBars}
+                            />
+                        </Grid>
+                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
+                            <Grid container direction="column" justify="center" alignItems="stretch">
+                                <CategoryBar category="Wheels"/>
+                            </Grid>
+                            <br/>
+                            <BestOfferBar 
+                                category="Wheels" 
+                                //offerCount={hubs} 
+                                bestUrl={this.props.fetchUrls.bestoffer}
+                                //fetchUrl={this.props.fetchUrls.wheels} 
+                                tagUrl={this.props.fetchUrls.tags}
+                                model={this.props.models.wheels}
+                                showSnack={this.handleSnack}
+                                reloadBar={this.state.reloadBars}
+                            />
+                        </Grid>
+                        <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
+                            <Grid container direction="column" justify="center" alignItems="stretch">
+                                <CategoryBar category="Enduro Frames"/>
+                            </Grid>
+                            <br/>
+                            <BestOfferBar 
+                                category="Enduro Frames" 
+                                //offerCount={hubs} 
+                                bestUrl={this.props.fetchUrls.bestoffer}
+                                //fetchUrl={this.props.fetchUrls.wheels} 
+                                tagUrl={this.props.fetchUrls.tags}
+                                model={this.props.models.enduroframes}
+                                showSnack={this.handleSnack}
+                                reloadBar={this.state.reloadBars}
                             />
                         </Grid>
                         </div>
