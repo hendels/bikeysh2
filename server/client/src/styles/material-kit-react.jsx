@@ -24,11 +24,12 @@ const transition = {
   transition: "all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
 };
 const containerColor = {
-  opacity: "0.4"
+  opacity: "0.9"
 };
 const conatinerFluid = {
   paddingRight: "15px",
   paddingLeft: "15px",
+  padding: "15px",
   marginRight: "auto",
   marginLeft: "auto",
   width: "100%",
@@ -52,6 +53,12 @@ const container = {
 const containerBackground = {
   ...container,
   ...containerColor,
+  // display: "flex",
+  // flexDirection: "row",
+  // flexWrap: "wrap",
+  background: "#314455",
+  // justifyContent: "space-between",
+  
 }
 
 const boxShadow = {
@@ -88,6 +95,8 @@ const bikeyshColor2 = `#644E5B`;
 const bikeyshColor3 = `#9E5A63`;
 const bikeyshColor4 = `#C96567`;
 const bikeyshColor5 = `#97AABD`;
+const bikeyshColor6 =  `#041424`;
+const bikeyshColor7 =  `#000`;
 
 const primaryBoxShadow = {
   boxShadow:
@@ -213,6 +222,8 @@ export {
   bikeyshColor3,
   bikeyshColor4,
   bikeyshColor5,
+  bikeyshColor6,
+  bikeyshColor7,
   primaryBoxShadow,
   infoBoxShadow,
   successBoxShadow,

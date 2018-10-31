@@ -1,22 +1,40 @@
 import {
     bikeyshColor4,
+    bikeyshColor5,
+    bikeyshColor6,
+    bikeyshColor7,
 } from "../material-kit-react";
 
   
   const categoryInfoStyle = theme => ({
-    card: {
-      display: "inline-block",
+    root:{
       minWidth: 180,
       maxWidth: 180,
       minHeight: 350,
-      background: 'linear-gradient(180deg, #314455 0%, #97aabd 85%,#314455 100%)',
+      padding: '1.5em 0 1.5em 0',
+      // flexGrow: 1,
+    },
+    card: {
+      // display: "flex",
+      minWidth: 180,
+      maxWidth: 180,
+      minHeight: 350,
+      background: `linear-gradient(180deg, ${bikeyshColor7} 0%, ${bikeyshColor6} 1%)`,
+      // background: bikeyshColor6
     },
     cardContent: {
-      // fontFamily: "Permanent Marker, cursive",
-      fontFamily: "Lobster, cursive",
-      fontSize: "45px",
+      fontFamily: "Pacifico, cursive",
+      // fontFamily: "Lobster, cursive",
+      fontSize: "25px",
+      color: bikeyshColor5,
       textShadow: `1px 1px ${bikeyshColor4}`,
+      textAlign: `center`,
+
+    },
+    cardButton: {
+      color: bikeyshColor5,
     }
+
   });
   
   export default categoryInfoStyle;

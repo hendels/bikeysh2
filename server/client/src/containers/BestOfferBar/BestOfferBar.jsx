@@ -4,14 +4,17 @@ import BestOffer from '../../components/Offers/BestOffer/BestOfferCustom.jsx';
 import Grid from '@material-ui/core/Grid';
 import Aux from '../../hoc/Ax/Ax.js';
 import Button from '@material-ui/core/Button';
-
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
 //app components
 import CategoryInfo from '../../components/UI/CategoryInfoCard.jsx';
 import Spinner from '../../components/UI/SpinnerOffers';
 import LoadNext from '../../components/UI/LoadButtonNext.jsx';
+// # styles
+import containerStyle from '../../styles/components/generalPageStyle.jsx';
 
 // # icons
-const pageLimit = 6;
+const pageLimit = 5;
 const applyCrankResult = (result) => (prevState) => ({
     crankHits: result,
     page: result.page,
@@ -123,21 +126,23 @@ class BestOfferBar extends React.Component {
         this.fetchData(this.props.bestUrl, this.state.skipRange, pageLimit, this.props.model);
     }
     render(){
+        const { classes } = this.props;
         const categoryInfo = (
-            <Grid key={'categoryInfo'} item>       
+            // <Grid key={'categoryInfo'} item>       
                 <CategoryInfo category={this.props.category}/>
-            </Grid>
+            // </Grid>
         )
         const previousButton = (
-            <Grid key={`previousButton`} item>   
+            // <Grid key={`previousButton`} item>   
                 <LoadNext onClick={this.handleShowPreviousOffers} caseHorizontal='left'/>
-            </Grid>
+            // </Grid>
         )
         const nextButton = (
-            <Grid key={`nextButton`} item>   
+            // <Grid key={`nextButton`} item>   
                 <LoadNext onClick={this.handleShowNextOffers} caseHorizontal='right'/>
-            </Grid>
+            // </Grid>
         )
+        // # add dummy placeholders to end of searching results
         const offersArray = this.state.offers;
         if (this.state.barTail !== 0 && this.state.offers.length !== pageLimit){
             for(let iTail = 0; iTail < this.state.barTail; iTail++){
@@ -145,8 +150,8 @@ class BestOfferBar extends React.Component {
                 console.log(`bar tail: ${this.state.barTail } i = ${iTail}`)
             }
         }
-        console.log(`offers ===`);
-        console.log(offersArray);
+        // console.log(`offers ===`);
+        // console.log(offersArray);
 
         const offers = (
             offersArray.map(offer => {  
@@ -166,14 +171,30 @@ class BestOfferBar extends React.Component {
         )
         return(
             <Aux>
-                {categoryInfo}
-                {previousButton}
-                {this.state.loading ? <Spinner/> : (<Aux>{offers}</Aux>)}
-                
-                {nextButton}
+                {/* <Paper className={classes.containerBackground} elevation={1} square="true"> */}
+                {/* <Paper className={classes.containerBackground} elevation={10} square="true"> */}
+                {/* <br/> */}
+                {/* CONTAINER!! */}
+                <Grid container className={classes.containerBackground} direction="row" alignItems="center" justify="space-between">
+                {/* <Grid container direction="row" alignItems="center" justify="space-between"> */}
+                    {/* <Grid item> */}
+                        {categoryInfo}
+                    {/* </Grid>                     */}
+                    {/* <Grid item> */}
+                        {previousButton}
+                    {/* </Grid> */}
+                {/* </Grid> */}
+                    {this.state.loading ? <Spinner pageLimit={pageLimit}/> : (<Aux>{offers}</Aux>)}
+                {/* <Grid item> */}
+                    {nextButton}
+                {/* </Grid> */}
+                <br/>
+                </Grid>
+                {/* CONTAINER */}
+                {/* </Paper> */}
             </Aux>
         )
     }
 }
 
-export default BestOfferBar;
+export default withStyles(containerStyle)(BestOfferBar);

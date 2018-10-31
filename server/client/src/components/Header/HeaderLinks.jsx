@@ -122,7 +122,10 @@ function HeaderLinks({ ...props }) {
             <Link to="/" className={classes.dropdownLink}>
               Stats
               {/* Page for each group and statistics for example - Dh frames, count all types by manufacturer and show models */}
-          </Link>,
+            </Link>,
+            <Link to="/" className={classes.dropdownLink}>
+              Missed high score offers
+            </Link>,
           ]}
         />
       </ListItem>

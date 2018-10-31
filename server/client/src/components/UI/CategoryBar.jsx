@@ -30,7 +30,7 @@ class CategoryBar extends React.Component {
                         <Typography component="h1">
                             {this.props.category} + option 'reveal all offers' + arrows which will show next 8 => var offers
                         </Typography>
-                        <Button>Reveal all</Button>
+                        {/* <Button>Reveal all</Button> */}
                         </CardContent>
                     </Card> 
                 </Grid>

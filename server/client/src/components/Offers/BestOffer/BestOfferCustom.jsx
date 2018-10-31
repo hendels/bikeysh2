@@ -3,32 +3,18 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 //icons
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import InfoIcon from '@material-ui/icons/Info';
 import Delete from '@material-ui/icons/DeleteSweep';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 //app components
 import FavoriteButton from '../../FavButton/FavButtonBikeMarkt.jsx';
 import TagButton from '../../Buttons/TagButton';
-import TagDialog from '../../Dialogs/TagDialog.jsx';
-
 
 //hoc components
 import Aux from '../../../hoc/Ax/Ax';
-import { Grid } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -99,12 +85,14 @@ const styles = theme => ({
         position: 'absolute',
         left: 0,
         right: 0,
-        top: 0,
+        top: 200,
         bottom: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         color: theme.palette.common.white,
+        textShadow: '1px 1px #000',
+        fontSize: '15px'
     },
     imagePrice: {
         position: 'relative',
@@ -196,7 +184,7 @@ class BestOffer extends React.Component {
             favorite: false,
             visible: true,
             scoringData: {
-                trueName: '', price: 0, currency: "...Loading", median: 0, 
+                trueName: '', price: 0, currency: "...", median: 0, 
                 countTotal: 0, scores: 0, itemState: "not defined",
                 yearTitle: 0, yearDescription: 0
             },
@@ -308,7 +296,7 @@ class BestOffer extends React.Component {
                     {`${this.state.scoringData.price} ${this.state.scoringData.currency}`}  
                 </span>
                 <span className={classes.imageButton}>
-                    {`${this.state.scoringData.trueName}${yearString} [${this.state.scoringData.itemState}]`}  
+                    <b>{`${this.state.scoringData.trueName}${yearString} [${this.state.scoringData.itemState}]`}</b>
                 </span>
                 <span className={classes.imageActionsFavorite}>
                     <FavoriteButton 

@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import BigSquareButton from './BigSquareButton.jsx';
 import {Link} from 'react-router-dom';
 
+
 class LandingButton extends React.Component {
     render (){
     const { classes } = this.props;
@@ -26,7 +27,7 @@ class LandingButton extends React.Component {
             </Grid>
             <Grid item>
                 {/* <Link to={this.props.linkTo}> */}
-                        <BigSquareButton component={Link} to={this.props.toLink} />
+                <BigSquareButton component={Link} to={this.props.toLink} />
                 {/* </Link> */}
             </Grid>
         </Grid>
