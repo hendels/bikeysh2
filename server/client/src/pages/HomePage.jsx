@@ -1,20 +1,13 @@
 import React from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
 //app components
 import BestOfferBar from '../containers/BestOfferBar/BestOfferBar.jsx';
-import Spinner from '../components/UI/SpinnerOffers';
 import BestOfferInfo from '../containers/PageInfos/PageInfo.jsx';
-import CategoryBar from '../components/UI/CategoryBar';
 import SnackbarHideOffer from '../components/Snackbars/Snackbar.jsx';
 
 const styles = theme => ({

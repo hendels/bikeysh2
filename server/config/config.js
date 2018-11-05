@@ -1,4 +1,4 @@
 module.exports = {
     pageSearchCount: 1,
-    testLimiter: 20
+    testLimiter: 40
 };

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Aux from '../../hoc/Ax/Ax';
 import axios from 'axios';
-import OfferBikeMarkt from '../../components/Offers/OfferBikeMarkt/OfferBikeMarkt';
+import OfferBikeMarkt from '../../components/Offers/OfferBikeMarkt/OfferBikeMarktCustom.jsx';
 // import classes from './OffersList.css';
 //material-ui core elements
 import { withStyles } from '@material-ui/core/styles';
@@ -14,17 +14,17 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 // # app components
 import PageInfo from '../../containers/PageInfos/PageInfo.jsx';
+//styles
+import containerStyle from '../../styles/components/generalPageStyle.jsx';
 
 const applyUpdateResult = (result) => (prevState) => ({
     hits: [...prevState, ...result],
-    // hits: [...result],
     page: result.page,
   });
   
 const applySetResult = (result) => (prevState) => ({
     hits: result,
     page: result.page,
-    //totalResult: prevState.result + result.length
 });
 
 let renderCount = 0;
@@ -147,7 +147,7 @@ class OffersList extends Component {
             <Aux>
                 {pageInfo}
                 <div className={classNames(classes.main, classes.mainRaised)}>
-                    {/* <div className={classes.container}> */}
+                    <div className={classes.container}>
                         <Paper className={classes.root} elevation={1}>
                             <Button variant="outlined" onClick={this.onPaginatedSearchPrevious}>Previous</Button>
                             <Button variant="outlined" onClick={this.onPaginatedSearchNext}>Next</Button>
@@ -168,11 +168,11 @@ class OffersList extends Component {
                         </Paper>   
                         <p>  &nbsp;</p>
                         <p>  &nbsp;</p>
-                    {/* </div> */}
+                    </div>
                 </div>
             </Aux>
         )
     }
 }
 
-export default withStyles(styles)(OffersList);
+export default withStyles(containerStyle)(OffersList);
