@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Aux from '../../hoc/Ax/Ax';
 import axios from 'axios';
-import OfferBikeMarkt from '../../components/Offers/OfferBikeMarkt/OfferBikeMarktCustom.jsx';
+import OffersPageResult from '../../components/Offers/OfferBikeMarkt/OffersBMPageResult';
 // import classes from './OffersList.css';
 //material-ui core elements
 import { withStyles } from '@material-ui/core/styles';
@@ -34,8 +34,11 @@ const styles = theme => ({
       ...theme.mixins.gutters(),
       paddingTop: theme.spacing.unit * 2,
       paddingBottom: theme.spacing.unit * 2,
-      background: '#344054'
+      
     },
+    container: {
+        background: containerStyle.bikeyshColor4
+    }
   });
 
 class OffersList extends Component {
@@ -146,19 +149,20 @@ class OffersList extends Component {
         return(
             <Aux>
                 {pageInfo}
-                <div className={classNames(classes.main, classes.mainRaised)}>
+                <div className={classNames(classes.main, classes.mainRaised)} style={{background: containerStyle.bikeyshColor4}}>
                     <div className={classes.container}>
-                        <Paper className={classes.root} elevation={1}>
+                        <Paper className={classes.containerBackground} elevation={1}>
                             <Button variant="outlined" onClick={this.onPaginatedSearchPrevious}>Previous</Button>
                             <Button variant="outlined" onClick={this.onPaginatedSearchNext}>Next</Button>
                             <p>{this.state.skip} of {totalArray}</p>
                         {/* <GridList cellHeight={140} className={classes.gridList} cols={2}> */}
                         <div style={{margin: '10px 10px 15px 10px'}}>
-                            <OfferBikeMarkt
+                            <OffersPageResult
                             offers={this.state.hits}
                             fetchUrl={this.state.fetchUrl}
                             tagUrl={this.props.tagUrl}
                             category={this.props.category}
+                            model={this.props.model}
                             />
                         </div>
                         {/* </GridList> */}

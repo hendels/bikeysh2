@@ -26,7 +26,7 @@ import {
       fontFamily: "Pacifico, cursive",
       // fontFamily: "Lobster, cursive",
       fontSize: "25px",
-      color: bikeyshColor5,
+      color: `linear-gradient(135deg, ${bikeyshColor5} 0%, #fff 10%)`,
       textShadow: `1px 1px ${bikeyshColor4}`,
       textAlign: `center`,
 

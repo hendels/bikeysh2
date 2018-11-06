@@ -84,6 +84,7 @@ class Layout extends Component {
                         tagUrl={fetchUrls.tags}    
                         category={`CRANKS`}  
                         imageUrls={imageUrls}
+                        model={dbModels.cranks}
                     />}
                 />
                 <Route exact path="/category/hubs" render={(props) => 
@@ -93,6 +94,7 @@ class Layout extends Component {
                         tagUrl={fetchUrls.tags}    
                         category={`HUBS`}     
                         imageUrls={imageUrls}  
+                        model={dbModels.hubs}
                     />}
                 />
                 <Route exact path="/category/wheels" render={(props) => 
@@ -102,6 +104,7 @@ class Layout extends Component {
                         tagUrl={fetchUrls.tags}    
                         category={`WHEELS`}   
                         imageUrls={imageUrls}  
+                        model={dbModels.wheels}
                     />}
                 />
                 <Route exact path="/category/dhframes" render={(props) => 
@@ -110,7 +113,8 @@ class Layout extends Component {
                         fetchUrl={fetchUrls.dhFrames}    
                         tagUrl={fetchUrls.tags}    
                         category={`DHFRAMES`} 
-                        imageUrls={imageUrls}     
+                        imageUrls={imageUrls}    
+                        model={dbModels.dhframes} 
                     />}
                 />
                 <Route exact path="/category/enduroframes" render={(props) => 
@@ -120,6 +124,7 @@ class Layout extends Component {
                         tagUrl={fetchUrls.tags}    
                         category={`ENDUROFRAMES`} 
                         imageUrls={imageUrls}   
+                        model={dbModels.enduroframes}
                     />}
                 />
                 </div>
