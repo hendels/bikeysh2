@@ -142,18 +142,21 @@ module.exports = app => {
     });
     //>>
     //==================================================================================================================
-    //<<dhframes
-    app.get('/api/bm/category/dhframes/:skipRange/:pageLimit', async (req, res) => {
+    //<<offerList
+    app.get('/api/bm/category/:model/:skipRange/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
         var skipRange = parseInt(req.params.skipRange);
         const DhFrames = await mongoose
-        .model('dhframes')
+        .model(req.params.model)
         .find()
+        .sort({'bmartId': -1})
         .skip(skipRange)
         .limit(pageLimit)
         .select({ __v: false });
         res.send(DhFrames);            
     });
+    //>>offerList
+    //<<dhframes
     app.get('/api/bm/category/dhframes', (req, res) => {
         mongoose.model('dhframes').count(function(err, dhframes) {
             res.send({ dhframes });
@@ -172,18 +175,18 @@ module.exports = app => {
     //>>dhframes
     //==================================================================================================================
     //<<cranks
-    app.get('/api/bm/category/cranks/:skipRange/:pageLimit', async (req, res) => {
-        var pageLimit = parseInt(req.params.pageLimit);
-        var skipRange = parseInt(req.params.skipRange);
-        const Cranks = await mongoose
-            .model('cranks')
-            .find()
-            .skip(skipRange)
-            .limit(pageLimit)
-            //.sort({'publishDate': -1})
-            .select({ bmartId: false, __v: false });
-        res.send(Cranks);            
-    });
+    // app.get('/api/bm/category/cranks/:skipRange/:pageLimit', async (req, res) => {
+    //     var pageLimit = parseInt(req.params.pageLimit);
+    //     var skipRange = parseInt(req.params.skipRange);
+    //     const Cranks = await mongoose
+    //         .model('cranks')
+    //         .find()
+    //         .skip(skipRange)
+    //         .limit(pageLimit)
+    //         //.sort({'publishDate': -1})
+    //         .select({ bmartId: false, __v: false });
+    //     res.send(Cranks);            
+    // });
     app.get('/api/bm/category/cranks', (req, res) => {
         mongoose.model('cranks').count(function(err, cranks) {
             res.send({cranks});
@@ -237,17 +240,17 @@ module.exports = app => {
     //>>bestoffer
     //==================================================================================================================
     //<<enduroframes
-    app.get('/api/bm/category/enduroframes/:skipRange/:pageLimit', async (req, res) => {
-        var pageLimit = parseInt(req.params.pageLimit);
-        var skipRange = parseInt(req.params.skipRange);
-        const EnduroFrames = await mongoose
-        .model('enduroframes')
-        .find()
-        .skip(skipRange)
-        .limit(pageLimit)
-        .select({ bmartId: false, __v: false });
-        res.send(EnduroFrames);            
-    });
+    // app.get('/api/bm/category/enduroframes/:skipRange/:pageLimit', async (req, res) => {
+    //     var pageLimit = parseInt(req.params.pageLimit);
+    //     var skipRange = parseInt(req.params.skipRange);
+    //     const EnduroFrames = await mongoose
+    //     .model('enduroframes')
+    //     .find()
+    //     .skip(skipRange)
+    //     .limit(pageLimit)
+    //     .select({ bmartId: false, __v: false });
+    //     res.send(EnduroFrames);            
+    // });
     app.get('/api/bm/category/enduroframes', (req, res) => {
         mongoose.model('enduroframes').count(function(err, enduroframes) {
             res.send({ enduroframes });
@@ -256,17 +259,17 @@ module.exports = app => {
     //>>enduroframes
     //==================================================================================================================
     //<<hubs
-    app.get('/api/bm/category/hubs/:skipRange/:pageLimit', async (req, res) => {
-        var pageLimit = parseInt(req.params.pageLimit);
-        var skipRange = parseInt(req.params.skipRange);
-        const Hubs = await mongoose
-            .model('hubs')
-            .find()
-            .skip(skipRange)
-            .limit(pageLimit)
-            .select({ bmartId: false, __v: false });
-        res.send(Hubs);            
-    });
+    // app.get('/api/bm/category/hubs/:skipRange/:pageLimit', async (req, res) => {
+    //     var pageLimit = parseInt(req.params.pageLimit);
+    //     var skipRange = parseInt(req.params.skipRange);
+    //     const Hubs = await mongoose
+    //         .model('hubs')
+    //         .find()
+    //         .skip(skipRange)
+    //         .limit(pageLimit)
+    //         .select({ bmartId: false, __v: false });
+    //     res.send(Hubs);            
+    // });
     app.get('/api/bm/category/hubs', (req, res) => {
         mongoose.model('hubs').count(function(err, hubs) {
             res.send({hubs});
@@ -275,18 +278,18 @@ module.exports = app => {
     //>>hubs
     //==================================================================================================================
     //<<wheels
-    app.get('/api/bm/category/wheels/:skipRange/:pageLimit', async (req, res) => {
-        var pageLimit = parseInt(req.params.pageLimit);
-        var skipRange = parseInt(req.params.skipRange);
-        const Wheels = await mongoose
-            .model('wheels')
-            .find()
-            .skip(skipRange)
-            .limit(pageLimit)
-            .select({ bmartId: false, __v: false });
-        res.send(Wheels);    
-        console.log('wheels loadeds.');
-    });
+    // app.get('/api/bm/category/wheels/:skipRange/:pageLimit', async (req, res) => {
+    //     var pageLimit = parseInt(req.params.pageLimit);
+    //     var skipRange = parseInt(req.params.skipRange);
+    //     const Wheels = await mongoose
+    //         .model('wheels')
+    //         .find()
+    //         .skip(skipRange)
+    //         .limit(pageLimit)
+    //         .select({ bmartId: false, __v: false });
+    //     res.send(Wheels);    
+    //     console.log('wheels loadeds.');
+    // });
     app.get('/api/bm/category/wheels', (req, res) => {
         mongoose.model('wheels').count(function(err, wheels) {
             res.send({ wheels });

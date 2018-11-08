@@ -8,45 +8,8 @@ import OfferBMCustom from './OfferBMCustom.jsx';
 
 
 const styles = theme => ({
-    root: {
-    //   display: 'flex',
-    //   flexWrap: 'nowrap',
-    //   justifyContent: 'space-around',
-    //   position: 'relative',
-        width: 1000,
-        height: 200,
-    },
-    gridElement: {
-      width: 1000,
-      height: 200,
-      position: "relative"
-      
-    },
-    gridElementDownbar: {
-        position: 'relative',
-        // zIndex: 1,
-        minWidth: 1000,
-        minHeight: 50,
-        background: "#000",
-        opacity: "0.5",
-        color: "#fff"
-    },
-    gridElementInfo: {
-        width: 250,
-        height: 200,
-        background: "#2c338d"
-    },
-    actionItem: {
-        margin: "auto",
-        width: "50%"
-    },
-    avatar: {
-        backgroundColor: `#C96567`,
-        fontSize: `20px`,
-        fontFamily: `Lobster`,
-        textShadow: `1px 1px #314455`,
-    },
-  });
+
+});
 
 
 class offerBikeMarkt extends React.Component{
@@ -58,12 +21,26 @@ var listElements = this.props.offers.map(offer => {
     let piclink = <a>No image at all.</a>;
     if(offer.pictures !== null || offer.pictures !== undefined){
         for (var x in offer.pictures){
-            piclink = offer.pictures[x]
+            const picUrl = offer.pictures[x];
+            if (picUrl !== null){
+                picUrl.length > 0? piclink = picUrl.replace(`large`, `medium`) : null;
+            }
+            
             break;
         }
     };
+    console.log(`render offer ${offer._id}`);
     return(
-        <OfferBMCustom offer={offer} piclink={piclink} fetchUrl={this.state.fetchUrl} tagUrl={this.props.tagUrl} model={this.props.model}/>
+        <OfferBMCustom 
+            offer={offer} 
+            piclink={piclink} 
+            fetchUrl={this.state.fetchUrl} 
+            tagUrl={this.props.tagUrl} 
+            model={this.props.model}
+            rerender={this.props.rerender}
+            category={this.props.category}
+            // unmount={this.props.unmount}
+        />
     )
 }) ;
 return (

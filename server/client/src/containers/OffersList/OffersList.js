@@ -14,32 +14,36 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 // # app components
 import PageInfo from '../../containers/PageInfos/PageInfo.jsx';
+import Pagination from '../../components/Pagination/OfferListPagination.jsx'
 //styles
-import containerStyle from '../../styles/components/generalPageStyle.jsx';
+import containerStyle from '../../styles/components/offerListStyle';
 
-const applyUpdateResult = (result) => (prevState) => ({
-    hits: [...prevState, ...result],
-    page: result.page,
-  });
+// const applyUpdateResult = (result) => (prevState) => ({
+//     hits: [...prevState, ...result],
+//     page: result.page,
+//   });
   
-const applySetResult = (result) => (prevState) => ({
-    hits: result,
-    page: result.page,
-});
+// const applySetResult = (result) => (prevState) => ({
+//     hits: result,
+//     page: result.page,
+// });
 
 let renderCount = 0;
 
-const styles = theme => ({
-    root: {
-      ...theme.mixins.gutters(),
-      paddingTop: theme.spacing.unit * 2,
-      paddingBottom: theme.spacing.unit * 2,
+// const styles = theme => ({
+//     root: {
+//       ...theme.mixins.gutters(),
+//       paddingTop: theme.spacing.unit * 2,
+//       paddingBottom: theme.spacing.unit * 2,
       
-    },
-    container: {
-        background: containerStyle.bikeyshColor4
-    }
-  });
+//     },
+//     container: {
+//         background: containerStyle.bikeyshColor4
+//     },
+//     containerOfferList: {
+//         minWidth: `1100px`
+//     }
+//   });
 
 class OffersList extends Component {
     constructor(props){
@@ -54,33 +58,35 @@ class OffersList extends Component {
             page: null,
             skip: 0,
             pageItems: props.pageLimit,
-            totalResult: 0
-            
-            // pageItems: 10
+            totalResult: 0,
+            reload: false
         }
     }
     
     componentDidMount() {
-
-        this.fetchData(this.state.skip, this.state.pageItems);
-        axios.get(this.state.fetchUrl).then(response  => response.data).then(result => {
-            this.setState({totalResult: result});
-            console.log('array count '+ this.state.fetchUrl + ' = ' + result[Object.keys(this.state.totalResult)[0]]);
+        axios.get(this.props.fetchUrl).then(response  => response.data).then(result => {
+            this.setState({totalResult: result}, ()=>{
+                this.fetchData(this.state.skip, this.state.pageItems);
+            });
         });
-
-        //console.log(this.state);
     }
     fetchData = (skip, pageLimit) => {
-        axios.get(this.state.fetchUrl + skip + '/' + pageLimit).then(
+        const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
+        let sortedSkip = totalArray - skip + 10;
+        axios.get(`/api/bm/category/`+ this.props.model + `/` + skip + '/' + pageLimit).then(
             response => response.data
         ).then(result => this.onSetResult(result, skip))
     }
+    
     onSetResult = (result, skip) =>{
         if (result.length !== 0){
-            this.setState(applySetResult(result, skip));}
-        //console.log(result);
+            this.setState({hits: result, reload: !this.state.reload}, () => {
+                console.log(`fetched hits and reload =${this.state.reload}`);
+                console.log(this.state.hits);
+                this.forceUpdate();
+                window.scrollTo(0, 0);
+            });}
     }
-
 
     onPaginatedSearchNext = () => {
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
@@ -92,12 +98,12 @@ class OffersList extends Component {
                 skip: newSkip
             }));
             this.fetchData(this.state.skip + this.state.pageItems, this.state.pageItems);
+            
             console.log("state SKIP : " + this.state.skip + " state RESULT.length : " + totalArray + " state pageItems : " + this.state.pageItems);
         }
         
     }
     onPaginatedSearchPrevious = () => {
-        // console.log("state SKIP : " + this.state.skip + " state RESULT.length : " + this.state.totalResult);
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
         let newSkip = this.state.skip - 10;
         if(newSkip <= 0) newSkip = 0;
@@ -108,12 +114,12 @@ class OffersList extends Component {
                 skip: newSkip
             }));
             this.fetchData(this.state.skip - this.state.pageItems, this.state.pageItems);
+            // this.forceUpdate();
         }
         
     }
-        
-
     render(){
+        console.log('render offer list');
         const { classes } = this.props;
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
         renderCount += 1;
@@ -144,31 +150,53 @@ class OffersList extends Component {
             default:
                 break;
         }
-            
-        
         return(
             <Aux>
                 {pageInfo}
                 <div className={classNames(classes.main, classes.mainRaised)} style={{background: containerStyle.bikeyshColor4}}>
                     <div className={classes.container}>
                         <Paper className={classes.containerBackground} elevation={1}>
-                            <Button variant="outlined" onClick={this.onPaginatedSearchPrevious}>Previous</Button>
-                            <Button variant="outlined" onClick={this.onPaginatedSearchNext}>Next</Button>
-                            <p>{this.state.skip} of {totalArray}</p>
-                        {/* <GridList cellHeight={140} className={classes.gridList} cols={2}> */}
-                        <div style={{margin: '10px 10px 15px 10px'}}>
-                            <OffersPageResult
-                            offers={this.state.hits}
-                            fetchUrl={this.state.fetchUrl}
-                            tagUrl={this.props.tagUrl}
-                            category={this.props.category}
-                            model={this.props.model}
-                            />
-                        </div>
-                        {/* </GridList> */}
-                            <Button variant="outlined" onClick={this.onPaginatedSearchPrevious}>Previous</Button>
-                            <Button variant="outlined" onClick={this.onPaginatedSearchNext}>Next</Button>
-                            <p>{this.state.skip} of {totalArray}</p>
+                        {/* //container for paginations & offers */}
+                        <Grid container direction="column" justify="center" alignContent="center">
+                            {/* //1st pagination */}
+                            <Grid item>
+                                {/* //container for first pagination */}
+                                {/* <Grid container direction="row" justify="flex-end" alignContent="flex-end" className={classes.containerOfferList}> */}
+                                    {/* <Grid item>
+                                        <Button variant="outlined" onClick={this.onPaginatedSearchPrevious}>Previous</Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button variant="outlined" onClick={this.onPaginatedSearchNext}>Next</Button>
+                                    </Grid> */}
+                                    {/* <p>{this.state.skip} of {totalArray}</p>
+                                    <p>filter favs / without tags</p>
+                                    <p>add big arrow with back to home property and statistics below for cat</p> */}
+                                {/* </Grid> */}
+                                <Pagination show={this.state.skip} total={totalArray} 
+                                    previous={this.onPaginatedSearchPrevious} next={this.onPaginatedSearchNext}
+                                />
+                            </Grid>
+                            {/* //offer list */}
+                            <Grid item>
+                                {/* <div style={{margin: '10px 10px 15px 10px'}}> */}
+                                    <OffersPageResult
+                                        offers={this.state.hits}
+                                        fetchUrl={this.state.fetchUrl}
+                                        tagUrl={this.props.tagUrl}
+                                        category={this.props.category}
+                                        model={this.props.model}
+                                        rerender={this.state.reload}
+                                    />
+                                {/* </div> */}
+                            </Grid>
+                            {/* //2nd pagination */}
+                            <Grid item>
+                             {/* //container for 2nd pagination */}
+                                <Pagination show={this.state.skip} total={totalArray} 
+                                    previous={this.onPaginatedSearchPrevious} next={this.onPaginatedSearchNext}
+                                />
+                            </Grid>
+                        </Grid>
                         </Paper>   
                         <p>  &nbsp;</p>
                         <p>  &nbsp;</p>

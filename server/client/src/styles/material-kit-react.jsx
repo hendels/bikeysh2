@@ -54,7 +54,12 @@ const containerBackground = {
   ...container,
   ...containerColor,
   background: "#314455",
-}
+};
+const containerOfferList = {
+  ...conatinerFluid,
+  minWidth: `1250px`,
+  maxWidth: `1250px`,
+};
 
 const boxShadow = {
   boxShadow:
@@ -202,6 +207,7 @@ export {
   container,
   containerBackground,
   conatinerFluid,
+  containerOfferList,
   boxShadow,
   card,
   defaultFont,
