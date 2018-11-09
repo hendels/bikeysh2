@@ -312,6 +312,7 @@ return(
                 //functions on the right side icons and actions// */}
                 {/* * was on market time / is on market
                 * price drop?
+                * how many scores do you have compared to total records in specific category table
                 *  */}
         {/* </div> */}
         </Grid>
@@ -324,6 +325,12 @@ return(
                 {/* core info */}
                 <Grid item className={classes.gridElementInfoText}>
                     {`Days on market: ${diffDays}`}
+                </Grid>
+                <Grid item className={classes.gridElementInfoText}>
+                    {`Total price drop: ${0} times: x${0}`}
+                </Grid>
+                <Grid item className={classes.gridElementInfoText}>
+                    {`Average price:${0}`}
                 </Grid>
                 {/* actions */}
                 <Grid item>
