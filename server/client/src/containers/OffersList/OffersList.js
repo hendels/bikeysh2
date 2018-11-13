@@ -159,23 +159,11 @@ class OffersList extends Component {
                         {/* //container for paginations & offers */}
                         <Grid container direction="column" justify="center" alignContent="center">
                             {/* //1st pagination */}
-                            <Grid item>
-                                {/* //container for first pagination */}
-                                {/* <Grid container direction="row" justify="flex-end" alignContent="flex-end" className={classes.containerOfferList}> */}
-                                    {/* <Grid item>
-                                        <Button variant="outlined" onClick={this.onPaginatedSearchPrevious}>Previous</Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button variant="outlined" onClick={this.onPaginatedSearchNext}>Next</Button>
-                                    </Grid> */}
-                                    {/* <p>{this.state.skip} of {totalArray}</p>
-                                    <p>filter favs / without tags</p>
-                                    <p>add big arrow with back to home property and statistics below for cat</p> */}
-                                {/* </Grid> */}
+                            {/* <Grid item>
                                 <Pagination show={this.state.skip} total={totalArray} 
                                     previous={this.onPaginatedSearchPrevious} next={this.onPaginatedSearchNext}
                                 />
-                            </Grid>
+                            </Grid> */}
                             {/* //offer list */}
                             <Grid item>
                                 {/* <div style={{margin: '10px 10px 15px 10px'}}> */}
