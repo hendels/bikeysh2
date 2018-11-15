@@ -11,6 +11,7 @@ const CrankSchema = new Schema({
     publishDate: String,
     productUrl: String,
     price: String,
+    tagCount: Number,
     //////////[inner attributes]//////////
     description: String,
     watchedTimes: Number,
@@ -23,6 +24,7 @@ const CrankSchema = new Schema({
     viewed: Number,
     dealer: String,
     weight: String,
+    
     //////////[app attributes]//////////
     favorite: Boolean,
     //////////[specific attributes]//////////
@@ -51,7 +53,9 @@ exports.create = (data, atributes) => {
         publishDate: data.publishDate.trim(),
         productUrl: data.productUrl,
         price: data.price.trim(),
+        tagCount: 0,
         //# inner atributes /specificAtributes
+        
         description: translate.matchField(atributes, 'description'),
         watchedTimes: translate.matchField(atributes, 'watchedTimes'),
         manufacturer: translate.matchField(atributes, 'manufacturer'),

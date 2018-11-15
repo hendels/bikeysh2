@@ -51,6 +51,7 @@ class OffersList extends Component {
         
         this.state = {
             offers: [],
+            loadFavorites: false,
             selectedItemId: null,
             error: null,
             fetchUrl: props.fetchUrl,
@@ -62,7 +63,9 @@ class OffersList extends Component {
             reload: false
         }
     }
-    
+    componentWillMount() {
+        this.props.loadFavorites ? this.setState({loadFavorites: true}) : this.setState({loadFavorites: false})
+    }
     componentDidMount() {
         axios.get(this.props.fetchUrl).then(response  => response.data).then(result => {
             this.setState({totalResult: result}, ()=>{
@@ -70,10 +73,13 @@ class OffersList extends Component {
             });
         });
     }
+    componentWillUnmount() {
+        this.props.showFavorites(false);
+    }
     fetchData = (skip, pageLimit) => {
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
         let sortedSkip = totalArray - skip + 10;
-        axios.get(`/api/bm/category/`+ this.props.model + `/` + skip + '/' + pageLimit).then(
+        axios.get(`/api/bm/category/${this.props.model}/${skip}/${pageLimit}/${this.state.loadFavorites}`).then(
             response => response.data
         ).then(result => this.onSetResult(result, skip))
     }

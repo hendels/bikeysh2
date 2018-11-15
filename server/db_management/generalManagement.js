@@ -11,6 +11,17 @@ exports.updateFavorite = (id, model, favorite) => {
         });
     });    
 };
+exports.updateTagCounter = async (id, model, tagCounter) => {
+    const Model = mongoose.model(model);
+    Model.findById(id, (err, record) => {
+
+        record.tagCount = tagCounter;
+        record.save().then(() => {
+            console.log(`updated ${model} with counter tag = ${tagCounter}`);
+            //favorite(record.favorite);
+        });
+    });    
+};
 exports.clearHidesFromScoringTable = async () => {
     const Scoring = await mongoose.model('scoring').find().select({ __v: false });
     Scoring.map(score => {

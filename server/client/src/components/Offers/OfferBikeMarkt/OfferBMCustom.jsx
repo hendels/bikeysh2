@@ -350,7 +350,12 @@ return(
                             </IconButton>
                         </Grid>
                         <Grid item xs={3} className={classes.actionItem}>
-                            <TagButton offer={this.props.offer} tagUrl={this.props.tagUrl} color={bikeyshColor5} category={this.props.category}/>
+                            <TagButton 
+                                offer={this.props.offer} 
+                                tagUrl={this.props.tagUrl} 
+                                color={bikeyshColor5} 
+                                category={this.props.category}
+                                model={this.props.model}/>
                         </Grid>
                         <Grid item xs={3} className={classes.actionItem}>
                             <IconButton color="secondary" href={this.props.offer.productUrl} target={`_blank`}>

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 var cron = require('node-cron');
 const tags = require('../../models/tags');
 const tagMgt = require('../../db_management/tagManagement');
+const genMgt = require('../../db_management/generalManagement');
 const Tags = mongoose.model('tags');
 //get offer strings => start from title
 //[to do - get other strings and translate through google translator to english]
@@ -83,6 +84,7 @@ return new Promise(async (resolve, reject) => {
                                     if (existingTag) {
                                         const tagPairNo = await tagMgt.defineTagPair(freshTag.offerId, freshTag.tagName, properGroup)
                                         await tagMgt.updateModel(tags, existingTag, freshTag.tagName, properGroup, tagPairNo);
+                                        await genMgt.updateTagCounter(freshTag.offerId, currentCategory, 5);
                                     }
                                 })
 

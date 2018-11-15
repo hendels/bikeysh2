@@ -11,6 +11,7 @@ const HubsSchema = new Schema({
     publishDate: String,
     productUrl: String,
     price: String,
+    tagCount: Number,
     //////////[inner attributes]//////////
     description: String,
     watchedTimes: Number,
@@ -52,6 +53,7 @@ exports.create = (data, atributes) => {
         publishDate: data.publishDate.trim(),
         productUrl: data.productUrl,
         price: data.price.trim(),
+        tagCount: 0,
         //# inner atributes /specificAtributes
         description: translate.matchField(atributes, 'description'),
         watchedTimes: translate.matchField(atributes, 'watchedTimes'),
@@ -62,6 +64,7 @@ exports.create = (data, atributes) => {
         color: translate.matchField(atributes, 'color'),
         dealer: translate.matchField(atributes, 'dealer'),
         weight: translate.matchField(atributes, 'weight'),
+        
         //////////[app attributes]//////////
         favorite: false,
         //////////[specificAtributes]///////

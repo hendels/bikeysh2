@@ -22,14 +22,14 @@ const styles = theme => ({
 
 
 class TagBadge extends React.Component {
-  constructor(props){
-    super(props);
+  // constructor(props){
+  //   super(props);
 
-    this.state = {
+    state = {
         openTagDialog: false,
         tagCount: 0
     }
-  }
+  // }
 
   componentWillMount(){
     this.countAddedTags();
@@ -68,6 +68,7 @@ class TagBadge extends React.Component {
           open={this.state.openTagDialog}
           onClose={this.handleCloseTagDialog}
           category={this.props.category}
+          model={this.props.model}
           offer={this.props.offer}
           tagUrl={this.props.tagUrl}
         />

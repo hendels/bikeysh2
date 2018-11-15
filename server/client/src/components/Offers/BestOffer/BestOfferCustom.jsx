@@ -310,6 +310,7 @@ class BestOffer extends React.Component {
                     <TagButton 
                         onClick={this.handleClickOpenTagDialog} 
                         category={this.props.category} 
+                        model={this.props.model}
                         offer={this.props.offer} 
                         tagUrl={this.props.tagUrl}
                     />

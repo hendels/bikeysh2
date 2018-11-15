@@ -60,13 +60,13 @@ class BestOfferBar extends React.Component {
         const url = `${fetchUrl}${model}/${skipRange}/${pageLimit}`;
 
         await axios.get(urlTotalResult).then(response => response.data).then(async totalResult => {
-            // console.log(`total for category ${model} = ${totalResult.length}`);
+            console.log(`total for category ${model} = ${totalResult.length}`);
             await axios.get(url).then(
                 response => response.data
             ).then(result => {
 
                 const countTail = (Math.ceil(totalResult.length / pageLimit) * pageLimit) - totalResult.length;
-                // console.log(`${model} === count tail: ${countTail}`);
+                console.log(`${model} === count tail: ${countTail}`);
                 this.onSetResult(result, model, totalResult.length)
                 this.setState({loading: false, barTail: countTail});})
         })
@@ -76,7 +76,8 @@ class BestOfferBar extends React.Component {
             this.fetchData(this.props.bestUrl, this.state.skipRange, pageLimit, this.props.model);
             this.props.showSnack(objOffer);
             this.forceUpdate();
-            // console.log(`total result on bar = ${this.state.totalResult}`)
+            console.log(`total result on bar = ${this.state.totalResult}`)
+            
         });
         
     }
@@ -121,18 +122,25 @@ class BestOfferBar extends React.Component {
 
     }
     componentWillMount(){
+        
         this.fetchData(this.props.bestUrl, this.state.skipRange, pageLimit, this.props.model);
     }
     render(){
         const { classes } = this.props;
         const categoryInfo = (
-            <CategoryInfo category={this.props.category}/>
+            // <Grid key={'categoryInfo'} item>       
+                <CategoryInfo category={this.props.category} showFavorites={this.props.showFavorites} model={this.props.model}/>
+            // </Grid>
         )
         const previousButton = (
-            <LoadNext onClick={this.handleShowPreviousOffers} caseHorizontal='left'/>
+            // <Grid key={`previousButton`} item>   
+                <LoadNext onClick={this.handleShowPreviousOffers} caseHorizontal='left'/>
+            // </Grid>
         )
         const nextButton = (
-            <LoadNext onClick={this.handleShowNextOffers} caseHorizontal='right'/>
+            // <Grid key={`nextButton`} item>   
+                <LoadNext onClick={this.handleShowNextOffers} caseHorizontal='right'/>
+            // </Grid>
         )
         // # add dummy placeholders to end of searching results
         const offersArray = this.state.offers;
@@ -163,13 +171,27 @@ class BestOfferBar extends React.Component {
         )
         return(
             <Aux>
+                {/* <Paper className={classes.containerBackground} elevation={1} square="true"> */}
+                {/* <Paper className={classes.containerBackground} elevation={10} square="true"> */}
+                {/* <br/> */}
+                {/* CONTAINER!! */}
                 <Grid container className={classes.containerBackground} direction="row" alignItems="center" justify="space-between">
-                    {categoryInfo}
-                    {previousButton}
+                {/* <Grid container direction="row" alignItems="center" justify="space-between"> */}
+                    {/* <Grid item> */}
+                        {categoryInfo}
+                    {/* </Grid>                     */}
+                    {/* <Grid item> */}
+                        {previousButton}
+                    {/* </Grid> */}
+                {/* </Grid> */}
                     {this.state.loading ? <Spinner pageLimit={pageLimit}/> : (<Aux>{offers}</Aux>)}
+                {/* <Grid item> */}
                     {nextButton}
+                {/* </Grid> */}
                 <br/>
                 </Grid>
+                {/* CONTAINER */}
+                {/* </Paper> */}
             </Aux>
         )
     }

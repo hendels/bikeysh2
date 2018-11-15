@@ -1,19 +1,15 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-//icons
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Bookmark from '@material-ui/icons/Bookmark';
 // #app components
-
+import MissedDealsDialog from '../Dialogs/StatisticsDialog';
+import FavoritesDialog from '../Dialogs/StatisticsDialog';
+import StatisticsDialog from '../Dialogs/StatisticsDialog';
 // #hoc components
 // #style
 import categoryInfoStyle from '../../styles/components/categoryInfoStyle.jsx';
@@ -23,14 +19,32 @@ class CategoryInfo extends React.Component {
     state = {
         offerCount: this.props.offerCount,
         expanded: false,
-        grade: 'S',
-        openTagDialog: false,
+        openMissedDealsDialog: false,
+        openFavoritesDialog: false,
+        openStatisticsDialog: false,
         scoringData: {
             trueName: '', price: 0, currency: "...", median: 0, 
             countTotal: 0, scores: 0, itemState: "not defined",
             yearTitle: 0, yearDescription: 0
-        }
+        },
+
     }
+    handleClickOpenMissedDealsDialog = () => {
+        this.setState({openMissedDealsDialog: true});
+    };
+    handleClickOpenFavoritesDialog = async () => {
+        await this.props.showFavorites(true);
+    };
+    handleClickOpenStatisticsDialog = () => {
+        this.setState({openStatisticsDialog: true});
+    };
+    handleCloseDialog = () => {
+        this.setState({ 
+            openMissedDealsDialog: false,
+            openFavoritesDialog: false,
+            openStatisticsDialog: false,
+        });
+    };
     render(){
         const { classes } = this.props;
         return(
@@ -40,16 +54,34 @@ class CategoryInfo extends React.Component {
                     {this.props.category}
                 </Grid>
                 <Grid item>
-                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" >
+                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" onClick={this.handleClickOpenMissedDealsDialog}>
                         Missed deals
                     </Button>
-                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true">
+                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" 
+                        onClick={this.handleClickOpenFavoritesDialog} component={Link} to={`/category/${this.props.model}`}>
                         Favorites
                     </Button>
-                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" >
+                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" 
+                        onClick={this.handleClickOpenStatisticsDialog}  >
                         Statistics
                     </Button>
+                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" component={Link} to={`/category/${this.props.model}`}>
+                        Without tag
+                    </Button>
                 </Grid>
+                <MissedDealsDialog
+                    open={this.state.openMissedDealsDialog}
+                    onClose={this.handleCloseDialog}
+                />
+                <FavoritesDialog
+                    open={this.state.openFavoritesDialog}
+                    onClose={this.handleCloseDialog}
+                />
+                <StatisticsDialog
+                    open={this.state.openStatisticsDialog}
+                    onClose={this.handleCloseDialog}
+                    category={this.props.category}
+                />
             </Grid>
             </Card>
         )

@@ -34,9 +34,6 @@ export default class DragDrop extends React.Component{
             rerenderChip: false,
         });
     }
-    handleAddPairNumber = async () => {
-        
-    }
     handleAddToTagSet = async (tagName, targetColumnName) => {
         // console.log(`column name react: ${targetColumnName}`);
         await axios.post(this.props.tagUrl + `update/${targetColumnName}`, {
@@ -46,7 +43,8 @@ export default class DragDrop extends React.Component{
             offerOrigin: this.props.offerOrigin,
             active: true,
             category: this.props.category.toLowerCase(),
-            price: this.props.offer.price
+            price: this.props.offer.price,
+            model: this.props.model
           }).then(response => response.data).then(async result => {
               if (result){
 

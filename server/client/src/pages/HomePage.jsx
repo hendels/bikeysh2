@@ -79,9 +79,11 @@ class HomePage extends React.Component {
                             model={this.props.models.cranks}
                             showSnack={this.handleSnack}
                             reloadBar={this.state.reloadBars}
+                            showFavorites={this.props.showFavorites}
                         />
                         <br/>
                     </Grid>
+
                     <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
                         <BestOfferBar 
                             category="Downhill Frames" 
@@ -92,6 +94,7 @@ class HomePage extends React.Component {
                             model={this.props.models.dhframes}
                             showSnack={this.handleSnack}
                             reloadBar={this.state.reloadBars}
+                            showFavorites={this.props.showFavorites}
                         />
                         <br/>
                     </Grid>
@@ -105,6 +108,7 @@ class HomePage extends React.Component {
                             model={this.props.models.hubs}
                             showSnack={this.handleSnack}
                             reloadBar={this.state.reloadBars}
+                            showFavorites={this.props.showFavorites}
                         />
                         <br/>
                     </Grid>
@@ -118,6 +122,7 @@ class HomePage extends React.Component {
                             model={this.props.models.wheels}
                             showSnack={this.handleSnack}
                             reloadBar={this.state.reloadBars}
+                            showFavorites={this.props.showFavorites}
                         />
                         <br/>
                     </Grid>
@@ -131,6 +136,7 @@ class HomePage extends React.Component {
                             model={this.props.models.enduroframes}
                             showSnack={this.handleSnack}
                             reloadBar={this.state.reloadBars}
+                            showFavorites={this.props.showFavorites}
                         />
                         <br/>
                     </Grid>

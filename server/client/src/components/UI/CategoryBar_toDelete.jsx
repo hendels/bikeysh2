@@ -10,7 +10,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 // # style
-import categoryBarStyle from "../../styles/components/categoryBarStyle.jsx";
+import categoryBarStyle from "../../styles/components/categoryBarStyle";
 
 
 const styles = theme => ({

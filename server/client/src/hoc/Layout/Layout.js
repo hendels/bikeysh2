@@ -38,8 +38,14 @@ class Layout extends Component {
     state = {
         backgroundColor: backgroundColor,
         changeHeader: false,
-        changeColorHeader: "bikeysh3"
+        changeColorHeader: "bikeysh3",
+        loadFavorites: false,
+        loadWithoutTags: false,
     }
+    handleShowFavorizedOffers = (load) => {
+        this.setState({loadFavorites: load}, () => {});
+    }
+
     render () {
         const { classes, ...rest } = this.props;
         
@@ -73,7 +79,12 @@ class Layout extends Component {
                     <div>
                         <p>  &nbsp;</p>
                         <p>  &nbsp;</p>
-                        <HomePage fetchUrls={fetchUrls} imageUrls={imageUrls} models={dbModels}/>
+                        <HomePage 
+                            fetchUrls={fetchUrls} 
+                            imageUrls={imageUrls} 
+                            models={dbModels} 
+                            showFavorites={this.handleShowFavorizedOffers}
+                        />
                     </div>
                 }
                 />
@@ -85,6 +96,9 @@ class Layout extends Component {
                         category={`CRANKS`}  
                         imageUrls={imageUrls}
                         model={dbModels.cranks}
+                        loadFavorites={this.state.loadFavorites}
+                        loadWithoutTags={this.state.loadWithoutTags}
+                        showFavorites={this.handleShowFavorizedOffers}
                     />}
                 />
                 <Route exact path="/category/hubs" render={(props) => 
@@ -95,6 +109,9 @@ class Layout extends Component {
                         category={`HUBS`}     
                         imageUrls={imageUrls}  
                         model={dbModels.hubs}
+                        loadFavorites={this.state.loadFavorites}
+                        loadWithoutTags={this.state.loadWithoutTags}
+                        showFavorites={this.handleShowFavorizedOffers}
                     />}
                 />
                 <Route exact path="/category/wheels" render={(props) => 
@@ -105,6 +122,9 @@ class Layout extends Component {
                         category={`WHEELS`}   
                         imageUrls={imageUrls}  
                         model={dbModels.wheels}
+                        loadFavorites={this.state.loadFavorites}
+                        loadWithoutTags={this.state.loadWithoutTags}
+                        showFavorites={this.handleShowFavorizedOffers}
                     />}
                 />
                 <Route exact path="/category/dhframes" render={(props) => 
@@ -114,7 +134,10 @@ class Layout extends Component {
                         tagUrl={fetchUrls.tags}    
                         category={`DHFRAMES`} 
                         imageUrls={imageUrls}    
-                        model={dbModels.dhframes} 
+                        model={dbModels.dhframes}
+                        loadFavorites={this.state.loadFavorites}
+                        loadWithoutTags={this.state.loadWithoutTags}
+                        showFavorites={this.handleShowFavorizedOffers} 
                     />}
                 />
                 <Route exact path="/category/enduroframes" render={(props) => 
@@ -125,6 +148,9 @@ class Layout extends Component {
                         category={`ENDUROFRAMES`} 
                         imageUrls={imageUrls}   
                         model={dbModels.enduroframes}
+                        loadFavorites={this.state.loadFavorites}
+                        loadWithoutTags={this.state.loadWithoutTags}
+                        showFavorites={this.handleShowFavorizedOffers}
                     />}
                 />
                 </div>

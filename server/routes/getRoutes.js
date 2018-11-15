@@ -88,13 +88,14 @@ module.exports = app => {
                 var createTag = new Promise(async (resolve, reject) => {
                     await tags.create(req.body);
                     resolve();
-                  });
+                });
                 createTag.then(() => {
                 // console.log(`after create --- offerId: ${req.body.id} tagName: ${req.body.tagName}`);
                     Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
                         if (existingTag) {
                             const tagPairNo = await tagMgt.defineTagPair(req.body.id, req.body.tagName, req.params.setTagTo);
                             tagMgt.updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo, tagPairNo);
+                            genMgt.updateTagCounter(req.body.id, req.body.model, 1);
                             res.send(existingTag.tagName);
                         }
                     });  
@@ -143,17 +144,31 @@ module.exports = app => {
     //>>
     //==================================================================================================================
     //<<offerList
-    app.get('/api/bm/category/:model/:skipRange/:pageLimit', async (req, res) => {
+    app.get('/api/bm/category/:model/:skipRange/:pageLimit/:favFilter', async (req, res) => {
+        let favFilter = (req.params.favFilter === `true`);
+        console.log(`fav: ${favFilter}`);
         var pageLimit = parseInt(req.params.pageLimit);
         var skipRange = parseInt(req.params.skipRange);
-        const DhFrames = await mongoose
-        .model(req.params.model)
-        .find()
-        .sort({'bmartId': -1})
-        .skip(skipRange)
-        .limit(pageLimit)
-        .select({ __v: false });
-        res.send(DhFrames);            
+        if (favFilter){
+            const DhFrames = await mongoose
+            .model(req.params.model)
+            .find({favorite: favFilter})
+            .sort({'bmartId': -1})
+            .skip(skipRange)
+            .limit(pageLimit)
+            .select({ __v: false });
+            res.send(DhFrames);   
+        }else{
+            const DhFrames = await mongoose
+            .model(req.params.model)
+            .find()
+            .sort({'bmartId': -1})
+            .skip(skipRange)
+            .limit(pageLimit)
+            .select({ __v: false });
+            res.send(DhFrames);            
+        }
+        
     });
     //>>offerList
     //<<dhframes
