@@ -42,10 +42,12 @@ class Layout extends Component {
         loadFavorites: false,
         loadWithoutTags: false,
     }
-    handleShowFavorizedOffers = (load) => {
-        this.setState({loadFavorites: load}, () => {});
+    handleShowFavorizedOffers = async (load) => {
+        await this.setState({loadFavorites: load}, () => {});
     }
-
+    handleShowWithoutTag = async (load) => {
+        await this.setState({loadWithoutTags: load}, () => {});
+    }
     render () {
         const { classes, ...rest } = this.props;
         
@@ -84,6 +86,7 @@ class Layout extends Component {
                             imageUrls={imageUrls} 
                             models={dbModels} 
                             showFavorites={this.handleShowFavorizedOffers}
+                            showWithoutTags={this.handleShowWithoutTag}
                         />
                     </div>
                 }
@@ -99,6 +102,7 @@ class Layout extends Component {
                         loadFavorites={this.state.loadFavorites}
                         loadWithoutTags={this.state.loadWithoutTags}
                         showFavorites={this.handleShowFavorizedOffers}
+                        showWithoutTags={this.handleShowWithoutTag}
                     />}
                 />
                 <Route exact path="/category/hubs" render={(props) => 
@@ -112,6 +116,7 @@ class Layout extends Component {
                         loadFavorites={this.state.loadFavorites}
                         loadWithoutTags={this.state.loadWithoutTags}
                         showFavorites={this.handleShowFavorizedOffers}
+                        showWithoutTags={this.handleShowWithoutTag}
                     />}
                 />
                 <Route exact path="/category/wheels" render={(props) => 
@@ -125,6 +130,7 @@ class Layout extends Component {
                         loadFavorites={this.state.loadFavorites}
                         loadWithoutTags={this.state.loadWithoutTags}
                         showFavorites={this.handleShowFavorizedOffers}
+                        showWithoutTags={this.handleShowWithoutTag}
                     />}
                 />
                 <Route exact path="/category/dhframes" render={(props) => 
@@ -138,6 +144,7 @@ class Layout extends Component {
                         loadFavorites={this.state.loadFavorites}
                         loadWithoutTags={this.state.loadWithoutTags}
                         showFavorites={this.handleShowFavorizedOffers} 
+                        showWithoutTags={this.handleShowWithoutTag}
                     />}
                 />
                 <Route exact path="/category/enduroframes" render={(props) => 
@@ -151,6 +158,7 @@ class Layout extends Component {
                         loadFavorites={this.state.loadFavorites}
                         loadWithoutTags={this.state.loadWithoutTags}
                         showFavorites={this.handleShowFavorizedOffers}
+                        showWithoutTags={this.handleShowWithoutTag}
                     />}
                 />
                 </div>

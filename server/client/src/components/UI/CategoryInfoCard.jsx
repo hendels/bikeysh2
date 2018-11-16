@@ -32,16 +32,19 @@ class CategoryInfo extends React.Component {
     handleClickOpenMissedDealsDialog = () => {
         this.setState({openMissedDealsDialog: true});
     };
-    handleClickOpenFavoritesDialog = async () => {
+    handleClickOpenFavoritesFilter = async () => {
         await this.props.showFavorites(true);
     };
     handleClickOpenStatisticsDialog = () => {
         this.setState({openStatisticsDialog: true});
     };
+    handleClickOpenWithoutTagFilter = async () => {
+        await this.props.showWithoutTags(true);
+    }
     handleCloseDialog = () => {
         this.setState({ 
             openMissedDealsDialog: false,
-            openFavoritesDialog: false,
+            //openFavoritesDialog: false,
             openStatisticsDialog: false,
         });
     };
@@ -58,14 +61,19 @@ class CategoryInfo extends React.Component {
                         Missed deals
                     </Button>
                     <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" 
-                        onClick={this.handleClickOpenFavoritesDialog} component={Link} to={`/category/${this.props.model}`}>
+                        onClick={this.handleClickOpenFavoritesFilter} component={Link} 
+                        to={`/category/${this.props.model}`}
+                    >
                         Favorites
                     </Button>
                     <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" 
                         onClick={this.handleClickOpenStatisticsDialog}  >
                         Statistics
                     </Button>
-                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" component={Link} to={`/category/${this.props.model}`}>
+                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" 
+                        component={Link} to={`/category/${this.props.model}`}
+                        onClick={this.handleClickOpenWithoutTagFilter} 
+                    >
                         Without tag
                     </Button>
                 </Grid>

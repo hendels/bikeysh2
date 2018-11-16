@@ -32,13 +32,21 @@ exports.clearHidesFromScoringTable = async () => {
     });
 
 };
-// exports.unhideSpecificScoring = async (offerId) => {
-//     const Scoring = await mongoose.model('scoring').find({offerId: offerId}).select({ __v: false });
-//     Scoring.map(score => {
-//         score.showOffer = true;
-//         score.save().then(()=>{
-//             console.log(`${score.offerId} changed to visible.`)
-//         });
-//     });
+exports.fillTagCounterInAllModels = async () => {
+    let modelList = [`cranks`, `dhframes`, `enduroframes`, `wheels`, `hubs`];
+    for (var iModel = 0; iModel < modelList.length; iModel++){
+        let model = modelList[iModel];
 
-// };
+        const currentModel = await mongoose.model(model).find().select({ __v: false });
+        currentModel.map(table => {
+            mongoose.model('tags').count({offerId: table._id}, function(err, tags) {
+                table.tagCount = tags;
+                table.save().then(()=>{
+                    console.log(`setting offer ${table.bmartId} in model ${model} = ${table.tagCount}`);
+                });
+            });
+            
+        });
+    }
+
+};

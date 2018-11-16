@@ -41,8 +41,10 @@ module.exports = app => {
         require('../jobs/jobs/addScores');
         res.send({ server: 'apply scores' });
     });
-    app.get('/test', (req, res) => {
-        genMgt.clearHidesFromScoringTable();
+    app.get('/test', async (req, res) => {
+        // genMgt.clearHidesFromScoringTable();
+        await genMgt.fillTagCounterInAllModels();
+        console.log(`[DONE]`);
     });
     //>>jobs
     //==================================================================================================================
@@ -81,7 +83,7 @@ module.exports = app => {
             console.log('existing TAg Id: '+ existingTag);
             if (existingTag) {
 
-                const tagPairNo = await tagMgt.defineTagPair(req.body.id, req.body.tagName, req.params.setTagTo)
+                const tagPairNo = await tagMgt.defineTagPair(req.body.id, req.body.tagName, req.params.setTagTo);
                 tagMgt.updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo, tagPairNo);
 
             } else {        
@@ -95,7 +97,8 @@ module.exports = app => {
                         if (existingTag) {
                             const tagPairNo = await tagMgt.defineTagPair(req.body.id, req.body.tagName, req.params.setTagTo);
                             tagMgt.updateModel(tags, existingTag, req.body.tagName, req.params.setTagTo, tagPairNo);
-                            genMgt.updateTagCounter(req.body.id, req.body.model, 1);
+                            const tagCount = await mongoose.model('tags').count({offerId: req.body.id}, function(err, tags){return tags});
+                            genMgt.updateTagCounter(req.body.id, req.body.model, tagCount);
                             res.send(existingTag.tagName);
                         }
                     });  
@@ -144,30 +147,44 @@ module.exports = app => {
     //>>
     //==================================================================================================================
     //<<offerList
-    app.get('/api/bm/category/:model/:skipRange/:pageLimit/:favFilter', async (req, res) => {
+    app.get('/api/bm/category/:model/:skipRange/:pageLimit/:favFilter/:withoutTagsFilter', async (req, res) => {
         let favFilter = (req.params.favFilter === `true`);
-        console.log(`fav: ${favFilter}`);
+        let withoutTagsFilter = (req.params.withoutTagsFilter === `true`);
+        console.log(`favorite  filter: ${favFilter}`);
+        console.log(`withoutTags filter: ${withoutTagsFilter}`);
         var pageLimit = parseInt(req.params.pageLimit);
         var skipRange = parseInt(req.params.skipRange);
+        let filters = {}
         if (favFilter){
-            const DhFrames = await mongoose
-            .model(req.params.model)
-            .find({favorite: favFilter})
-            .sort({'bmartId': -1})
-            .skip(skipRange)
-            .limit(pageLimit)
-            .select({ __v: false });
-            res.send(DhFrames);   
-        }else{
-            const DhFrames = await mongoose
-            .model(req.params.model)
-            .find()
-            .sort({'bmartId': -1})
-            .skip(skipRange)
-            .limit(pageLimit)
-            .select({ __v: false });
-            res.send(DhFrames);            
+            filters = {
+                favorite: favFilter !== null ? favFilter : null,
+            }
         }
+        if (withoutTagsFilter){
+            filters = {
+                tagCount: withoutTagsFilter === true ? {$lt: 2} : null
+            }
+        }
+        // if (favFilter){
+            const currentModel = await mongoose
+                .model(req.params.model)
+                .find(filters)
+                .sort({'bmartId': -1})
+                .skip(skipRange)
+                .limit(pageLimit)
+                .select({ __v: false });
+
+            res.send(currentModel);   
+        // }else{
+        //     const DhFrames = await mongoose
+        //     .model(req.params.model)
+        //     .find()
+        //     .sort({'bmartId': -1})
+        //     .skip(skipRange)
+        //     .limit(pageLimit)
+        //     .select({ __v: false });
+        //     res.send(DhFrames);            
+        // }
         
     });
     //>>offerList

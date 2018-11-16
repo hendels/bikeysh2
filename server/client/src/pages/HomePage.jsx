@@ -80,6 +80,7 @@ class HomePage extends React.Component {
                             showSnack={this.handleSnack}
                             reloadBar={this.state.reloadBars}
                             showFavorites={this.props.showFavorites}
+                            showWithoutTags={this.props.showWithoutTags}
                         />
                         <br/>
                     </Grid>
@@ -95,6 +96,7 @@ class HomePage extends React.Component {
                             showSnack={this.handleSnack}
                             reloadBar={this.state.reloadBars}
                             showFavorites={this.props.showFavorites}
+                            showWithoutTags={this.props.showWithoutTags}
                         />
                         <br/>
                     </Grid>
@@ -109,6 +111,7 @@ class HomePage extends React.Component {
                             showSnack={this.handleSnack}
                             reloadBar={this.state.reloadBars}
                             showFavorites={this.props.showFavorites}
+                            showWithoutTags={this.props.showWithoutTags}
                         />
                         <br/>
                     </Grid>
@@ -123,6 +126,7 @@ class HomePage extends React.Component {
                             showSnack={this.handleSnack}
                             reloadBar={this.state.reloadBars}
                             showFavorites={this.props.showFavorites}
+                            showWithoutTags={this.props.showWithoutTags}
                         />
                         <br/>
                     </Grid>
@@ -137,6 +141,7 @@ class HomePage extends React.Component {
                             showSnack={this.handleSnack}
                             reloadBar={this.state.reloadBars}
                             showFavorites={this.props.showFavorites}
+                            showWithoutTags={this.props.showWithoutTags}
                         />
                         <br/>
                     </Grid>

@@ -129,7 +129,12 @@ class BestOfferBar extends React.Component {
         const { classes } = this.props;
         const categoryInfo = (
             // <Grid key={'categoryInfo'} item>       
-                <CategoryInfo category={this.props.category} showFavorites={this.props.showFavorites} model={this.props.model}/>
+                <CategoryInfo 
+                category={this.props.category} 
+                showFavorites={this.props.showFavorites} 
+                showWithoutTags={this.props.showWithoutTags}
+                model={this.props.model}
+                />
             // </Grid>
         )
         const previousButton = (

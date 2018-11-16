@@ -18,32 +18,7 @@ import Pagination from '../../components/Pagination/OfferListPagination.jsx'
 //styles
 import containerStyle from '../../styles/components/offerListStyle';
 
-// const applyUpdateResult = (result) => (prevState) => ({
-//     hits: [...prevState, ...result],
-//     page: result.page,
-//   });
-  
-// const applySetResult = (result) => (prevState) => ({
-//     hits: result,
-//     page: result.page,
-// });
-
 let renderCount = 0;
-
-// const styles = theme => ({
-//     root: {
-//       ...theme.mixins.gutters(),
-//       paddingTop: theme.spacing.unit * 2,
-//       paddingBottom: theme.spacing.unit * 2,
-      
-//     },
-//     container: {
-//         background: containerStyle.bikeyshColor4
-//     },
-//     containerOfferList: {
-//         minWidth: `1100px`
-//     }
-//   });
 
 class OffersList extends Component {
     constructor(props){
@@ -52,6 +27,7 @@ class OffersList extends Component {
         this.state = {
             offers: [],
             loadFavorites: false,
+            loadWithoutTags: false,
             selectedItemId: null,
             error: null,
             fetchUrl: props.fetchUrl,
@@ -64,7 +40,8 @@ class OffersList extends Component {
         }
     }
     componentWillMount() {
-        this.props.loadFavorites ? this.setState({loadFavorites: true}) : this.setState({loadFavorites: false})
+        this.props.loadFavorites ? this.setState({loadFavorites: true}) : this.setState({loadFavorites: false});
+        this.props.loadWithoutTags ? this.setState({loadWithoutTags: true}) : this.setState({loadWithoutTags: false});
     }
     componentDidMount() {
         axios.get(this.props.fetchUrl).then(response  => response.data).then(result => {
@@ -75,11 +52,12 @@ class OffersList extends Component {
     }
     componentWillUnmount() {
         this.props.showFavorites(false);
+        this.props.showWithoutTags(false);
     }
     fetchData = (skip, pageLimit) => {
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
         let sortedSkip = totalArray - skip + 10;
-        axios.get(`/api/bm/category/${this.props.model}/${skip}/${pageLimit}/${this.state.loadFavorites}`).then(
+        axios.get(`/api/bm/category/${this.props.model}/${skip}/${pageLimit}/${this.state.loadFavorites}/${this.state.loadWithoutTags}`).then(
             response => response.data
         ).then(result => this.onSetResult(result, skip))
     }
