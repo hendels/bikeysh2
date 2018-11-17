@@ -11,7 +11,14 @@ import {
   dangerColor,
   dangerBoxShadow,
   roseColor,
-  roseBoxShadow
+  roseBoxShadow,
+  bikeyshColor1,
+  bikeyshColor2,
+  bikeyshColor3,
+  bikeyshColor4,
+  bikeyshColor5,
+  bikeyshColor6,
+  bikeyshColor7
 } from "../material-kit-react.jsx";
 
 const customDropdownStyle = theme => ({
@@ -30,7 +37,7 @@ const customDropdownStyle = theme => ({
     fontSize: "14px",
     textAlign: "left",
     listStyle: "none",
-    backgroundColor: "#fff",
+    backgroundColor: bikeyshColor5,
     backgroundClip: "padding-box"
   },
   menuList: {
@@ -62,7 +69,7 @@ const customDropdownStyle = theme => ({
     clear: "both",
     fontWeight: "400",
     height: "fit-content",
-    color: "#333",
+    color: bikeyshColor6,
     whiteSpace: "nowrap"
   },
   blackHover: {

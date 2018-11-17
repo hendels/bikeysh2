@@ -60,13 +60,13 @@ class BestOfferBar extends React.Component {
         const url = `${fetchUrl}${model}/${skipRange}/${pageLimit}`;
 
         await axios.get(urlTotalResult).then(response => response.data).then(async totalResult => {
-            console.log(`total for category ${model} = ${totalResult.length}`);
+            // console.log(`total for category ${model} = ${totalResult.length}`);
             await axios.get(url).then(
                 response => response.data
             ).then(result => {
 
                 const countTail = (Math.ceil(totalResult.length / pageLimit) * pageLimit) - totalResult.length;
-                console.log(`${model} === count tail: ${countTail}`);
+                // console.log(`${model} === count tail: ${countTail}`);
                 this.onSetResult(result, model, totalResult.length)
                 this.setState({loading: false, barTail: countTail});})
         })
@@ -76,7 +76,7 @@ class BestOfferBar extends React.Component {
             this.fetchData(this.props.bestUrl, this.state.skipRange, pageLimit, this.props.model);
             this.props.showSnack(objOffer);
             this.forceUpdate();
-            console.log(`total result on bar = ${this.state.totalResult}`)
+            // console.log(`total result on bar = ${this.state.totalResult}`)
             
         });
         
@@ -117,7 +117,7 @@ class BestOfferBar extends React.Component {
         }
     }
     componentWillReceiveProps(){
-        console.log(`received props for ${this.props.model}! ${this.props.reloadBar}`);
+        // console.log(`received props for ${this.props.model}! ${this.props.reloadBar}`);
         if(this.props.reloadBar) this.fetchData(this.props.bestUrl, this.state.skipRange, pageLimit, this.props.model);
 
     }
@@ -128,24 +128,18 @@ class BestOfferBar extends React.Component {
     render(){
         const { classes } = this.props;
         const categoryInfo = (
-            // <Grid key={'categoryInfo'} item>       
-                <CategoryInfo 
-                category={this.props.category} 
-                showFavorites={this.props.showFavorites} 
-                showWithoutTags={this.props.showWithoutTags}
-                model={this.props.model}
-                />
-            // </Grid>
+            <CategoryInfo 
+            category={this.props.category} 
+            showFavorites={this.props.showFavorites} 
+            showWithoutTags={this.props.showWithoutTags}
+            model={this.props.model}
+            />
         )
         const previousButton = (
-            // <Grid key={`previousButton`} item>   
-                <LoadNext onClick={this.handleShowPreviousOffers} caseHorizontal='left'/>
-            // </Grid>
+            <LoadNext onClick={this.handleShowPreviousOffers} caseHorizontal='left'/>
         )
         const nextButton = (
-            // <Grid key={`nextButton`} item>   
-                <LoadNext onClick={this.handleShowNextOffers} caseHorizontal='right'/>
-            // </Grid>
+            <LoadNext onClick={this.handleShowNextOffers} caseHorizontal='right'/>
         )
         // # add dummy placeholders to end of searching results
         const offersArray = this.state.offers;
@@ -176,27 +170,13 @@ class BestOfferBar extends React.Component {
         )
         return(
             <Aux>
-                {/* <Paper className={classes.containerBackground} elevation={1} square="true"> */}
-                {/* <Paper className={classes.containerBackground} elevation={10} square="true"> */}
-                {/* <br/> */}
-                {/* CONTAINER!! */}
                 <Grid container className={classes.containerBackground} direction="row" alignItems="center" justify="space-between">
-                {/* <Grid container direction="row" alignItems="center" justify="space-between"> */}
-                    {/* <Grid item> */}
                         {categoryInfo}
-                    {/* </Grid>                     */}
-                    {/* <Grid item> */}
                         {previousButton}
-                    {/* </Grid> */}
-                {/* </Grid> */}
                     {this.state.loading ? <Spinner pageLimit={pageLimit}/> : (<Aux>{offers}</Aux>)}
-                {/* <Grid item> */}
                     {nextButton}
-                {/* </Grid> */}
                 <br/>
                 </Grid>
-                {/* CONTAINER */}
-                {/* </Paper> */}
             </Aux>
         )
     }

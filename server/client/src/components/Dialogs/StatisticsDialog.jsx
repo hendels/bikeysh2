@@ -97,25 +97,6 @@ class DialogDragAndDrop extends React.Component {
                   </DialogContentText>
                 </Grid>
               </Grid>
-              
-              {/* <DialogContentText className={classes.paperText}>
-                
-              </DialogContentText>
-              <DialogContentText className={classes.paperText}>
-                
-              </DialogContentText>
-              <DialogContentText className={classes.paperText}>
-                
-              </DialogContentText>
-              <DialogContentText className={classes.paperText}>
-                
-              </DialogContentText>
-              <DialogContentText className={classes.paperText}>
-                
-              </DialogContentText>
-              <DialogContentText className={classes.paperText}>
-                
-              </DialogContentText> */}
             </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">

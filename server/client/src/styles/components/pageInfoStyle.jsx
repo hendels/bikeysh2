@@ -36,6 +36,15 @@ import {
       fontSize: `45px`,
       zIndex: 1,
     },
+    iconFavorite: {
+      fontSize: `38px`,
+      color: "#c96567"
+    },
+    iconTags: {
+      fontSize: `38px`,
+      color: "#000",
+      opacity: `.45`,
+    }
   });
   
   export default pageInfoStyle;

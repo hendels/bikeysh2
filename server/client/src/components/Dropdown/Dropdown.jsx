@@ -119,7 +119,7 @@ class CustomDropdown extends React.Component {
                   : { transformOrigin: "0 0 0" }
               }
             >
-              <Paper className={classes.dropdown}>
+              <Paper className={classes.dropdown} square="true">
                 <ClickAwayListener onClickAway={this.handleClose}>
                   <MenuList role="menu" className={classes.menuList}>
                     {dropdownHeader !== undefined ? (

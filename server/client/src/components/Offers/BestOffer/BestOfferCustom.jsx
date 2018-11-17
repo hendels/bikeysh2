@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Snackbar from '@material-ui/core/Snackbar';
 //icons
 import InfoIcon from '@material-ui/icons/Info';
 import Delete from '@material-ui/icons/DeleteSweep';
@@ -18,19 +19,21 @@ import Aux from '../../../hoc/Ax/Ax';
 
 const styles = theme => ({
     root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        minWidth: '200px',
+        display: 'relative',
+        // flexWrap: 'wrap',
+        height: 350,
+        width: 250,
+        // minWidth: '100px',
         // width: '100%',
     },
-    card: {
-      minWidth: 250,
-      maxWidth: 250,
-      minHeight: 250,
-    //   background: '#97AABD',
-      background: 'linear-gradient(180deg, #97aabd 0%,#314455 100%)',
-    //   maxHeight: 500
-    },
+    // card: {
+    //   minWidth: 250,
+    //   maxWidth: 250,
+    //   minHeight: 250,
+    // //   background: '#97AABD',
+    //   background: 'linear-gradient(180deg, #97aabd 0%,#314455 100%)',
+    // //   maxHeight: 500
+    // },
     media: {
       height: 0,
       paddingTop: '56.25%', // 16:9
@@ -80,6 +83,25 @@ const styles = theme => ({
           },
         },
     },
+    imageSrc: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 40%',
+    },
+    imageBackdrop: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        backgroundColor: theme.palette.common.black,
+        opacity: 0.4,
+        transition: theme.transitions.create('opacity'),
+    },
     focusVisible: {},
     imageButton: {
         position: 'absolute',
@@ -110,25 +132,6 @@ const styles = theme => ({
         top: -150,
         opacity: 1,
     },
-    imageSrc: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 40%',
-    },
-    imageBackdrop: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        backgroundColor: theme.palette.common.black,
-        opacity: 0.4,
-        transition: theme.transitions.create('opacity'),
-    },
     imageTitle: {
         position: 'relative',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 4}px ${theme.spacing.unit + 6}px`,
@@ -144,6 +147,7 @@ const styles = theme => ({
     },
     imageActionsFavorite: {
         position: 'relative',
+        zIndex: 10,
         left: movePoint,
         right: 0,
         top: 150,
@@ -169,7 +173,13 @@ const styles = theme => ({
         right: 0,
         top: 150,
         opacity: 1,
-    }
+    },
+    snackbar: {
+        position: 'absolute',
+    },
+    snackbarContent: {
+        minWidth: 205,
+    },
 });
 const movePoint = -35;
 class BestOffer extends React.Component {
@@ -181,6 +191,7 @@ class BestOffer extends React.Component {
             expanded: false,
             grade: 'S',
             openTagDialog: false,
+            openStatisticsChips: false,
             favorite: false,
             visible: true,
             scoringData: {
@@ -191,9 +202,8 @@ class BestOffer extends React.Component {
 
         }
     }
-    componentWillMount(){
-        this.getScoringData();
-        console.log(`mounting best offer...`);
+    async componentWillMount(){
+        await this.getScoringData();
     }
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
@@ -208,6 +218,12 @@ class BestOffer extends React.Component {
         this.setState({ 
             openTagDialog: false 
         });
+    };
+    handleShowStatisticsChips = () => {
+        this.setState({openStatisticsChips: !this.state.openStatisticsChips});
+    };
+    handleCloseStatisticsChips = () => {
+        this.setState({openStatisticsChips: false});
     };
     getScoringData = async () => {
         if (this.props.offer._id !== `dummy`){
@@ -276,7 +292,7 @@ class BestOffer extends React.Component {
                     focusRipple
                     className={classes.image}
                     focusVisibleClassName={classes.focusVisible}
-                    onClick={this.props.onClick}
+                    onClick={this.handleShowStatisticsChips}
                 >
                 <span
                     className={classes.imageSrc}
@@ -287,52 +303,80 @@ class BestOffer extends React.Component {
                 <span className={classes.imageBackdrop} />
                 {this.props.offer._id !== `dummy` ? (
                 <Aux>
-                <span className={classes.imageScoring}>
-                    <Avatar aria-label="Recipe" className={classes.avatar}>
-                        {parseFloat(this.state.scoringData.scores).toFixed(1)}
-                    </Avatar>
-                </span>
-                <span className={classes.imagePrice}>
-                    {`${this.state.scoringData.price} ${this.state.scoringData.currency}`}  
-                </span>
-                <span className={classes.imageButton}>
-                    <b>{`${this.state.scoringData.trueName}${yearString} [${this.state.scoringData.itemState}]`}</b>
-                </span>
-                <span className={classes.imageActionsFavorite}>
-                    <FavoriteButton 
-                        dataKey={this.props.offer._id} 
-                        favorite={this.props.offer.favorite} 
-                        fetchUrl={this.props.fetchUrl} 
-                        model={this.props.model}
-                    />
-                </span>
-                <span className={classes.imageActionsTags}>
-                    <TagButton 
-                        onClick={this.handleClickOpenTagDialog} 
-                        category={this.props.category} 
-                        model={this.props.model}
-                        offer={this.props.offer} 
-                        tagUrl={this.props.tagUrl}
-                    />
-                </span>
-                <span className={classes.imageActionsHide}>
-                    <IconButton onClick={this.setOfferVisibility}>
-                        {/* [to do] erase tags, and make them ignored? */}
-                        <Delete/> 
-                    </IconButton>
-                </span>
-                <span className={classes.imageActionsInfo}>
-                    <IconButton 
-                        href={this.props.offer.productUrl} 
-                        target={`_blank`} 
-                        className={classes.icon} 
-                    >
-                        <InfoIcon />
-                    </IconButton>
-                </span>
+                    <span className={classes.imageScoring}>
+                        <Avatar aria-label="Recipe" className={classes.avatar}>
+                            {parseFloat(this.state.scoringData.scores).toFixed(1)}
+                        </Avatar>
+                    </span>
+                    <span className={classes.imagePrice}>
+                        {`${this.state.scoringData.price} ${this.state.scoringData.currency}`}  
+                    </span>
+                    <span className={classes.imageButton}>
+                        <b>{`${this.state.scoringData.trueName}${yearString} [${this.state.scoringData.itemState}]`}</b>
+                    </span>
+                    <span className={classes.imageActionsFavorite}>
+                        <FavoriteButton 
+                            dataKey={this.props.offer._id} 
+                            favorite={this.props.offer.favorite} 
+                            fetchUrl={this.props.fetchUrl} 
+                            model={this.props.model}
+                        />
+                    </span>
+                    <span className={classes.imageActionsTags}>
+                        <TagButton 
+                            onClick={this.handleClickOpenTagDialog} 
+                            category={this.props.category} 
+                            model={this.props.model}
+                            offer={this.props.offer} 
+                            tagUrl={this.props.tagUrl}
+                        />
+                    </span>
+                    <span className={classes.imageActionsHide}>
+                        <IconButton onClick={this.setOfferVisibility}>
+                            {/* [to do] erase tags, and make them ignored? */}
+                            <Delete/> 
+                        </IconButton>
+                    </span>
+                    <span className={classes.imageActionsInfo}>
+                        <IconButton 
+                            href={this.props.offer.productUrl} 
+                            target={`_blank`} 
+                            className={classes.icon} 
+                        >
+                            <InfoIcon />
+                        </IconButton>
+                    </span>
                 </Aux>
                 ): null}
                 
+                <Snackbar
+                    open={this.state.openStatisticsChips}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center',}}
+                    transitionDuration={{ enter: 0, exit: 0,}}
+                    autoHideDuration={1000}
+                    onClose={this.handleCloseStatisticsChips}
+                    ContentProps={{
+                    // 'aria-describedby': 'snackbar-fab-message-id',
+                        square: true,
+                        className: classes.snackbarContent,
+                        
+                    }}
+                    
+                    message={
+                        <ul style={{listStyleType: 'none'}}>
+                            <li >Archived</li>
+                            <li >Archived</li>
+                            <li >Archived</li>
+                            <li >Archived</li>
+                        </ul>
+                    }
+                    // action={
+                    // <Button color="inherit" size="small" onClick={this.handleClose}>
+                    //     Undo
+                    // </Button>
+                    // }
+                    className={classes.snackbar}
+                />
                 </ButtonBase>
             </div>
         )

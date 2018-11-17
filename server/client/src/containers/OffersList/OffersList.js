@@ -40,8 +40,8 @@ class OffersList extends Component {
         }
     }
     componentWillMount() {
-        this.props.loadFavorites ? this.setState({loadFavorites: true}) : this.setState({loadFavorites: false});
-        this.props.loadWithoutTags ? this.setState({loadWithoutTags: true}) : this.setState({loadWithoutTags: false});
+        this.props.loadFavorites ? this.setState({loadFavorites: true}, () => {}) : this.setState({loadFavorites: false}, () => {});
+        this.props.loadWithoutTags ? this.setState({loadWithoutTags: true}, () => {}) : this.setState({loadWithoutTags: false}, () => {});
     }
     componentDidMount() {
         axios.get(this.props.fetchUrl).then(response  => response.data).then(result => {
@@ -50,9 +50,10 @@ class OffersList extends Component {
             });
         });
     }
-    componentWillUnmount() {
-        this.props.showFavorites(false);
-        this.props.showWithoutTags(false);
+    async componentWillUnmount() {
+        console.log('unmounting offer list');
+        await this.props.showFavorites(false);
+        await this.props.showWithoutTags(false);
     }
     fetchData = (skip, pageLimit) => {
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
@@ -103,7 +104,7 @@ class OffersList extends Component {
         
     }
     render(){
-        console.log('render offer list');
+        // console.log('render offer list');
         const { classes } = this.props;
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
         renderCount += 1;
@@ -117,19 +118,49 @@ class OffersList extends Component {
         let pageInfo = null;
         switch(this.props.category){
             case(`DHFRAMES`):
-                pageInfo = <PageInfo imageUrl={this.props.imageUrls.dhframesImage.url} pageInfoTitle={`Downhill Frames`} tweak={this.props.imageUrls.dhframesImage.tweak}/>
+                pageInfo = <PageInfo 
+                                imageUrl={this.props.imageUrls.dhframesImage.url} 
+                                pageInfoTitle={`Downhill Frames`} 
+                                tweak={this.props.imageUrls.dhframesImage.tweak}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                            />
                 break;
             case(`ENDUROFRAMES`):
-                pageInfo = <PageInfo imageUrl={this.props.imageUrls.enduroframesImage.url} pageInfoTitle={`Enduro Frames`} tweak={this.props.imageUrls.enduroframesImage.tweak}/>
+                pageInfo = <PageInfo 
+                                imageUrl={this.props.imageUrls.enduroframesImage.url} 
+                                pageInfoTitle={`Enduro Frames`} 
+                                tweak={this.props.imageUrls.enduroframesImage.tweak}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                            />
                 break;
             case(`CRANKS`):
-                pageInfo = <PageInfo imageUrl={this.props.imageUrls.cranksImage.url} pageInfoTitle={`Cranks`} tweak={this.props.imageUrls.cranksImage.tweak}/>
+                pageInfo = <PageInfo 
+                                imageUrl={this.props.imageUrls.cranksImage.url} 
+                                pageInfoTitle={`Cranks`} 
+                                tweak={this.props.imageUrls.cranksImage.tweak}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                            />
                 break;
             case(`WHEELS`):
-                pageInfo = <PageInfo imageUrl={this.props.imageUrls.wheelsImage.url} pageInfoTitle={`Wheels`} tweak={this.props.imageUrls.wheelsImage.tweak}/>
+                pageInfo = <PageInfo 
+                                imageUrl={this.props.imageUrls.wheelsImage.url} 
+                                pageInfoTitle={`Wheels`} 
+                                tweak={this.props.imageUrls.wheelsImage.tweak}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                            />
                 break;
             case(`HUBS`):
-                pageInfo = <PageInfo imageUrl={this.props.imageUrls.hubsImage.url} pageInfoTitle={`Hubs`} tweak={this.props.imageUrls.hubsImage.tweak}/>
+                pageInfo = <PageInfo 
+                                imageUrl={this.props.imageUrls.hubsImage.url} 
+                                pageInfoTitle={`Hubs`} 
+                                tweak={this.props.imageUrls.hubsImage.tweak}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                            />
                 break;
             default:
                 break;
@@ -140,17 +171,9 @@ class OffersList extends Component {
                 <div className={classNames(classes.main, classes.mainRaised)} style={{background: containerStyle.bikeyshColor4}}>
                     <div className={classes.container}>
                         <Paper className={classes.containerBackground} elevation={1}>
-                        {/* //container for paginations & offers */}
                         <Grid container direction="column" justify="center" alignContent="center">
-                            {/* //1st pagination */}
-                            {/* <Grid item>
-                                <Pagination show={this.state.skip} total={totalArray} 
-                                    previous={this.onPaginatedSearchPrevious} next={this.onPaginatedSearchNext}
-                                />
-                            </Grid> */}
                             {/* //offer list */}
                             <Grid item>
-                                {/* <div style={{margin: '10px 10px 15px 10px'}}> */}
                                     <OffersPageResult
                                         offers={this.state.hits}
                                         fetchUrl={this.state.fetchUrl}
@@ -159,11 +182,9 @@ class OffersList extends Component {
                                         model={this.props.model}
                                         rerender={this.state.reload}
                                     />
-                                {/* </div> */}
                             </Grid>
-                            {/* //2nd pagination */}
+                            {/* // pagination */}
                             <Grid item>
-                             {/* //container for 2nd pagination */}
                                 <Pagination show={this.state.skip} total={totalArray} 
                                     previous={this.onPaginatedSearchPrevious} next={this.onPaginatedSearchNext}
                                 />

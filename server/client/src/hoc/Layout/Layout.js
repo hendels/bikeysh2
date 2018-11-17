@@ -44,10 +44,18 @@ class Layout extends Component {
     }
     handleShowFavorizedOffers = async (load) => {
         await this.setState({loadFavorites: load}, () => {});
-    }
+    };
     handleShowWithoutTag = async (load) => {
         await this.setState({loadWithoutTags: load}, () => {});
-    }
+    };
+    handleClearFilterStates = async () => {
+        await this.setState({loadFavorites: false}, () => {
+            console.log(`filter loadFavorites set as: ${this.state.loadFavorites}`);
+        });
+        await this.setState({loadWithoutTags: false}, () => {
+            console.log(`filter loadWithoutTags set as: ${this.state.loadWithoutTags}`);
+        });
+    };
     render () {
         const { classes, ...rest } = this.props;
         
@@ -60,7 +68,7 @@ class Layout extends Component {
                     color={this.state.changeColorHeader}
                     routes={dashboardRoutes}
                     brand="bikeysh"
-                    rightLinks={<HeaderLinks />}
+                    rightLinks={<HeaderLinks clearFilters={this.handleClearFilterStates}/>}
                     fixed
                     changeColorOnScroll={{
                         height: 400,
