@@ -50,3 +50,40 @@ exports.fillTagCounterInAllModels = async () => {
     }
 
 };
+exports.findSimilarOffers = async (manufacturerSetId, modelSetId, scoreStats) => {
+    
+    const Scoring = await mongoose.model('scoring')
+        .find({
+            manufacturerSetId: manufacturerSetId,
+            modelSetId: modelSetId
+        })
+        .select({ __v: false });
+
+    let avgPrice = 0;
+    let currency = ``;
+    let median = 0;
+    
+    const getAllPrices = await Scoring.map(score => {
+        avgPrice += score.price;
+        currency = score.currency
+    });    
+    Promise.all(getAllPrices).then(async () => {
+        const countOffers = await mongoose.model('scoring').count(
+        {
+            manufacturerSetId: manufacturerSetId,
+            modelSetId: modelSetId
+        }, (err, scores) => {
+            console.log(`scores = ${scores}`);
+        }
+        );
+        let stats = {
+            avgPrice: parseFloat(avgPrice / countOffers).toFixed(0),
+            currency: currency,
+            countOffers: countOffers,
+            median: median
+        }
+        console.log(stats);
+        scoreStats(stats);
+        
+    });
+}

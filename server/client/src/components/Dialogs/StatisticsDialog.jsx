@@ -63,7 +63,7 @@ class DialogDragAndDrop extends React.Component {
               <Grid container justify='center' alignContent='center' spacing={8}>
                 <Grid item xs={4}>
                   <DialogContentText className={classes.paperText}>
-                    {`Last crawling: ${0}`}
+                    {`Last crawling: ${0} - put in general table this info`}
                   </DialogContentText>
                 </Grid>
                 <Grid item xs={4}>

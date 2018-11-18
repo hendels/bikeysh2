@@ -13,7 +13,7 @@ import Delete from '@material-ui/icons/DeleteSweep';
 //app components
 import FavoriteButton from '../../FavButton/FavButtonBikeMarkt.jsx';
 import TagButton from '../../Buttons/TagButton';
-
+import SnackbarBestOffer from '../../Snackbars/SnackbarBestOffer.jsx';
 //hoc components
 import Aux from '../../../hoc/Ax/Ax';
 
@@ -174,12 +174,12 @@ const styles = theme => ({
         top: 150,
         opacity: 1,
     },
-    snackbar: {
-        position: 'absolute',
-    },
-    snackbarContent: {
-        minWidth: 205,
-    },
+    // snackbar: {
+    //     position: 'absolute',
+    // },
+    // snackbarContent: {
+    //     minWidth: 205,
+    // },
 });
 const movePoint = -35;
 class BestOffer extends React.Component {
@@ -197,7 +197,8 @@ class BestOffer extends React.Component {
             scoringData: {
                 trueName: '', price: 0, currency: "...", median: 0, 
                 countTotal: 0, scores: 0, itemState: "not defined",
-                yearTitle: 0, yearDescription: 0
+                yearTitle: 0, yearDescription: 0,
+                manufacturerSetId: 0, modelSetId: 0
             },
 
         }
@@ -228,7 +229,7 @@ class BestOffer extends React.Component {
     getScoringData = async () => {
         if (this.props.offer._id !== `dummy`){
             await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
-                var scoringData = {
+                let scoringData = {
                     trueName: result.scoring[0].fullName,
                     price: result.scoring[0].price,
                     currency: result.scoring[0].currency,
@@ -237,7 +238,9 @@ class BestOffer extends React.Component {
                     scores: result.scoring[0].scores,
                     itemState: result.scoring[0].itemState,
                     yearTitle: result.scoring[0].yearTitle,
-                    yearDescription: result.scoring[0].yearDescription
+                    yearDescription: result.scoring[0].yearDescription,
+                    manufacturerSetId: result.scoring[0].manufacturerSetId,
+                    modelSetId: result.scoring[0].modelSetId,
                 }
                 this.setState({scoringData: scoringData}, () => {});
                 // console.log(`scoring name: ${result[Object.keys(this.state.trueName)[0]]} for offer id: ${this.props.offer._id}`);
@@ -265,7 +268,6 @@ class BestOffer extends React.Component {
         let piclink = <a>No image at all.</a>;
         if(this.props.offer.pictures !== null || this.props.offer.pictures !== undefined){
             for (var x in this.props.offer.pictures){
-                // piclink = <img src={this.props.offer.pictures[x]} alt={"No Image for: " + this.props.offer._id}/>
                 piclink = this.props.offer.pictures[x];
                 break;
             }
@@ -349,33 +351,13 @@ class BestOffer extends React.Component {
                 </Aux>
                 ): null}
                 
-                <Snackbar
+                <SnackbarBestOffer
                     open={this.state.openStatisticsChips}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center',}}
-                    transitionDuration={{ enter: 0, exit: 0,}}
-                    autoHideDuration={1000}
-                    onClose={this.handleCloseStatisticsChips}
-                    ContentProps={{
-                    // 'aria-describedby': 'snackbar-fab-message-id',
-                        square: true,
-                        className: classes.snackbarContent,
-                        
-                    }}
-                    
-                    message={
-                        <ul style={{listStyleType: 'none'}}>
-                            <li >Archived</li>
-                            <li >Archived</li>
-                            <li >Archived</li>
-                            <li >Archived</li>
-                        </ul>
-                    }
-                    // action={
-                    // <Button color="inherit" size="small" onClick={this.handleClose}>
-                    //     Undo
-                    // </Button>
-                    // }
-                    className={classes.snackbar}
+                    close={this.handleCloseStatisticsChips}
+                    manufacturerSetId={this.state.scoringData.manufacturerSetId}
+                    modelSetId={this.state.scoringData.modelSetId}
+                    price={this.state.scoringData.price}
+                    itemState={this.state.itemState}
                 />
                 </ButtonBase>
             </div>

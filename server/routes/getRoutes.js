@@ -53,6 +53,24 @@ module.exports = app => {
         console.log('running bikemarkt crawler...');
         res.send({ crawler: 'running' });
     });
+    //<<stats
+    app.get('/api/statistics/similiarOffers/:manufacturerSetId/:modelSetId', async (req, res) => {
+        console.log(`in similiar...${req.params.manufacturerSetId} / ${req.params.modelSetId}`);
+        // mongoose.model('scoring').count(
+        // {
+        //     manufacturerSetId: parseInt(req.params.manufacturerSetId),
+        //     modelSetId: parseInt(req.params.modelSetId)
+        // }, (err, scores) => {
+        //     console.log(`scores = ${scores}`);
+        //     res.send({scores});
+        //     }
+        // );
+        
+        await genMgt.findSimilarOffers(parseInt(req.params.manufacturerSetId), parseInt(req.params.modelSetId), scoreStats => {
+            res.send({scoreStats});
+        })
+    })
+    //>>
     //<<tags
     app.post('/api/tags/create', (req, res) => {
         console.log('im in tags');
