@@ -168,20 +168,20 @@ class OffersList extends Component {
         return(
             <Aux>
                 {pageInfo}
-                <div className={classNames(classes.main, classes.mainRaised)} style={{background: containerStyle.bikeyshColor4}}>
+                <div className={classNames(classes.main, classes.mainRaised)} style={{background: containerStyle.bikeyshBackground.background}}>
                     <div className={classes.container}>
                         <Paper className={classes.containerBackground} elevation={1}>
                         <Grid container direction="column" justify="center" alignContent="center">
                             {/* //offer list */}
                             <Grid item>
-                                    <OffersPageResult
-                                        offers={this.state.hits}
-                                        fetchUrl={this.state.fetchUrl}
-                                        tagUrl={this.props.tagUrl}
-                                        category={this.props.category}
-                                        model={this.props.model}
-                                        rerender={this.state.reload}
-                                    />
+                                <OffersPageResult
+                                    offers={this.state.hits}
+                                    fetchUrl={this.state.fetchUrl}
+                                    tagUrl={this.props.tagUrl}
+                                    category={this.props.category}
+                                    model={this.props.model}
+                                    rerender={this.state.reload}
+                                />
                             </Grid>
                             {/* // pagination */}
                             <Grid item>

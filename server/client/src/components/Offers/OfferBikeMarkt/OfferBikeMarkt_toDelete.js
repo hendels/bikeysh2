@@ -16,8 +16,8 @@ import DesiredAdd from '@material-ui/icons/PlaylistAdd';
 import AddComment from '@material-ui/icons/NoteAdd';
 //custom components
 import Aux from '../../../hoc/Ax/Ax';
-import FavoriteButton from '../../FavButton/FavButtonBikeMarkt.jsx';
-import TagButton from '../../Buttons/TagButton.jsx';
+import FavoriteButton from '../../FavButton/FavButtonBikeMarkt';
+import TagButton from '../../Buttons/TagButton';
 
 const styles = theme => ({
     root: {

@@ -14,7 +14,21 @@ const styles = theme => ({
     root: {
       flexGrow: 1,
     //   background: '#344054',
-      background: '#C96567',
+    //   background: '#C96567',
+      background: `repeating-linear-gradient(
+          -45deg,
+          #C96567,
+          #C96567 22px,
+          #9E5A63 22px,
+          #9E5A63 44px
+        )`,
+    //   background: `repeating-linear-gradient(
+    //       -45deg,
+    //       #222,
+    //       #222 22px,
+    //       #1D1D1D 22px,
+    //       #1D1D1D 44px
+    //     )`,
     },
     paper: {
       height: 140,

@@ -7,20 +7,15 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from "@material-ui/core/Grid";
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 
 import Avatar from '@material-ui/core/Avatar';
-import PersonIcon from '@material-ui/icons/Person';
 import AddIcon from '@material-ui/icons/Add';
 
 import blue from '@material-ui/core/colors/blue';
 //app components
-import TagChip from '../Chips/TagChip';
-import Spinner from '../UI/SpinnerOffers';
 import Dnd from '../Dnd/dragDrop';
 
 const styles = {

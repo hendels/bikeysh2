@@ -147,9 +147,9 @@ export default class DragDrop extends React.Component{
                     case this.state.tagData.ignoreTag !== "" && this.state.tagData.ignoreTag !== undefined:
                         blankObject.columns.column5.taskIds.push([key]);
                         break;
-                    case this.state.tagData.helperTag !== "" && this.state.tagData.helperTag !== undefined:
-                        blankObject.columns.column6.taskIds.push([key]);
-                        break;
+                    // case this.state.tagData.helperTag !== "" && this.state.tagData.helperTag !== undefined:
+                    //     blankObject.columns.column6.taskIds.push([key]);
+                    //     break;
                     default:
                         blankObject.columns.column1.taskIds.push([key]);
                         break;
