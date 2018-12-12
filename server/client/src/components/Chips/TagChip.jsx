@@ -15,6 +15,7 @@ const styles = theme => ({
     },
     chip: {
       margin: theme.spacing.unit,
+      color: "white"
     },
   });
 
@@ -68,25 +69,23 @@ class TagChip extends React.Component{
     }
     handleDeleteTag = async () => {
         console.log('You clicked the delete icon.'); 
-      }
-      
-    handleAddTag() {
-      console.log('You clicked the Chip.'); 
     }
         
     render(){
         const { classes } = this.props;
         return(
             <Chip
-            avatar={
-              <Avatar>{this.props.word.charAt(0).toUpperCase()}</Avatar>
-            }
+            // avatar={
+            //   <Avatar>{this.props.word.charAt(0).toUpperCase()}</Avatar>
+            // }
             label={this.props.word}
-            onDelete={this.handleDeleteTag}
-            deleteIcon={this.state.tagExist ? <DeleteIcon /> : <NoTag/>}
+            onDelete={this.state.tagExist ? this.handleDeleteTag: null}
+            deleteIcon={this.state.tagExist ? <DeleteIcon /> : null}
             onClick={this.handleAddTag}
             className={classes.chip}
-            color={this.state.tagExist ? "secondary" : "primary"}
+            style={{backgroundColor: this.state.tagExist ? "#C96567" : "#314455"}}
+            variant="outlined"
+            //color={this.state.tagExist ? "secondary" : "primary"}
             />
         )
     }

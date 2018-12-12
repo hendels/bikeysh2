@@ -32,6 +32,7 @@ export default class DragDrop extends React.Component{
             existingTags: [],
             loading: false,
             rerenderChip: false,
+            showIgnored: this.props.showIgnored,
         });
     }
     handleAddToTagSet = async (tagName, targetColumnName) => {
@@ -59,7 +60,7 @@ export default class DragDrop extends React.Component{
                         existingTags.push(newObj);
 
                   this.setState({existingTags: existingTags}, ()=>{});
-                  await sleep(1000);
+                  //await sleep(1000);
                   console.log(this.state.existingTags);
                   this.setState({rerenderChip: !this.state.rerenderChip}, ()=>{});
               }
@@ -89,7 +90,7 @@ export default class DragDrop extends React.Component{
                 groupTag: result.groupTag,
                 modelTag: result.modelTag,
                 ignoreTag: result.ignoreTag,
-                helperTag: result.helperTag,
+                // helperTag: result.helperTag,
             }});
             
           });
@@ -166,15 +167,15 @@ export default class DragDrop extends React.Component{
         this.loadDndData();
     }
     onDragStart = () => {
-        document.body.style.color = 'grey';
-        document.body.style.transition = 'background-color 0.2s ease';
+        //document.body.style.color = 'grey';
+        //document.body.style.transition = 'background-color 0.2s ease';
     };
     onDragUpdate = update => {
         const {destination} =  update;
         const opacity = destination
         ? destination.index / Object.keys(this.state.mainData.tasks).length
         : 0;
-        document.body.style.backgroundColor = `rgba(153, 141, 217, ${opacity})`;
+        document.body.style.backgroundColor = `rgba(201, 101, 103, ${opacity})`;
     };
     onDragEnd = result => {
         document.body.style.color = 'inherit';
@@ -248,6 +249,7 @@ export default class DragDrop extends React.Component{
     }
 
     render(){
+        console.log(`RERENDER DND showIgnored = ${this.props.showIgnored}`);
         const {offerId, tagUrl, offerOrigin} = this.props;
         return (
             <div>
@@ -260,17 +262,22 @@ export default class DragDrop extends React.Component{
                 <Container>
                 {this.state.mainData.columnOrder.map((columnId) => {
                     const column = this.state.mainData.columns[columnId];
-                    const tasks = column.taskIds.map(taskId => this.state.mainData.tasks[taskId]);
-        
-                    return <Column 
-                        key={column.id} 
-                        column={column} 
-                        tasks={tasks} 
-                        offerId={offerId} 
-                        tagUrl={tagUrl} 
-                        offerOrigin={offerOrigin}
-                        existingTags={this.state.existingTags}
-                    />;
+                    console.log(column.id);
+                    if(column.id === 'column5' && !this.props.showIgnored){
+                        return null;
+                    } else {
+                        const tasks = column.taskIds.map(taskId => this.state.mainData.tasks[taskId]);
+            
+                        return <Column 
+                            key={column.id} 
+                            column={column} 
+                            tasks={tasks} 
+                            offerId={offerId} 
+                            tagUrl={tagUrl} 
+                            offerOrigin={offerOrigin}
+                            existingTags={this.state.existingTags}
+                        />;
+                    }
                 })}
                 </Container>
             

@@ -15,16 +15,26 @@ const Container = styled.div`
 `;
 const Title = styled.h3`
     padding: 8px;
+    background-color: #5a6671;
+    color: #f4f6f8;
 `;
 const TaskList = styled.div`
     padding: 8px;
     transition: background-color 0.05 ease;
-    background-color: ${props => (props.isDraggingOver ? 'skyblue' : 'white')};
+    background-color: ${props => (props.isDraggingOver ? '#C96567' : '#eaeef1')};
     flex-grow: 1;
     min-height: 100px;
     min-width: 100px;
 `;
-
+//*#f4f6f8
+//*#eaeef1
+//*#97AABD
+//*#697684
+//*#5a6671
+//*
+//*
+//*
+//*
 
 export default class Column extends React.Component{
     

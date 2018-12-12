@@ -4,13 +4,14 @@ import {Draggable} from 'react-beautiful-dnd';
 //app components
 import TagChip from '../Chips/TagChip.jsx';
 import Aux from '../../hoc/Ax/Ax';
+import Button from '@material-ui/core/Button';
 
 const Container = styled.div`
     border: 1px solid lightgrey;
     border-radius: 2px;
     padding: 1px;
     margin-bottom: 1px;
-    background-color: ${props => (props.isDragging ? 'lightgreen': 'white')};
+    background-color: ${props => (props.isDragging ? '#97AABD': 'white')};
 
     display:flex;
     
@@ -37,12 +38,11 @@ export default class Task extends React.Component {
                 > 
                 {/* <Handle {...provided.dragHandleProps}/> */}
                     <TagChip 
-                    
-                    offerId={this.props.offerId} 
-                    word={this.props.task.content} 
-                    tagUrl={this.props.tagUrl} 
-                    offerOrigin="bikemarkt"
-                    existingTags={this.props.existingTags}
+                        offerId={this.props.offerId} 
+                        word={this.props.task.content} 
+                        tagUrl={this.props.tagUrl} 
+                        offerOrigin="bikemarkt"
+                        existingTags={this.props.existingTags}
                     />
                 </Container> 
             )}

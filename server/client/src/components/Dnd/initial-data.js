@@ -4,7 +4,7 @@ const initialData = {
     columns: {
         column1: {
             id: 'column1',
-            title: 'Unsettled',
+            title: 'Unsettled tags',
             taskIds: [],
         },
         column2: {
@@ -24,19 +24,9 @@ const initialData = {
         },
         column5: {
             id: 'column5',
-            title: 'Ignore',
+            title: 'Ignored tags',
             taskIds: [],
         },
-        // column6: {
-        //     id: 'column6',
-        //     title: 'Helpers',
-        //     taskIds: [],
-        // },
-        // column7: {
-        //     id: 'column7',
-        //     title: 'Bonus Item',
-        //     taskIds: [],
-        // },
     },
     columnOrder: ['column1', 'column2', 'column3', 'column4', 'column5'],
 };

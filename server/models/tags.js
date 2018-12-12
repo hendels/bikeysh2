@@ -62,7 +62,7 @@ exports.updateTagSet = async (id, tagName, updateCase, tagPairNo) => {
                 tag.modelTag = tagName;
                 tag.modelTagPair = tagPairNo;
                 break;
-            case `Ignore`:
+            case `Ignored tags`:
                 tag.ignoreTag = tagName;
                 break;
             case `Helpers`:
@@ -72,7 +72,7 @@ exports.updateTagSet = async (id, tagName, updateCase, tagPairNo) => {
                 break;
         }
         tag.save().then(() => {
-            console.log('[][][] updating in smart way Tag...');
+            console.log(`[][][] updating in smart way Tag...[${updateCase} / tagName: ${tagName}`);
         });
     });
 };
