@@ -1,36 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import axios from 'axios';
 import Dialog from '@material-ui/core/Dialog';
 import { withStyles } from '@material-ui/core/styles';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import AddIcon from '@material-ui/icons/Add';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Input from '@material-ui/core/Input';
+import IconButton from '@material-ui/core/IconButton';
+import AddBox from '@material-ui/icons/AddBox';
+import Radio from '@material-ui/core/Radio';
+import FormControl from '@material-ui/core/FormControl'
+import FormLabel from '@material-ui/core/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
-import blue from '@material-ui/core/colors/blue';
 //app components
 import Dnd from '../Dnd/dragDrop';
-
 const themeLeftButtons = createMuiTheme({
   overrides: {
-    MuiButton: {
+    MuiIconButton: {
       root: {
         background: '#9E5A63',
-        borderRadius: 3,
-        border: 0,
+        // border: 0,
         color: 'white',
-        height: 30,
-        padding: '0px 30px 0px 30px',
+        minHeight: `50px`,
+        minWidth: `50px`,
+        fontSize: '16px',
+        borderRadius: '50%',
         '&:hover': {
             backgroundColor: '#d68b8c'
         },
@@ -59,10 +58,6 @@ const styles = {
     root: {
       flexGrow: 1,
     },
-    avatar: {
-      backgroundColor: blue[100],
-      color: blue[600],
-    },
     tagContainer: {
       // background: '#314455',
       background: `repeating-linear-gradient(
@@ -80,7 +75,10 @@ class DialogDragAndDrop extends React.Component {
       super(props);
       this.state = {
         loading: false,
-        showIgnored: false
+        showIgnored: false,
+        disableNewTagButton: true,
+        newTagText: '',
+        valueRadioNewTag: '',
       }
     }
     handleClose = () => {
@@ -95,6 +93,49 @@ class DialogDragAndDrop extends React.Component {
         console.log(`ignored = ${this.state.showIgnored}`);
       });
     };
+    handleChangeNewTagText= ({target}) => {
+      if (target.value !== '' && this.state.valueRadioNewTag !== ''){
+        this.setState({disableNewTagButton: false});
+        this.setState({newTagText: target.value}, () => {});
+      } else {
+        this.setState({disableNewTagButton: true});
+        this.setState({newTagText: ''});
+      }
+    };
+    handleChangeNewTagRadio = event => {
+      this.setState({ valueRadioNewTag: event.target.value }, ()=> {
+        if (this.state.newTagText !== '' && this.state.valueRadioNewTag !== ''){
+          this.setState({disableNewTagButton: false});
+        }
+      });
+    };
+    handleAddNewTag = async (tagName, targetColumnName) => {
+      // console.log(`column name react: ${targetColumnName}`);
+      await axios.post(this.props.tagUrl + `update/${this.state.valueRadioNewTag}`, {
+        id: this.props.offer._id,
+        tagName: this.state.newTagText,
+        offerId: this.props.offer._id,
+        offerOrigin: "bikemarkt" ,
+        active: true,
+        category: this.props.category.toLowerCase(),
+        price: this.props.offer.price,
+        model: this.props.model
+      }).then(response => response.data).then(async result => {
+          if (result){
+            // let newObj = {[result]: true};
+            // let existingTags = this.state.existingTags;
+            // let foundIndex = this.getByValue(existingTags, tagName, -1);
+            // if (foundIndex !== null){
+            //   existingTags[foundIndex] = true;
+            // } else 
+            //       existingTags.push(newObj);
+            // this.setState({existingTags: existingTags}, ()=>{});
+            // //await sleep(1000);
+            // console.log(this.state.existingTags);
+            // this.setState({rerenderChip: !this.state.rerenderChip}, ()=>{});
+          }
+      }); 
+    }
     render() {
       const { classes, onClose, selectedValue, ...other } = this.props;
       //<<split data to array [todo << da sie to zrobić lepiej] 
@@ -106,6 +147,7 @@ class DialogDragAndDrop extends React.Component {
       //>>
       
       return (
+        // <Aux>
         <Dialog 
           onClose={this.handleClose} 
           maxWidth="xm"{...other} 
@@ -129,19 +171,58 @@ class DialogDragAndDrop extends React.Component {
               <Grid item>
                 <Grid container direction="row" justify="flex-start" alignItems="center" spacing={8}>
                   <Grid item>
-                    <MuiThemeProvider theme={themeLeftButtons}>
-                      <Button onClick={this.handleCancel} variant="outlined">
-                        Add new tag
-                      </Button>
-                    </MuiThemeProvider>
+                    <Input
+                      placeholder="Add new tag"
+                      className={classes.input}
+                      inputProps={{
+                        'aria-label': 'Description',
+                      }}
+                      onChange={this.handleChangeNewTagText}
+                    />
                   </Grid>
-                  {/* <Grid item>
-                  <MuiThemeProvider theme={themeLeftButtons}>
-                    <Button onClick={this.handleCancel} variant="outlined" className={classes.actionsLeftButtons}>
-                      Show ignored
-                    </Button>
-                  </MuiThemeProvider>
-                  </Grid> */}
+                  <Grid item>
+                      <IconButton
+                        variant="outlined"
+                        disabled={this.state.disableNewTagButton}
+                        onClick={this.handleAddNewTag}
+                      >
+                        {/* <MuiThemeProvider theme={themeLeftButtons}> */}
+                          <AddBox/>
+                        {/* </MuiThemeProvider> */}
+                      </IconButton>
+                  </Grid>
+                  <Grid item>
+                    <FormControl component="fieldset">
+                      {/* <FormLabel component="legend">labelPlacement</FormLabel> */}
+                      <RadioGroup
+                        aria-label="position"
+                        name="position"
+                        value={this.state.valueRadioNewTag}
+                        onChange={this.handleChangeNewTagRadio}
+                        row
+                      >
+                        <FormControlLabel
+                          value="Manufacturer"
+                          control={<Radio color="secondary" />}
+                          label="Manufacturer"
+                          labelPlacement="end"
+                        />
+                        <FormControlLabel
+                          value="Model"
+                          control={<Radio color="secondary" />}
+                          label="Model"
+                          labelPlacement="end"
+                        />
+                        <FormControlLabel
+                          value="Group"
+                          control={<Radio color="secondary" />}
+                          label="Group"
+                          labelPlacement="end"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  
+                  </Grid>
                   <Grid item>
                   {/* <MuiThemeProvider theme={themeLeftButtons}> */}
                   <FormControlLabel
@@ -169,6 +250,7 @@ class DialogDragAndDrop extends React.Component {
             </Grid>
           </DialogActions>
         </Dialog>
+        // </Aux>            
       );
     }
 }

@@ -134,6 +134,7 @@ export default class DragDrop extends React.Component{
             }
             if (foundIndex === null) {
                 await this.handleSearchTag(this.props.titleWords[i]);
+                //CHANGE FUNCTION GET FROM DB TAGS!!!!
                 Object.assign(blankObject.tasks, newObj);
                 switch(true){
                     case this.state.tagData.manufacturerTag !== "" && this.state.tagData.manufacturerTag !== undefined:
