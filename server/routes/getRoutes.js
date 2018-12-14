@@ -55,17 +55,7 @@ module.exports = app => {
     });
     //<<stats
     app.get('/api/statistics/similiarOffers/:manufacturerSetId/:modelSetId', async (req, res) => {
-        console.log(`in similiar...${req.params.manufacturerSetId} / ${req.params.modelSetId}`);
-        // mongoose.model('scoring').count(
-        // {
-        //     manufacturerSetId: parseInt(req.params.manufacturerSetId),
-        //     modelSetId: parseInt(req.params.modelSetId)
-        // }, (err, scores) => {
-        //     console.log(`scores = ${scores}`);
-        //     res.send({scores});
-        //     }
-        // );
-        
+        //console.log(`in similiar...${req.params.manufacturerSetId} / ${req.params.modelSetId}`);
         await genMgt.findSimilarOffers(parseInt(req.params.manufacturerSetId), parseInt(req.params.modelSetId), scoreStats => {
             res.send({scoreStats});
         })
@@ -84,7 +74,7 @@ module.exports = app => {
         })
     });
     app.get('/api/tags/findTag/:tagName/:offerId', (req, res) => {
-        console.log(`searching for tag... + ${req.params.tagName} offer id: ${req.params.offerId}`);
+        //console.log(`searching for tag... + ${req.params.tagName} offer id: ${req.params.offerId}`);
         Tags.findOne({ offerId: req.params.offerId, tagName: req.params.tagName }).then(existingTag => {
             //console.log('existing Id: '+ existingId);
             if (existingTag) {
@@ -96,7 +86,7 @@ module.exports = app => {
 
     });
     app.post('/api/tags/update/:setTagTo', async (req, res) => {
-        console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName + ' - setTagTo: ' + req.params.setTagTo);
+        //console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName + ' - setTagTo: ' + req.params.setTagTo);
         Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
             console.log('existing TAg Id: '+ existingTag);
             if (existingTag) {
@@ -129,6 +119,10 @@ module.exports = app => {
         mongoose.model('tags').count({offerId: req.params.offerId}, function(err, tags) {
             res.send({ tags });
         });
+    });
+    app.get('/api/tags/getTags/:offerId', async (req, res) => {
+        const tagArray = await tagMgt.findTagsForOffer(req.params.offerId);
+        res.send( {tagArray} );
     });
     //>>
     //==================================================================================================================

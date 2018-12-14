@@ -95,32 +95,7 @@ export default class DragDrop extends React.Component{
             
           });
       }
-    getByValue = (obj, value, i) => {
-        var Break = {};
-        let found = null;
-        try {
-        Object.keys(obj).forEach(
-            (e, index) => {
-                if(i > -1){
-                    //console.log(`iteration::: ${i} content::: ${obj[e].content} e:::${e} checking value::: ${value}`);
-                    if (obj[e].content === value) {
-                        found = index;
-                        throw Break;
-                    } 
-                } 
-                if(i === -1){
-                    if (obj[e].content === value) {
-                        found = index;
-                        throw Break;
-                    } 
-                }
-            }
-        );
-        } catch (e) {
-            if (e !== Break) throw e;
-        }
-        return found;
-    }
+    
     loadDndData = async () => {
         var blankObject = JSON.parse(JSON.stringify(initialData));
 
@@ -162,6 +137,32 @@ export default class DragDrop extends React.Component{
         }
         this.setState({mainData: blankObject});
         this.setState({loading: false})
+    }
+    getByValue = (obj, value, i) => {
+        var Break = {};
+        let found = null;
+        try {
+        Object.keys(obj).forEach(
+            (e, index) => {
+                if(i > -1){
+                    //console.log(`iteration::: ${i} content::: ${obj[e].content} e:::${e} checking value::: ${value}`);
+                    if (obj[e].content === value) {
+                        found = index;
+                        throw Break;
+                    } 
+                } 
+                if(i === -1){
+                    if (obj[e].content === value) {
+                        found = index;
+                        throw Break;
+                    } 
+                }
+            }
+        );
+        } catch (e) {
+            if (e !== Break) throw e;
+        }
+        return found;
     }
     componentWillMount() {
         this.setState({existingTags: []});

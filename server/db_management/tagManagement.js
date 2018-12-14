@@ -59,7 +59,7 @@ const findExistingPair = async (offerId, tagName, setTagTo) => {
         default:
             break;
     }
-    console.log(filteredTags);
+    //console.log(filteredTags);
 
     return definedPair !== 0 ? definedPair : 0
 };
@@ -72,6 +72,14 @@ exports.defineTagPair = async (offerId, tagName, setTagTo) => {
 };
 
 exports.updateModel = async (model, existingTag, tagName, setTagTo, tagPairNo) => {
-    console.log(setTagTo);
+    //console.log(setTagTo);
     await model.updateTagSet(existingTag, tagName, setTagTo, tagPairNo);
+}
+
+exports.findTagsForOffer = async (offerId) => {
+    const OfferTags = await mongoose
+            .model('tags')
+            .find({offerId: offerId})
+            .select({ offerId: 1, tagName: 1 });
+    return OfferTags;
 }

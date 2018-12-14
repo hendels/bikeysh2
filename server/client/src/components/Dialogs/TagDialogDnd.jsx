@@ -14,7 +14,6 @@ import IconButton from '@material-ui/core/IconButton';
 import AddBox from '@material-ui/icons/AddBox';
 import Radio from '@material-ui/core/Radio';
 import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
 //app components
@@ -109,7 +108,7 @@ class DialogDragAndDrop extends React.Component {
         }
       });
     };
-    handleAddNewTag = async (tagName, targetColumnName) => {
+    handleAddNewTag = async () => {
       // console.log(`column name react: ${targetColumnName}`);
       await axios.post(this.props.tagUrl + `update/${this.state.valueRadioNewTag}`, {
         id: this.props.offer._id,
@@ -136,12 +135,32 @@ class DialogDragAndDrop extends React.Component {
           }
       }); 
     }
+    handleGetTagsForOffer = async (titleArray) => {
+      console.log(titleArray);
+      await axios.get(this.props.tagUrl + `getTags/${this.props.offer._id}`).then(response  => response.data)
+      .then(result => {
+        let tagArray = [];
+        for (var i = 0; i < result.tagArray.length; i++){
+          console.log(result.tagArray[i].tagName);
+          tagArray.push(result.tagArray[i].tagName);
+        }
+        return tagArray;
+      });
+    }
+    componentWillMount() {
+      
+    }
     render() {
       const { classes, onClose, selectedValue, ...other } = this.props;
       //<<split data to array [todo << da sie to zrobić lepiej] 
-      let cleanTitle = this.props.offer.title.split('.').join(``).split(',').join(``);
+      let title = this.props.offer.title + ' asd';
+      let cleanTitle = title.split('.').join(``).split(',').join(``);
       cleanTitle = cleanTitle.split('/').join(``).split(" ");
       cleanTitle = cleanTitle.filter(function(e) {return e});
+      const tagArray = this.handleGetTagsForOffer(cleanTitle);
+      //<< get tags from db
+
+      //>>
       const titleWords = cleanTitle;
       //console.log(titleWords);
       //>>
