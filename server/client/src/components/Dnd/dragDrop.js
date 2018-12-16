@@ -100,15 +100,15 @@ export default class DragDrop extends React.Component{
         var blankObject = JSON.parse(JSON.stringify(initialData));
 
         this.setState({loading: true})
-        for (var i = 0; i < this.props.titleWords.length; i++){
+        for (var i = 0; i < this.props.tagArray.length; i++){
             var key = "task" + i;
-            let newObj = {[key]:{id: key, content: this.props.titleWords[i]}};
+            let newObj = {[key]:{id: key, content: this.props.tagArray[i]}};
             let foundIndex = null;
             if (blankObject.tasks !== undefined){
-                foundIndex = this.getByValue(blankObject.tasks, this.props.titleWords[i], i + 1);
+                foundIndex = this.getByValue(blankObject.tasks, this.props.tagArray[i], i + 1);
             }
             if (foundIndex === null) {
-                await this.handleSearchTag(this.props.titleWords[i]);
+                await this.handleSearchTag(this.props.tagArray[i]);
                 //CHANGE FUNCTION GET FROM DB TAGS!!!!
                 Object.assign(blankObject.tasks, newObj);
                 switch(true){
@@ -131,7 +131,7 @@ export default class DragDrop extends React.Component{
                         blankObject.columns.column1.taskIds.push([key]);
                         break;
                 }
-                // console.log(`state for tag: ${this.props.titleWords[i]}`);
+                // console.log(`state for tag: ${this.props.tagArray[i]}`);
                 // console.log(this.state.tagData);
             } 
         }
@@ -251,7 +251,7 @@ export default class DragDrop extends React.Component{
     }
 
     render(){
-        console.log(`RERENDER DND showIgnored = ${this.props.showIgnored}`);
+        // console.log(`RERENDER DND showIgnored = ${this.props.showIgnored}`);
         const {offerId, tagUrl, offerOrigin} = this.props;
         return (
             <div>

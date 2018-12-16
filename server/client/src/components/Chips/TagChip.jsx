@@ -75,17 +75,13 @@ class TagChip extends React.Component{
         const { classes } = this.props;
         return(
             <Chip
-            // avatar={
-            //   <Avatar>{this.props.word.charAt(0).toUpperCase()}</Avatar>
-            // }
-            label={this.props.word}
-            onDelete={this.state.tagExist ? this.handleDeleteTag: null}
-            deleteIcon={this.state.tagExist ? <DeleteIcon /> : null}
-            onClick={this.handleAddTag}
-            className={classes.chip}
-            style={{backgroundColor: this.state.tagExist ? "#C96567" : "#314455"}}
-            variant="outlined"
-            //color={this.state.tagExist ? "secondary" : "primary"}
+              label={this.props.word}
+              onDelete={this.state.tagExist ? this.handleDeleteTag: null}
+              deleteIcon={this.state.tagExist ? <DeleteIcon /> : null}
+              onClick={this.handleAddTag}
+              className={classes.chip}
+              style={{backgroundColor: this.state.tagExist ? "#C96567" : "#314455"}}
+              variant="outlined"
             />
         )
     }

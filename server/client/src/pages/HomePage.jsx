@@ -59,7 +59,7 @@ class HomePage extends React.Component {
         }
     }
     componentDidUpdate(){
-        console.log('updated!');
+        // console.log('updated!');
 
     }
     handleSnack = (objOffer) => {

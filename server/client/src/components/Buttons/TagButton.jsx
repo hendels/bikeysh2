@@ -22,14 +22,11 @@ const styles = theme => ({
 
 
 class TagBadge extends React.Component {
-  // constructor(props){
-  //   super(props);
-
-    state = {
-        openTagDialog: false,
-        tagCount: 0
-    }
-  // }
+  state = {
+      openTagDialog: false,
+      tagCount: 0,
+      reloadDialogDnd: false
+  }
 
   componentWillMount(){
     this.countAddedTags();
@@ -37,8 +34,22 @@ class TagBadge extends React.Component {
   
   handleClickOpenTagDialog = () => {
     this.setState({
-        openTagDialog: true
+        openTagDialog: true,
+        reloadDialogDnd: !this.state.reloadDialogDnd
     });
+  };
+  handleCloseTagDialog = async (withReload) => {
+      await this.setState({ 
+          openTagDialog: false 
+      });
+      if (!withReload)
+        this.countAddedTags();
+      else
+      {
+        await this.setState({ 
+            openTagDialog: true 
+        });
+      }
   };
   countAddedTags = async () => {
     //console.log(`tags count / offer id: ${this.props.offer._id} tag url: ${this.props.tagUrl}`);
@@ -47,12 +58,6 @@ class TagBadge extends React.Component {
       this.setState({tagCount: result}, () => {});
     });
   }
-  handleCloseTagDialog = async (value) => {
-      await this.setState({ 
-          openTagDialog: false 
-      });
-      this.countAddedTags();
-  };
   render(){
     const { classes } = this.props;
     
@@ -66,7 +71,8 @@ class TagBadge extends React.Component {
         <TagDialogDnd
           open={this.state.openTagDialog}
           onClose={this.handleCloseTagDialog}
-          handleCloseTagDialog={this.handleCloseTagDialog}
+          // handleCloseTagDialog={this.handleCloseTagDialog}
+          reloadDialogDnd={this.state.reloadDialogDnd}
           category={this.props.category}
           model={this.props.model}
           offer={this.props.offer}

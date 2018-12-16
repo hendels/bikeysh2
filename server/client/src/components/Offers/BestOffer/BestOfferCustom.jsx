@@ -327,6 +327,7 @@ class BestOffer extends React.Component {
                     <span className={classes.imageActionsTags}>
                         <TagButton 
                             onClick={this.handleClickOpenTagDialog} 
+                            onClose={this.handleCloseTagDialog}
                             category={this.props.category} 
                             model={this.props.model}
                             offer={this.props.offer} 
