@@ -76,6 +76,12 @@ exports.updateTagSet = async (id, tagName, updateCase, tagPairNo) => {
         });
     });
 };
+exports.deleteTag = async (_id, offerId, tagName) => {
+    await Tag.deleteOne({offerId: offerId, tagName: tagName}, (err) => {
+        if (err) return 'error while deleting tags';
+        console.log(`tag ${tagName} deleted.`)
+    })
+}
 //# job functions
 
 //# update colums

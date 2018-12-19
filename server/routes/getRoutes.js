@@ -124,6 +124,10 @@ module.exports = app => {
         const tagArray = await tagMgt.findTagsForOffer(req.params.offerId);
         res.send( {tagArray} );
     });
+    app.post('/api/tags/deleteTag', async (req, res) => {
+        tags.deleteTag('', req.body.offerId, req.body.tagName)
+        res.send();
+    });
     //>>
     //==================================================================================================================
     //<<general

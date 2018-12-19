@@ -37,9 +37,18 @@ const TaskList = styled.div`
 //*
 
 export default class Column extends React.Component{
-    
+    state ={
+        reloadDialogDnd: this.props.reloadDialogDnd,
+    }
+    componentWillReceiveProps() {
+        this.setState({reloadDialogDnd: this.props.reloadDialogDnd}, () => {
+            // console.log(`dnd received props INNER COLUMN: ${this.props.reloadDialogDnd}`);
+            // this.forceUpdate();
+            // console.log(this.props.existingTags);
+        })
+    }
     render(){
-        const {offerId, tagUrl, offerOrigin, existingTags} = this.props;
+        const {offerId, tagUrl, offerOrigin} = this.props;
 
         return (
             <Container>
@@ -59,7 +68,9 @@ export default class Column extends React.Component{
                                     offerId={offerId} 
                                     tagUrl={tagUrl} 
                                     offerOrigin={offerOrigin}
-                                    existingTags={existingTags}
+                                    existingTags={this.props.existingTags}
+                                    reloadDialogDnd={this.props.reloadDialogDnd}
+                                    deleteTag={this.props.deleteTag}
                                 />)}
 
                             {provided.placeholder}

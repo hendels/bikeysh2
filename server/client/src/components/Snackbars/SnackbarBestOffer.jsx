@@ -29,7 +29,7 @@ class SnackbarBestOffer extends React.Component {
   getScoringData = async () => {
         await axios.get(`/api/statistics/similiarOffers/${this.props.manufacturerSetId}/${this.props.modelSetId}`)
           .then(response  => response.data).then(result => {
-            console.log(result.scoreStats);
+            // console.log(result.scoreStats);
             let statistics = {
               countOffers: result.scoreStats.countOffers,
               currency: result.scoreStats.currency,
@@ -40,7 +40,7 @@ class SnackbarBestOffer extends React.Component {
       });
   }
   componentWillReceiveProps(){
-    console.log(`${this.props.manufacturerSetId}`);
+    // console.log(`${this.props.manufacturerSetId}`);
     if(this.props.manufacturerSetId !== 0 && this.props.modelSetId !== 0){
       this.getScoringData();
     } 
@@ -71,11 +71,6 @@ class SnackbarBestOffer extends React.Component {
               </li>
           </ul>
         }
-        // action={
-        // <Button color="inherit" size="small" onClick={this.handleClose}>
-        //     Undo
-        // </Button>
-        // }
         className={classes.snackbar}
       />
     );

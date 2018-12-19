@@ -51,6 +51,9 @@ class TagBadge extends React.Component {
         });
       }
   };
+  handleReload = () => {
+    this.setState({reloadDialogDnd: !this.state.reloadDialogDnd}, () => {});
+  }
   countAddedTags = async () => {
     //console.log(`tags count / offer id: ${this.props.offer._id} tag url: ${this.props.tagUrl}`);
     await axios.get(this.props.tagUrl + 'tagCount/' + this.props.offer._id).then(response  => response.data).then(result => {
@@ -73,6 +76,7 @@ class TagBadge extends React.Component {
           onClose={this.handleCloseTagDialog}
           // handleCloseTagDialog={this.handleCloseTagDialog}
           reloadDialogDnd={this.state.reloadDialogDnd}
+          reloadDialog={this.handleReload}
           category={this.props.category}
           model={this.props.model}
           offer={this.props.offer}

@@ -24,8 +24,18 @@ const Handle = styled.div`
     margin-right: 8px;
 `;
 export default class Task extends React.Component {
+    state ={
+        reloadDialogDnd: this.props.reloadDialogDnd,
+    }
+    componentWillReceiveProps() {
+        this.setState({reloadDialogDnd: this.props.reloadDialogDnd}, () => {
+            // console.log(`dnd received props INNER TASK: ${this.props.reloadDialogDnd}`);
+            this.forceUpdate();
+        })
+    }
     render() {
         //console.log(this.props);
+        
         return (
 
             <Draggable draggableId={this.props.task.id} index={this.props.index}>
@@ -43,6 +53,8 @@ export default class Task extends React.Component {
                         tagUrl={this.props.tagUrl} 
                         offerOrigin="bikemarkt"
                         existingTags={this.props.existingTags}
+                        reloadDialogDnd={this.props.reloadDialogDnd}
+                        deleteTag={this.props.deleteTag}
                     />
                 </Container> 
             )}

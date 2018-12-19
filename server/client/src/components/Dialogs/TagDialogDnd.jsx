@@ -15,7 +15,7 @@ import AddBox from '@material-ui/icons/AddBox';
 import Radio from '@material-ui/core/Radio';
 import FormControl from '@material-ui/core/FormControl'
 import RadioGroup from '@material-ui/core/RadioGroup';
-
+import DialogTitle from '@material-ui/core/DialogTitle';
 //app components
 import Dnd from '../Dnd/dragDrop';
 const themeLeftButtons = createMuiTheme({
@@ -68,6 +68,25 @@ const styles = {
       )`,
     },
   };
+function mergeArrays(array1, array2) {
+    const result_array = [];
+    const arr = array1.concat(array2);
+    let len = arr.length;
+    const assoc = {};
+
+    while(len--) {
+        const item = arr[len];
+
+        if(!assoc[item]) 
+        { 
+            result_array.unshift(item);
+            assoc[item] = true;
+        }
+    }
+
+    return result_array;
+}
+
 
 class DialogDragAndDrop extends React.Component {
     constructor(props){
@@ -82,6 +101,7 @@ class DialogDragAndDrop extends React.Component {
         tagArray: [],
         reloadDialogDnd: this.props.reloadDialogDnd
       }
+      this.handleGetTagsForOffer();
     }
   
     handleListItemClick = value => {
@@ -99,7 +119,7 @@ class DialogDragAndDrop extends React.Component {
             disableNewTagButton: false,
             newTagText: target.value
           }, () => {
-            console.log(`text = ${this.state.newTagText} radio = ${this.state.valueRadioNewTag}`);
+            //console.log(`text = ${this.state.newTagText} radio = ${this.state.valueRadioNewTag}`);
           });
           break;
         case target.value !== '':
@@ -119,14 +139,14 @@ class DialogDragAndDrop extends React.Component {
     };
     handleChangeNewTagRadio = event => {
       this.setState({ valueRadioNewTag: event.target.value }, ()=> {
-        console.log(`text = ${this.state.newTagText} radio = ${this.state.valueRadioNewTag}`);
+        //console.log(`text = ${this.state.newTagText} radio = ${this.state.valueRadioNewTag}`);
         if (this.state.newTagText !== '' && this.state.valueRadioNewTag !== ''){
           this.setState({disableNewTagButton: false}, () => {});
         }
       });
     };
     handleAddNewTag = async () => {
-      // console.log(`column name react: ${targetColumnName}`);
+      // console.log(`NEW TAG PENDING`);
       await axios.post(this.props.tagUrl + `update/${this.state.valueRadioNewTag}`, {
         id: this.props.offer._id,
         tagName: this.state.newTagText,
@@ -137,12 +157,28 @@ class DialogDragAndDrop extends React.Component {
         price: this.props.offer.price,
         model: this.props.model
       }).then(response => response.data).then(async result => {
-        this.handleGetTagsForOffer();
-        this.setState({reloadDialogDnd: !this.state.reloadDialogDnd}, ()=> {
-          console.log(`dnd reloaded reload state = ${this.state.reloadDialogDnd}`);
-          // this.forceUpdate();
-          this.handleReloadDialog();
-        });
+        // console.log(`BEFORE handleGetTagsForOffer!`);
+        await this.handleGetTagsForOffer();
+        // console.log(this.state.tagArray);
+        // console.log(`AFTER SEARCH`);
+        // this.forceUpdate();
+        await this.props.reloadDialog();
+
+      }); 
+    }
+    handleDeleteTag = async (tagId, offerId, tagName) => {
+      // console.log(`DELETE TAG PENDING`);
+      await axios.post(this.props.tagUrl + `deleteTag`, {
+        tagId: tagId,
+        tagName: tagName,
+        offerId: this.props.offer._id,
+      }).then(response => response.data).then(async result => {
+        // console.log(`BEFORE handleGetTagsForOffer!`);
+        await this.handleGetTagsForOffer();
+        // console.log(this.state.tagArray);
+        // console.log(`AFTER SEARCH`);
+        // this.forceUpdate();
+        await this.props.reloadDialog();
 
       }); 
     }
@@ -152,7 +188,7 @@ class DialogDragAndDrop extends React.Component {
       titleArray = titleArray.split('/').join(``).split(" ");
       titleArray = titleArray.filter(function(e) {return e});
       
-      console.log(titleArray);
+      // console.log(`handleGetTagsForOffer!`);
       await axios.get(this.props.tagUrl + `getTags/${this.props.offer._id}`).then(response  => response.data)
       .then(result => {
         let tagArray = [];
@@ -160,24 +196,42 @@ class DialogDragAndDrop extends React.Component {
           // console.log(result.tagArray[i].tagName);
           tagArray.push(result.tagArray[i].tagName);
         }
-        tagArray.concat(titleArray);
-        this.setState({tagArray: tagArray}, () => {
 
+        console.log(`title array::::`);
+        console.log(titleArray);
+        const mergedArrays = mergeArrays(titleArray, tagArray);
+        console.log(`merged array::::`);
+        console.log(mergedArrays);
+        // tagArray = tagArray.filter(function(e) {return e})
+        this.setState({tagArray: mergedArrays}, () => {
+          
+          // console.log(this.state.tagArray);
         })
-        return tagArray;
+        // return tagArray;
       });
     }
+    
     handleCloseDialog = () => {
-      this.props.onClose(true);
-    }
-    handleReloadDialog = () => {
       this.props.onClose(false);
     }
+    // handleReloadDialog = () => {
+    //   this.props.onClose(true);
+    // }
     handleCancel = () => {
-      this.props.onClose(true);
+      this.props.onClose(false);
     };
-    componentWillMount() {
-      this.handleGetTagsForOffer();
+    // componentWillMount() {
+    //   this.handleGetTagsForOffer();
+    // }
+    componentWillReceiveProps() {
+      this.setState({reloadDialogDnd: this.props.reloadDialogDnd}, () => {
+        // console.log(`dnd received props reload MAIN DND state = ${this.state.reloadDialogDnd}`);
+        if (this.props.reloadDialogDnd !== this.state.reloadDialogDnd){
+          // console.log('GET TAGS WHILE RECEIVE PROPS');
+          this.handleGetTagsForOffer();
+        }
+        this.forceUpdate();
+      });
     }
     render()  {
       const { classes, onClose, selectedValue, ...other } = this.props;
@@ -203,7 +257,7 @@ class DialogDragAndDrop extends React.Component {
           maxWidth="xm"{...other} 
           PaperProps={{className: classes.tagContainer, square: "true"}}
         >
-          {/* <DialogTitle className={classes.dialogTitle}>Set tags for {this.props.category}</DialogTitle> */}
+          <DialogTitle className={classes.dialogTitle}>{this.props.offer.title}</DialogTitle>
           <div className={classes.root}>
             <Dnd 
               offerId={this.props.offer._id} 
@@ -214,6 +268,9 @@ class DialogDragAndDrop extends React.Component {
               offer={this.props.offer}
               model={this.props.model}
               showIgnored={this.state.showIgnored}
+              reloadDialogDnd={this.props.reloadDialogDnd}
+              deleteTag={this.handleDeleteTag}
+              // tagArray={this.state.tagArray}
             />
           </div>
           <DialogActions>

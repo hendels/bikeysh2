@@ -24,29 +24,20 @@ class TagChip extends React.Component{
     constructor(props){
       super(props);
       this.state = {
-        tagExist: false
+        tagExist: false,
+        reloadDialogDnd: this.props.reloadDialogDnd,
+        tagName: '',
       }
-      this.handleSearchTag = this.handleSearchTag.bind(this);
     }
     componentWillReceiveProps(){
-      console.log(this.props.existingTags);
       this.handleSearchTagx(this.props.existingTags);
+      this.setState({reloadDialogDnd: this.props.reloadDialogDnd}, () => {
+        // console.log(`dnd received props INNER CHIP: ${this.props.reloadDialogDnd}`);
+        this.forceUpdate();
+      });
     }
     componentDidMount(){
       this.handleSearchTagx(this.props.existingTags);
-    }
-    handleSearchTag = async (tagName) => {
-        
-      const tagInfo = await axios.get(this.props.tagUrl + 'findTag/' + tagName + `/` + this.props.offerId) 
-        .then(response  => response.data)
-        .then(result => {
-          if (result){
-              this.setState({tagExist: true});
-              // console.log('TAG FOUND');
-              this.forceUpdate();
-
-          }
-        });
     }
     handleSearchTagx = async (tagList) => {
       for(var i=0; i<tagList.length; i++){
@@ -68,7 +59,8 @@ class TagChip extends React.Component{
       }
     }
     handleDeleteTag = async () => {
-        console.log('You clicked the delete icon.'); 
+      this.props.deleteTag('', this.props.offerId, this.props.word);
+      console.log('You clicked the delete icon.'); 
     }
         
     render(){

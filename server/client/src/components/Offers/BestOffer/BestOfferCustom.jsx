@@ -250,7 +250,7 @@ class BestOffer extends React.Component {
         }
     }
     setOfferVisibility = async () => {
-        console.log(`setting offer visibility`);
+        // console.log(`setting offer visibility`);
         await axios.get('/api/scoring/update/visibility/' + this.props.offer._id).then(response  => response.data).then(result => {
             this.setState({visible: result}, () => {
                 let objOffer = {

@@ -30,10 +30,15 @@ export default class DragDrop extends React.Component{
                 helperTag: ``,
             },
             existingTags: [],
+            tagArray: [],
             loading: false,
             rerenderChip: false,
             showIgnored: this.props.showIgnored,
+            reloadDialogDnd: this.props.reloadDialogDnd,
         });
+        
+        this.loadDndData();
+        // this.loadDndData();
     }
     handleAddToTagSet = async (tagName, targetColumnName) => {
         // console.log(`column name react: ${targetColumnName}`);
@@ -61,7 +66,7 @@ export default class DragDrop extends React.Component{
 
                   this.setState({existingTags: existingTags}, ()=>{});
                   //await sleep(1000);
-                  console.log(this.state.existingTags);
+                //   console.log(this.state.existingTags);
                   this.setState({rerenderChip: !this.state.rerenderChip}, ()=>{});
               }
           }); 
@@ -72,7 +77,7 @@ export default class DragDrop extends React.Component{
         
         // console.log(`==============================[search]=================================`); 
         // console.log(`getting tag...${tagName} offerId... ${this.props.offerId}`); 
-        const tagInfo = await axios.get(this.props.tagUrl + 'findTag/' + tagName + `/` + this.props.offerId) 
+        await axios.get(this.props.tagUrl + 'findTag/' + tagName + `/` + this.props.offerId) 
           .then(response  => response.data)
           .then(result => {
             // console.log(`offer: ${result._id} tag: ${result.tagName} manufacturer: ${result.manufacturerTag} group:${result.groupTag} model:${result.modelTag}
@@ -83,7 +88,7 @@ export default class DragDrop extends React.Component{
                 existingTags.push(newObj);
                 this.setState({existingTags: existingTags}, () => {});
 
-                console.log(this.state.existingTags);
+                //console.log(this.state.existingTags);
             }
             this.setState({tagData: {
                 manufacturerTag: result.manufacturerTag,
@@ -94,9 +99,10 @@ export default class DragDrop extends React.Component{
             }});
             
           });
-      }
+    }
     
     loadDndData = async () => {
+        // this.setState({existingTags: []});
         var blankObject = JSON.parse(JSON.stringify(initialData));
 
         this.setState({loading: true})
@@ -109,7 +115,6 @@ export default class DragDrop extends React.Component{
             }
             if (foundIndex === null) {
                 await this.handleSearchTag(this.props.tagArray[i]);
-                //CHANGE FUNCTION GET FROM DB TAGS!!!!
                 Object.assign(blankObject.tasks, newObj);
                 switch(true){
                     case this.state.tagData.manufacturerTag !== "" && this.state.tagData.manufacturerTag !== undefined:
@@ -164,10 +169,6 @@ export default class DragDrop extends React.Component{
         }
         return found;
     }
-    componentWillMount() {
-        this.setState({existingTags: []});
-        this.loadDndData();
-    }
     onDragStart = () => {
         //document.body.style.color = 'grey';
         //document.body.style.transition = 'background-color 0.2s ease';
@@ -180,96 +181,146 @@ export default class DragDrop extends React.Component{
         document.body.style.backgroundColor = `rgba(201, 101, 103, ${opacity})`;
     };
     onDragEnd = result => {
-        document.body.style.color = 'inherit';
+        //document.body.style.color = 'inherit';
         const {destination, source,  draggableId} = result;
         if (!destination) {
             return;
         }
-
+        
         if (
             destination.droppableId === source.droppableId &&
             destination.index === source.index
-        ) {
-            return;
-        }
-
-        const start = this.state.mainData.columns[source.droppableId];
-        const startTasks = this.state.mainData.tasks;
-        const finish = this.state.mainData.columns[destination.droppableId];
-        if (start === finish){
-            const newTaskIds = Array.from(start.taskIds);
-
-            newTaskIds.splice(source.index, 1);
-            newTaskIds.splice(destination.index, 0, draggableId);
-    
-            const newColumn = {
-                ...start,
-                taskIds: newTaskIds,
+            ) {
+                return;
+            }
+            
+            const start = this.state.mainData.columns[source.droppableId];
+            const startTasks = this.state.mainData.tasks;
+            const finish = this.state.mainData.columns[destination.droppableId];
+            if (start === finish){
+                const newTaskIds = Array.from(start.taskIds);
+                
+                newTaskIds.splice(source.index, 1);
+                newTaskIds.splice(destination.index, 0, draggableId);
+                
+                const newColumn = {
+                    ...start,
+                    taskIds: newTaskIds,
+                };
+                
+                const newState = {
+                    ...this.state.mainData,
+                    columns: {
+                        ...this.state.mainData.columns,
+                        [newColumn.id]: newColumn,
+                    },
+                };
+                //console.log(`same column:  ${newColumn.title}`);
+                this.setState({mainData: newState});
+                return;
             };
-    
+            
+            // moving from one list to another
+            const startTaskIds = Array.from(start.taskIds);
+            //console.log(`old guy id: ${start.taskIds[source.index]}`);
+            //console.log(`task name is: ${startTasks[start.taskIds[source.index]].content}`);
+            const taskName = startTasks[start.taskIds[source.index]].content;
+            
+            startTaskIds.splice(source.index, 1);
+            const newStart = {
+                ...start,
+                taskIds: startTaskIds,            
+            };
+            
+            const finishTaskIds = Array.from(finish.taskIds);
+            finishTaskIds.splice(destination.index, 0, draggableId);
+            const newFinish = {
+                ...finish,
+                taskIds: finishTaskIds,
+            };
             const newState = {
                 ...this.state.mainData,
                 columns: {
                     ...this.state.mainData.columns,
-                    [newColumn.id]: newColumn,
+                    [newStart.id]: newStart,
+                    [newFinish.id]: newFinish,
                 },
             };
-            //console.log(`same column:  ${newColumn.title}`);
+            const targetColumnName = newFinish.title;
+            this.handleAddToTagSet(taskName, targetColumnName);
             this.setState({mainData: newState});
-            return;
-        };
+        }
+        // componentWillMount() {
+        //     // this.setState({existingTags: []});
+        //     // this.loadDndData();
+        // }
+        componentWillReceiveProps() {
+            // console.log(this.props.tagArray);
+            this.setState({tagArray: this.props.tagArray}, ()=>{
+                this.setState({reloadDialogDnd: this.props.reloadDialogDnd}, () => {
+                    let newArray = [];
+                    // console.log(`dnd received props INNER DND: ${this.props.reloadDialogDnd}`);
+                    // console.log(`existing tags : INNER DND`);
+                    // console.log(`${this.props.tagArray}`);
+                    // console.log(`${this.state.existingTags}`);
+                    for (let i = 0; i < this.props.tagArray.length; i++){
+                        // console.log(this.state.existingTags[i]);
+                        newArray.push(this.props.tagArray[i]);
 
-        // moving from one list to another
-        const startTaskIds = Array.from(start.taskIds);
-        //console.log(`old guy id: ${start.taskIds[source.index]}`);
-        //console.log(`task name is: ${startTasks[start.taskIds[source.index]].content}`);
-        const taskName = startTasks[start.taskIds[source.index]].content;
+                    }
+                    // console.log(`newArray`);
+                    // console.log(newArray);
+                    // console.log(`this.state.existingTags`);
+                    console.log(this.state.existingTags);
+                    if (!this.arraysEqual(this.props.tagArray, this.state.tagArray) && this.props.tagArray.length > 0 && this.state.tagArray.length > 0)
+                    {
+                        // this.setState({tagArray: this.props.tagArray}, () => {
+                        //     // console.log(newArray);
+                            this.loadDndData();
+                            // this.forceUpdate();
+                        // })
+                        // console.log('NOT EQUAL');
+                    } else
+                        if (!this.props.tagArray.length > 0 && !this.state.tagArray.length > 0)
+                            console.log(`there is nothing new to add!`);
+                
+                // this.forceUpdate();
+            
+            });
+                
+            })
 
-        startTaskIds.splice(source.index, 1);
-        const newStart = {
-            ...start,
-            taskIds: startTaskIds,            
-        };
-
-        const finishTaskIds = Array.from(finish.taskIds);
-        finishTaskIds.splice(destination.index, 0, draggableId);
-        const newFinish = {
-            ...finish,
-            taskIds: finishTaskIds,
-        };
-        const newState = {
-            ...this.state.mainData,
-            columns: {
-                ...this.state.mainData.columns,
-                [newStart.id]: newStart,
-                [newFinish.id]: newFinish,
-            },
-        };
-        const targetColumnName = newFinish.title;
-        this.handleAddToTagSet(taskName, targetColumnName);
-        this.setState({mainData: newState});
-    }
-
-    render(){
-        // console.log(`RERENDER DND showIgnored = ${this.props.showIgnored}`);
-        const {offerId, tagUrl, offerOrigin} = this.props;
-        return (
-            <div>
+        }
+        arraysEqual = (arr1, arr2) => {
+            if(arr1.length !== arr2.length)
+                return false;
+            for(var i = arr1.length; i--;) {
+                if(arr1[i] !== arr2[i])
+                    return false;
+            }
+        
+            return true;
+        }
+        render(){
+            // console.log(`RERENDER DND showIgnored = ${this.props.showIgnored}`);
+            const {offerId, tagUrl, offerOrigin} = this.props;
+            return (
+                <div>
             {this.state.loading ? <Spinner/> :(
-            <DragDropContext
+                <DragDropContext
                 onDragStart={this.onDragStart}
                 OnDragUpdate={this.OnDragUpdate}
                 onDragEnd={this.onDragEnd}
-            >
-                <Container>
+                >
+                <Container >
                 {this.state.mainData.columnOrder.map((columnId) => {
                     const column = this.state.mainData.columns[columnId];
-                    console.log(column.id);
+                    // console.log(column.id);
                     if(column.id === 'column5' && !this.props.showIgnored){
                         return null;
                     } else {
                         const tasks = column.taskIds.map(taskId => this.state.mainData.tasks[taskId]);
-            
+                        // console.log(tasks);
                         return <Column 
                             key={column.id} 
                             column={column} 
@@ -278,6 +329,8 @@ export default class DragDrop extends React.Component{
                             tagUrl={tagUrl} 
                             offerOrigin={offerOrigin}
                             existingTags={this.state.existingTags}
+                            reloadDialogDnd={this.props.reloadDialogDnd}
+                            deleteTag={this.props.deleteTag}
                         />;
                     }
                 })}
