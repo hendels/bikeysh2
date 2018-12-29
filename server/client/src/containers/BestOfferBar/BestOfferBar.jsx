@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 //app components
 import CategoryInfo from '../../components/UI/CategoryInfoCard.jsx';
-import Spinner from '../../components/UI/SpinnerOffers';
+import Dummies from '../../components/UI/SpinnerOffers';
 import LoadNext from '../../components/UI/LoadButtonNext.jsx';
 // # styles
 import containerStyle from '../../styles/components/generalPageStyle.jsx';
@@ -173,7 +173,7 @@ class BestOfferBar extends React.Component {
                 <Grid container className={classes.containerBackground} direction="row" alignItems="center" justify="space-between">
                         {categoryInfo}
                         {previousButton}
-                    {this.state.loading ? <Spinner pageLimit={pageLimit}/> : (<Aux>{offers}</Aux>)}
+                    {this.state.loading ? <Dummies pageLimit={5}/> : (<Aux>{offers}</Aux>)}
                     {nextButton}
                 <br/>
                 </Grid>

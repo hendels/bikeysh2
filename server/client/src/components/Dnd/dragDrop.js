@@ -8,7 +8,7 @@ import {DragDropContext} from 'react-beautiful-dnd';
 //
 import '@atlaskit/css-reset';
 //app components
-import Spinner from '../UI/SpinnerTags';
+//import Spinner from '../UI/SpinnerTags';
 
 const Container = styled.div`
     display:flex;
@@ -306,7 +306,7 @@ export default class DragDrop extends React.Component{
             const {offerId, tagUrl, offerOrigin} = this.props;
             return (
                 <div>
-            {this.state.loading ? <Spinner/> :(
+            {this.state.loading ? <div/> :(
                 <DragDropContext
                 onDragStart={this.onDragStart}
                 OnDragUpdate={this.OnDragUpdate}

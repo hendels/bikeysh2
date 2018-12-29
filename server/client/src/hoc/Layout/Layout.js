@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Aux from '../Ax/Ax';
+import axios from 'axios';
 import { Route } from 'react-router-dom';
 // pages
 import HomePage from '../../pages/HomePage.jsx';
@@ -41,6 +42,7 @@ class Layout extends Component {
         changeColorHeader: "bikeysh3",
         loadFavorites: false,
         loadWithoutTags: false,
+        searchText: '',
     }
     handleShowFavorizedOffers = async (load) => {
         await this.setState({loadFavorites: load}, () => {});
@@ -56,6 +58,21 @@ class Layout extends Component {
             console.log(`filter loadWithoutTags set as: ${this.state.loadWithoutTags}`);
         });
     };
+    handleChangeSearchText = async (searchText) => {
+        if (searchText !== '' && searchText.length > 3) {
+            this.setState({searchText: searchText}, () => {
+                this.handleSearch();   
+            })
+        }
+    }
+    handleSearch = () => {
+        axios.get('/api/search/' + this.state.searchText)
+            .then(response  => response.data)
+            .then(result => {
+                console.log(result);
+            }
+        );
+    }
     render () {
         const { classes, ...rest } = this.props;
         
@@ -68,7 +85,10 @@ class Layout extends Component {
                     color={this.state.changeColorHeader}
                     routes={dashboardRoutes}
                     brand="bikeysh"
-                    rightLinks={<HeaderLinks clearFilters={this.handleClearFilterStates}/>}
+                    rightLinks={<HeaderLinks 
+                        clearFilters={this.handleClearFilterStates}
+                        searchText={this.handleChangeSearchText}
+                    />}
                     fixed
                     changeColorOnScroll={{
                         height: 400,

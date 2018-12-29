@@ -188,12 +188,12 @@ class BestOffer extends React.Component {
 
         this.state = {
             offerCount: this.props.offerCount,
-            expanded: false,
-            grade: 'S',
-            openTagDialog: false,
+            // expanded: false,
+            // grade: 'S',
+            // openTagDialog: false,
             openStatisticsChips: false,
             favorite: false,
-            visible: true,
+            disableStatistics: false,
             scoringData: {
                 trueName: '', price: 0, currency: "...", median: 0, 
                 countTotal: 0, scores: 0, itemState: "not defined",
@@ -206,18 +206,19 @@ class BestOffer extends React.Component {
     async componentWillMount(){
         await this.getScoringData();
     }
-    handleExpandClick = () => {
-        this.setState(state => ({ expanded: !state.expanded }));
-    };
-    handleClickOpenTagDialog = () => {
-        this.setState({
-            openTagDialog: true
-        });
-      };
+    // handleClickOpenTagDialog = () => {
+
+    //     this.setState({
+    //         openTagDialog: true,
+    //         disableStatistics: true
+    //     }, () => {
+    //         console.log(`open tag? ??? ${this.state.openTagDialog}`)
+    //     });
+    //   };
     
-    handleCloseTagDialog = () => {
+    handleDisableStatistics = (disable) => {
         this.setState({ 
-            openTagDialog: false 
+            disableStatistics: disable 
         });
     };
     handleShowStatisticsChips = () => {
@@ -291,7 +292,7 @@ class BestOffer extends React.Component {
         return(
             <div className={classes.root}>
                 <ButtonBase
-                    focusRipple
+                    focusRipple={!this.state.disableStatistics}
                     className={classes.image}
                     focusVisibleClassName={classes.focusVisible}
                     onClick={this.handleShowStatisticsChips}
@@ -326,12 +327,13 @@ class BestOffer extends React.Component {
                     </span>
                     <span className={classes.imageActionsTags}>
                         <TagButton 
-                            onClick={this.handleClickOpenTagDialog} 
-                            onClose={this.handleCloseTagDialog}
+                            // onClick={this.handleClickOpenTagDialog} 
+                            // onClose={this.handleCloseTagDialog}
                             category={this.props.category} 
                             model={this.props.model}
                             offer={this.props.offer} 
                             tagUrl={this.props.tagUrl}
+                            disableStatistics={this.handleDisableStatistics}
                         />
                     </span>
                     <span className={classes.imageActionsHide}>
@@ -351,15 +353,16 @@ class BestOffer extends React.Component {
                     </span>
                 </Aux>
                 ): null}
-                
-                <SnackbarBestOffer
-                    open={this.state.openStatisticsChips}
-                    close={this.handleCloseStatisticsChips}
-                    manufacturerSetId={this.state.scoringData.manufacturerSetId}
-                    modelSetId={this.state.scoringData.modelSetId}
-                    price={this.state.scoringData.price}
-                    itemState={this.state.itemState}
-                />
+                {this.state.disableStatistics ? null : 
+                    <SnackbarBestOffer
+                        open={this.state.openStatisticsChips}
+                        close={this.handleCloseStatisticsChips}
+                        manufacturerSetId={this.state.scoringData.manufacturerSetId}
+                        modelSetId={this.state.scoringData.modelSetId}
+                        price={this.state.scoringData.price}
+                        itemState={this.state.itemState}
+                    />
+                }
                 </ButtonBase>
             </div>
         )

@@ -43,8 +43,10 @@ module.exports = app => {
     });
     app.get('/test', async (req, res) => {
         // genMgt.clearHidesFromScoringTable();
-        await genMgt.fillTagCounterInAllModels();
-        console.log(`[DONE]`);
+        //await genMgt.fillTagCounterInAllModels();
+        // bm_dhframe.createTextIndexDHFrames();
+        // const sender = await bm_dhframe.dhFramesSearch();
+        console.log(`[DONE] ${sender}`);
     });
     //>>jobs
     //==================================================================================================================
@@ -147,7 +149,12 @@ module.exports = app => {
             console.log(`favorite send = ${favorite}`)
         });
     })
+    app.get('/api/search/:searchText', async (req, res) => {
+        const dhFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText);
+        res.send({ dhFramesResult });
+    });
     
+
     //>>
     //==================================================================================================================
     //<<scoring

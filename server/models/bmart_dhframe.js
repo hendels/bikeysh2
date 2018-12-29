@@ -6,7 +6,7 @@ const translate = require('../config/translations_bmarkt.js');
 
 const DhframesSchema = new Schema({
     bmartId: String,
-    title: String,
+    title: {type: String, text: true},
     seller: String,
     publishDate: String,
     productUrl: String,
@@ -136,4 +136,12 @@ exports.updateFavorite = (id, markAs) => {
             console.log('[][][] favorizing Dh Frame...');
         });
     });    
+};
+exports.createTextIndexDHFrames = () => {
+    DhframesSchema.index( { title: 'text'} );
+    //DhframesSchema.index( { '$**': 'text'} );
+};
+exports.dhFramesSearch = async (searchQuery) => {
+    const result = await DhFrame.find( { $text: { $search: searchQuery}} );
+    return result;
 };

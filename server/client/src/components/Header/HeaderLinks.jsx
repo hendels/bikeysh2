@@ -1,5 +1,6 @@
 /*eslint-disable*/
 import React from "react";
+import axios from "axios";
 // react components for routing our app without refresh
 import { Link } from "react-router-dom";
 
@@ -7,12 +8,14 @@ import { Link } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from "@material-ui/core/Tooltip";
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
 import IconButton from '@material-ui/core/IconButton';
+
 // @material-ui/icons
 import { Apps, Search, Stars, Settings } from "@material-ui/icons";
 
@@ -22,14 +25,28 @@ import Button from '@material-ui/core/Button/Button';
 
 import headerLinksStyle from "../../styles/components/headerLinksStyle.jsx";
 
+function generate(element) {
+  return [0, 1, 2].map(value =>
+    React.cloneElement(element, {
+      key: value,
+    }),
+  );
+}
 
-function HeaderLinks({ ...props }) {
-  const { classes } = props;
-  
-
+class HeaderLinks extends React.Component {
+  state = {
+    searchResults: null,  
+  }
+  handleSearchText = ({target}) => {
+    console.log(target.value);
+    this.props.searchText(target.value);
+  }
+  render() {
+  const { classes } = this.props;
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
+        {/* << SEARCH */}
         <FormControl className={classes.margin}>
           <InputLabel htmlFor="input-with-icon-adornment">Search</InputLabel>
           <Input
@@ -39,8 +56,24 @@ function HeaderLinks({ ...props }) {
                 <Search />
               </InputAdornment>
             }
+            onChange={this.handleSearchText}
           />
+
         </FormControl>
+        
+        <div className={classes.demo}>
+          <List dense={true}>
+            {generate(
+              <ListItem>
+                <ListItemText
+                  primary="Single-line item"
+                  secondary={true ? 'Secondary text' : null}
+                />
+              </ListItem>,
+            )}
+          </List>
+        </div>
+        {/* >> */}
       </ListItem>
       <ListItem className={classes.listItem}>
         <Tooltip
@@ -84,19 +117,19 @@ function HeaderLinks({ ...props }) {
           hoverColor="black"
           buttonIcon={Apps}
           dropdownList={[
-            <Link onClick={props.clearFilters} to="/category/cranks" className={classes.dropdownLink}>
+            <Link onClick={this.props.clearFilters} to="/category/cranks" className={classes.dropdownLink}>
               Cranks
             </Link>,
-            <Link onClick={props.clearFilters} to="/category/hubs" className={classes.dropdownLink}>
+            <Link onClick={this.props.clearFilters} to="/category/hubs" className={classes.dropdownLink}>
               Hubs
             </Link>,
-            <Link onClick={props.clearFilters} to="/category/dhframes" className={classes.dropdownLink}>
+            <Link onClick={this.props.clearFilters} to="/category/dhframes" className={classes.dropdownLink}>
               DH Frames
             </Link>,
-            <Link onClick={props.clearFilters} to="/category/enduroframes" className={classes.dropdownLink}>
+            <Link onClick={this.props.clearFilters} to="/category/enduroframes" className={classes.dropdownLink}>
               Enduro Frames
             </Link>,
-            <Link onClick={props.clearFilters} to="/category/wheels" className={classes.dropdownLink}>
+            <Link onClick={this.props.clearFilters} to="/category/wheels" className={classes.dropdownLink}>
               Wheels
             </Link>
           ]}
@@ -140,6 +173,7 @@ function HeaderLinks({ ...props }) {
       </ListItem>
     </List>
   );
+  }
 }
 
 export default withStyles(headerLinksStyle)(HeaderLinks);
