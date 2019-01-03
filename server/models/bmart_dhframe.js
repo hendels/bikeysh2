@@ -141,7 +141,7 @@ exports.createTextIndexDHFrames = () => {
     DhframesSchema.index( { title: 'text'} );
     //DhframesSchema.index( { '$**': 'text'} );
 };
-exports.dhFramesSearch = async (searchQuery) => {
-    const result = await DhFrame.find( { $text: { $search: searchQuery}} );
+exports.dhFramesSearch = async (searchQuery, limit) => {
+    const result = await DhFrame.find({ $text: { $search: searchQuery}}).limit(limit);
     return result;
 };

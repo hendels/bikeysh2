@@ -6,16 +6,16 @@ import { Link } from "react-router-dom";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from "@material-ui/core/Tooltip";
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
 import IconButton from '@material-ui/core/IconButton';
-
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from '@material-ui/core/ListItemText';
+import Aux from '../../hoc/Ax/Ax';
 // @material-ui/icons
 import { Apps, Search, Stars, Settings } from "@material-ui/icons";
 
@@ -25,13 +25,7 @@ import Button from '@material-ui/core/Button/Button';
 
 import headerLinksStyle from "../../styles/components/headerLinksStyle.jsx";
 
-function generate(element) {
-  return [0, 1, 2].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
+
 
 class HeaderLinks extends React.Component {
   state = {
@@ -61,18 +55,7 @@ class HeaderLinks extends React.Component {
 
         </FormControl>
         
-        <div className={classes.demo}>
-          <List dense={true}>
-            {generate(
-              <ListItem>
-                <ListItemText
-                  primary="Single-line item"
-                  secondary={true ? 'Secondary text' : null}
-                />
-              </ListItem>,
-            )}
-          </List>
-        </div>
+
         {/* >> */}
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -172,6 +155,7 @@ class HeaderLinks extends React.Component {
         />
       </ListItem>
     </List>
+
   );
   }
 }

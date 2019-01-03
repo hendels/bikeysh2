@@ -197,11 +197,11 @@ class DialogDragAndDrop extends React.Component {
           tagArray.push(result.tagArray[i].tagName);
         }
 
-        console.log(`title array::::`);
-        console.log(titleArray);
+        // console.log(`title array::::`);
+        // console.log(titleArray);
         const mergedArrays = mergeArrays(titleArray, tagArray);
-        console.log(`merged array::::`);
-        console.log(mergedArrays);
+        // console.log(`merged array::::`);
+        // console.log(mergedArrays);
         // tagArray = tagArray.filter(function(e) {return e})
         this.setState({tagArray: mergedArrays}, () => {
           

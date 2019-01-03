@@ -17,6 +17,25 @@ const tagMgt = require(`../db_management/tagManagement`);
 const genMgt = require('../db_management/generalManagement');
 
 //jobs
+//functions
+function mergeArrays(array1, array2) {
+    const result_array = [];
+    const arr = array1.concat(array2);
+    let len = arr.length;
+    const assoc = {};
+
+    while(len--) {
+        const item = arr[len];
+
+        if(!assoc[item]) 
+        { 
+            result_array.unshift(item);
+            assoc[item] = true;
+        }
+    }
+
+    return result_array;
+}
 
 module.exports = app => {
     //<<jobs
@@ -150,8 +169,32 @@ module.exports = app => {
         });
     })
     app.get('/api/search/:searchText', async (req, res) => {
-        const dhFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText);
-        res.send({ dhFramesResult });
+        const dhFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText, 3);
+        let searchResults = [];
+        for (let i = 0 ; i < dhFramesResult.length; i++){
+            // console.log(result.dhFramesResult[i].title);
+            let searchItem = {
+                title: dhFramesResult[i].title,
+                bmartId: dhFramesResult[i].bmartId,
+                publishDate: dhFramesResult[i].publishDate,
+                category: 'DH Frames'
+
+            }
+            searchResults.push(searchItem);
+        }
+        const enduroFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText, 3);
+        for (let i = 0 ; i < enduroFramesResult.length; i++){
+            // console.log(result.dhFramesResult[i].title);
+            let searchItem = {
+                title: enduroFramesResult[i].title,
+                bmartId: enduroFramesResult[i].bmartId,
+                publishDate: enduroFramesResult[i].publishDate,
+                category: 'Enduro Frames'
+
+            }
+            searchResults.push(searchItem);
+        }
+        res.send({ searchResults });
     });
     
 

@@ -43,6 +43,7 @@ class Layout extends Component {
         loadFavorites: false,
         loadWithoutTags: false,
         searchText: '',
+        searchResults: {},
     }
     handleShowFavorizedOffers = async (load) => {
         await this.setState({loadFavorites: load}, () => {});
@@ -69,14 +70,25 @@ class Layout extends Component {
         axios.get('/api/search/' + this.state.searchText)
             .then(response  => response.data)
             .then(result => {
-                console.log(result);
+                let searchResults = [];
+                for (let i = 0 ; i < result.searchResults.length; i++){
+                    // console.log(result.dhFramesResult[i].title);
+                    let searchItem = {
+                        title: result.searchResults[i].title,
+                        bmartId: result.searchResults[i].bmartId,
+                        publishDate: result.searchResults[i].publishDate,
+                        category: result.searchResults[i].category,
+                    }
+                    searchResults.push(searchItem);
+                }
+                // console.log(searchResults);
+                this.setState({searchResults: searchResults}, () => {});
             }
         );
     }
     render () {
         const { classes, ...rest } = this.props;
         
-
         return (
             <Aux>
                 <div style={{background: this.state.backgroundColor}}>
@@ -94,6 +106,7 @@ class Layout extends Component {
                         height: 400,
                         color: "bikeysh3_1"
                     }}
+                    searchResults={this.state.searchResults}
                     {...rest}
                 />
                 <Route exact path="/" render={(props) => 

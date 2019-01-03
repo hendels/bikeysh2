@@ -12,24 +12,35 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from '@material-ui/core/ListItemText';
 // @material-ui/icons
 import Menu from "@material-ui/icons/Menu";
 // core components
 import headerStyle from "../../styles/components/headerStyle.jsx";
 // app components
 import Logo from '../Logo/Logo.jsx';
+import Aux from '../../hoc/Ax/Ax';
+
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mobileOpen: false
+      mobileOpen: false,
+      searchResultVisible: false,
+      searchResults: null, 
     };
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
     this.headerColorChange = this.headerColorChange.bind(this);
+    this.handleSearchClose = this.handleSearchClose.bind(this);
   }
   handleDrawerToggle() {
     this.setState({ mobileOpen: !this.state.mobileOpen });
+  }
+  componentWillReceiveProps() {
+    
   }
   componentDidMount() {
     if (this.props.changeColorOnScroll) {
@@ -60,6 +71,18 @@ class Header extends React.Component {
       window.removeEventListener("scroll", this.headerColorChange);
     }
   }
+  handleSearchClose() {
+    this.setState({searchResults: this.props.searchResults}, () => {
+      this.setState({searchResultVisible: false}, ()=>{
+        // console.log('leaving area!');
+        // console.log(this.props.searchResults);
+        // console.log(this.state.searchResults);;
+        // console.log(JSON.stringify(this.state.searchResults) !== JSON.stringify(this.props.searchResults))
+      });
+
+    });
+    
+  }
   render() {
     const {
       classes,
@@ -77,7 +100,22 @@ class Header extends React.Component {
       [classes.fixed]: fixed
     });
     const brandComponent = <Button className={classes.title}>{brand}</Button>;
+    let searchItems = null;
+    if (this.props.searchResults.length > 0){
+      searchItems =  this.props.searchResults.map(item => {
+        return <ListItem className={classes.searchItem}>
+          <ListItemText
+            primary={`[${item.category}] ${item.title}`}
+            secondary={`${item.bmartId} ${item.publishDate}`}
+          />
+          <Button>></Button>
+        </ListItem>
+      })
+      if (!this.state.searchResultVisible && JSON.stringify(this.state.searchResults) !== JSON.stringify(this.props.searchResults) )
+        this.setState({searchResultVisible: true}, () => {});
+    }
     return (
+      <Aux>
       <AppBar className={appBarClasses}>
         <Toolbar className={classes.container}>
           {leftLinks !== undefined ? brandComponent : null}
@@ -129,6 +167,26 @@ class Header extends React.Component {
           </Drawer>
         </Hidden>
       </AppBar>
+      <div className={classes.searchResults} onMouseLeave={this.handleSearchClose}>
+      <List dense={true}>
+      {this.state.searchResultVisible && this.props.searchResults.length > 0 ? 
+        (<Aux>
+          {searchItems}
+          <Button>more... </Button>
+        </Aux>)
+        : null
+      }
+      {this.state.searchResultVisible && this.props.searchResults.length === 0 ? 
+        (<ListItem className={classes.searchItem}>
+          <ListItemText
+            secondary={`nothing found...`}
+          />
+        </ListItem> ) : null
+      }
+      
+      </List>
+    </div>
+    </Aux>
     );
   }
 }

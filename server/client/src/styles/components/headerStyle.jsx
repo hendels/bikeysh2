@@ -36,6 +36,25 @@ const headerStyle = {
     position: "relative",
     zIndex: "unset"
   },
+  searchResults: {
+    display: "flex",
+    position: "fixed",
+
+    top: "66px",
+    right: "550px",
+    // padding: "0px 0px 0px 0px",
+    // position: "relative",
+    flexFlow: "row nowrap",
+    justifyContent: "flex-start",
+    zIndex: "1200"
+  },
+  searchItem: {
+    margin: "0px 0px 0px 0px",
+    backgroundColor: bikeyshColor5,
+    borderStyle: "solid",
+    borderWidth: "1px",
+    borderColor: "white",
+  },
   absolute: {
     position: "absolute",
     zIndex: "1100"
