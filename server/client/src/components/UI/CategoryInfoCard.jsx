@@ -57,9 +57,9 @@ class CategoryInfo extends React.Component {
                     {this.props.category}
                 </Grid>
                 <Grid item>
-                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" onClick={this.handleClickOpenMissedDealsDialog}>
+                    {/* <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" onClick={this.handleClickOpenMissedDealsDialog}>
                         Missed deals
-                    </Button>
+                    </Button> */}
                     <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" 
                         onClick={this.handleClickOpenFavoritesFilter} component={Link} 
                         to={`/category/${this.props.model}`}

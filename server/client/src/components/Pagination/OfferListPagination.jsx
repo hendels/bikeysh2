@@ -35,10 +35,10 @@ class OfferListPagination extends Component {
                 <Grid item>
                     <IconButton variant="outlined" onClick={this.props.next}><LastPage/></IconButton>
                 </Grid>
-                <Grid item>
+                {/* <Grid item> */}
                     {/* [todo] show only with no tag at all */}
-                    <IconButton variant="outlined" onClick={this.props.showFilter}><Filter/></IconButton>
-                </Grid>
+                    {/* <IconButton variant="outlined" onClick={this.props.showFilter}><Filter/></IconButton> */}
+                {/* </Grid> */}
                 {/* <p>{this.state.skip} of {totalArray}</p>
                 <p>filter favs / without tags</p>
                 <p>add big arrow with back to home property and statistics below for cat</p> */}

@@ -6,7 +6,7 @@ const translate = require('../config/translations_bmarkt.js');
 
 const CrankSchema = new Schema({
     bmartId: String,
-    title: String,
+    title: {type: String, text: true},
     seller: String,
     publishDate: String,
     productUrl: String,
@@ -129,4 +129,13 @@ exports.updateFavorite = (id, markAs) => {
             console.log('[][][] favorizing Crank...');
         });
     });    
+};
+exports.cranksSearch = async (searchQuery, limit) => {
+    let result = null;
+    if (limit !== 0)
+        result = await Crank.find({ $text: { $search: searchQuery}}).limit(limit);
+    else
+        result = await Crank.find({ $text: { $search: searchQuery}});
+        
+    return result;
 };

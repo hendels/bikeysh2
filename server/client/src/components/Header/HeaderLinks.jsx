@@ -105,6 +105,7 @@ class HeaderLinks extends React.Component {
           noLiPadding
           buttonText="Bikemarkt"
           buttonProps={{
+            
             className: classes.navLink,
             color: "transparent"
           }}

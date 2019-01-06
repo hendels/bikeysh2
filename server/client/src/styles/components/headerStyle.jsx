@@ -52,18 +52,29 @@ const headerStyle = {
   searchItem: {
     margin: "0px 0px 0px 0px",
     // backgroundColor: bikeyshColor5,
-    backgroundColor: "#4575c1",
+    backgroundColor: "#97AABD",
+    color: "#fff",
     borderStyle: "solid",
     borderWidth: "1px",
     borderColor: "#091528",
+    "&:hover,&:focus": {
+      color: "#fff",
+      background: "#243147"
+    }
   },
   searchShowaAllItem: {
     margin: "0px 0px 0px 0px",
+    color: "#fff",
     // backgroundColor: bikeyshColor5,
-    backgroundColor: "#dd5489",
+    backgroundColor: "#97AABD",
     borderStyle: "solid",
     borderWidth: "1px",
     borderColor: "#091528",
+    "&:hover,&:focus": {
+      
+      color: "#fff",
+      background: "#243147"
+    }
   },
   absolute: {
     position: "absolute",

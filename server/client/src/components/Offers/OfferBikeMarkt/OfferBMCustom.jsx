@@ -60,6 +60,13 @@ const styles = theme => ({
         textShadow: `1px 1px ${bikeyshColor5}`,
         paddingLeft: `15px`,
     },
+    gridElementTitleCategory: {
+        zIndex: 1,
+        fontSize: "20px",
+        color: "#C96567",
+        textShadow: `1px 1px ${bikeyshColor6}`,
+        paddingLeft: `15px`,
+    },
     gridElementDownbar: {
         //position: 'relative',
         zIndex: 0,
@@ -241,6 +248,7 @@ return(
             }}>
                 <Grid container className={classes.gridElementUpbar} direction="row" justify="space-between" alignItems="center">
                     <Grid item>
+                        <span className={classes.gridElementTitleCategory}>{this.props.fullSearch ? `[${this.props.offer.category}]` : null}</span>
                         <span className={classes.gridElementTitle}>
                             {this.state.scoringData.trueName !== `` ? 
                             `[${this.state.scoringData.trueName}] ${this.props.offer.title.length > 60 ? 

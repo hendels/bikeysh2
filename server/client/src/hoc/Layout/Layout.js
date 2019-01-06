@@ -164,16 +164,8 @@ class Layout extends Component {
                 <Route exact path="/offers/searchresult" render={(props) => 
                     <OfferSearchResult 
                         fullSearchResults={this.state.fullSearchResults}
-                        // pageLimit={10} 
-                        // fetchUrl={fetchUrls.cranks}    
                         tagUrl={fetchUrls.tags}    
-                        category={`DHFRAMES`}  
                         imageUrls={imageUrls}
-                        model={dbModels.dhframes}
-                        // loadFavorites={this.state.loadFavorites}
-                        // loadWithoutTags={this.state.loadWithoutTags}
-                        // showFavorites={this.handleShowFavorizedOffers}
-                        // showWithoutTags={this.handleShowWithoutTag}
                     />}
                 />
                 <Route exact path="/category/cranks" render={(props) => 

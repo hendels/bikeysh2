@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// mozesz tez uzyc ES5 (aka ECMAScript 2015)
-// {Schema} = mongoose;
 const translate = require('../config/translations_bmarkt.js');
 
 const DhframesSchema = new Schema({

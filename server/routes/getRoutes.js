@@ -76,7 +76,6 @@ module.exports = app => {
     });
     //<<stats
     app.get('/api/statistics/similiarOffers/:manufacturerSetId/:modelSetId', async (req, res) => {
-        //console.log(`in similiar...${req.params.manufacturerSetId} / ${req.params.modelSetId}`);
         await genMgt.findSimilarOffers(parseInt(req.params.manufacturerSetId), parseInt(req.params.modelSetId), scoreStats => {
             res.send({scoreStats});
         })
@@ -95,9 +94,7 @@ module.exports = app => {
         })
     });
     app.get('/api/tags/findTag/:tagName/:offerId', (req, res) => {
-        //console.log(`searching for tag... + ${req.params.tagName} offer id: ${req.params.offerId}`);
         Tags.findOne({ offerId: req.params.offerId, tagName: req.params.tagName }).then(existingTag => {
-            //console.log('existing Id: '+ existingId);
             if (existingTag) {
                 res.send(existingTag);
             } else {                
@@ -107,7 +104,6 @@ module.exports = app => {
 
     });
     app.post('/api/tags/update/:setTagTo', async (req, res) => {
-        //console.log('update model to tag: '+ req.body.id + ' / ' + req.body.tagName + ' - setTagTo: ' + req.params.setTagTo);
         Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
             console.log('existing TAg Id: '+ existingTag);
             if (existingTag) {
@@ -121,7 +117,6 @@ module.exports = app => {
                     resolve();
                 });
                 createTag.then(() => {
-                // console.log(`after create --- offerId: ${req.body.id} tagName: ${req.body.tagName}`);
                     Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
                         if (existingTag) {
                             const tagPairNo = await tagMgt.defineTagPair(req.body.id, req.body.tagName, req.params.setTagTo);
@@ -136,7 +131,6 @@ module.exports = app => {
         })
     })
     app.get('/api/tags/tagCount/:offerId', (req, res) => {
-        //console.log('searching for tag count for...' + req.params.offerId);
         mongoose.model('tags').count({offerId: req.params.offerId}, function(err, tags) {
             res.send({ tags });
         });
@@ -153,11 +147,9 @@ module.exports = app => {
     //==================================================================================================================
     //<<general
     app.get('/scoring/:offerId', async (req, res) => {
-        //console.log('searching for tag count for...' + req.params.offerId);
         await mongoose.model('scoring').find({offerId: req.params.offerId}, (err, scoring) => {
             res.send({ scoring });
             console.log('got scored offer...');
-            // console.log(scoring);
         });
     });
     app.post('/api/bm/offer/fav', async (req, res) => {
@@ -172,7 +164,6 @@ module.exports = app => {
         const dhFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText, parseInt(req.params.searchLimit));
         let searchResults = [];
         for (let i = 0 ; i < dhFramesResult.length; i++){
-            // console.log(result.dhFramesResult[i].title);
             let searchItem = {
                 title: dhFramesResult[i].title,
                 bmartId: dhFramesResult[i].bmartId,
@@ -185,28 +176,79 @@ module.exports = app => {
                 price: dhFramesResult[i].price,
                 favorite: dhFramesResult[i].favorite,
                 _id: dhFramesResult[i]._id,
-                
-
             }
             searchResults.push(searchItem);
         }
-        // const enduroFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText, parseInt(req.params.searchLimit));
-        // for (let i = 0 ; i < enduroFramesResult.length; i++){
-        //     // console.log(result.dhFramesResult[i].title);
-        //     let searchItem = {
-        //         title: enduroFramesResult[i].title,
-        //         bmartId: enduroFramesResult[i].bmartId,
-        //         publishDate: enduroFramesResult[i].publishDate,
-        //         category: 'Enduro Frames',
-        //         pictures: dhFramesResult[i].pictures
-
-        //     }
-        //     searchResults.push(searchItem);
-        // }
+        const enduroFramesResult = await bm_enduroframe.enduroFramesSearch(req.params.searchText, parseInt(req.params.searchLimit));
+        for (let i = 0 ; i < enduroFramesResult.length; i++){
+            let searchItem = {
+                title: enduroFramesResult[i].title,
+                bmartId: enduroFramesResult[i].bmartId,
+                publishDate: enduroFramesResult[i].publishDate,
+                category: 'Enduro Frames',
+                pictures: enduroFramesResult[i].pictures,
+                description: enduroFramesResult[i].description,
+                watchedTimes: enduroFramesResult[i].watchedTimes,
+                productUrl: enduroFramesResult[i].productUrl,
+                price: enduroFramesResult[i].price,
+                favorite: enduroFramesResult[i].favorite,
+                _id: enduroFramesResult[i]._id,
+            }
+            searchResults.push(searchItem);
+        }
+        const hubsResult = await bm_hub.hubsSearch(req.params.searchText, parseInt(req.params.searchLimit));
+        for (let i = 0 ; i < hubsResult.length; i++){
+            let searchItem = {
+                title: hubsResult[i].title,
+                bmartId: hubsResult[i].bmartId,
+                publishDate: hubsResult[i].publishDate,
+                category: 'Hubs',
+                pictures: hubsResult[i].pictures,
+                description: hubsResult[i].description,
+                watchedTimes: hubsResult[i].watchedTimes,
+                productUrl: hubsResult[i].productUrl,
+                price: hubsResult[i].price,
+                favorite: hubsResult[i].favorite,
+                _id: hubsResult[i]._id,
+            }
+            searchResults.push(searchItem);
+        }
+        const wheelsResult = await bm_wheel.wheelsSearch(req.params.searchText, parseInt(req.params.searchLimit));
+        for (let i = 0 ; i < wheelsResult.length; i++){
+            let searchItem = {
+                title: wheelsResult[i].title,
+                bmartId: wheelsResult[i].bmartId,
+                publishDate: wheelsResult[i].publishDate,
+                category: 'Wheels',
+                pictures: wheelsResult[i].pictures,
+                description: wheelsResult[i].description,
+                watchedTimes: wheelsResult[i].watchedTimes,
+                productUrl: wheelsResult[i].productUrl,
+                price: wheelsResult[i].price,
+                favorite: wheelsResult[i].favorite,
+                _id: wheelsResult[i]._id,
+            }
+            searchResults.push(searchItem);
+        }
+        const cranksResult = await bm_crank.cranksSearch(req.params.searchText, parseInt(req.params.searchLimit));
+        for (let i = 0 ; i < cranksResult.length; i++){
+            let searchItem = {
+                title: cranksResult[i].title,
+                bmartId: cranksResult[i].bmartId,
+                publishDate: cranksResult[i].publishDate,
+                category: 'Cranks',
+                pictures: cranksResult[i].pictures,
+                description: cranksResult[i].description,
+                watchedTimes: cranksResult[i].watchedTimes,
+                productUrl: cranksResult[i].productUrl,
+                price: cranksResult[i].price,
+                favorite: cranksResult[i].favorite,
+                _id: cranksResult[i]._id,
+            }
+            searchResults.push(searchItem);
+        }
         res.send({ searchResults });
     });
-    
-
     //>>
     //==================================================================================================================
     //<<scoring
@@ -240,27 +282,15 @@ module.exports = app => {
                 tagCount: withoutTagsFilter === true ? {$lt: 2} : null
             }
         }
-        // if (favFilter){
-            const currentModel = await mongoose
-                .model(req.params.model)
-                .find(filters)
-                .sort({'bmartId': -1})
-                .skip(skipRange)
-                .limit(pageLimit)
-                .select({ __v: false });
+        const currentModel = await mongoose
+            .model(req.params.model)
+            .find(filters)
+            .sort({'bmartId': -1})
+            .skip(skipRange)
+            .limit(pageLimit)
+            .select({ __v: false });
 
-            res.send(currentModel);   
-        // }else{
-        //     const DhFrames = await mongoose
-        //     .model(req.params.model)
-        //     .find()
-        //     .sort({'bmartId': -1})
-        //     .skip(skipRange)
-        //     .limit(pageLimit)
-        //     .select({ __v: false });
-        //     res.send(DhFrames);            
-        // }
-        
+        res.send(currentModel);   
     });
     //>>offerList
     //<<dhframes
@@ -282,18 +312,6 @@ module.exports = app => {
     //>>dhframes
     //==================================================================================================================
     //<<cranks
-    // app.get('/api/bm/category/cranks/:skipRange/:pageLimit', async (req, res) => {
-    //     var pageLimit = parseInt(req.params.pageLimit);
-    //     var skipRange = parseInt(req.params.skipRange);
-    //     const Cranks = await mongoose
-    //         .model('cranks')
-    //         .find()
-    //         .skip(skipRange)
-    //         .limit(pageLimit)
-    //         //.sort({'publishDate': -1})
-    //         .select({ bmartId: false, __v: false });
-    //     res.send(Cranks);            
-    // });
     app.get('/api/bm/category/cranks', (req, res) => {
         mongoose.model('cranks').count(function(err, cranks) {
             res.send({cranks});
@@ -347,17 +365,6 @@ module.exports = app => {
     //>>bestoffer
     //==================================================================================================================
     //<<enduroframes
-    // app.get('/api/bm/category/enduroframes/:skipRange/:pageLimit', async (req, res) => {
-    //     var pageLimit = parseInt(req.params.pageLimit);
-    //     var skipRange = parseInt(req.params.skipRange);
-    //     const EnduroFrames = await mongoose
-    //     .model('enduroframes')
-    //     .find()
-    //     .skip(skipRange)
-    //     .limit(pageLimit)
-    //     .select({ bmartId: false, __v: false });
-    //     res.send(EnduroFrames);            
-    // });
     app.get('/api/bm/category/enduroframes', (req, res) => {
         mongoose.model('enduroframes').count(function(err, enduroframes) {
             res.send({ enduroframes });
@@ -366,17 +373,6 @@ module.exports = app => {
     //>>enduroframes
     //==================================================================================================================
     //<<hubs
-    // app.get('/api/bm/category/hubs/:skipRange/:pageLimit', async (req, res) => {
-    //     var pageLimit = parseInt(req.params.pageLimit);
-    //     var skipRange = parseInt(req.params.skipRange);
-    //     const Hubs = await mongoose
-    //         .model('hubs')
-    //         .find()
-    //         .skip(skipRange)
-    //         .limit(pageLimit)
-    //         .select({ bmartId: false, __v: false });
-    //     res.send(Hubs);            
-    // });
     app.get('/api/bm/category/hubs', (req, res) => {
         mongoose.model('hubs').count(function(err, hubs) {
             res.send({hubs});
@@ -385,18 +381,6 @@ module.exports = app => {
     //>>hubs
     //==================================================================================================================
     //<<wheels
-    // app.get('/api/bm/category/wheels/:skipRange/:pageLimit', async (req, res) => {
-    //     var pageLimit = parseInt(req.params.pageLimit);
-    //     var skipRange = parseInt(req.params.skipRange);
-    //     const Wheels = await mongoose
-    //         .model('wheels')
-    //         .find()
-    //         .skip(skipRange)
-    //         .limit(pageLimit)
-    //         .select({ bmartId: false, __v: false });
-    //     res.send(Wheels);    
-    //     console.log('wheels loadeds.');
-    // });
     app.get('/api/bm/category/wheels', (req, res) => {
         mongoose.model('wheels').count(function(err, wheels) {
             res.send({ wheels });

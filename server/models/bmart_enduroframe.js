@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// mozesz tez uzyc ES5 (aka ECMAScript 2015)
-// {Schema} = mongoose;
 const translate = require('../config/translations_bmarkt.js');
 
 const EnduroframesSchema = new Schema({
     bmartId: String,
-    title: String,
+    title: {type: String, text: true},
     seller: String,
     publishDate: String,
     productUrl: String,
@@ -24,7 +22,6 @@ const EnduroframesSchema = new Schema({
     viewed: Number,
     dealer: String,
     weight: String,
-    
     //////////[app attributes]//////////
     favorite: Boolean,
     //////////[specific attributes]//////////
@@ -126,7 +123,7 @@ exports.update = (EnduroFrame, id, data, atributes) => {
         });
     });
 };
-//# update colums
+//# update columns
 exports.updateFavorite = (id, markAs) => {
     EnduroFrame.findById(id, (err, enduroFrame) => {
         enduroFrame.favorite = markAs;
@@ -134,4 +131,13 @@ exports.updateFavorite = (id, markAs) => {
             console.log('[][][] favorizing EnduroFrame...');
         });
     });    
+};
+exports.enduroFramesSearch = async (searchQuery, limit) => {
+    let result = null;
+    if (limit !== 0)
+        result = await EnduroFrame.find({ $text: { $search: searchQuery}}).limit(limit);
+    else
+        result = await EnduroFrame.find({ $text: { $search: searchQuery}});
+        
+    return result;
 };
