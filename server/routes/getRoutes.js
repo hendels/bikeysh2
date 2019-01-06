@@ -168,8 +168,8 @@ module.exports = app => {
             console.log(`favorite send = ${favorite}`)
         });
     })
-    app.get('/api/search/:searchText', async (req, res) => {
-        const dhFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText, 3);
+    app.get('/api/search/:searchText/:searchLimit', async (req, res) => {
+        const dhFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText, parseInt(req.params.searchLimit));
         let searchResults = [];
         for (let i = 0 ; i < dhFramesResult.length; i++){
             // console.log(result.dhFramesResult[i].title);
@@ -177,23 +177,32 @@ module.exports = app => {
                 title: dhFramesResult[i].title,
                 bmartId: dhFramesResult[i].bmartId,
                 publishDate: dhFramesResult[i].publishDate,
-                category: 'DH Frames'
+                category: 'DH Frames',
+                pictures: dhFramesResult[i].pictures,
+                description: dhFramesResult[i].description,
+                watchedTimes: dhFramesResult[i].watchedTimes,
+                productUrl: dhFramesResult[i].productUrl,
+                price: dhFramesResult[i].price,
+                favorite: dhFramesResult[i].favorite,
+                _id: dhFramesResult[i]._id,
+                
 
             }
             searchResults.push(searchItem);
         }
-        const enduroFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText, 3);
-        for (let i = 0 ; i < enduroFramesResult.length; i++){
-            // console.log(result.dhFramesResult[i].title);
-            let searchItem = {
-                title: enduroFramesResult[i].title,
-                bmartId: enduroFramesResult[i].bmartId,
-                publishDate: enduroFramesResult[i].publishDate,
-                category: 'Enduro Frames'
+        // const enduroFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText, parseInt(req.params.searchLimit));
+        // for (let i = 0 ; i < enduroFramesResult.length; i++){
+        //     // console.log(result.dhFramesResult[i].title);
+        //     let searchItem = {
+        //         title: enduroFramesResult[i].title,
+        //         bmartId: enduroFramesResult[i].bmartId,
+        //         publishDate: enduroFramesResult[i].publishDate,
+        //         category: 'Enduro Frames',
+        //         pictures: dhFramesResult[i].pictures
 
-            }
-            searchResults.push(searchItem);
-        }
+        //     }
+        //     searchResults.push(searchItem);
+        // }
         res.send({ searchResults });
     });
     

@@ -333,6 +333,7 @@ class BestOffer extends React.Component {
                             model={this.props.model}
                             offer={this.props.offer} 
                             tagUrl={this.props.tagUrl}
+                            parentStatistics
                             disableStatistics={this.handleDisableStatistics}
                         />
                     </span>

@@ -41,6 +41,7 @@ const headerStyle = {
     position: "fixed",
 
     top: "66px",
+    // top: "100px",
     right: "550px",
     // padding: "0px 0px 0px 0px",
     // position: "relative",
@@ -50,10 +51,19 @@ const headerStyle = {
   },
   searchItem: {
     margin: "0px 0px 0px 0px",
-    backgroundColor: bikeyshColor5,
+    // backgroundColor: bikeyshColor5,
+    backgroundColor: "#4575c1",
     borderStyle: "solid",
     borderWidth: "1px",
-    borderColor: "white",
+    borderColor: "#091528",
+  },
+  searchShowaAllItem: {
+    margin: "0px 0px 0px 0px",
+    // backgroundColor: bikeyshColor5,
+    backgroundColor: "#dd5489",
+    borderStyle: "solid",
+    borderWidth: "1px",
+    borderColor: "#091528",
   },
   absolute: {
     position: "absolute",

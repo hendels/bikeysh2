@@ -22,7 +22,9 @@ class SnackbarBestOffer extends React.Component {
       countOffers: 0,
       currency: null,
       avgPrice: 0,
-      median: 0
+      median: 0,
+      manufacturerSetId: 0,
+      modelSetId: 0
     }
   }
 
@@ -40,9 +42,14 @@ class SnackbarBestOffer extends React.Component {
       });
   }
   componentWillReceiveProps(){
-    // console.log(`${this.props.manufacturerSetId}`);
-    if(this.props.manufacturerSetId !== 0 && this.props.modelSetId !== 0){
-      this.getScoringData();
+    if((this.props.manufacturerSetId !== 0 && this.props.modelSetId !== 0) && 
+    (this.props.manufacturerSetId !== this.state.manufacturerSetId || this.props.modelSetId !== this.state.modelSetId) ){
+      this.setState({
+        manufacturerSetId: this.props.manufacturerSetId, 
+        modelSetId: this.props.modelSetId
+      }, () => {
+        this.getScoringData();
+      })
     } 
   }
   render() {

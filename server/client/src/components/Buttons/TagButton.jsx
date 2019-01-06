@@ -36,19 +36,28 @@ class TagBadge extends React.Component {
     this.setState({
         openTagDialog: true,
         reloadDialogDnd: !this.state.reloadDialogDnd
-    }, ()=> {this.props.disableStatistics(true);});
+    }, ()=> {
+      if (this.props.parentStatistics)
+        this.props.disableStatistics(true);
+    });
   };
   handleCloseTagDialog = async (withReload) => {
       await this.setState({ 
           openTagDialog: false 
-      }, () => {this.props.disableStatistics(false)});
+      }, () => {
+        if (this.props.parentStatistics)
+          this.props.disableStatistics(false)
+      });
       if (!withReload)
         this.countAddedTags();
       else
       {
         await this.setState({ 
             openTagDialog: true 
-        }, ()=> {this.props.disableStatistics(true);});
+        }, ()=> {
+          if (this.props.parentStatistics)
+            this.props.disableStatistics(true);
+        });
       }
   };
   handleReload = () => {

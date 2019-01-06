@@ -25,16 +25,26 @@ import Button from '@material-ui/core/Button/Button';
 
 import headerLinksStyle from "../../styles/components/headerLinksStyle.jsx";
 
-
+const searchLimit = 4;
 
 class HeaderLinks extends React.Component {
-  state = {
-    searchResults: null,  
+  constructor(props){
+    super(props);
+    this.state = {
+      // searchResults: null, 
+    }
+    this.handleKeyUpEnter = this.handleKeyUpEnter.bind(this);
   }
   handleSearchText = ({target}) => {
     console.log(target.value);
-    this.props.searchText(target.value);
+    this.props.searchText(target.value, searchLimit);
   }
+  handleKeyUpEnter(event) {
+    if(event.keyCode === 13){
+      this.props.searchText(event.target.value, searchLimit);
+    }
+  }
+
   render() {
   const { classes } = this.props;
   return (
@@ -51,6 +61,7 @@ class HeaderLinks extends React.Component {
               </InputAdornment>
             }
             onChange={this.handleSearchText}
+            onKeyUp={this.handleKeyUpEnter}
           />
 
         </FormControl>

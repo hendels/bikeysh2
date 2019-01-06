@@ -9,9 +9,8 @@ import OffersList from '../../containers/OffersList/OffersList';
 import Header from '../../components/Header/Header.jsx';
 import HeaderLinks from '../../components/Header/HeaderLinks.jsx';
 //
-import PageInfo from '../../containers/PageInfos/PageInfo.jsx';
 import LandingPage from '../../pages/LandingPage';
-import LandingButton from '../../components/Buttons/LandingButton.jsx';
+import OfferSearchResult from '../../containers/OffersList/SearchResultsList.js';
 
 const fetchUrls = {
     hubs: '/api/bm/category/hubs/',
@@ -28,7 +27,8 @@ const imageUrls = {
     cranksImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5acb91737dbc8.jpeg`, tweak: `0px -450px`},
     hubsImage: {url: `https://cdn.bikemagic.com/featured_image/5ab936e5d5833.jpg`, tweak: `0px -200px`},
     enduroframesImage: {url: `https://brink.uk/assets/images/products/Bikes/Santa-Cruz-Nomad-4-CC-Frame-2018-3.jpg`, tweak: `0px -400px`},
-    wheelsImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5ab923c674716.jpg`, tweak: `0px 0px`}
+    wheelsImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5ab923c674716.jpg`, tweak: `0px 0px`},
+    bikeyshImage: {url: `https://i2.wp.com/chainslapmag.com/wp-content/uploads/2016/06/nelson-dh-21.jpg?resize=1024%2C683`, tweak: `0px 0px`}
 }
 const dbModels = {
     cranks: `cranks`, dhframes: `dhframes`, enduroframes: `enduroframes`, hubs: `hubs`, wheels: `wheels` 
@@ -44,6 +44,9 @@ class Layout extends Component {
         loadWithoutTags: false,
         searchText: '',
         searchResults: {},
+        fullSearchResults: {},
+        showSearchResults: false,
+
     }
     handleShowFavorizedOffers = async (load) => {
         await this.setState({loadFavorites: load}, () => {});
@@ -59,32 +62,55 @@ class Layout extends Component {
             console.log(`filter loadWithoutTags set as: ${this.state.loadWithoutTags}`);
         });
     };
-    handleChangeSearchText = async (searchText) => {
+    handleChangeSearchText = async (searchText, searchLimit) => {
         if (searchText !== '' && searchText.length > 3) {
-            this.setState({searchText: searchText}, () => {
-                this.handleSearch();   
+            this.setState({
+                searchText: searchText, 
+                showNothingFound: false,
+                showSearchResults: false,
+            }, () => {
+                this.handleSearch(searchLimit);   
             })
         }
     }
-    handleSearch = () => {
-        axios.get('/api/search/' + this.state.searchText)
+    handleSearch = async (searchLimit) => {
+        let allResults = [];
+        await axios.get(`/api/search/${this.state.searchText}/${searchLimit}`)
             .then(response  => response.data)
             .then(result => {
-                let searchResults = [];
-                for (let i = 0 ; i < result.searchResults.length; i++){
-                    // console.log(result.dhFramesResult[i].title);
-                    let searchItem = {
-                        title: result.searchResults[i].title,
-                        bmartId: result.searchResults[i].bmartId,
-                        publishDate: result.searchResults[i].publishDate,
-                        category: result.searchResults[i].category,
+                if (searchLimit === 0){
+                    allResults = result.searchResults;
+                } else {
+                    let searchResults = [];
+                    for (let i = 0 ; i < result.searchResults.length; i++){
+                        let searchItem = {
+                            title: result.searchResults[i].title,
+                            bmartId: result.searchResults[i].bmartId,
+                            publishDate: result.searchResults[i].publishDate,
+                            category: result.searchResults[i].category,
+                        }
+                        searchResults.push(searchItem);
                     }
-                    searchResults.push(searchItem);
+                    this.setState({searchResults: searchResults}, () => {
+                        if (this.state.searchResults.length > 0 )
+                            this.setState({showNothingFound: false, showSearchResults: true}, () => {});
+                        else    
+                            this.setState({showNothingFound: true, showSearchResults: false}, () => {});
+                    });
                 }
-                // console.log(searchResults);
-                this.setState({searchResults: searchResults}, () => {});
             }
         );
+        return allResults;
+    }
+    handleCloseSearchResults = () => {
+        this.setState({
+            showNothingFound: false,
+            showSearchResults: false,
+        }, () => {});   
+    }
+    handleCollectAllResult = async (keyWords) => {
+        const result = await this.handleSearch(0); 
+        this.setState({fullSearchResults: result}, () => {});
     }
     render () {
         const { classes, ...rest } = this.props;
@@ -92,7 +118,6 @@ class Layout extends Component {
         return (
             <Aux>
                 <div style={{background: this.state.backgroundColor}}>
-                {/* <Toolbar/> */}
                 <Header
                     color={this.state.changeColorHeader}
                     routes={dashboardRoutes}
@@ -107,6 +132,10 @@ class Layout extends Component {
                         color: "bikeysh3_1"
                     }}
                     searchResults={this.state.searchResults}
+                    closeSearchResults={this.handleCloseSearchResults}
+                    showSearchResults={this.state.showSearchResults}
+                    showNothingFound={this.state.showNothingFound}
+                    collectAllResults={this.handleCollectAllResult}
                     {...rest}
                 />
                 <Route exact path="/" render={(props) => 
@@ -131,6 +160,21 @@ class Layout extends Component {
                         />
                     </div>
                 }
+                />
+                <Route exact path="/offers/searchresult" render={(props) => 
+                    <OfferSearchResult 
+                        fullSearchResults={this.state.fullSearchResults}
+                        // pageLimit={10} 
+                        // fetchUrl={fetchUrls.cranks}    
+                        tagUrl={fetchUrls.tags}    
+                        category={`DHFRAMES`}  
+                        imageUrls={imageUrls}
+                        model={dbModels.dhframes}
+                        // loadFavorites={this.state.loadFavorites}
+                        // loadWithoutTags={this.state.loadWithoutTags}
+                        // showFavorites={this.handleShowFavorizedOffers}
+                        // showWithoutTags={this.handleShowWithoutTag}
+                    />}
                 />
                 <Route exact path="/category/cranks" render={(props) => 
                     <OffersList 

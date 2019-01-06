@@ -29,7 +29,6 @@ var listElements = this.props.offers.map(offer => {
             break;
         }
     };
-    // console.log(`render offer ${offer._id}`);
     return(
         <OfferBMCustom 
             offer={offer} 

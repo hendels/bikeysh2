@@ -29,19 +29,25 @@ class Header extends React.Component {
     super(props);
     this.state = {
       mobileOpen: false,
-      searchResultVisible: false,
-      searchResults: null, 
+      showSearchResults: false,
+      // searchResults: null, 
+      showNothingFound: false,
     };
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
     this.headerColorChange = this.headerColorChange.bind(this);
     this.handleSearchClose = this.handleSearchClose.bind(this);
+    this.handleShowAllResults = this.handleShowAllResults.bind(this);
   }
   handleDrawerToggle() {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   }
-  componentWillReceiveProps() {
-    
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      showSearchResults: nextProps.showSearchResults,
+      showNothingFound: nextProps.showNothingFound
+    }, () => {});
   }
+  
   componentDidMount() {
     if (this.props.changeColorOnScroll) {
       window.addEventListener("scroll", this.headerColorChange);
@@ -72,16 +78,12 @@ class Header extends React.Component {
     }
   }
   handleSearchClose() {
-    this.setState({searchResults: this.props.searchResults}, () => {
-      this.setState({searchResultVisible: false}, ()=>{
-        // console.log('leaving area!');
-        // console.log(this.props.searchResults);
-        // console.log(this.state.searchResults);;
-        // console.log(JSON.stringify(this.state.searchResults) !== JSON.stringify(this.props.searchResults))
-      });
-
-    });
+    this.props.closeSearchResults();
+  }
+  handleShowAllResults() {
+    this.props.collectAllResults();
     
+    //
   }
   render() {
     const {
@@ -111,8 +113,6 @@ class Header extends React.Component {
           <Button>></Button>
         </ListItem>
       })
-      if (!this.state.searchResultVisible && JSON.stringify(this.state.searchResults) !== JSON.stringify(this.props.searchResults) )
-        this.setState({searchResultVisible: true}, () => {});
     }
     return (
       <Aux>
@@ -169,14 +169,25 @@ class Header extends React.Component {
       </AppBar>
       <div className={classes.searchResults} onMouseLeave={this.handleSearchClose}>
       <List dense={true}>
-      {this.state.searchResultVisible && this.props.searchResults.length > 0 ? 
+      {/* {this.state.showSearchResults && this.props.searchResults.length > 0 ?  */}
+      {this.state.showSearchResults ? 
         (<Aux>
           {searchItems}
-          <Button>more... </Button>
+          <ListItem 
+            className={classes.searchShowaAllItem} 
+            button 
+            component={Link} 
+            to={`/offers/searchresult`}
+            onClick={this.handleShowAllResults}
+            >
+            <ListItemText
+              primary={`Show all results...`}
+            />
+          </ListItem>
         </Aux>)
         : null
       }
-      {this.state.searchResultVisible && this.props.searchResults.length === 0 ? 
+      {this.state.showNothingFound ? 
         (<ListItem className={classes.searchItem}>
           <ListItemText
             secondary={`nothing found...`}
