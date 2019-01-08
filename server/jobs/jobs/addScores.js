@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const scoring = require('../../models/scoring');
 const _ = require('underscore');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-const checkUrlAvailability = false;
+const checkUrlAvailability = true;
 return new Promise(async (resolve, reject) => {
 
     let categories = [`cranks`, `dhframes`, `enduroframes`, `wheels`, `hubs`];

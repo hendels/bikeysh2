@@ -14,8 +14,6 @@ import Input from '@material-ui/core/Input';
 import IconButton from '@material-ui/core/IconButton';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from '@material-ui/core/ListItemText';
-import Aux from '../../hoc/Ax/Ax';
 // @material-ui/icons
 import { Apps, Search, Stars, Settings } from "@material-ui/icons";
 

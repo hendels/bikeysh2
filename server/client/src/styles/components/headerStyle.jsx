@@ -39,40 +39,45 @@ const headerStyle = {
   searchResults: {
     display: "flex",
     position: "fixed",
-
-    top: "66px",
-    // top: "100px",
-    right: "550px",
-    // padding: "0px 0px 0px 0px",
     // position: "relative",
+    top: "66px",
+    right: "550px",
+    // padding: "5px 5px 5px 5px",
+    // margin: "2px 2px 2px 2px",
     flexFlow: "row nowrap",
     justifyContent: "flex-start",
-    zIndex: "1200"
+    // backgroundClip: "padding-box",
+    zIndex: "1200",
+    // backgroundColor: "#97AABD",
+    // width: "100%"
   },
+  // searchItemText: {
+  //   color: "#fff"
+  // },
   searchItem: {
-    margin: "0px 0px 0px 0px",
+    // margin: "0px 0px 0px 0px",
     // backgroundColor: bikeyshColor5,
     backgroundColor: "#97AABD",
-    color: "#fff",
+    // width: "95%",
+    // padding: "0",
     borderStyle: "solid",
     borderWidth: "1px",
     borderColor: "#091528",
+    // transition: "all 150ms linear",
     "&:hover,&:focus": {
-      color: "#fff",
       background: "#243147"
     }
   },
   searchShowaAllItem: {
-    margin: "0px 0px 0px 0px",
-    color: "#fff",
+    // margin: "0px 0px 0px 0px",
     // backgroundColor: bikeyshColor5,
     backgroundColor: "#97AABD",
+    // padding: "0",
     borderStyle: "solid",
     borderWidth: "1px",
     borderColor: "#091528",
+    // transition: "all 150ms linear",
     "&:hover,&:focus": {
-      
-      color: "#fff",
       background: "#243147"
     }
   },

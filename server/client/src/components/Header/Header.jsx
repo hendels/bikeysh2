@@ -6,6 +6,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -15,15 +16,39 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from '@material-ui/core/ListItemText';
+import Grow from "@material-ui/core/Grow";
 // @material-ui/icons
 import Menu from "@material-ui/icons/Menu";
 // core components
 import headerStyle from "../../styles/components/headerStyle.jsx";
 // app components
-import Logo from '../Logo/Logo.jsx';
 import Aux from '../../hoc/Ax/Ax';
 
-
+const themeListItem = createMuiTheme({
+  overrides: {
+    MuiListItem: {
+      container: {
+        transition: "all 150ms linear",
+      },
+    },
+  },
+});
+const themeListItemText = createMuiTheme({
+  overrides: {
+    MuiListItemText: {
+      primary: {
+        color: '#fff',
+      },
+      secondary: {
+        fontSize: "4px",
+        color: '#cecece',
+        // "&:hover,": {
+        //   color: '#9e9e9e',
+        // }
+      },
+    },
+  },
+});
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -102,18 +127,36 @@ class Header extends React.Component {
       [classes.fixed]: fixed
     });
     const brandComponent = <Button className={classes.title}>{brand}</Button>;
+    //<<SEARCH
     let searchItems = null;
     if (this.props.searchResults.length > 0){
       searchItems =  this.props.searchResults.map(item => {
-        return <ListItem className={classes.searchItem}>
-          <ListItemText
-            primary={`[${item.category}] ${item.title}`}
-            secondary={`${item.bmartId} ${item.publishDate}`}
-          />
-          <Button>></Button>
-        </ListItem>
+        return (
+        <Grow
+          in={true}
+          id="menu-list"
+          style={
+            false
+              ? { transformOrigin: "0 100% 0" }
+              : { transformOrigin: "0 0 0" }
+          }
+        >
+          <div style={{transition: "all 150ms linear"}}>
+          {/* <MuiThemeProvider theme={themeListItem}> */}
+            <ListItem className={classes.searchItem} >
+              <MuiThemeProvider theme={themeListItemText}>
+                <ListItemText
+                  primary={`[${item.category}] ${item.title}`}
+                  secondary={`${item.bmartId} ${item.publishDate}`}
+                />
+              </MuiThemeProvider>       
+            </ListItem>
+          {/* </MuiThemeProvider> */}
+          </div>
+        </Grow>)
       })
     }
+    //>>
     return (
       <Aux>
       <AppBar className={appBarClasses}>
@@ -180,18 +223,22 @@ class Header extends React.Component {
             to={`/offers/searchresult`}
             onClick={this.handleShowAllResults}
             >
-            <ListItemText
-              primary={`Show all results...`}
-            />
+            <MuiThemeProvider theme={themeListItemText}>
+              <ListItemText
+                primary={`Show all results...`}
+              />
+            </MuiThemeProvider>
           </ListItem>
         </Aux>)
         : null
       }
       {this.state.showNothingFound ? 
         (<ListItem className={classes.searchItem}>
-          <ListItemText
-            secondary={`nothing found...`}
-          />
+          <MuiThemeProvider theme={themeListItemText}>
+            <ListItemText
+              secondary={`nothing found...`}
+            />
+          </MuiThemeProvider>
         </ListItem> ) : null
       }
       
