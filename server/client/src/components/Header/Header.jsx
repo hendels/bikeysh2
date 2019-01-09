@@ -85,16 +85,18 @@ class Header extends React.Component {
       document.body
         .getElementsByTagName("header")[0]
         .classList.remove(classes[color]);
+        this.props.changeColor();
       document.body
         .getElementsByTagName("header")[0]
         .classList.add(classes[changeColorOnScroll.color]);
-    } else {
-      document.body
+      } else {
+        document.body
         .getElementsByTagName("header")[0]
         .classList.add(classes[color]);
-      document.body
+        document.body
         .getElementsByTagName("header")[0]
         .classList.remove(classes[changeColorOnScroll.color]);
+        this.props.revertColor();
     }
   }
   componentWillUnmount() {

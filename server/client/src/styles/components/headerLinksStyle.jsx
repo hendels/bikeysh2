@@ -1,4 +1,4 @@
-import { defaultFont, bikeyshColor2 } from "../material-kit-react.jsx";
+import { defaultFont, bikeyshColor2, bikeyshColor7 } from "../material-kit-react.jsx";
 
 import tooltip from "../tooltipsStyle.jsx";
 
@@ -38,16 +38,16 @@ const headerLinksStyle = theme => ({
     padding: "0 !important"
   },
   inputSearchBox: {
-    color: "#fff",
-    background: bikeyshColor2,
+    color: bikeyshColor2,
+    // background: bikeyshColor2,
   },
-  inputSearchBoxLabel: {
-    color: "#fff",
-    "&:active":{
-      color: "#000",
-      background: "rgba(201, 101, 103, 0.3)"
-    }
-  },
+  // inputSearchBoxLabel: {
+  //   color: bikeyshColor2,
+  //   // "&:active":{
+  //   //   color: "#000",
+  //   //   background: "rgba(201, 101, 103, 0.3)"
+  //   // }
+  // },
   navLink: {
     color: "inherit",
     position: "relative",
@@ -124,7 +124,8 @@ const headerLinksStyle = theme => ({
   ...tooltip,
   marginRight5: {
     marginRight: "5px"
-  }
+  },
+
 });
 
 export default headerLinksStyle;

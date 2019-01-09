@@ -16,67 +16,28 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import green from '@material-ui/core/colors/green'
+// import red from '@material-ui/core/colors/red'
 // @material-ui/icons
 import { Apps, Search, Stars, Settings } from "@material-ui/icons";
 
 // core components
 import Dropdown from "../Dropdown/Dropdown.jsx";
-import Button from '@material-ui/core/Button/Button';
 
 import headerLinksStyle from "../../styles/components/headerLinksStyle.jsx";
-import style from "../../styles/components/offerListStyle.jsx";
+// import style from "../../styles/components/offerListStyle.jsx";
+const colors = {
+  bikeyshColor2: `#644E5B`,
+  bikeyshColor7: `#000`,
 
+}
 const searchLimit = 4;
-const themeInputLabel = createMuiTheme({
-  overrides: {
-    MuiInputLabel: {
-      formControl:{
-        color: "#fff",
-      },
-    },
-  },
-});
-const themeInput = createMuiTheme({
-  overrides: {
-    MuiInput: {
-      root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        backgroundColor:'lightgrey',
-      },
-      formControl: {
-        // margin: theme.spacing.unit,
-        minWidth: 120,
-      },
-      selectEmpty: {
-        // marginTop: theme.spacing.unit * 2,
-      },
-      // cssLabel: {
-      //   '&$cssFocused': {
-      //     color:'red',
-      //   },
-      // },
-      cssFocused: {},
-      underline:{
-        '&:after': {
-          borderBottom:'2px solid red',
-          
-        },
-      },
-    },
-  },
-});
-const theme = createMuiTheme({
-  palette: {
-    primary: green,
-  },
-});
+
+
 class HeaderLinks extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      // searchResults: null, 
+      changedHeaderColor: false
     }
     this.handleKeyUpEnter = this.handleKeyUpEnter.bind(this);
   }
@@ -89,8 +50,39 @@ class HeaderLinks extends React.Component {
       this.props.searchText(event.target.value, searchLimit);
     }
   }
-
+  componentWillReceiveProps(nextProps){
+    console.log(`received color change = ${nextProps.changeColor}`);
+    this.setState({changedHeaderColor: nextProps.changeColor}, () => {});
+  }
   render() {
+
+  const themeInputLabel = createMuiTheme({
+    overrides: {
+      MuiInputLabel: {
+        formControl:{
+          color: colors.bikeyshColor2,
+        },
+      },
+    },
+  });
+  const themeInput = createMuiTheme({
+    overrides: {
+      MuiInput: {
+        root:{
+          color: this.state.changedHeaderColor ? "#fff" : colors.bikeyshColor7
+        },
+        underline:{
+          '&:before': {
+            borderBottom:`1px solid ${colors.bikeyshColor2}`,
+            
+          },
+          '&:after': {
+            borderBottom:`1px solid ${colors.bikeyshColor2}`,
+          },
+        },
+      }
+    }
+  });
   const { classes } = this.props;
   return (
     <List className={classes.list}>
@@ -100,28 +92,23 @@ class HeaderLinks extends React.Component {
         <MuiThemeProvider theme={themeInputLabel}>
           <InputLabel focused={false} >Search</InputLabel>
         </MuiThemeProvider>
-        <MuiThemeProvider theme={theme}>
+        <MuiThemeProvider theme={themeInput}>
           <Input
-            // disableUnderline={true}
-            focused={false}
-            // className={classes.inputSearchBox}
             disableUnderline={false}
-            // classes={{underline: {color: "#fff"}, root: {color: "#fff"}}}
             id="input-with-icon-adornment"
-            startAdornment={
+            endAdornment={
               <InputAdornment position="start" className={classes.inputSearchBox}>
-                <Search />
+                {/* <IconButton> */}
+                  <Search />
+
+                {/* </IconButton> */}
               </InputAdornment>
             }
             onChange={this.handleSearchText}
             onKeyUp={this.handleKeyUpEnter}
-          //   classes={{underline:{ '&:after': {
-          //     borderBottom:'2px solid red',
-          // } }}}
           />
         
         </MuiThemeProvider>
-
         </FormControl>
         
 

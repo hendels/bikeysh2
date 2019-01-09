@@ -46,7 +46,7 @@ class Layout extends Component {
         searchResults: {},
         fullSearchResults: {},
         showSearchResults: false,
-
+        changeHeaderColor: false,
     }
     handleShowFavorizedOffers = async (load) => {
         await this.setState({loadFavorites: load}, () => {});
@@ -72,6 +72,12 @@ class Layout extends Component {
                 this.handleSearch(searchLimit);   
             })
         }
+    }
+    handleChangeColor = () => {
+        this.setState({changeHeaderColor: true}, () => {})
+    }
+    handleRevertChangeColor = () => {
+        this.setState({changeHeaderColor: false}, () => {})
     }
     handleSearch = async (searchLimit) => {
         let allResults = [];
@@ -125,6 +131,7 @@ class Layout extends Component {
                     rightLinks={<HeaderLinks 
                         clearFilters={this.handleClearFilterStates}
                         searchText={this.handleChangeSearchText}
+                        changeColor={this.state.changeHeaderColor}
                     />}
                     fixed
                     changeColorOnScroll={{
@@ -136,6 +143,8 @@ class Layout extends Component {
                     showSearchResults={this.state.showSearchResults}
                     showNothingFound={this.state.showNothingFound}
                     collectAllResults={this.handleCollectAllResult}
+                    changeColor={this.handleChangeColor}
+                    revertColor={this.handleRevertChangeColor}
                     {...rest}
                 />
                 <Route exact path="/" render={(props) => 
