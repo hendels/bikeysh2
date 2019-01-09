@@ -65,7 +65,17 @@ class SnackbarBestOffer extends React.Component {
             square: true,
             className: classes.snackbarContent,
         }}
-        
+        // CHANGE TO POPPER
+        // CHANGE TO POPPER
+        // CHANGE TO POPPER
+        // CHANGE TO POPPER
+        // CHANGE TO POPPER
+        // CHANGE TO POPPER
+        // CHANGE TO POPPER
+        // CHANGE TO POPPER
+        // CHANGE TO POPPER
+        // CHANGE TO POPPER
+        // CHANGE TO POPPER
         message={
           <ul style={{listStyleType: 'none'}}>
               <li ><b>Offer based on:</b></li>

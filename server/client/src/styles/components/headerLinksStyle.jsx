@@ -1,4 +1,4 @@
-import { defaultFont } from "../material-kit-react.jsx";
+import { defaultFont, bikeyshColor2 } from "../material-kit-react.jsx";
 
 import tooltip from "../tooltipsStyle.jsx";
 
@@ -36,6 +36,17 @@ const headerLinksStyle = theme => ({
   },
   listItemText: {
     padding: "0 !important"
+  },
+  inputSearchBox: {
+    color: "#fff",
+    background: bikeyshColor2,
+  },
+  inputSearchBoxLabel: {
+    color: "#fff",
+    "&:active":{
+      color: "#000",
+      background: "rgba(201, 101, 103, 0.3)"
+    }
   },
   navLink: {
     color: "inherit",

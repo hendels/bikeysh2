@@ -127,7 +127,7 @@ class Header extends React.Component {
       [classes.fixed]: fixed
     });
     const brandComponent = <Button className={classes.title}>{brand}</Button>;
-    //<<SEARCH
+    //<<SEARCH RESULTS
     let searchItems = null;
     if (this.props.searchResults.length > 0){
       searchItems =  this.props.searchResults.map(item => {
@@ -141,7 +141,7 @@ class Header extends React.Component {
               : { transformOrigin: "0 0 0" }
           }
         >
-          <div style={{transition: "all 150ms linear"}}>
+          {/* <div style={{transition: "all 150ms linear"}}> */}
           {/* <MuiThemeProvider theme={themeListItem}> */}
             <ListItem className={classes.searchItem} >
               <MuiThemeProvider theme={themeListItemText}>
@@ -152,7 +152,7 @@ class Header extends React.Component {
               </MuiThemeProvider>       
             </ListItem>
           {/* </MuiThemeProvider> */}
-          </div>
+          {/* </div> */}
         </Grow>)
       })
     }
@@ -214,7 +214,7 @@ class Header extends React.Component {
       <List dense={true}>
       {/* {this.state.showSearchResults && this.props.searchResults.length > 0 ?  */}
       {this.state.showSearchResults ? 
-        (<Aux>
+        (<div style={{transition: "all 150ms linear"}}>
           {searchItems}
           <ListItem 
             className={classes.searchShowaAllItem} 
@@ -229,7 +229,7 @@ class Header extends React.Component {
               />
             </MuiThemeProvider>
           </ListItem>
-        </Aux>)
+        </div>)
         : null
       }
       {this.state.showNothingFound ? 

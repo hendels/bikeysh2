@@ -50,6 +50,9 @@ const headerStyle = {
     zIndex: "1200",
     // backgroundColor: "#97AABD",
     // width: "100%"
+    // "&:hover,&:focus": {
+    //   background: "#243147"
+    // }
   },
   // searchItemText: {
   //   color: "#fff"
@@ -71,15 +74,15 @@ const headerStyle = {
   searchShowaAllItem: {
     // margin: "0px 0px 0px 0px",
     // backgroundColor: bikeyshColor5,
-    backgroundColor: "#97AABD",
+    // backgroundColor: "#97AABD",
     // padding: "0",
     borderStyle: "solid",
     borderWidth: "1px",
     borderColor: "#091528",
     // transition: "all 150ms linear",
-    "&:hover,&:focus": {
-      background: "#243147"
-    }
+    // "&:hover,&:focus": {
+    //   background: "#243147"
+    // }
   },
   absolute: {
     position: "absolute",

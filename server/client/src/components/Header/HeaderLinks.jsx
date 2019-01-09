@@ -14,6 +14,9 @@ import Input from '@material-ui/core/Input';
 import IconButton from '@material-ui/core/IconButton';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import green from '@material-ui/core/colors/green'
 // @material-ui/icons
 import { Apps, Search, Stars, Settings } from "@material-ui/icons";
 
@@ -22,9 +25,53 @@ import Dropdown from "../Dropdown/Dropdown.jsx";
 import Button from '@material-ui/core/Button/Button';
 
 import headerLinksStyle from "../../styles/components/headerLinksStyle.jsx";
+import style from "../../styles/components/offerListStyle.jsx";
 
 const searchLimit = 4;
-
+const themeInputLabel = createMuiTheme({
+  overrides: {
+    MuiInputLabel: {
+      formControl:{
+        color: "#fff",
+      },
+    },
+  },
+});
+const themeInput = createMuiTheme({
+  overrides: {
+    MuiInput: {
+      root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        backgroundColor:'lightgrey',
+      },
+      formControl: {
+        // margin: theme.spacing.unit,
+        minWidth: 120,
+      },
+      selectEmpty: {
+        // marginTop: theme.spacing.unit * 2,
+      },
+      // cssLabel: {
+      //   '&$cssFocused': {
+      //     color:'red',
+      //   },
+      // },
+      cssFocused: {},
+      underline:{
+        '&:after': {
+          borderBottom:'2px solid red',
+          
+        },
+      },
+    },
+  },
+});
+const theme = createMuiTheme({
+  palette: {
+    primary: green,
+  },
+});
 class HeaderLinks extends React.Component {
   constructor(props){
     super(props);
@@ -48,19 +95,32 @@ class HeaderLinks extends React.Component {
   return (
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
-        {/* << SEARCH */}
+        {/* << SEARCH INPUT*/}
         <FormControl className={classes.margin}>
-          <InputLabel htmlFor="input-with-icon-adornment">Search</InputLabel>
+        <MuiThemeProvider theme={themeInputLabel}>
+          <InputLabel focused={false} >Search</InputLabel>
+        </MuiThemeProvider>
+        <MuiThemeProvider theme={theme}>
           <Input
+            // disableUnderline={true}
+            focused={false}
+            // className={classes.inputSearchBox}
+            disableUnderline={false}
+            // classes={{underline: {color: "#fff"}, root: {color: "#fff"}}}
             id="input-with-icon-adornment"
             startAdornment={
-              <InputAdornment position="start">
+              <InputAdornment position="start" className={classes.inputSearchBox}>
                 <Search />
               </InputAdornment>
             }
             onChange={this.handleSearchText}
             onKeyUp={this.handleKeyUpEnter}
+          //   classes={{underline:{ '&:after': {
+          //     borderBottom:'2px solid red',
+          // } }}}
           />
+        
+        </MuiThemeProvider>
 
         </FormControl>
         
