@@ -28,6 +28,7 @@ import headerLinksStyle from "../../styles/components/headerLinksStyle.jsx";
 const colors = {
   bikeyshColor2: `#644E5B`,
   bikeyshColor7: `#000`,
+  bikeyshColor4: `#ffc4c5`,
 
 }
 const searchLimit = 4;
@@ -51,8 +52,10 @@ class HeaderLinks extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps){
-    console.log(`received color change = ${nextProps.changeColor}`);
-    this.setState({changedHeaderColor: nextProps.changeColor}, () => {});
+
+    console.log(`received color change = ${nextProps.changeColor} current state = ${this.state.changedHeaderColor}`);
+    // if (this.state.changedHeaderColor !== nextProps.changedHeaderColor)
+      // this.setState({changedHeaderColor: nextProps.changeColor}, () => {});
   }
   render() {
 
@@ -69,7 +72,7 @@ class HeaderLinks extends React.Component {
     overrides: {
       MuiInput: {
         root:{
-          color: this.state.changedHeaderColor ? "#fff" : colors.bikeyshColor7
+          color: this.state.changedHeaderColor ? "#fff" : colors.bikeyshColor4
         },
         underline:{
           '&:before': {

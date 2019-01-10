@@ -27,24 +27,54 @@ import Aux from '../../hoc/Ax/Ax';
 const themeListItem = createMuiTheme({
   overrides: {
     MuiListItem: {
-      container: {
+      root: {
         transition: "all 150ms linear",
+        "&:hover": {
+          boxShadow:
+          "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
+          backgroundColor: "#212121",
+          color: "#fff"
+        },
+        margin: "0px 0px 0px 0px",
+        position: "relative",
+        fontSize: "13px",
+        // backgroundColor: bikeyshColor5,
+        borderBottom: "1px solid #091528",
+        backgroundColor: "#97AABD",
       },
     },
+    MuiListItemText: {
+      primary: {
+        color: '#000',
+        "&:hover,&:focus": {
+          color: "#fff"
+        }
+      },
+      secondary: {
+        fontSize: "4px",
+        color: '#1e2126',
+        "&:hover,&:focus": {
+          color: "#fff"
+        }
+      },
+    }
   },
 });
 const themeListItemText = createMuiTheme({
   overrides: {
     MuiListItemText: {
       primary: {
-        color: '#fff',
+        color: '#000',
+        "&:hover,&:focus": {
+          // color: "#fff"
+        }
       },
       secondary: {
         fontSize: "4px",
-        color: '#cecece',
-        // "&:hover,": {
-        //   color: '#9e9e9e',
-        // }
+        color: '#1e2126',
+        "&:hover,&:focus": {
+          // color: "#fff"
+        }
       },
     },
   },
@@ -83,20 +113,34 @@ class Header extends React.Component {
     const windowsScrollTop = window.pageYOffset;
     if (windowsScrollTop > changeColorOnScroll.height) {
       document.body
-        .getElementsByTagName("header")[0]
-        .classList.remove(classes[color]);
-        this.props.changeColor();
-      document.body
-        .getElementsByTagName("header")[0]
-        .classList.add(classes[changeColorOnScroll.color]);
+          .getElementsByTagName("header")[0]
+          .classList.remove(classes[color]);
+        document.body
+          .getElementsByTagName("header")[0]
+          .classList.add(classes[changeColorOnScroll.color]);
+        // document.body
+        //   .getElementsByTagName("label")[0]
+        //   .classList.remove(classes[color]);
+        // document.body
+        //   .getElementsByTagName("label")[0]
+        //   .classList.add(classes[changeColorOnScroll.color]);
+
+        //this.props.changeColor();
       } else {
         document.body
-        .getElementsByTagName("header")[0]
-        .classList.add(classes[color]);
+          .getElementsByTagName("header")[0]
+          .classList.add(classes[color]);
         document.body
-        .getElementsByTagName("header")[0]
-        .classList.remove(classes[changeColorOnScroll.color]);
-        this.props.revertColor();
+            .getElementsByTagName("header")[0]
+            .classList.remove(classes[changeColorOnScroll.color]);
+        //   document.body
+        //   .getElementsByTagName("label")[0]
+        //   .classList.add(classes[color]);
+        // document.body
+        //   .getElementsByTagName("label")[0]
+        //   .classList.remove(classes[changeColorOnScroll.color]);
+
+        //this.props.revertColor();
     }
   }
   componentWillUnmount() {
@@ -143,19 +187,20 @@ class Header extends React.Component {
               : { transformOrigin: "0 0 0" }
           }
         >
-          {/* <div style={{transition: "all 150ms linear"}}> */}
-          {/* <MuiThemeProvider theme={themeListItem}> */}
-            <ListItem className={classes.searchItem} >
-              <MuiThemeProvider theme={themeListItemText}>
+          <div style={{transition: "all 150ms linear"}}> 
+          <MuiThemeProvider theme={themeListItem}>
+            <ListItem  >
+            {/* <ListItem className={classes.searchItem} > */}
+              {/* <MuiThemeProvider theme={themeListItemText}> */}
                 <ListItemText
-                  primary={`[${item.category}] ${item.title}`}
-                  secondary={`${item.bmartId} ${item.publishDate}`}
+                  primary={`[${item.category}] ${item.publishDate} - ${item.title}`}
                 />
-              </MuiThemeProvider>       
+              {/* </MuiThemeProvider>        */}
             </ListItem>
-          {/* </MuiThemeProvider> */}
-          {/* </div> */}
-        </Grow>)
+          </MuiThemeProvider>
+          </div>
+        </Grow>
+        )
       })
     }
     //>>
@@ -214,9 +259,8 @@ class Header extends React.Component {
       </AppBar>
       <div className={classes.searchResults} onMouseLeave={this.handleSearchClose}>
       <List dense={true}>
-      {/* {this.state.showSearchResults && this.props.searchResults.length > 0 ?  */}
       {this.state.showSearchResults ? 
-        (<div style={{transition: "all 150ms linear"}}>
+        (<div >
           {searchItems}
           <ListItem 
             className={classes.searchShowaAllItem} 

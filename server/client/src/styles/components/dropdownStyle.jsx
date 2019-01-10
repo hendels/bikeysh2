@@ -66,10 +66,11 @@ const customDropdownStyle = theme => ({
     position: "relative",
     transition: "all 150ms linear",
     display: "block",
+    borderBottom: `1px solid ${bikeyshColor6}`,
     clear: "both",
     fontWeight: "400",
     height: "fit-content",
-    color: bikeyshColor6,
+    // color: bikeyshColor6,
     whiteSpace: "nowrap"
   },
   blackHover: {

@@ -15,6 +15,8 @@ import {
   bikeyshColor3,
   bikeyshColor4,
   bikeyshColor5,
+  bikeyshColor6,
+  bikeyshColor7,
 } from "../material-kit-react.jsx";
 
 const headerStyle = {
@@ -58,31 +60,45 @@ const headerStyle = {
   //   color: "#fff"
   // },
   searchItem: {
-    // margin: "0px 0px 0px 0px",
+    margin: "0px 0px 0px 0px",
+    position: "relative",
+    fontSize: "13px",
     // backgroundColor: bikeyshColor5,
+    borderBottom: "1px solid #091528",
     backgroundColor: "#97AABD",
+    // transition: "all 150ms linear",
+    display: "block",
+    clear: "both",
+    fontWeight: "400",
+    height: "fit-content",
+    whiteSpace: "nowrap",
     // width: "95%",
     // padding: "0",
-    borderStyle: "solid",
-    borderWidth: "1px",
-    borderColor: "#091528",
+    // borderStyle: "solid",
+    // borderWidth: "1px",
+    // borderColor: "#091528",
     // transition: "all 150ms linear",
     "&:hover,&:focus": {
-      background: "#243147"
+      boxShadow:
+        "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
+      // backgroundColor: "#212121",
+      color: "#fff"
     }
   },
   searchShowaAllItem: {
     // margin: "0px 0px 0px 0px",
-    // backgroundColor: bikeyshColor5,
+    backgroundColor: bikeyshColor1,
     // backgroundColor: "#97AABD",
     // padding: "0",
+    color: bikeyshColor6,
     borderStyle: "solid",
     borderWidth: "1px",
     borderColor: "#091528",
+    
     // transition: "all 150ms linear",
-    // "&:hover,&:focus": {
-    //   background: "#243147"
-    // }
+    "&:hover,&:focus": {
+      background: "#243147"
+    }
   },
   absolute: {
     position: "absolute",
@@ -231,6 +247,7 @@ const headerStyle = {
     left: "auto",
     visibility: "visible",
     overflowY: "visible",
+    overflowX: "hidden",
     borderTop: "none",
     textAlign: "left",
     paddingRight: "0px",
