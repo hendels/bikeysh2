@@ -3,7 +3,7 @@ import Aux from '../Ax/Ax';
 import axios from 'axios';
 import { Route } from 'react-router-dom';
 // pages
-import HomePage from '../../pages/HomePage.jsx';
+import BestOfferPage from '../../pages/BestOfferPage';
 // app components
 import OffersList from '../../containers/OffersList/OffersList';
 import Header from '../../components/Header/Header.jsx';
@@ -132,7 +132,8 @@ class Layout extends Component {
                         clearFilters={this.handleClearFilterStates}
                         searchText={this.handleChangeSearchText}
                         changeColor={this.state.changeHeaderColor}
-                    />}
+                        showFavorites={this.handleShowFavorizedOffers}
+                        />}
                     fixed
                     changeColorOnScroll={{
                         height: 400,
@@ -158,9 +159,9 @@ class Layout extends Component {
                 />
                 <Route exact path="/home" render={(props) => 
                     <div>
-                        <p>  &nbsp;</p>
-                        <p>  &nbsp;</p>
-                        <HomePage 
+                        <br/>
+                        <br/>
+                        <BestOfferPage 
                             fetchUrls={fetchUrls} 
                             imageUrls={imageUrls} 
                             models={dbModels} 
@@ -175,6 +176,7 @@ class Layout extends Component {
                         fullSearchResults={this.state.fullSearchResults}
                         tagUrl={fetchUrls.tags}    
                         imageUrls={imageUrls}
+                        models={dbModels}
                     />}
                 />
                 <Route exact path="/category/cranks" render={(props) => 
@@ -252,13 +254,4 @@ class Layout extends Component {
         )
     }
 }
-// const Home = (urls) => {
-
-//     return (
-//         <div>
-//             <p>  &nbsp;</p>
-//             <HomePage fetchUrls={urls}/>
-//         </div>
-//     )
-// }
 export default Layout;

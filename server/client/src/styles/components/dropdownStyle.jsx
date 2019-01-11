@@ -59,10 +59,8 @@ const customDropdownStyle = theme => ({
   },
   dropdownItem: {
     ...defaultFont,
+    backgroundColor: "#21262b",
     fontSize: "13px",
-    // padding: "10px 20px",
-    // margin: "0 5px",
-    // borderRadius: "2px",
     position: "relative",
     transition: "all 150ms linear",
     display: "block",
@@ -70,14 +68,14 @@ const customDropdownStyle = theme => ({
     clear: "both",
     fontWeight: "400",
     height: "fit-content",
-    // color: bikeyshColor6,
+    color: "#fff",
     whiteSpace: "nowrap"
   },
   blackHover: {
     "&:hover": {
       boxShadow:
         "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
-      backgroundColor: "#212121",
+      backgroundColor: "#343c44",
       color: "#fff"
     }
   },

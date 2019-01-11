@@ -32,6 +32,7 @@ import {
     },
     title: {
       fontFamily: `'Permanent Marker', cursive`,
+      color: `#fff`,
       /* font-family: 'Pacifico', cursive; */
       fontSize: `45px`,
       zIndex: 1,

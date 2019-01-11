@@ -39,15 +39,7 @@ const headerLinksStyle = theme => ({
   },
   inputSearchBox: {
     color: bikeyshColor2,
-    // background: bikeyshColor2,
   },
-  // inputSearchBoxLabel: {
-  //   color: bikeyshColor2,
-  //   // "&:active":{
-  //   //   color: "#000",
-  //   //   background: "rgba(201, 101, 103, 0.3)"
-  //   // }
-  // },
   navLink: {
     color: "inherit",
     position: "relative",
@@ -62,7 +54,6 @@ const headerLinksStyle = theme => ({
     display: "inline-flex",
     "&:hover,&:focus": {
       color: "inherit",
-      // background: "rgba(200, 200, 200, 0.2)"
       background: "rgba(201, 101, 103, 0.3)"
     },
     [theme.breakpoints.down("sm")]: {
@@ -123,7 +114,9 @@ const headerLinksStyle = theme => ({
   },
   ...tooltip,
   marginRight5: {
-    marginRight: "5px"
+    marginRight: "5px",
+    backgroundColor: "#21262b",
+    color: "#fff"
   },
 
 });

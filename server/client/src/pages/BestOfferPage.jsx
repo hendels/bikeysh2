@@ -6,29 +6,15 @@ import Paper from '@material-ui/core/Paper';
 import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 //app components
-import BestOfferBar from '../containers/BestOfferBar/BestOfferBar.jsx';
-import BestOfferInfo from '../containers/PageInfos/PageInfo.jsx';
-import SnackbarHideOffer from '../components/Snackbars/Snackbar.jsx';
+import BestOfferBar from '../containers/BestOfferBar/BestOfferBar';
+import BestOfferInfo from '../containers/PageInfos/PageInfo';
+import SnackbarHideOffer from '../components/Snackbars/Snackbar';
 
 const styles = theme => ({
     root: {
       flexGrow: 1,
-    //   background: '#344054',
       background: '#C96567',
-    //   background: `repeating-linear-gradient(
-    //       -45deg,
-    //       #C96567,
-    //       #C96567 22px,
-    //       #9E5A63 22px,
-    //       #9E5A63 44px
-    //     )`,
-    //   background: `repeating-linear-gradient(
-    //       -45deg,
-    //       #222,
-    //       #222 22px,
-    //       #1D1D1D 22px,
-    //       #1D1D1D 44px
-    //     )`,
+      overflowX: 'hidden'
     },
     paper: {
       height: 140,
@@ -39,7 +25,7 @@ const styles = theme => ({
     },
   });
 
-class HomePage extends React.Component {
+class BestOfferPage extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -65,7 +51,7 @@ class HomePage extends React.Component {
     handleSnack = (objOffer) => {
 
         this.setState({showSnackHideOffer: true, objOffer: objOffer});
-        console.log(`snack state on homepage = ${this.state.showSnackHideOffer}`);
+        console.log(`snack state on bestOfferPage = ${this.state.showSnackHideOffer}`);
     }
     handleReload = () => {
         this.setState({reloadBars: !this.state.reload});
@@ -79,8 +65,8 @@ class HomePage extends React.Component {
             <div>
             <SnackbarHideOffer open={this.state.showSnackHideOffer} objOffer={this.state.objOffer} reload={this.handleReload}/>
             <BestOfferInfo imageUrl={this.props.imageUrls.defaultImage} pageInfoTitle={`best offers this week so far ...`}/>
-            <div className={classNames(classes.main, classes.mainRaised)}>
-                <div className={classes.container}>
+            {/* <div className={classNames(classes.main, classes.mainRaised)}> */}
+                {/* <div className={classes.container}> */}
                 <Paper className={classes.root} elevation={10}>
                     <div>
                     <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="flex-start" spacing={Number(spacing)}>
@@ -164,14 +150,14 @@ class HomePage extends React.Component {
                     <br/>
                     <br/>
                 </Paper>
-                </div>
+                {/* </div> */}
             </div>
-            </div>
+            // </div>
         )
     }
 }
-HomePage.propTypes = {
+BestOfferPage.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(HomePage);
+export default withStyles(styles)(BestOfferPage);

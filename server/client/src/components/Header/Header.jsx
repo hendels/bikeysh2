@@ -28,31 +28,30 @@ const themeListItem = createMuiTheme({
   overrides: {
     MuiListItem: {
       root: {
+        backgroundColor: "#21262b",
         transition: "all 150ms linear",
         "&:hover": {
           boxShadow:
           "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
-          backgroundColor: "#212121",
+          backgroundColor: "#343c44",
           color: "#fff"
         },
         margin: "0px 0px 0px 0px",
         position: "relative",
         fontSize: "13px",
-        // backgroundColor: bikeyshColor5,
         borderBottom: "1px solid #091528",
-        backgroundColor: "#97AABD",
       },
     },
     MuiListItemText: {
       primary: {
-        color: '#000',
+        color: '#fff',
         "&:hover,&:focus": {
           color: "#fff"
         }
       },
       secondary: {
         fontSize: "4px",
-        color: '#1e2126',
+        color: '#fff',
         "&:hover,&:focus": {
           color: "#fff"
         }
@@ -64,14 +63,14 @@ const themeListItemText = createMuiTheme({
   overrides: {
     MuiListItemText: {
       primary: {
-        color: '#000',
+        color: '#fff',
         "&:hover,&:focus": {
           // color: "#fff"
         }
       },
       secondary: {
         fontSize: "4px",
-        color: '#1e2126',
+        color: '#fff',
         "&:hover,&:focus": {
           // color: "#fff"
         }
@@ -118,13 +117,6 @@ class Header extends React.Component {
         document.body
           .getElementsByTagName("header")[0]
           .classList.add(classes[changeColorOnScroll.color]);
-        // document.body
-        //   .getElementsByTagName("label")[0]
-        //   .classList.remove(classes[color]);
-        // document.body
-        //   .getElementsByTagName("label")[0]
-        //   .classList.add(classes[changeColorOnScroll.color]);
-
         //this.props.changeColor();
       } else {
         document.body
@@ -133,13 +125,6 @@ class Header extends React.Component {
         document.body
             .getElementsByTagName("header")[0]
             .classList.remove(classes[changeColorOnScroll.color]);
-        //   document.body
-        //   .getElementsByTagName("label")[0]
-        //   .classList.add(classes[color]);
-        // document.body
-        //   .getElementsByTagName("label")[0]
-        //   .classList.remove(classes[changeColorOnScroll.color]);
-
         //this.props.revertColor();
     }
   }
@@ -153,8 +138,6 @@ class Header extends React.Component {
   }
   handleShowAllResults() {
     this.props.collectAllResults();
-    
-    //
   }
   render() {
     const {

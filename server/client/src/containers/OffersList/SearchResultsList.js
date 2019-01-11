@@ -62,7 +62,7 @@ class OffersList extends Component {
                                         offers={this.state.fullSearchResults}
                                         fetchUrl={this.state.fetchUrl}
                                         tagUrl={this.props.tagUrl}
-                                        model={this.props.model}
+                                        models={this.props.models}
                                         rerender={this.state.reload}
                                     />
                                 : null}

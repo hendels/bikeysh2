@@ -51,6 +51,9 @@ class HeaderLinks extends React.Component {
       this.props.searchText(event.target.value, searchLimit);
     }
   }
+  handleFavorites = () => {
+    this.props.showFavorites(true);
+  }
   componentWillReceiveProps(nextProps){
 
     console.log(`received color change = ${nextProps.changeColor} current state = ${this.state.changedHeaderColor}`);
@@ -133,7 +136,7 @@ class HeaderLinks extends React.Component {
           
         </Tooltip>
       </ListItem>
-      <ListItem className={classes.listItem}>
+      {/* <ListItem className={classes.listItem}>
         <Tooltip
           id="instagram-tooltip"
           title="Settings"
@@ -147,7 +150,7 @@ class HeaderLinks extends React.Component {
             <Settings/>
           </IconButton>
         </Tooltip>
-      </ListItem>
+      </ListItem> */}
       <ListItem className={classes.listItem}>
         <Dropdown
           noLiPadding
@@ -181,7 +184,7 @@ class HeaderLinks extends React.Component {
       <ListItem className={classes.listItem}>
         <Dropdown
           noLiPadding
-          buttonText="user"
+          buttonText="Favorites"
           buttonProps={{
             className: classes.navLink,
             color: "transparent"
@@ -189,28 +192,50 @@ class HeaderLinks extends React.Component {
           hoverColor="black"
           buttonIcon={Apps}
           dropdownList={[
-            <Link to="/" className={classes.dropdownLink}>
-              Favorites
+            <Link onClick={this.handleFavorites} to="/category/cranks" className={classes.dropdownLink}>
+              Favorite Cranks
             </Link>,
-            <Link to="/" className={classes.dropdownLink}>
-              Color Theme
+            <Link onClick={this.handleFavorites} to="/category/hubs" className={classes.dropdownLink}>
+              Favorite Hubs
             </Link>,
-            <Link to="/" className={classes.dropdownLink}>
-              Dnd test
+            <Link onClick={this.handleFavorites} to="/category/dhframes" className={classes.dropdownLink}>
+              Favorite DH Frames
             </Link>,
-            <Link to="/" className={classes.dropdownLink}>
-              add manually tag ITEMS
+            <Link onClick={this.handleFavorites} to="/category/enduroframes" className={classes.dropdownLink}>
+              Favorite Enduro Frames
             </Link>,
-            <Link to="/" className={classes.dropdownLink}>
-              Bike assembler + split bike to parts and show stats for parts
+            <Link onClick={this.handleFavorites} to="/category/wheels" className={classes.dropdownLink}>
+              Favorite Wheels
+            </Link>
+          ]}
+        />
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Dropdown
+          noLiPadding
+          buttonText="Without tags"
+          buttonProps={{
+            className: classes.navLink,
+            color: "transparent"
+          }}
+          hoverColor="black"
+          buttonIcon={Apps}
+          dropdownList={[
+            <Link onClick={this.handleFavorites} to="/category/cranks" className={classes.dropdownLink}>
+              Cranks Without Tags
             </Link>,
-            <Link to="/" className={classes.dropdownLink}>
-              Stats
-              {/* Page for each group and statistics for example - Dh frames, count all types by manufacturer and show models */}
+            <Link onClick={this.handleFavorites} to="/category/hubs" className={classes.dropdownLink}>
+              Hubs Without Tags
             </Link>,
-            <Link to="/" className={classes.dropdownLink}>
-              Missed high score offers
+            <Link onClick={this.handleFavorites} to="/category/dhframes" className={classes.dropdownLink}>
+              DH Frames Without Tags
             </Link>,
+            <Link onClick={this.handleFavorites} to="/category/enduroframes" className={classes.dropdownLink}>
+              Enduro Frames Without Tags
+            </Link>,
+            <Link onClick={this.handleFavorites} to="/category/wheels" className={classes.dropdownLink}>
+              Wheels Without Tags
+            </Link>
           ]}
         />
       </ListItem>

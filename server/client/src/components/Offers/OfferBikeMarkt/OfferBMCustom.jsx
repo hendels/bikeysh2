@@ -109,7 +109,8 @@ const styles = theme => ({
         paddingRight: `15px`,
         // borderInlineStart: `2px dotted ${bikeyshColor4}`,
         // writingMode: `vertical-rl`,
-        border: `1px dotted ${bikeyshColor4}`,
+        borderBottom: `1px dotted ${bikeyshColor4}`,
+        borderTop: `1px dotted ${bikeyshColor4}`,
     },
     gridElementInfoTitle: {
         color: "#fff",
@@ -201,8 +202,9 @@ let offerAvailable = undefined;
 //* date variables
 const dateRegex = /((0[1-9]|[12]\d|3[01]).(0[1-9]|1[0-2]).[12]\d{3})/g;
 const regexDate = dateRegex.exec(this.props.offer.publishDate);
+console.log(regexDate);
 let offerDate = null;
-if (regexDate[0] !== undefined){
+if (regexDate !== null && regexDate[0] !== undefined){
     offerDate = regexDate[0]
     var todayDate = new Date();
     var dd = todayDate.getDate();
@@ -332,7 +334,7 @@ return(
                 </Grid>
                 {/* core info */}
                 <Grid item className={classes.gridElementInfoText}>
-                    {`Days on market: ${diffDays}`}
+                    {`Days on market: ${diffDays !== undefined ? diffDays : `unknown`}`}
                 </Grid>
                 <Grid item className={classes.gridElementInfoText}>
                     {`Total price drop: ${0} times: x${0}`}

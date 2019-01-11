@@ -41,14 +41,16 @@ export default class DragDrop extends React.Component{
         // this.loadDndData();
     }
     handleAddToTagSet = async (tagName, targetColumnName) => {
-        // console.log(`column name react: ${targetColumnName}`);
+        console.log(`MODEL: ${this.props.model} CATEGORY ${this.props.category}`);
+
         await axios.post(this.props.tagUrl + `update/${targetColumnName}`, {
             id: this.props.offerId,
             tagName: tagName,
             offerId: this.props.offerId,
             offerOrigin: this.props.offerOrigin,
             active: true,
-            category: this.props.category.toLowerCase(),
+            category: this.props.category ,
+            //category: this.props.category !== undefined ? this.props.category.toLowerCase() : null,
             price: this.props.offer.price,
             model: this.props.model
           }).then(response => response.data).then(async result => {
