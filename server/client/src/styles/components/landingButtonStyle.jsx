@@ -12,6 +12,7 @@ import {
       color: `#fff`,
       height: `420px`,
       width: `100%`,
+      textDecoration: `none`,
       // display: `flex`,
       // justifyContent: `center`,
       // alignItems: `center`,
@@ -29,12 +30,14 @@ import {
     list: {
       zIndex: 1,
       listStyleType: `none`,
+      textDecoration: `none`,
     },
     title: {
+      color: "#fff",
       fontFamily: `'Permanent Marker', cursive`,
-      /* font-family: 'Pacifico', cursive; */
       fontSize: `45px`,
       zIndex: 1,
+      textDecoration: `none`,
     },
   });
   

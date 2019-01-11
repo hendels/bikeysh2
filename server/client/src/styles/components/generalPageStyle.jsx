@@ -8,7 +8,7 @@ import { container, title , containerBackground,
   bikeyshColor6,
   bikeyshColor7,} from "../material-kit-react";
 
-const profilePageStyle = {
+const generalPageStyle = {
   containerBackground,
   container,
   bikeyshColor1,
@@ -18,6 +18,9 @@ const profilePageStyle = {
   bikeyshColor5,
   bikeyshColor6,
   bikeyshColor7,
+  navLink:{
+    textDecoration: "none",  
+  }
 };
 
-export default profilePageStyle;
+export default generalPageStyle;

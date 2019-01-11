@@ -20,15 +20,13 @@ class LandingButton extends React.Component {
         >   
             <div className={classes.colorOverlay}></div>
             <Grid item>
-                {/* <BigSquareButton/> */}
+                {/* empty space to preserve proportions */}
             </Grid>
             <Grid item className={classes.list}>
                 <h3 className={classes.title}>{this.props.pageInfoTitle}</h3>
             </Grid>
             <Grid item>
-                {/* <Link to={this.props.linkTo}> */}
                 <BigSquareButton component={Link} to={this.props.toLink} />
-                {/* </Link> */}
             </Grid>
         </Grid>
     )}

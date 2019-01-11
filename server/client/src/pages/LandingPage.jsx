@@ -21,7 +21,7 @@ const LandingPage = (props) => {
     const {classes} = props;
     return (
         <div>
-            <Link to="/home">
+            <Link to="/home" style={{textDecoration: "none"}}>
                 <LandingButton 
                     imageUrl={props.imageUrls.defaultImage.url} 
                     pageInfoTitle={`Best Offers`} 
@@ -29,35 +29,35 @@ const LandingPage = (props) => {
                     linkTo={'/home'}
                 />
             </Link>
-            <Link to="/category/dhframes">
+            <Link to="/category/dhframes" style={{textDecoration: "none"}}>
             <LandingButton 
                 imageUrl={props.imageUrls.dhframesImage.url} 
                 pageInfoTitle={`Downhill Frames`} 
                 tweak="120px 0px"
             />
             </Link>
-            <Link to="/category/cranks">
+            <Link to="/category/cranks" style={{textDecoration: "none"}}>
                 <LandingButton 
                     imageUrl={props.imageUrls.cranksImage.url} 
                     pageInfoTitle={`Cranks`} 
                     tweak="0px 0px"
                 />
             </Link>
-            <Link to="/category/hubs">
+            <Link to="/category/hubs" style={{textDecoration: "none"}}>
                 <LandingButton 
                     imageUrl={props.imageUrls.hubsImage.url} 
                     pageInfoTitle={`Hubs`} 
                     tweak="0px 0px"
                 />
             </Link>
-            <Link to="/category/enduroframes">
+            <Link to="/category/enduroframes" style={{textDecoration: "none"}}>
                 <LandingButton 
                     imageUrl={props.imageUrls.enduroframesImage.url} 
                     pageInfoTitle={`Enduro Frames`} 
                     tweak="0px 0px"
                 />
             </Link>
-            <Link to="/category/wheels">
+            <Link to="/category/wheels" style={{textDecoration: "none"}}>
                 <LandingButton 
                     imageUrl={props.imageUrls.wheelsImage.url} 
                     pageInfoTitle={`Wheels`} 
@@ -65,10 +65,6 @@ const LandingPage = (props) => {
                 />
             </Link>
         </div>
-        // <Paper className={classes.containerBackground} elevation={1} square="true">
-        //     <br/>
-        //     <br/>
-        // </Paper>
     )
 }
 

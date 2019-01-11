@@ -174,12 +174,9 @@ const styles = theme => ({
         top: 150,
         opacity: 1,
     },
-    // snackbar: {
-    //     position: 'absolute',
-    // },
-    // snackbarContent: {
-    //     minWidth: 205,
-    // },
+    icon: {
+        outline: "none",
+    }
 });
 const movePoint = -35;
 class BestOffer extends React.Component {
@@ -188,9 +185,6 @@ class BestOffer extends React.Component {
 
         this.state = {
             offerCount: this.props.offerCount,
-            // expanded: false,
-            // grade: 'S',
-            // openTagDialog: false,
             openStatisticsChips: false,
             favorite: false,
             disableStatistics: false,
@@ -206,16 +200,6 @@ class BestOffer extends React.Component {
     async componentWillMount(){
         await this.getScoringData();
     }
-    // handleClickOpenTagDialog = () => {
-
-    //     this.setState({
-    //         openTagDialog: true,
-    //         disableStatistics: true
-    //     }, () => {
-    //         console.log(`open tag? ??? ${this.state.openTagDialog}`)
-    //     });
-    //   };
-    
     handleDisableStatistics = (disable) => {
         this.setState({ 
             disableStatistics: disable 
@@ -244,14 +228,10 @@ class BestOffer extends React.Component {
                     modelSetId: result.scoring[0].modelSetId,
                 }
                 this.setState({scoringData: scoringData}, () => {});
-                // console.log(`scoring name: ${result[Object.keys(this.state.trueName)[0]]} for offer id: ${this.props.offer._id}`);
-                // console.log(result[Object.keys(this.state.trueName)[0]]);
-                // console.log(`scoring - name: ${result.scoring[0].fullName} price: ${result.scoring[0].price}`);
           });
         }
     }
     setOfferVisibility = async () => {
-        // console.log(`setting offer visibility`);
         await axios.get('/api/scoring/update/visibility/' + this.props.offer._id).then(response  => response.data).then(result => {
             this.setState({visible: result}, () => {
                 let objOffer = {
@@ -347,7 +327,7 @@ class BestOffer extends React.Component {
                         <IconButton 
                             href={this.props.offer.productUrl} 
                             target={`_blank`} 
-                            className={classes.icon} 
+                            style={{outline: "none",}}
                         >
                             <InfoIcon />
                         </IconButton>

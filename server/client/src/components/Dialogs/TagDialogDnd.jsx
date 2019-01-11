@@ -66,6 +66,7 @@ const styles = {
         #5a6671 22px,
         #5a6671 44px
       )`,
+      outline: "none",
     },
   };
 function mergeArrays(array1, array2) {
@@ -108,9 +109,7 @@ class DialogDragAndDrop extends React.Component {
       this.props.onClose(value);
     };
     handleChange = name => event => {
-      this.setState({ [name]: event.target.checked }, ()=> {
-        // console.log(`ignored = ${this.state.showIgnored}`);
-      });
+      this.setState({ [name]: event.target.checked }, ()=> {});
     };
     handleChangeNewTagText= ({target}) => {
       switch (true){
@@ -118,9 +117,7 @@ class DialogDragAndDrop extends React.Component {
           this.setState({
             disableNewTagButton: false,
             newTagText: target.value
-          }, () => {
-            //console.log(`text = ${this.state.newTagText} radio = ${this.state.valueRadioNewTag}`);
-          });
+          }, () => {});
           break;
         case target.value !== '':
           this.setState({
@@ -139,14 +136,12 @@ class DialogDragAndDrop extends React.Component {
     };
     handleChangeNewTagRadio = event => {
       this.setState({ valueRadioNewTag: event.target.value }, ()=> {
-        //console.log(`text = ${this.state.newTagText} radio = ${this.state.valueRadioNewTag}`);
         if (this.state.newTagText !== '' && this.state.valueRadioNewTag !== ''){
           this.setState({disableNewTagButton: false}, () => {});
         }
       });
     };
     handleAddNewTag = async () => {
-      // console.log(`NEW TAG PENDING`);
       await axios.post(this.props.tagUrl + `update/${this.state.valueRadioNewTag}`, {
         id: this.props.offer._id,
         tagName: this.state.newTagText,
@@ -157,27 +152,18 @@ class DialogDragAndDrop extends React.Component {
         price: this.props.offer.price,
         model: this.props.model
       }).then(response => response.data).then(async result => {
-        // console.log(`BEFORE handleGetTagsForOffer!`);
         await this.handleGetTagsForOffer();
-        // console.log(this.state.tagArray);
-        // console.log(`AFTER SEARCH`);
-        // this.forceUpdate();
         await this.props.reloadDialog();
 
       }); 
     }
     handleDeleteTag = async (tagId, offerId, tagName) => {
-      // console.log(`DELETE TAG PENDING`);
       await axios.post(this.props.tagUrl + `deleteTag`, {
         tagId: tagId,
         tagName: tagName,
         offerId: this.props.offer._id,
       }).then(response => response.data).then(async result => {
-        // console.log(`BEFORE handleGetTagsForOffer!`);
         await this.handleGetTagsForOffer();
-        // console.log(this.state.tagArray);
-        // console.log(`AFTER SEARCH`);
-        // this.forceUpdate();
         await this.props.reloadDialog();
 
       }); 
@@ -188,41 +174,23 @@ class DialogDragAndDrop extends React.Component {
       titleArray = titleArray.split('/').join(``).split(" ");
       titleArray = titleArray.filter(function(e) {return e});
       
-      // console.log(`handleGetTagsForOffer!`);
       await axios.get(this.props.tagUrl + `getTags/${this.props.offer._id}`).then(response  => response.data)
       .then(result => {
         let tagArray = [];
         for (var i = 0; i < result.tagArray.length; i++){
-          // console.log(result.tagArray[i].tagName);
           tagArray.push(result.tagArray[i].tagName);
         }
-
-        // console.log(`title array::::`);
-        // console.log(titleArray);
         const mergedArrays = mergeArrays(titleArray, tagArray);
-        // console.log(`merged array::::`);
-        // console.log(mergedArrays);
-        // tagArray = tagArray.filter(function(e) {return e})
-        this.setState({tagArray: mergedArrays}, () => {
-          
-          // console.log(this.state.tagArray);
-        })
-        // return tagArray;
+        this.setState({tagArray: mergedArrays}, () => {})
       });
     }
     
     handleCloseDialog = () => {
       this.props.onClose(false);
     }
-    // handleReloadDialog = () => {
-    //   this.props.onClose(true);
-    // }
     handleCancel = () => {
       this.props.onClose(false);
     };
-    // componentWillMount() {
-    //   this.handleGetTagsForOffer();
-    // }
     componentWillReceiveProps() {
       this.setState({reloadDialogDnd: this.props.reloadDialogDnd}, () => {
         // console.log(`dnd received props reload MAIN DND state = ${this.state.reloadDialogDnd}`);

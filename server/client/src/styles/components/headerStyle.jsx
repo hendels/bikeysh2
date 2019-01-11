@@ -104,11 +104,13 @@ const headerStyle = {
     textTransform: "lowercase",
     lineHeight: "30px",
     borderRadius: "3px",
-    textTransform: "none",
+    // textTransform: "none",
+    // textDecoration: "none",
     color: "inherit",
     "&:hover,&:focus": {
       color: "inherit",
-      background: "transparent"
+      background: "transparent",
+      outline: "none",
     }
   },
   appResponsive: {

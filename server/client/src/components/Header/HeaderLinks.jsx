@@ -18,7 +18,7 @@ import ListItem from "@material-ui/core/ListItem";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 // import red from '@material-ui/core/colors/red'
 // @material-ui/icons
-import { Apps, Search, Stars, Settings } from "@material-ui/icons";
+import { Apps, Search, Stars, Settings, FavoriteBorder, LibraryAdd } from "@material-ui/icons";
 
 // core components
 import Dropdown from "../Dropdown/Dropdown.jsx";
@@ -190,7 +190,7 @@ class HeaderLinks extends React.Component {
             color: "transparent"
           }}
           hoverColor="black"
-          buttonIcon={Apps}
+          buttonIcon={FavoriteBorder}
           dropdownList={[
             <Link onClick={this.handleFavorites} to="/category/cranks" className={classes.dropdownLink}>
               Favorite Cranks
@@ -219,7 +219,7 @@ class HeaderLinks extends React.Component {
             color: "transparent"
           }}
           hoverColor="black"
-          buttonIcon={Apps}
+          buttonIcon={LibraryAdd}
           dropdownList={[
             <Link onClick={this.handleFavorites} to="/category/cranks" className={classes.dropdownLink}>
               Cranks Without Tags
