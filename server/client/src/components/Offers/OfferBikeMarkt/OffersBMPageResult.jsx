@@ -11,15 +11,26 @@ const styles = theme => ({
 
 });
 
-
+var listElements = null;
 class OfferBikeMarkt extends React.Component{
 
-state = {scoringData: {trueName: '', price: 0, currency: "currency", median: 0, countTotal: 0, scores: 0},}
-render(){
-    const {classes} = this.props;
+state = {
+        scoringData: {
+            trueName: '', 
+            price: 0, 
+            currency: "currency", 
+            median: 0, 
+            countTotal: 0, 
+            scores: 0
+        },
+        loading: true,
+        }
+async componentWillReceiveProps(nextProps){
+    const {classes, offers, models, fullSearch} = nextProps;
     let fullSearchModel = ``;
     let fullSearchCategory = ``;
-    var listElements = this.props.offers.map(offer => {
+    
+    listElements = await offers.map(offer => {
         let piclink = <a>No image at all.</a>;
         if(offer.pictures !== null || offer.pictures !== undefined){
             for (var x in offer.pictures){
@@ -31,22 +42,22 @@ render(){
             }
         };
 
-        if(this.props.fullSearch){
+        if(fullSearch){
             switch (offer.category){
                 case "DHFrames":
-                    fullSearchModel = this.props.models.dhframes
+                    fullSearchModel = models.dhframes
                     break;
                 case "Cranks":
-                    fullSearchModel = this.props.models.cranks
+                    fullSearchModel = models.cranks
                     break;
                 case "Hubs":
-                    fullSearchModel = this.props.models.hubs
+                    fullSearchModel = models.hubs
                     break;
                 case "EnduroFrames":
-                    fullSearchModel = this.props.models.enduroframes
+                    fullSearchModel = models.enduroframes
                     break;
                 case "Wheels":
-                    fullSearchModel = this.props.models.wheels
+                    fullSearchModel = models.wheels
                     break;
                 default:
                     break;
@@ -57,19 +68,48 @@ render(){
             <OfferBMCustom 
                 offer={offer} 
                 piclink={piclink} 
-                fetchUrl={this.state.fetchUrl} 
                 tagUrl={this.props.tagUrl} 
                 model={this.props.fullSearch ? fullSearchModel : this.props.model}
                 rerender={this.props.rerender}
                 category={this.props.fullSearch ? fullSearchCategory: this.props.category}
                 fullSearch={this.props.fullSearch}
-                // unmount={this.props.unmount}
             />
         )
     }) ;
+    await Promise.all(listElements).then(()=>{
+        if (offers.length !== 0)
+            this.setState({loading: false}, ()=>{
+                console.log(listElements);
+                console.log(this.state.loading);
+                this.forceUpdate();
+            })
+    })
+}
+render(){
     return (
         <Aux>
-            {listElements}
+            {!this.state.loading ? listElements : (
+            <div>
+                <br/>
+                <br/>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <span>Loading...</span>
+                <br/>
+                <br/>
+            </div>)
+             }
         </Aux>)
     };
 }

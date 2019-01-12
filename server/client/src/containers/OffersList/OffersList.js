@@ -66,8 +66,8 @@ class OffersList extends Component {
     onSetResult = (result, skip) =>{
         if (result.length !== 0){
             this.setState({hits: result, reload: !this.state.reload}, () => {
-                console.log(`fetched hits and reload =${this.state.reload}`);
-                console.log(this.state.hits);
+                // console.log(`fetched hits and reload =${this.state.reload}`);
+                // console.log(this.state.hits);
                 this.forceUpdate();
                 window.scrollTo(0, 0);
             });}
