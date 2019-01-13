@@ -44,10 +44,6 @@ class BestOfferPage extends React.Component {
             //
         }
     }
-    componentDidUpdate(){
-        // console.log('updated!');
-
-    }
     handleSnack = (objOffer) => {
 
         this.setState({showSnackHideOffer: true, objOffer: objOffer});

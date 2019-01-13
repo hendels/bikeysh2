@@ -28,7 +28,7 @@ const imageUrls = {
     hubsImage: {url: `https://cdn.bikemagic.com/featured_image/5ab936e5d5833.jpg`, tweak: `0px -200px`},
     enduroframesImage: {url: `https://brink.uk/assets/images/products/Bikes/Santa-Cruz-Nomad-4-CC-Frame-2018-3.jpg`, tweak: `0px -400px`},
     wheelsImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5ab923c674716.jpg`, tweak: `0px 0px`},
-    bikeyshImage: {url: `https://i2.wp.com/chainslapmag.com/wp-content/uploads/2016/06/nelson-dh-21.jpg?resize=1024%2C683`, tweak: `0px 0px`}
+    bikeyshImage: {url: `http://www.fullhdwpp.com/wp-content/uploads/Bicycling-Downhill_www.FullHDWpp.com_.jpg?x69613`, tweak: `0px -200px`}
 }
 const dbModels = {
     cranks: `cranks`, dhframes: `dhframes`, enduroframes: `enduroframes`, hubs: `hubs`, wheels: `wheels` 

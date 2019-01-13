@@ -169,20 +169,23 @@ class DialogDragAndDrop extends React.Component {
       }); 
     }
     handleGetTagsForOffer = async () => {
-      let title = this.props.offer.title;
-      let titleArray = title.split('.').join(``).split(',').join(``);
-      titleArray = titleArray.split('/').join(``).split(" ");
-      titleArray = titleArray.filter(function(e) {return e});
-      
-      await axios.get(this.props.tagUrl + `getTags/${this.props.offer._id}`).then(response  => response.data)
-      .then(result => {
-        let tagArray = [];
-        for (var i = 0; i < result.tagArray.length; i++){
-          tagArray.push(result.tagArray[i].tagName);
-        }
-        const mergedArrays = mergeArrays(titleArray, tagArray);
-        this.setState({tagArray: mergedArrays}, () => {})
-      });
+      if (!this.props.dummy){
+        let title = this.props.offer.title;
+        //[todo - rewrite]
+        let titleArray = title.split('.').join(``).split(',').join(``);
+        titleArray = titleArray.split('/').join(``).split(" ");
+        titleArray = titleArray.filter(function(e) {return e});
+        //
+        await axios.get(this.props.tagUrl + `getTags/${this.props.offer._id}`).then(response  => response.data)
+        .then(result => {
+          let tagArray = [];
+          for (var i = 0; i < result.tagArray.length; i++){
+            tagArray.push(result.tagArray[i].tagName);
+          }
+          const mergedArrays = mergeArrays(titleArray, tagArray);
+          this.setState({tagArray: mergedArrays}, () => {})
+        });
+      }
     }
     
     handleCloseDialog = () => {

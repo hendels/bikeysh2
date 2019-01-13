@@ -21,16 +21,17 @@ class FavoriteButtonBikeMarkt extends React.Component {
     handleAddToFavorite = async (event) => {
         console.log(this.props.category);
         // await axios.post(this.props.fetchUrl + 'fav', {
-        await axios.post(`/api/bm/offer/fav`, {
-            userId: 'przemy',
-            id: this.props.dataKey,
-            markAs: !this.props.favorite,
-            model: this.props.model
-          })
-          .then(response  => response.data)
-          .then(result => {
-                this.setState({markedAs: result}, () => {});
-          })
+        if (!this.props.dummy)
+            await axios.post(`/api/bm/offer/fav`, {
+                userId: 'przemy',
+                id: this.props.dataKey,
+                markAs: !this.props.favorite,
+                model: this.props.model
+            })
+            .then(response  => response.data)
+            .then(result => {
+                    this.setState({markedAs: result}, () => {});
+                })
     }
     render(){
         return(

@@ -149,7 +149,7 @@ module.exports = app => {
     app.get('/scoring/:offerId', async (req, res) => {
         await mongoose.model('scoring').find({offerId: req.params.offerId}, (err, scoring) => {
             res.send({ scoring });
-            console.log('got scored offer...');
+            console.log(`got scored offer ${req.params.offerId}...`);
         });
     });
     app.post('/api/bm/offer/fav', async (req, res) => {
@@ -264,34 +264,46 @@ module.exports = app => {
     //>>
     //==================================================================================================================
     //<<offerList
-    app.get('/api/bm/category/:model/:skipRange/:pageLimit/:favFilter/:withoutTagsFilter', async (req, res) => {
-        let favFilter = (req.params.favFilter === `true`);
-        let withoutTagsFilter = (req.params.withoutTagsFilter === `true`);
-        console.log(`favorite  filter: ${favFilter}`);
-        console.log(`withoutTags filter: ${withoutTagsFilter}`);
-        var pageLimit = parseInt(req.params.pageLimit);
-        var skipRange = parseInt(req.params.skipRange);
-        let filters = {}
-        if (favFilter){
-            filters = {
-                favorite: favFilter !== null ? favFilter : null,
+    app.get('/api/bm/category/:model/:skipRange/:pageLimit/:favFilter/:withoutTagsFilter/first=:showFirst/last=:showLast',
+        async (req, res) => {
+            let favFilter = (req.params.favFilter === `true`);
+            let withoutTagsFilter = (req.params.withoutTagsFilter === `true`);
+            let firstPage = (req.params.showFirst === `true`);
+            let lastPage = (req.params.showLast === `true`);
+            console.log(`favorite  filter: ${favFilter}`);
+            console.log(`withoutTags filter: ${withoutTagsFilter}`);
+            console.log(`firstPage : ${firstPage}`);
+            console.log(`lastPage : ${lastPage}`);
+            var pageLimit = parseInt(req.params.pageLimit);
+            var skipRange = parseInt(req.params.skipRange);
+            if (firstPage) 
+                skipRange = 0;
+                
+            let filters = {}
+            if (favFilter){
+                filters = {
+                    favorite: favFilter !== null ? favFilter : null,
+                }
             }
-        }
-        if (withoutTagsFilter){
-            filters = {
-                tagCount: withoutTagsFilter === true ? {$lt: 2} : null
+            if (withoutTagsFilter){
+                filters = {
+                    tagCount: withoutTagsFilter === true ? {$lt: 2} : null
+                }
             }
+            dbCollection = mongoose.model(req.params.model);
+            dbCollection.count(async (err, count) => {
+                counter = count;
+                const currentModel = await dbCollection
+                    .find(filters)
+                    .sort({'bmartId': -1})
+                    .skip(skipRange)
+                    .limit(pageLimit)
+                    .select({ __v: false });
+    
+                res.send(currentModel);   
+            });
         }
-        const currentModel = await mongoose
-            .model(req.params.model)
-            .find(filters)
-            .sort({'bmartId': -1})
-            .skip(skipRange)
-            .limit(pageLimit)
-            .select({ __v: false });
-
-        res.send(currentModel);   
-    });
+    );
     //>>offerList
     //<<dhframes
     app.get('/api/bm/category/dhframes', (req, res) => {

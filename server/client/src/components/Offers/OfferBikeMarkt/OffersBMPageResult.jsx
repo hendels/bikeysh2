@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import {withStyles} from '@material-ui/core/styles';
 //custom components
@@ -12,9 +13,12 @@ const styles = theme => ({
 });
 
 var listElements = null;
+var dummyElements = null;
 class OfferBikeMarkt extends React.Component{
+constructor(props) {
+    super(props);
 
-state = {
+    this.state = {
         scoringData: {
             trueName: '', 
             price: 0, 
@@ -24,7 +28,20 @@ state = {
             scores: 0
         },
         loading: true,
-        }
+    }
+    const dummyOffer = {
+        dealer: "Nein",
+        title: "Loading..."
+    };
+    const dummyArray = [0,1,2,3,4,5,6,7,8,9];
+    dummyElements = dummyArray.map((dummy, index) => {
+        return <OfferBMCustom
+                    key={index}
+                    dummy
+                    offer={dummyOffer}
+                />
+    });
+}
 async componentWillReceiveProps(nextProps){
     const {classes, offers, models, fullSearch} = nextProps;
     let fullSearchModel = ``;
@@ -66,6 +83,7 @@ async componentWillReceiveProps(nextProps){
         }
         return(
             <OfferBMCustom 
+                key={offer._id}
                 offer={offer} 
                 piclink={piclink} 
                 tagUrl={this.props.tagUrl} 
@@ -78,38 +96,14 @@ async componentWillReceiveProps(nextProps){
     }) ;
     await Promise.all(listElements).then(()=>{
         if (offers.length !== 0)
-            this.setState({loading: false}, ()=>{
-                console.log(listElements);
-                console.log(this.state.loading);
-                this.forceUpdate();
-            })
+            this.setState({loading: false}, ()=>{})
     })
 }
 render(){
+    console.log('rerender');
     return (
         <Aux>
-            {!this.state.loading ? listElements : (
-            <div>
-                <br/>
-                <br/>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <span>Loading...</span>
-                <br/>
-                <br/>
-            </div>)
-             }
+            {!this.state.loading ? listElements : dummyElements}
         </Aux>)
     };
 }

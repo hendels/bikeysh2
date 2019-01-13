@@ -19,7 +19,7 @@ import Pagination from '../../components/Pagination/OfferListPagination.jsx'
 import containerStyle from '../../styles/components/offerListStyle';
 
 let renderCount = 0;
-
+const skipValue = 10;
 class OffersList extends Component {
     constructor(props){
         super(props);
@@ -51,60 +51,76 @@ class OffersList extends Component {
         });
     }
     async componentWillUnmount() {
-        console.log('unmounting offer list');
         await this.props.showFavorites(false);
         await this.props.showWithoutTags(false);
     }
-    fetchData = (skip, pageLimit) => {
+    fetchData = (skip, pageLimit, showFirst, showLast) => {
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
-        // let sortedSkip = totalArray - skip + 10;
-        axios.get(`/api/bm/category/${this.props.model}/${skip}/${pageLimit}/${this.state.loadFavorites}/${this.state.loadWithoutTags}`).then(
-            response => response.data
-        ).then(result => this.onSetResult(result, skip))
+        axios.get(`/api/bm/category/${this.props.model}/${skip}/${pageLimit}/${this.state.loadFavorites}/
+            ${this.state.loadWithoutTags}/first=${showFirst}/last=${showLast}`)
+            .then(response => response.data)
+            .then(result => this.onSetResult(result, skip))
     }
     
     onSetResult = (result, skip) =>{
         if (result.length !== 0){
             this.setState({hits: result, reload: !this.state.reload}, () => {
-                // console.log(`fetched hits and reload =${this.state.reload}`);
-                // console.log(this.state.hits);
-                this.forceUpdate();
+                // this.forceUpdate();
                 window.scrollTo(0, 0);
             });}
     }
 
     onPaginatedSearchNext = () => {
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
-        let newSkip = this.state.skip + 10;
+        let newSkip = this.state.skip + skipValue;
         if(newSkip >= totalArray)
             newSkip = totalArray;
         if(newSkip !== this.state.skip){
-             this.setState(state => ({
+             this.setState(() => ({
                 skip: newSkip
-            }));
-            this.fetchData(this.state.skip + this.state.pageItems, this.state.pageItems);
-            
-            console.log("state SKIP : " + this.state.skip + " state RESULT.length : " + totalArray + " state pageItems : " + this.state.pageItems);
+            }), () => {
+                this.fetchData(this.state.skip, this.state.pageItems);
+            });
         }
         
     }
     onPaginatedSearchPrevious = () => {
-        const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
-        let newSkip = this.state.skip - 10;
+        let newSkip = this.state.skip - skipValue;
         if(newSkip <= 0) newSkip = 0;
-
-        console.log("previous : " + this.state.skip);
         if(newSkip !== this.state.skip){
-            this.setState(state => ({
+            this.setState(() => ({
                 skip: newSkip
-            }));
-            this.fetchData(this.state.skip - this.state.pageItems, this.state.pageItems);
-            // this.forceUpdate();
+            }), () => {
+                this.fetchData(this.state.skip, this.state.pageItems);
+            });
         }
         
     }
+    handleShowFirstPage = () => {
+        let newSkip = 0;
+        if(newSkip !== this.state.skip){
+            this.setState(state => ({
+                skip: newSkip
+            }), () => {
+                this.fetchData(this.state.skip - this.state.pageItems, this.state.pageItems);
+            });
+        }
+        // this.fetchData(this.state.skip + this.state.pageItems, this.state.pageItems, true, false);
+    }
+    handleShowLastPage = () => {
+        const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
+        let newSkip = totalArray - skipValue;
+        if(newSkip <= 0) newSkip = 0;
+        if(newSkip !== this.state.skip){
+            this.setState(() => ({
+                skip: newSkip
+            }), () => {
+                this.fetchData(this.state.skip - this.state.pageItems, this.state.pageItems);
+            });
+        }
+        // this.fetchData(this.state.skip + this.state.pageItems, this.state.pageItems, false, true);
+    }
     render(){
-        // console.log('render offer list');
         const { classes } = this.props;
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
         renderCount += 1;
@@ -185,8 +201,13 @@ class OffersList extends Component {
                             </Grid>
                             {/* // pagination */}
                             <Grid item>
-                                <Pagination show={this.state.skip} total={totalArray} 
-                                    previous={this.onPaginatedSearchPrevious} next={this.onPaginatedSearchNext}
+                                <Pagination 
+                                    show={this.state.skip + skipValue} 
+                                    total={totalArray} 
+                                    lastPage={this.handleShowLastPage} 
+                                    firstPage={this.handleShowFirstPage}
+                                    previous={this.onPaginatedSearchPrevious} 
+                                    next={this.onPaginatedSearchNext}
                                 />
                             </Grid>
                         </Grid>

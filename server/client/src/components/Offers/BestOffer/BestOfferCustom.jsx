@@ -14,6 +14,7 @@ import Delete from '@material-ui/icons/DeleteSweep';
 import FavoriteButton from '../../FavButton/FavButtonBikeMarkt.jsx';
 import TagButton from '../../Buttons/TagButton';
 import SnackbarBestOffer from '../../Snackbars/SnackbarBestOffer.jsx';
+import OfferDetailsDialog from '../../Dialogs/OfferDetailsDialog.jsx';
 //hoc components
 import Aux from '../../../hoc/Ax/Ax';
 
@@ -194,6 +195,7 @@ class BestOffer extends React.Component {
                 yearTitle: 0, yearDescription: 0,
                 manufacturerSetId: 0, modelSetId: 0
             },
+            showOfferDetails: false,
 
         }
     }
@@ -211,6 +213,13 @@ class BestOffer extends React.Component {
     handleCloseStatisticsChips = () => {
         this.setState({openStatisticsChips: false});
     };
+    handleCloseOfferDetailsDialog = () => {
+        this.setState({showOfferDetails: false});
+    };
+    handleShowOfferDetailsDialog = () => {
+        this.setState({showOfferDetails: true});
+    };
+    
     getScoringData = async () => {
         if (this.props.offer._id !== `dummy`){
             await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
@@ -325,12 +334,18 @@ class BestOffer extends React.Component {
                     </span>
                     <span className={classes.imageActionsInfo}>
                         <IconButton 
+                            onClick={this.handleShowOfferDetailsDialog}
+                            style={{outline: "none",}}
+                        >
+                            <InfoIcon />
+                        </IconButton>
+                        {/* <IconButton 
                             href={this.props.offer.productUrl} 
                             target={`_blank`} 
                             style={{outline: "none",}}
                         >
                             <InfoIcon />
-                        </IconButton>
+                        </IconButton> */}
                     </span>
                 </Aux>
                 ): null}
@@ -344,6 +359,12 @@ class BestOffer extends React.Component {
                         itemState={this.state.itemState}
                     />
                 }
+                {this.state.showOfferDetails ? 
+                <OfferDetailsDialog
+                    open={this.state.showOfferDetails}
+                    close={this.handleCloseOfferDetailsDialog}
+                    offer={this.props.offer} 
+                /> : null}
                 </ButtonBase>
             </div>
         )

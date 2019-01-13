@@ -14,17 +14,19 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import Filter from '@material-ui/icons/FilterList';
+import Typography from '@material-ui/core/Typography';
 class OfferListPagination extends Component {
     render(){
         const {classes} = this.props;
     return(
         // <Aux>
-            <Grid container direction="row" justify="flex-end" alignContent="flex-end" className={classes.containerOfferList}>
+            <Grid container direction="row" justify="flex-end" alignContent="center" className={classes.containerOfferList}>
                 <Grid item>
-                    <Button disabled size="medium">{`${this.props.show} of ${this.props.total}`}</Button>
+                    {/* <Button disabled size="medium">{`${this.props.show} of ${this.props.total}`}</Button> */}
+                    <Typography style={{marginTop: "15px"}} headlineMapping="h4" align="center">{`${this.props.show} of ${this.props.total}`}</Typography>
                 </Grid>
                 <Grid item>
-                    <IconButton variant="outlined" onClick={this.props.previous}><FirstPage/></IconButton>
+                    <IconButton variant="outlined" onClick={this.props.firstPage}><FirstPage/></IconButton>
                 </Grid>
                 <Grid item>
                     <IconButton variant="outlined" onClick={this.props.previous}><ChevronLeft/></IconButton>
@@ -33,7 +35,7 @@ class OfferListPagination extends Component {
                     <IconButton variant="outlined" onClick={this.props.next}><ChevronRight/></IconButton>
                 </Grid>
                 <Grid item>
-                    <IconButton variant="outlined" onClick={this.props.next}><LastPage/></IconButton>
+                    <IconButton variant="outlined" onClick={this.props.lastPage}><LastPage/></IconButton>
                 </Grid>
                 {/* <Grid item> */}
                     {/* [todo] show only with no tag at all */}

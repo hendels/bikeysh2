@@ -150,88 +150,86 @@ class OfferBMCustom extends React.Component{
 
 state = {scoringData: {
     offerId: 0, trueName: '', price: 0,
-    currency: "currency", median: 0,
+    currency: "", median: 0,
     countTotal: 0, scores: 0, itemState: '',
     rerender: false, urlActive: null}
 }
 componentWillMount(){
-    // console.log('mounting custom offer');
     this.getScoringData();
 }
 componentWillReceiveProps(){
     this.setState({scoringData: {
         offerId: 0, trueName: '', price: 0,
-        currency: "currency", median: 0,
+        currency: "", median: 0,
         countTotal: 0, scores: 0, itemState: '',
-        rerender: false}});
+        rerender: false}}, () => {});
     this.setState({rerender: this.props.rerender}, ()=> {
-        this.forceUpdate();
-        // console.log(`offer bm custom rerender = ${this.props.rerender}`);
+        // this.forceUpdate();
         this.getScoringData();
     });
 }
 getScoringData = async () => {
-    // console.log(this.props.offer._id);
-    await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
-        if (result !== undefined){
-            if (result.scoring.length > 0) {
-                var scoringData = {
-                    offerId: result.scoring[0].offerId,
-                    trueName: result.scoring[0].fullName,
-                    price: result.scoring[0].price,
-                    currency: result.scoring[0].currency,
-                    median: result.scoring[0].median,
-                    countTotal: result.scoring[0].countTotal,
-                    scores: result.scoring[0].scores,
-                    itemState: result.scoring[0].itemState,
-                    urlActive: result.scoring[0].urlActive
+    if (!this.props.dummy)
+        await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
+            if (result !== undefined){
+                if (result.scoring.length > 0) {
+                    var scoringData = {
+                        offerId: result.scoring[0].offerId,
+                        trueName: result.scoring[0].fullName,
+                        price: result.scoring[0].price,
+                        currency: result.scoring[0].currency,
+                        median: result.scoring[0].median,
+                        countTotal: result.scoring[0].countTotal,
+                        scores: result.scoring[0].scores,
+                        itemState: result.scoring[0].itemState,
+                        urlActive: result.scoring[0].urlActive
+                    }
+                    this.setState({scoringData: scoringData}, () => {});
                 }
-                this.setState({scoringData: scoringData}, () => {});
             }
-        }
   });
 }
 render(){
-// console.log(`render custom offer`);
+
 const {classes} = this.props;
 let dealerTip = `null`;
 let linkActive = false;
 let linkTip = `null`;
 this.props.offer.dealer === "Nein" ? dealerTip = `Regular offer` : dealerTip = `Dealer`;
 let offerAvailable = undefined;
-//* date variables
-const dateRegex = /((0[1-9]|[12]\d|3[01]).(0[1-9]|1[0-2]).[12]\d{3})/g;
-const regexDate = dateRegex.exec(this.props.offer.publishDate);
-console.log(regexDate);
 let offerDate = null;
-if (regexDate !== null && regexDate[0] !== undefined){
-    offerDate = regexDate[0]
-    var todayDate = new Date();
-    var dd = todayDate.getDate();
-    var mm = todayDate.getMonth() + 1;
-    var yyyy = todayDate.getFullYear();
-    var today = `${mm}.${dd}.${yyyy}`;
-    var date2 = new Date(today);
 
-    dd = regexDate[0].slice(0,2);
-    mm = regexDate[0].slice(3,5);
-    yyyy = regexDate[0].slice(6,10);
-
-    var convertedDate = `${mm}.${dd}.${yyyy}`;
-    var date1 = new Date(convertedDate);
-    var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-} else
-     offerDate = this.props.offer.publishDate;
-
-//  console.log(this.props.piclink);
-// console.log(`offer: ${this.state.scoringData.trueName} publish date: ${this.props.offer.publishDate} dateRegex: ${date1} today: ${date2} === diff days: ${diffDays}`);
-
-this.state.scoringData.urlActive !== undefined && this.state.scoringData.urlActive !== null ?
-    JSON.parse(this.state.scoringData.urlActive) ?  offerAvailable = true : offerAvailable = false 
-    : null;
-if(offerAvailable !== undefined){
-    offerAvailable ?  linkTip = 'Offer available' : linkTip = `Offer not available`;
+if (!this.props.dummy){
+    //* date variables
+    const dateRegex = /((0[1-9]|[12]\d|3[01]).(0[1-9]|1[0-2]).[12]\d{3})/g;
+    const regexDate = dateRegex.exec(this.props.offer.publishDate);
+    // console.log(regexDate);
+    if (regexDate !== null && regexDate[0] !== undefined){
+        offerDate = regexDate[0]
+        var todayDate = new Date();
+        var dd = todayDate.getDate();
+        var mm = todayDate.getMonth() + 1;
+        var yyyy = todayDate.getFullYear();
+        var today = `${mm}.${dd}.${yyyy}`;
+        var date2 = new Date(today);
+    
+        dd = regexDate[0].slice(0,2);
+        mm = regexDate[0].slice(3,5);
+        yyyy = regexDate[0].slice(6,10);
+    
+        var convertedDate = `${mm}.${dd}.${yyyy}`;
+        var date1 = new Date(convertedDate);
+        var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    } else
+         offerDate = this.props.offer.publishDate;
+    
+    this.state.scoringData.urlActive !== undefined && this.state.scoringData.urlActive !== null ?
+        JSON.parse(this.state.scoringData.urlActive) ?  offerAvailable = true : offerAvailable = false 
+        : null;
+    if(offerAvailable !== undefined){
+        offerAvailable ?  linkTip = 'Offer available' : linkTip = `Offer not available`;
+    }
 }
 return(
     <Grid container direction="row" justify="center" spacing={0}>
@@ -243,10 +241,6 @@ return(
                 backgroundSize: 'cover',
                 backgroundRepeat: `no-repeat`,
                 backgroundPosition: 'center',
-                // display: `block`,
-                // marginLeft: `auto`,
-                // marginRight: `auto`,
-                // width: `50%`,
             }}>
                 <Grid container className={classes.gridElementUpbar} direction="row" justify="space-between" alignItems="center">
                     <Grid item>
@@ -347,6 +341,7 @@ return(
                     <Grid container className={classes.gridElementInfoActions} direction="row" justify="space-evenly" alignItems="center">
                         <Grid item xs={3} className={classes.actionItem}>
                             <FavoriteButton 
+                                dummy={this.props.dummy}
                                 dataKey={this.props.offer._id} 
                                 favorite={this.props.offer.favorite} 
                                 fetchUrl={this.props.fetchUrl} 
@@ -361,6 +356,7 @@ return(
                         </Grid>
                         <Grid item xs={3} className={classes.actionItem}>
                             <TagButton 
+                                dummy={this.props.dummy}    
                                 offer={this.props.offer} 
                                 tagUrl={this.props.tagUrl} 
                                 color={bikeyshColor5} 
