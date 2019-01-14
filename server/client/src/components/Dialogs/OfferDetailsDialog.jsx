@@ -61,10 +61,12 @@ class DialogDragAndDrop extends React.Component {
           <DialogTitle id="offerDetails">{this.props.offer.title}</DialogTitle>
             <DialogContent>
               <Grid container justify='center' alignContent='center' spacing={8}>
-                <Grid item xs={6}>
-                  <ImageStepper/>
+                <Grid item xs={8}>
+                  <ImageStepper
+                    offer={this.props.offer}
+                  />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                   <DialogContentText className={classes.paperText}>
                     {`Offers in database: ${0}`}
                   </DialogContentText>
