@@ -363,7 +363,19 @@ class BestOffer extends React.Component {
                 <OfferDetailsDialog
                     open={this.state.showOfferDetails}
                     close={this.handleCloseOfferDetailsDialog}
+                    //base info
                     offer={this.props.offer} 
+                    category={this.props.category} 
+                    model={this.props.model}
+                    tagUrl={this.props.tagUrl}
+                    parentStatistics
+                    disableStatistics={this.handleDisableStatistics}
+                    //statistics
+                    manufacturerSetId={this.state.scoringData.manufacturerSetId}
+                    modelSetId={this.state.scoringData.modelSetId}
+                    price={this.state.scoringData.price}
+                    itemState={this.state.itemState}
+                    scores={this.state.scoringData.scores}
                 /> : null}
                 </ButtonBase>
             </div>

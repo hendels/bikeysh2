@@ -5,10 +5,14 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import { Fullscreen } from '@material-ui/icons';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -20,6 +24,7 @@ const styles = theme => ({
   },
   header: {
     display: 'flex',
+    justifyContent: "flex-end",
     alignItems: 'center',
     height: 50,
     paddingLeft: theme.spacing.unit * 4,
@@ -76,13 +81,16 @@ class SwipeableTextMobileStepper extends React.Component {
     return (
       <div className={classes.root}>
         <Paper square elevation={0} className={classes.header}>
-          <Typography>{picArray[activeStep].label}</Typography>
+          <IconButton>
+            <Fullscreen/>
+          </IconButton>
         </Paper>
         <AutoPlaySwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={activeStep}
           onChangeIndex={this.handleStepChange}
           enableMouseEvents
+
         >
         {picArray.map((step, index) => (
             <div key={step.label}>
@@ -98,16 +106,14 @@ class SwipeableTextMobileStepper extends React.Component {
           activeStep={activeStep}
           className={classes.mobileStepper}
           nextButton={
-            <Button size="small" onClick={this.handleNext} disabled={activeStep === maxSteps - 1}>
-              Next
-              {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-            </Button>
+            <IconButton size="small" onClick={this.handleNext} disabled={activeStep === maxSteps - 1}>
+              <ChevronRight/>
+            </IconButton>
           }
           backButton={
-            <Button size="small" onClick={this.handleBack} disabled={activeStep === 0}>
-              {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-              Back
-            </Button>
+            <IconButton size="small" onClick={this.handleBack} disabled={activeStep === 0}>
+              <ChevronLeft/>
+            </IconButton>
           }
         />
       </div>
