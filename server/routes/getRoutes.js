@@ -15,6 +15,8 @@ const Tags = mongoose.model('tags');
 //management
 const tagMgt = require(`../db_management/tagManagement`);
 const genMgt = require('../db_management/generalManagement');
+//translate
+const translateAPI = require('./testTranslateAPI.js')
 
 //jobs
 //functions
@@ -61,13 +63,28 @@ module.exports = app => {
         res.send({ server: 'apply scores' });
     });
     app.get('/test', async (req, res) => {
+        //######################
         // genMgt.clearHidesFromScoringTable();
         //await genMgt.fillTagCounterInAllModels();
         // bm_dhframe.createTextIndexDHFrames();
         // const sender = await bm_dhframe.dhFramesSearch();
-        console.log(`[DONE] ${sender}`);
+        //const translate = translateAPI.
+        //######################
+        translateAPI.translateAPI('tekst do przetłumaczenia', 'eng');
+        console.log(`[DONE] `);
     });
+    
     //>>jobs
+    //==================================================================================================================
+    //<<translations
+    app.post('/api/translate', async (req, res) => {
+        translateAPI.translateAPI(req.body.toTranslate, req.body.language, translated => {
+            console.log(`Translation: ${translated}`);
+            res.send(translated);
+
+        });
+    });
+    //>>
     //==================================================================================================================
     app.get('/api/bm/run', (req, res) => {
         require('../server.js');

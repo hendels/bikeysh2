@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/hendels/bikeysh2#readme",
   "dependencies": {
+    "@google-cloud/translate": "^2.1.3",
     "agenda": "^2.0.2",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",

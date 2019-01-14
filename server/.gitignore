@@ -1,3 +1,4 @@
 node_modules
 dev.js
-/home/ouce/Desktop/bikeysh/server/config/dev.js
+translateAPI.json
+.env

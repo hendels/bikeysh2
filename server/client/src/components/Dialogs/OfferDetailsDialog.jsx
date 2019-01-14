@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import axios from 'axios';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -40,15 +40,31 @@ const styles = {
 
 class DialogDragAndDrop extends React.Component {
       state = {
-        loading: false
+        loading: false,
+        description: this.props.offer.description,
+
       }
     handleClose = () => {
       this.props.close();
     };
-  
+    handleTranslate = async (toTranslate, language) => {
+      await axios.post(`/api/translate`, {
+        toTranslate: toTranslate,
+        language: language,
+      }).then(response => response.data).then(async result => {
+        console.log(result);
+        this.setState({description: result}, ()=> {
+          console.log(this.state.description);
+          this.forceUpdate()
+        });
+      }); 
+    };
+    handleClickTranslationButton = (toTranslate, language) => {
+      this.handleTranslate(this.props.offer.description, 'eng');
+    };
     render() {
       const { classes, onClose, selectedValue, ...other } = this.props;
-      
+      console.log('rerender');
       return (
         <Dialog 
           onClose={this.handleClose} 
@@ -67,8 +83,14 @@ class DialogDragAndDrop extends React.Component {
                   />
                 </Grid>
                 <Grid item xs={4}>
+                  <Button onClick={this.handleClickTranslationButton}>translate</Button>
                   <DialogContentText className={classes.paperText}>
                     {`Offers in database: ${0}`}
+                  </DialogContentText>
+                </Grid>
+                <Grid item xs={12}>
+                  <DialogContentText className={classes.paperText}>
+                    {`Description: ${this.state.description}`}
                   </DialogContentText>
                 </Grid>
               </Grid>
