@@ -53,8 +53,8 @@ return new Promise(async (resolve, reject) => {
                             };
                             let properGroup = ``;
                             SearchTagSet.map(foundOffer => {
-                                console.log(`offer ${offer.id} with set of tags manufacturer: ${foundOffer.manufacturerTag} 
-                                    model: ${foundOffer.modelTag} group: ${foundOffer.groupTag}`)
+                                //console.log(`offer ${offer.id} with set of tags manufacturer: ${foundOffer.manufacturerTag} 
+                                //    model: ${foundOffer.modelTag} group: ${foundOffer.groupTag}`)
                                 if (foundOffer.manufacturerTag === currentTag) tagCounter.manufacturerCount += 1;
                                 if (foundOffer.modelTag === currentTag) tagCounter.modelCount += 1;
                                 if (foundOffer.groupTag === currentTag) tagCounter.groupCount += 1;
@@ -88,7 +88,9 @@ return new Promise(async (resolve, reject) => {
                                     }
                                 })
 
-                            } else console.log('!!!fatal error, found tag but without core group!!!')
+                            } //else 
+                                
+                                //console.log('!!!fatal error, found tag but without core group!!!')
                             
                         }else
                         {
