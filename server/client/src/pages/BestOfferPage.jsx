@@ -9,7 +9,6 @@ import Grid from '@material-ui/core/Grid';
 import BestOfferBar from '../containers/BestOfferBar/BestOfferBar';
 import BestOfferInfo from '../containers/PageInfos/PageInfo';
 import SnackbarHideOffer from '../components/Snackbars/Snackbar';
-
 const styles = theme => ({
     root: {
       flexGrow: 1,
@@ -45,7 +44,6 @@ class BestOfferPage extends React.Component {
         }
     }
     handleSnack = (objOffer) => {
-
         this.setState({showSnackHideOffer: true, objOffer: objOffer});
         console.log(`snack state on bestOfferPage = ${this.state.showSnackHideOffer}`);
     }
@@ -141,6 +139,7 @@ class BestOfferPage extends React.Component {
                         />
                         <br/>
                     </Grid>
+                    
                     </div>
                     <br/>
                     <br/>

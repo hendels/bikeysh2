@@ -85,7 +85,6 @@ class TagBadge extends React.Component {
           dummy={this.props.dummy}
           open={this.state.openTagDialog}
           onClose={this.handleCloseTagDialog}
-          // handleCloseTagDialog={this.handleCloseTagDialog}
           reloadDialogDnd={this.state.reloadDialogDnd}
           reloadDialog={this.handleReload}
           category={this.props.category}

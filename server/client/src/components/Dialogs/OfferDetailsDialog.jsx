@@ -19,6 +19,9 @@ import FavoriteButton from '../FavButton/FavButtonBikeMarkt.jsx';
 import Typography from '@material-ui/core/Typography';
 import { Avatar } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Http';
+import ImageLightBox from '../ImageLightbox/ImageLightBox.jsx';
+import Aux from '../../hoc/Ax/Ax';
+
 const themePaper = createMuiTheme({
   overrides: {
     MuiDialog: {
@@ -52,28 +55,29 @@ const themePaper = createMuiTheme({
         fontFamily: `Lobster`,
         textShadow: `1px 1px #314455`,
       },
-    }
+    },
+  },
+});
+const themeCancelButton = createMuiTheme({
+  overrides: {
+    MuiButton: {
+      root: {
+        background: '#314455',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        height: 30,
+        padding: '0px 30px 0px 30px',
+        '&:hover': {
+            backgroundColor: '#838e99'
+        },
+      },
+    },
   },
 });
 const styles = {
-//     root: {
-//       // minWidth: '500px',
-//     },
-//     avatar: {
-//       backgroundColor: blue[100],
-//       color: blue[600],
-//     },
-//     paper: {
-//       // minWidth: 500,
-//       background: '#97AABD'
-//     },
-//     paperText: {
-//       color: '#314455'
-//     },
     dialog: {
-      // position: "absolute",
       maxWidth: "700px",
-      // maxHeight: "800px",
       top: 0,
       bottom: 0,
       left: 0,
@@ -103,7 +107,7 @@ const styles = {
     },
 };
 
-class DialogDragAndDrop extends React.Component {
+class OfferDetails extends React.Component {
     state = {
       loading: false,
       description: this.props.offer.description,
@@ -113,8 +117,10 @@ class DialogDragAndDrop extends React.Component {
         avgPrice: 0,
         median: 0,
         manufacturerSetId: 0,
-        modelSetId: 0
+        modelSetId: 0,
       },
+      fullscreenOpen: false,
+      picArray: [],
     }
     handleClose = () => {
       this.props.close();
@@ -131,6 +137,12 @@ class DialogDragAndDrop extends React.Component {
     }; 
     handleClickTranslationButton = (language) => {
       this.handleTranslate(this.props.offer.description, language);
+    };
+    handleClickImageFullscreenButton = (fullscreen, picArray) => {
+      this.setState({
+        fullscreenOpen: fullscreen, 
+        picArray: picArray !== undefined ? picArray : this.state.picArray
+      }, ()=> {});
     };
     getScoringData = async () => {
       await axios.get(`/api/statistics/similiarOffers/${this.props.manufacturerSetId}/${this.props.modelSetId}`)
@@ -159,6 +171,7 @@ class DialogDragAndDrop extends React.Component {
     render() {
       const { classes, onClose, selectedValue, ...other } = this.props;
       return (
+        <Aux>
         <MuiThemeProvider theme={themePaper}>
         
         <Dialog 
@@ -191,6 +204,7 @@ class DialogDragAndDrop extends React.Component {
                 <Grid item xs={8}>
                   <ImageStepper
                     offer={this.props.offer}
+                    openFullscreen={this.handleClickImageFullscreenButton}
                   />
                 </Grid>
                   
@@ -234,7 +248,7 @@ class DialogDragAndDrop extends React.Component {
                       </Grid>
                       <Grid item xs={12} className={classes.actionContainer}>
                           <Grid container justify="space-between" alignContent="center">
-                            <Grid item xs={3}>
+                            <Grid item xs={4}>
                               <FavoriteButton 
                                 dataKey={this.props.offer._id} 
                                 favorite={this.props.offer.favorite} 
@@ -242,7 +256,7 @@ class DialogDragAndDrop extends React.Component {
                                 model={this.props.model}
                               />
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={4}>
                               <TagButton 
                                 category={this.props.category} 
                                 model={this.props.model}
@@ -252,14 +266,7 @@ class DialogDragAndDrop extends React.Component {
                                 disableStatistics={this.props.disableStatistics}
                               />
                             </Grid>
-                            <Grid item xs={3}>
-                              <TranslateButton 
-                                eng={() => this.handleClickTranslationButton('eng')} 
-                                pl={() => this.handleClickTranslationButton('pl')} 
-                                de={() => this.handleClickTranslationButton('de')}
-                              />
-                            </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={4}>
                               <IconButton 
                                   href={this.props.offer.productUrl} 
                                   target={`_blank`} 
@@ -275,8 +282,11 @@ class DialogDragAndDrop extends React.Component {
                   </DialogContentText>
                 </Grid>
                 <Grid item xs={12}>
-                    {/* dummy */}
-                    <br/> 
+                    <TranslateButton 
+                      eng={() => this.handleClickTranslationButton('eng')} 
+                      pl={() => this.handleClickTranslationButton('pl')} 
+                      de={() => this.handleClickTranslationButton('de')}
+                    />
                 </Grid>
                 <Grid item xs={12}>
                   <DialogContentText>
@@ -286,58 +296,28 @@ class DialogDragAndDrop extends React.Component {
               </Grid>
             </DialogContent>
           <DialogActions>
-            <Grid container direction="row" justify="space-around" alignItems="center">
-              <Grid item>
-                <FavoriteButton 
-                  dataKey={this.props.offer._id} 
-                  favorite={this.props.offer.favorite} 
-                  fetchUrl={this.props.fetchUrl} 
-                  model={this.props.model}
-                />
-              </Grid>
-              <Grid item>
-                <TagButton 
-                  category={this.props.category} 
-                  model={this.props.model}
-                  offer={this.props.offer} 
-                  tagUrl={this.props.tagUrl}
-                  parentStatistics
-                  disableStatistics={this.props.disableStatistics}
-                />
-              </Grid>
-              <Grid item>
-                <TranslateButton 
-                  eng={() => this.handleClickTranslationButton('eng')} 
-                  pl={() => this.handleClickTranslationButton('pl')} 
-                  de={() => this.handleClickTranslationButton('de')}
-                />
-              </Grid>
-              <Grid item>
-                <IconButton 
-                    href={this.props.offer.productUrl} 
-                    target={`_blank`} 
-                    style={{outline: "none",}}
-                >
-                    <InfoIcon />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <Button onClick={this.handleClose}>
-                  Close
-                </Button>
-              </Grid>
-            </Grid>
+            <MuiThemeProvider theme={themeCancelButton}>
+              <Button onClick={this.handleClose}>
+                Close
+              </Button>
+            </MuiThemeProvider>
           </DialogActions>
         </Dialog>
         </MuiThemeProvider>
+        <ImageLightBox 
+          open={this.state.fullscreenOpen}
+          close={this.handleClickImageFullscreenButton}
+          picArray={this.state.picArray}
+        />
+        </Aux>
       );
     }
 }
   
-DialogDragAndDrop.propTypes = {
+OfferDetails.propTypes = {
 classes: PropTypes.object.isRequired,
 onClose: PropTypes.func,
 selectedValue: PropTypes.string,
 };
 
-export default withStyles(styles)(DialogDragAndDrop);
+export default withStyles(styles)(OfferDetails);

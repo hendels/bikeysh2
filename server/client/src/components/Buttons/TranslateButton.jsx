@@ -3,10 +3,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state/index';
-import Translate from '@material-ui/icons/Translate';
+import Translate from '@material-ui/icons/GTranslate';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-const theme = createMuiTheme({
+const menuTheme = createMuiTheme({
     overrides: {
         MuiMenu:{
             paper: {
@@ -29,7 +29,15 @@ const theme = createMuiTheme({
         }
     },
   });
-
+const iconButtonTheme = createMuiTheme({
+    overrides: {
+        MuiIconButton:{
+            root:{
+                color: "#4285F5"
+            },
+        },
+    }    
+});
 function TranslateButton(props) {
   const translate = (popupState, language) => {
     switch(language){
@@ -51,10 +59,12 @@ function TranslateButton(props) {
     <PopupState variant="popover" popupId="demo-popup-menu">
       {popupState => (
         <React.Fragment>
-          <IconButton variant="contained" color="secondary" {...bindTrigger(popupState)}>
-            <Translate/>
-          </IconButton>
-            <MuiThemeProvider theme={theme}>
+            <MuiThemeProvider theme={iconButtonTheme}>
+            <IconButton variant="contained" {...bindTrigger(popupState)}>
+                <Translate/>
+            </IconButton>
+            </MuiThemeProvider>
+            <MuiThemeProvider theme={menuTheme}>
                 <Menu {...bindMenu(popupState)} PaperProps={{square: 'true'}}>
                     <MenuItem onClick={() => {translate(popupState, 'eng')}}>English</MenuItem>
                     <MenuItem onClick={() => {translate(popupState, 'pl')}}>Polish</MenuItem>

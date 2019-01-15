@@ -13,10 +13,13 @@ import { autoPlay } from 'react-swipeable-views-utils';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import { Fullscreen } from '@material-ui/icons';
+import ImageLightBox from '../ImageLightbox/ImageLightBox.jsx';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 let picArray = [];
+let fullscreenPicArray = [];
+
 const styles = theme => ({
   root: {
     maxWidth: 400,
@@ -46,13 +49,15 @@ class SwipeableTextMobileStepper extends React.Component {
         activeStep: 0,
       };
       picArray = [];
+      fullscreenPicArray = [];
       Object.keys(props.offer.pictures).forEach((key, index) => {
-        // console.log(props.offer.pictures[Object.keys(props.offer.pictures)[index]]);
         if (props.offer.pictures[Object.keys(props.offer.pictures)[index]] !== null){
           let pictureObj = {imgPath: props.offer.pictures[Object.keys(props.offer.pictures)[index]], label: 'Bikeysh!'};
+          let fullscreenPictureObj = {src: props.offer.pictures[Object.keys(props.offer.pictures)[index]]};
+
           picArray.push(pictureObj);
+          fullscreenPicArray.push(fullscreenPictureObj);
         }
-        // console.log(picArray);
 
       })
   }
@@ -82,7 +87,7 @@ class SwipeableTextMobileStepper extends React.Component {
     return (
       <div className={classes.root}>
         <Paper square elevation={0} className={classes.header}>
-          <IconButton>
+          <IconButton onClick={() => {this.props.openFullscreen(true, fullscreenPicArray)}}>
             <Fullscreen/>
           </IconButton>
         </Paper>
@@ -117,6 +122,7 @@ class SwipeableTextMobileStepper extends React.Component {
             </IconButton>
           }
         />
+        {/* <ImageLightBox open={this.state.fullscreenOpen}/> */}
       </div>
     );
   }
