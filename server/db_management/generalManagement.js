@@ -82,7 +82,7 @@ exports.findSimilarOffers = async (manufacturerSetId, modelSetId, scoreStats) =>
             countOffers: countOffers,
             median: median
         }
-        console.log(stats);
+        // console.log(stats);
         scoreStats(stats);
         
     });

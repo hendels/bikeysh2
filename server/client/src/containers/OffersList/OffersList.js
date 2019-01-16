@@ -50,8 +50,7 @@ class OffersList extends Component {
     
     onSetResult = (result, skip) =>{
         if (result.length !== 0){
-            this.setState({hits: result, reload: !this.state.reload}, () => {
-                // this.forceUpdate();
+            this.setState({hits: result}, () => {
                 window.scrollTo(0, 0);
             });}
     }
@@ -80,7 +79,6 @@ class OffersList extends Component {
                 this.fetchData(this.state.skip, this.state.pageItems);
             });
         }
-        
     }
     handleShowFirstPage = () => {
         let newSkip = 0;
@@ -91,7 +89,6 @@ class OffersList extends Component {
                 this.fetchData(this.state.skip - this.state.pageItems, this.state.pageItems);
             });
         }
-        // this.fetchData(this.state.skip + this.state.pageItems, this.state.pageItems, true, false);
     }
     handleShowLastPage = () => {
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
@@ -104,29 +101,34 @@ class OffersList extends Component {
                 this.fetchData(this.state.skip - this.state.pageItems, this.state.pageItems);
             });
         }
-        // this.fetchData(this.state.skip + this.state.pageItems, this.state.pageItems, false, true);
     }
     componentWillMount() {
-        this.props.loadFavorites ? this.setState({loadFavorites: true}, () => {}) : this.setState({loadFavorites: false}, () => {});
-        this.props.loadWithoutTags ? this.setState({loadWithoutTags: true}, () => {}) : this.setState({loadWithoutTags: false}, () => {});
+        if (!this.props.fullSearch){
+            this.props.loadFavorites ? this.setState({loadFavorites: true}, () => {}) : this.setState({loadFavorites: false}, () => {});
+            this.props.loadWithoutTags ? this.setState({loadWithoutTags: true}, () => {}) : this.setState({loadWithoutTags: false}, () => {});
+        }
     }
     componentDidMount() {
-        axios.get(this.props.fetchUrl).then(response  => response.data).then(result => {
-            this.setState({totalResult: result}, ()=>{
-                this.fetchData(this.state.skip, this.state.pageItems);
+        if (!this.props.fullSearch){
+            axios.get(this.props.fetchUrl).then(response  => response.data).then(result => {
+                this.setState({totalResult: result}, ()=>{
+                    this.fetchData(this.state.skip, this.state.pageItems);
+                });
             });
-        });
+        }
     }
     async componentWillUnmount() {
-        await this.props.showFavorites(false);
-        await this.props.showWithoutTags(false);
+        if (!this.props.fullSearch){
+            await this.props.showFavorites(false);
+            await this.props.showWithoutTags(false);
+        }
     }
-    shouldComponentUpdate(){
-        if(!this.props.searchPending){
-            return true;
-        } else 
-            return false;
-    }
+    // shouldComponentUpdate(){
+    //     if(!this.props.searchPending){
+    //         return true;
+    //     } else 
+    //         return false;
+    // }
     render(){
         const { classes } = this.props;
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
@@ -188,6 +190,12 @@ class OffersList extends Component {
             default:
                 break;
         }
+        if(this.props.fullSearch)
+            pageInfo = <PageInfo 
+                    imageUrl={this.props.imageUrls.bikeyshImage.url} 
+                    pageInfoTitle={`Bikeysh`} 
+                    tweak={this.props.imageUrls.bikeyshImage.tweak}
+                />
         return(
             <Aux>
                 {pageInfo}
@@ -198,26 +206,29 @@ class OffersList extends Component {
                             {/* //offer list */}
                             <Grid item>
                                 <OffersPageResult
-                                    offers={this.state.hits}
+                                    fullSearch={this.props.fullSearch}
+                                    offers={this.props.fullSearch ? this.props.fullSearchResults : this.state.hits}
                                     fetchUrl={this.state.fetchUrl}
                                     tagUrl={this.props.tagUrl}
                                     category={this.props.category}
-                                    model={this.props.model}
+                                    model={this.props.fullSearch ? this.props.models : this.props.model}
                                     rerender={this.state.reload}
                                     searchPending={this.props.searchPending}
                                 />
                             </Grid>
                             {/* // pagination */}
-                            <Grid item>
-                                <Pagination 
-                                    show={this.state.skip + skipValue} 
-                                    total={totalArray} 
-                                    lastPage={this.handleShowLastPage} 
-                                    firstPage={this.handleShowFirstPage}
-                                    previous={this.onPaginatedSearchPrevious} 
-                                    next={this.onPaginatedSearchNext}
-                                />
-                            </Grid>
+                            {this.props.fullSearch ? null : (
+                                <Grid item>
+                                    <Pagination 
+                                        show={this.state.skip + skipValue} 
+                                        total={totalArray} 
+                                        lastPage={this.handleShowLastPage} 
+                                        firstPage={this.handleShowFirstPage}
+                                        previous={this.onPaginatedSearchPrevious} 
+                                        next={this.onPaginatedSearchNext}
+                                    />
+                                </Grid>
+                            )}
                         </Grid>
                         </Paper>   
                         <p>  &nbsp;</p>

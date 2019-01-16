@@ -35,7 +35,6 @@ function mergeArrays(array1, array2) {
             assoc[item] = true;
         }
     }
-
     return result_array;
 }
 
@@ -70,7 +69,8 @@ module.exports = app => {
         // const sender = await bm_dhframe.dhFramesSearch();
         //const translate = translateAPI.
         //######################
-        translateAPI.translateAPI('tekst do przetłumaczenia', 'eng');
+        //translateAPI.translateAPI('tekst do przetłumaczenia', 'eng');
+        
         console.log(`[DONE] `);
     });
     
@@ -93,9 +93,11 @@ module.exports = app => {
     });
     //<<stats
     app.get('/api/statistics/similiarOffers/:manufacturerSetId/:modelSetId', async (req, res) => {
-        await genMgt.findSimilarOffers(parseInt(req.params.manufacturerSetId), parseInt(req.params.modelSetId), scoreStats => {
-            res.send({scoreStats});
-        })
+        console.log(`manufacturerSetId: ${req.params.manufacturerSetId} modelSetId: ${req.params.modelSetId}`);
+        if (req.params.manufacturerSetId !== undefined && req.params.modelSetId !== undefined)
+            await genMgt.findSimilarOffers(parseInt(req.params.manufacturerSetId), parseInt(req.params.modelSetId), scoreStats => {
+                res.send({scoreStats});
+            })
     })
     //>>
     //<<tags

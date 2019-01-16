@@ -131,7 +131,16 @@ class Layout extends Component {
     }
     handleCollectAllResult = async (keyWords) => {
         const result = await this.handleSearch(0); 
-        this.setState({fullSearchResults: result}, () => {});
+        this.setState({
+            fullSearchResults: result, 
+            searchPending: false,
+            showNothingFound: false,
+            showSearchResults: false,
+        }
+        , () => {
+            // console.log(`full search results [0] searchPending: ${this.state.searchPending}`);
+            // console.log(this.state.fullSearchResults);
+        });
     }
     render () {
         const { classes, ...rest } = this.props;
@@ -187,11 +196,17 @@ class Layout extends Component {
                 }
                 />
                 <Route exact path="/offers/searchresult" render={(props) => 
-                    <OfferSearchResult 
+
+                    <OffersList
+                        fullSearch 
                         fullSearchResults={this.state.fullSearchResults}
                         tagUrl={fetchUrls.tags}    
                         imageUrls={imageUrls}
                         models={dbModels}
+                        loadFavorites={this.state.loadFavorites}
+                        loadWithoutTags={this.state.loadWithoutTags}
+                        showFavorites={this.handleShowFavorizedOffers}
+                        showWithoutTags={this.handleShowWithoutTag}
                         searchPending={this.state.searchPending}
                     />}
                 />

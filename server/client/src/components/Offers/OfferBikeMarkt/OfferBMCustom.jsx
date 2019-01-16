@@ -151,24 +151,31 @@ class OfferBMCustom extends React.Component{
 
 state = {
     scoringData: {
-            offerId: 0, trueName: '', price: 0,
-            currency: "", median: 0,
-            countTotal: 0, scores: 0, itemState: '',
-            rerender: false, urlActive: null
+        offerId: 0, trueName: '', price: 0,
+        currency: "", median: 0,
+        countTotal: 0, scores: 0, itemState: '',
+        yearTitle: 0, yearDescription: 0,
+        manufacturerSetId: 0, modelSetId: 0,
+        urlActive: null,
         },
+    // rerender: false,
     showOfferDetails: false,
 }
 handleShowOfferDetailsDialog = () => {
-    this.setState({showOfferDetails: true});
+    this.setState({showOfferDetails: true}, () => {});
 };
 handleCloseOfferDetailsDialog = () => {
     this.setState({showOfferDetails: false});
 };
 getScoringData = async () => {
-    console.log(`offer BM search = ${this.props.searchPending}`);
-    if (!this.props.dummy && !this.props.searchPending)
+    // console.log(`[3]offer BM getScoring searchPending = ${this.props.searchPending} dummy = ${this.props.dummy}`);
+    // console.log(`[3]searching score for offer id = ${this.props.offer._id}`)
+    if (!this.props.dummy){// && (!this.props.searchPending || this.props.searchPending === undefined)){
+        // console.log(`[3]getScoring after searchPending:`);
         await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
             if (result !== undefined){
+                // console.log(`[3]result getScoring:`);
+                // console.log(result);
                 if (result.scoring.length > 0) {
                     var scoringData = {
                         offerId: result.scoring[0].offerId,
@@ -179,37 +186,47 @@ getScoringData = async () => {
                         countTotal: result.scoring[0].countTotal,
                         scores: result.scoring[0].scores,
                         itemState: result.scoring[0].itemState,
+                        yearTitle: result.scoring[0].yearTitle,
+                        yearDescription: result.scoring[0].yearDescription,
+                        manufacturerSetId: parseInt(result.scoring[0].manufacturerSetId),
+                        modelSetId: parseInt(result.scoring[0].modelSetId),
                         urlActive: result.scoring[0].urlActive
                     }
-                    this.setState({scoringData: scoringData}, () => {});
+                    this.setState({scoringData: scoringData}, () => {
+                        if (this.props.fullSearch){
+                            // console.log(`[3]RERENDER AFTER GETSCORING`);
+                            //this.props.rerender();
+                        }
+                    });
                 }
-            }
-  });
+        }
+        });
+    }
 }
 componentWillMount(){
-    if(!this.props.searchPending)
-        this.getScoringData();
+    this.getScoringData();
 }
-componentWillReceiveProps(){
-    if(!this.props.searchPending){
+componentWillReceiveProps(nextProps){
+    // console.log(`receiving offer BM [3] search pending = ${nextProps.searchPending} offer = ${nextProps.offer._id}`);
+    if(!nextProps.searchPending){
         this.setState({scoringData: {
             offerId: 0, trueName: '', price: 0,
             currency: "", median: 0,
             countTotal: 0, scores: 0, itemState: '',
-            rerender: false}}, () => {});
-        this.setState({rerender: this.props.rerender}, ()=> {
-            // this.forceUpdate();
+            yearTitle: 0,
+            yearDescription: "",
+            manufacturerSetId: 0,
+            modelSetId: 0,
+            },
+        }, () => {
             this.getScoringData();
+            this.forceUpdate();
         });
     }
-
 }
-shouldComponentUpdate(){
-    if(!this.props.searchPending){
-        return true;
-    } else 
-        return false;
-}
+// shouldComponentUpdate(){
+//     return !this.props.searchPending;
+// }
 render(){
 
 const {classes} = this.props;
@@ -385,9 +402,10 @@ return(
                                 model={this.props.model}/>
                         </Grid>
                         <Grid item xs={4} className={classes.actionItem}>
-                            <IconButton>
+                            <IconButton
+                                onClick={this.handleShowOfferDetailsDialog}
+                            >
                                 <InfoIcon 
-                                    onClick={this.handleShowOfferDetailsDialog}
                                     style={{color: bikeyshColor5, outline: "none",}}
                                 />
                             </IconButton>

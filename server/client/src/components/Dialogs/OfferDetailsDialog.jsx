@@ -131,7 +131,7 @@ class OfferDetails extends React.Component {
         language: language,
       }).then(response => response.data).then(async result => {
         this.setState({description: result}, ()=> {
-          this.forceUpdate()
+          this.forceUpdate();
         });
       }); 
     }; 
@@ -159,15 +159,16 @@ class OfferDetails extends React.Component {
     };
     dummy = () => {};
     componentWillReceiveProps(nextProps){
-      if (!nextProps.searchPending)
+      console.log(`[4]manufacturerSetId: :${nextProps.manufacturerSetId} modelSetId: ${nextProps.modelSetId} count offers: ${this.state.statistics.countOffers}`);
+      //if (!nextProps.searchPending)
         if((nextProps.manufacturerSetId !== 0 && nextProps.modelSetId !== 0) && 
         (nextProps.manufacturerSetId !== this.state.manufacturerSetId || nextProps.modelSetId !== this.state.modelSetId) ){
-          this.setState({
-            manufacturerSetId: nextProps.manufacturerSetId, 
-            modelSetId: nextProps.modelSetId
-          }, () => {
+          // this.setState({
+          //   manufacturerSetId: nextProps.manufacturerSetId, 
+          //   modelSetId: nextProps.modelSetId
+          // }, () => {
             this.getScoringData();
-          })
+          // })
         };
     };
     render() {
@@ -177,6 +178,7 @@ class OfferDetails extends React.Component {
         <MuiThemeProvider theme={themePaper}>
         
         <Dialog 
+          open={this.props.open}
           onClose={this.handleClose} 
           // maxWidth="true" 
           className={classes.dialog}
@@ -195,9 +197,12 @@ class OfferDetails extends React.Component {
                 </Typography>
               </Grid>
               <Grid item xs={1}>
-                <Avatar>
-                  {parseFloat(this.props.scores).toFixed(1)}
-                </Avatar>
+                {this.state.statistics.countOffers > 0 ? 
+                  <Avatar>
+                    {parseFloat(this.props.scores).toFixed(1)}
+                  </Avatar>
+                  : null
+                }
               </Grid>
             </Grid>
           </DialogTitle>
@@ -218,6 +223,7 @@ class OfferDetails extends React.Component {
                           <span>{this.props.offer.price}</span>
                       </Grid>
                       <Grid item xs={12} className={classes.statsContainer}>
+                      {this.state.statistics.countOffers > 0 ? 
                         <Grid container direction="row" justify="space-between" alignContent="center">
                           <Grid item item xs={12}>
                             <span style={{fontWeight: "bold"}}>Offer based on:</span>
@@ -238,7 +244,7 @@ class OfferDetails extends React.Component {
                             Median for {this.props.itemState}:
                           </Grid>
                           <Grid item item xs={5}>
-                            ADD
+                            {`[todo]`}
                           </Grid>
                           <Grid item item xs={7}>
                             It's cheaper by:
@@ -247,6 +253,8 @@ class OfferDetails extends React.Component {
                             {parseFloat(this.state.statistics.avgPrice-this.props.price).toFixed(0)} {this.state.statistics.currency}
                           </Grid>
                         </Grid>
+                        : <span style={{fontWeight: "bold"}}>This offer currently has no assigned scores</span>
+                      }
                       </Grid>
                       <Grid item xs={12} className={classes.actionContainer}>
                           <Grid container justify="space-between" alignContent="center">

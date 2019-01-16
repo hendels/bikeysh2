@@ -35,8 +35,10 @@ class OffersList extends Component {
         }
     }
     componentWillReceiveProps(nextProps){
-        this.setState({fullSearchResults: nextProps.fullSearchResults})
+        // if(!nextProps.searchPending)
+        //     this.setState({fullSearchResults: nextProps.fullSearchResults})
     }
+    handle
     render(){
         const { classes } = this.props;
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
@@ -64,6 +66,7 @@ class OffersList extends Component {
                                         tagUrl={this.props.tagUrl}
                                         models={this.props.models}
                                         rerender={this.state.reload}
+                                        searchPending={this.props.searchPending}
                                     />
                                 : null}
                             </Grid>
