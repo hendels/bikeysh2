@@ -199,9 +199,6 @@ class BestOffer extends React.Component {
 
         }
     }
-    async componentWillMount(){
-        await this.getScoringData();
-    }
     handleDisableStatistics = (disable) => {
         this.setState({ 
             disableStatistics: disable 
@@ -237,21 +234,30 @@ class BestOffer extends React.Component {
                     modelSetId: result.scoring[0].modelSetId,
                 }
                 this.setState({scoringData: scoringData}, () => {});
-          });
+            });
         }
     }
     setOfferVisibility = async () => {
-        await axios.get('/api/scoring/update/visibility/' + this.props.offer._id).then(response  => response.data).then(result => {
-            this.setState({visible: result}, () => {
-                let objOffer = {
-                    id: this.props.offer._id,
-                    trueName: this.state.scoringData.trueName
-                }
-                if (!this.state.visible){
-                    this.props.reload(objOffer);
-                }
+        if (!this.props.searchPending)
+            await axios.get('/api/scoring/update/visibility/' + this.props.offer._id).then(response  => response.data).then(result => {
+                this.setState({visible: result}, () => {
+                    let objOffer = {
+                        id: this.props.offer._id,
+                        trueName: this.state.scoringData.trueName
+                    }
+                    if (!this.state.visible){
+                        this.props.reload(objOffer);
+                    }
+                });
             });
-      });
+    }
+    async componentWillMount(){
+        if (!this.props.searchPending)
+            await this.getScoringData();
+    }
+    shouldComponentUpdate(){
+        // return true;
+        return !this.props.searchPending;
     }
     render(){
         const { classes } = this.props;
@@ -357,6 +363,7 @@ class BestOffer extends React.Component {
                         modelSetId={this.state.scoringData.modelSetId}
                         price={this.state.scoringData.price}
                         itemState={this.state.itemState}
+                        searchPending={this.props.searchPending}
                     />
                 }
                 {this.state.showOfferDetails ? 
@@ -376,6 +383,7 @@ class BestOffer extends React.Component {
                     price={this.state.scoringData.price}
                     itemState={this.state.itemState}
                     scores={this.state.scoringData.scores}
+                    searchPending={this.props.searchPending}
                 /> : null}
                 </ButtonBase>
             </div>

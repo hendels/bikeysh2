@@ -8,9 +8,6 @@ import CloseIcon from '@material-ui/icons/Close';
 //mgt
 
 const styles = theme => ({
-    // anchorOriginBottomLeft: {
-    //   backgroundColor: `#C96567`
-    // },
     close: {
       padding: theme.spacing.unit / 2,
     },
@@ -20,35 +17,37 @@ class SimpleSnackbar extends React.Component {
     state = {
       open: false,
     };
-  
-    handleClick = () => {
-      this.setState({ open: true });
-    };
-  
+    // handleClick = () => {
+    //   this.setState({ open: true });
+    // };
     handleClose = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
       this.setState({ open: false });
+      // if (reason === 'clickaway') {
+      //   return;
+      // }
     };
     handleUndo = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
+      if (!this.props.searchPending){
+        if (reason === 'clickaway') {
+          return;
+        }
+        this.setState({ open: false }, ()=> {
+          this.setOfferVisibility();
+        });
       }
-      this.setState({ open: false }, ()=> {
-        this.setOfferVisibility();
-      });
-      
     };
     setOfferVisibility = async () => {
-      console.log(`setting offer visibility`);
-      await axios.get('/api/scoring/update/visibility/' + this.props.objOffer.id).then(response  => response.data).then(result => {
-        this.props.reload();
-      });
+      if (!this.props.searchPending)
+        await axios.get('/api/scoring/update/visibility/' + this.props.objOffer.id).then(response  => response.data).then(result => {
+          this.props.reload();
+        });
     }
-    componentWillReceiveProps(){
-        this.setState({open: this.props.open})
+    componentWillReceiveProps(nextProps){
+      if (!nextProps.searchPending)
+        this.setState({open: nextProps.open})
+    }
+    shouldComponentUpdate(){
+      return !this.props.searchPending;
     }
     render() {
       const { classes } = this.props;
@@ -63,10 +62,12 @@ class SimpleSnackbar extends React.Component {
             open={this.state.open}
             autoHideDuration={6000}
             onClose={this.handleClose}
-            ContentProps={{
-              'aria-describedby': 'message-id',
-            }}
-            message={<span id="message-id">{`Offer [${offerName}] has been hidden.`}</span>}
+            // ContentProps={{
+            //   'aria-describedby': 'message-id',
+            // }}
+            message={
+              <span id="message-id">{`Offer [${offerName}] has been hidden.`}</span>
+            }
             action={[
               <Button key="undo" size="small" onClick={this.handleUndo} style={{color: `#C96567`}}>
                 UNHIDE
@@ -81,7 +82,6 @@ class SimpleSnackbar extends React.Component {
                 <CloseIcon />
               </IconButton>,
             ]}
-            
           />
         </div>
       );

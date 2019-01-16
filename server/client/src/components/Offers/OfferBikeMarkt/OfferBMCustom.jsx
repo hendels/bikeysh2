@@ -26,6 +26,7 @@ import Block from '@material-ui/icons/Block';
 import Aux from '../../../hoc/Ax/Ax';
 import FavoriteButton from '../../FavButton/FavButtonBikeMarkt';
 import TagButton from '../../Buttons/TagButton';
+import OfferDetailsDialog from '../../Dialogs/OfferDetailsDialog.jsx';
 //styles
 import {
     bikeyshColor1,
@@ -148,28 +149,24 @@ const styles = theme => ({
 
 class OfferBMCustom extends React.Component{
 
-state = {scoringData: {
-    offerId: 0, trueName: '', price: 0,
-    currency: "", median: 0,
-    countTotal: 0, scores: 0, itemState: '',
-    rerender: false, urlActive: null}
+state = {
+    scoringData: {
+            offerId: 0, trueName: '', price: 0,
+            currency: "", median: 0,
+            countTotal: 0, scores: 0, itemState: '',
+            rerender: false, urlActive: null
+        },
+    showOfferDetails: false,
 }
-componentWillMount(){
-    this.getScoringData();
-}
-componentWillReceiveProps(){
-    this.setState({scoringData: {
-        offerId: 0, trueName: '', price: 0,
-        currency: "", median: 0,
-        countTotal: 0, scores: 0, itemState: '',
-        rerender: false}}, () => {});
-    this.setState({rerender: this.props.rerender}, ()=> {
-        // this.forceUpdate();
-        this.getScoringData();
-    });
-}
+handleShowOfferDetailsDialog = () => {
+    this.setState({showOfferDetails: true});
+};
+handleCloseOfferDetailsDialog = () => {
+    this.setState({showOfferDetails: false});
+};
 getScoringData = async () => {
-    if (!this.props.dummy)
+    console.log(`offer BM search = ${this.props.searchPending}`);
+    if (!this.props.dummy && !this.props.searchPending)
         await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
             if (result !== undefined){
                 if (result.scoring.length > 0) {
@@ -188,6 +185,30 @@ getScoringData = async () => {
                 }
             }
   });
+}
+componentWillMount(){
+    if(!this.props.searchPending)
+        this.getScoringData();
+}
+componentWillReceiveProps(){
+    if(!this.props.searchPending){
+        this.setState({scoringData: {
+            offerId: 0, trueName: '', price: 0,
+            currency: "", median: 0,
+            countTotal: 0, scores: 0, itemState: '',
+            rerender: false}}, () => {});
+        this.setState({rerender: this.props.rerender}, ()=> {
+            // this.forceUpdate();
+            this.getScoringData();
+        });
+    }
+
+}
+shouldComponentUpdate(){
+    if(!this.props.searchPending){
+        return true;
+    } else 
+        return false;
 }
 render(){
 
@@ -232,6 +253,7 @@ if (!this.props.dummy){
     }
 }
 return(
+    <Aux>
     <Grid container direction="row" justify="center" spacing={0}>
         {/* // main & statistics section */}
         <Grid item>
@@ -339,7 +361,7 @@ return(
                 {/* actions */}
                 <Grid item>
                     <Grid container className={classes.gridElementInfoActions} direction="row" justify="space-evenly" alignItems="center">
-                        <Grid item xs={3} className={classes.actionItem}>
+                        <Grid item xs={4} className={classes.actionItem}>
                             <FavoriteButton 
                                 dummy={this.props.dummy}
                                 dataKey={this.props.offer._id} 
@@ -348,13 +370,12 @@ return(
                                 model={this.props.model}
                             />
                         </Grid>
-                        <Grid item xs={3} className={classes.actionItem}>
+                        {/* <Grid item xs={4} className={classes.actionItem}>
                             <IconButton onClick={this.setOfferVisibility}>
-                                {/* [to do] erase tags, and make them ignored? */}
                                 <Delete style={{color: bikeyshColor5}}/> 
                             </IconButton>
-                        </Grid>
-                        <Grid item xs={3} className={classes.actionItem}>
+                        </Grid> */}
+                        <Grid item xs={4} className={classes.actionItem}>
                             <TagButton 
                                 dummy={this.props.dummy}    
                                 offer={this.props.offer} 
@@ -363,9 +384,12 @@ return(
                                 category={this.props.category}
                                 model={this.props.model}/>
                         </Grid>
-                        <Grid item xs={3} className={classes.actionItem}>
-                            <IconButton color="secondary" href={this.props.offer.productUrl} target={`_blank`}>
-                                <InfoIcon style={{color: bikeyshColor5}}/>
+                        <Grid item xs={4} className={classes.actionItem}>
+                            <IconButton>
+                                <InfoIcon 
+                                    onClick={this.handleShowOfferDetailsDialog}
+                                    style={{color: bikeyshColor5, outline: "none",}}
+                                />
                             </IconButton>
                         </Grid>
                     </Grid>
@@ -373,6 +397,25 @@ return(
             </Grid>
         </Grid>
     </Grid>
+    <OfferDetailsDialog
+        open={this.state.showOfferDetails}
+        close={this.handleCloseOfferDetailsDialog}
+        //base info
+        offer={this.props.offer} 
+        category={this.props.category} 
+        model={this.props.model}
+        tagUrl={this.props.tagUrl}
+        // parentStatistics
+        // disableStatistics={this.handleDisableStatistics}
+        //statistics
+        manufacturerSetId={this.state.scoringData.manufacturerSetId}
+        modelSetId={this.state.scoringData.modelSetId}
+        price={this.state.scoringData.price}
+        itemState={this.state.itemState}
+        scores={this.state.scoringData.scores}
+        searchPending={this.props.searchPending}
+    />
+    </Aux>
 )
 }};
 export default withStyles(styles)(OfferBMCustom);

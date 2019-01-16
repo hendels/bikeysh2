@@ -29,27 +29,32 @@ class BestOfferPage extends React.Component {
         super(props);
         this.state = {
             //unused?
-            crankHits: [],
-            dhFramesHits: [],
-            wheelsHits: [],
-            hubsHits: [],
-            enduroFramesHits: [],
+            // crankHits: [],
+            // dhFramesHits: [],
+            // wheelsHits: [],
+            // hubsHits: [],
+            // enduroFramesHits: [],
             page: null,
             loading: false,
             reloadBars: false,
             //snack
-            showSnackHideOffer: true,
+            showSnackHideOffer: false,
             objOffer: {id: 0, trueName: ''}
             //
         }
     }
     handleSnack = (objOffer) => {
-        this.setState({showSnackHideOffer: true, objOffer: objOffer});
-        console.log(`snack state on bestOfferPage = ${this.state.showSnackHideOffer}`);
+        if (!this.props.searchPending)
+            this.setState({showSnackHideOffer: true, objOffer: objOffer}, () => {
+                console.log(`snack state on bestOfferPage = ${this.state.showSnackHideOffer}`);
+            });
     }
     handleReload = () => {
         this.setState({reloadBars: !this.state.reload});
         this.forceUpdate();
+    }
+    shouldComponentUpdate(){
+        return true;
     }
     render(){
         const { classes } = this.props;
@@ -57,7 +62,12 @@ class BestOfferPage extends React.Component {
 
         return(
             <div>
-            <SnackbarHideOffer open={this.state.showSnackHideOffer} objOffer={this.state.objOffer} reload={this.handleReload}/>
+            <SnackbarHideOffer 
+                open={this.state.showSnackHideOffer} 
+                objOffer={this.state.objOffer} 
+                reload={this.handleReload}
+                searchPending={this.props.searchPending}
+            />
             <BestOfferInfo imageUrl={this.props.imageUrls.defaultImage} pageInfoTitle={`best offers this week so far ...`}/>
             {/* <div className={classNames(classes.main, classes.mainRaised)}> */}
                 {/* <div className={classes.container}> */}
@@ -75,6 +85,7 @@ class BestOfferPage extends React.Component {
                             reloadBar={this.state.reloadBars}
                             showFavorites={this.props.showFavorites}
                             showWithoutTags={this.props.showWithoutTags}
+                            searchPending={this.props.searchPending}
                         />
                         <br/>
                     </Grid>
@@ -91,6 +102,7 @@ class BestOfferPage extends React.Component {
                             reloadBar={this.state.reloadBars}
                             showFavorites={this.props.showFavorites}
                             showWithoutTags={this.props.showWithoutTags}
+                            searchPending={this.props.searchPending}
                         />
                         <br/>
                     </Grid>
@@ -106,6 +118,7 @@ class BestOfferPage extends React.Component {
                             reloadBar={this.state.reloadBars}
                             showFavorites={this.props.showFavorites}
                             showWithoutTags={this.props.showWithoutTags}
+                            searchPending={this.props.searchPending}
                         />
                         <br/>
                     </Grid>
@@ -121,6 +134,7 @@ class BestOfferPage extends React.Component {
                             reloadBar={this.state.reloadBars}
                             showFavorites={this.props.showFavorites}
                             showWithoutTags={this.props.showWithoutTags}
+                            searchPending={this.props.searchPending}
                         />
                         <br/>
                     </Grid>
@@ -136,6 +150,7 @@ class BestOfferPage extends React.Component {
                             reloadBar={this.state.reloadBars}
                             showFavorites={this.props.showFavorites}
                             showWithoutTags={this.props.showWithoutTags}
+                            searchPending={this.props.searchPending}
                         />
                         <br/>
                     </Grid>

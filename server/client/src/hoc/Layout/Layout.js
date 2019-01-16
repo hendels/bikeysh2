@@ -28,7 +28,8 @@ const imageUrls = {
     hubsImage: {url: `https://cdn.bikemagic.com/featured_image/5ab936e5d5833.jpg`, tweak: `0px -200px`},
     enduroframesImage: {url: `https://brink.uk/assets/images/products/Bikes/Santa-Cruz-Nomad-4-CC-Frame-2018-3.jpg`, tweak: `0px -400px`},
     wheelsImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5ab923c674716.jpg`, tweak: `0px 0px`},
-    bikeyshImage: {url: `http://www.fullhdwpp.com/wp-content/uploads/Bicycling-Downhill_www.FullHDWpp.com_.jpg?x69613`, tweak: `0px -200px`}
+    // bikeyshImage: {url: `http://www.fullhdwpp.com/wp-content/uploads/Bicycling-Downhill_www.FullHDWpp.com_.jpg?x69613`, tweak: `0px -200px`},
+    bikeyshImage: {url: `https://static.canyon.com/_img/bg/gravity/gravity-world.jpg`, tweak: `0px -200px`},
 }
 const dbModels = {
     cranks: `cranks`, dhframes: `dhframes`, enduroframes: `enduroframes`, hubs: `hubs`, wheels: `wheels` 
@@ -46,6 +47,7 @@ class Layout extends Component {
         searchResults: {},
         fullSearchResults: {},
         showSearchResults: false,
+        searchPending: false,
         changeHeaderColor: false,
     }
     handleShowFavorizedOffers = async (load) => {
@@ -56,13 +58,16 @@ class Layout extends Component {
     };
     handleClearFilterStates = async () => {
         await this.setState({loadFavorites: false}, () => {
-            console.log(`filter loadFavorites set as: ${this.state.loadFavorites}`);
+            // console.log(`filter loadFavorites set as: ${this.state.loadFavorites}`);
         });
         await this.setState({loadWithoutTags: false}, () => {
-            console.log(`filter loadWithoutTags set as: ${this.state.loadWithoutTags}`);
+            // console.log(`filter loadWithoutTags set as: ${this.state.loadWithoutTags}`);
         });
     };
     handleChangeSearchText = async (searchText, searchLimit) => {
+        await this.setState({searchPending: true}, ()=> {
+
+        });
         if (searchText !== '' && searchText.length > 3) {
             this.setState({
                 searchText: searchText, 
@@ -81,6 +86,7 @@ class Layout extends Component {
     }
     handleSearch = async (searchLimit) => {
         let allResults = [];
+
         await axios.get(`/api/search/${this.state.searchText}/${searchLimit}`)
             .then(response  => response.data)
             .then(result => {
@@ -99,10 +105,15 @@ class Layout extends Component {
                     }
                     this.setState({searchResults: searchResults}, () => {
                         if (this.state.searchResults.length > 0 )
-                            this.setState({showNothingFound: false, showSearchResults: true}, () => {});
+                            this.setState({showNothingFound: false, showSearchResults: true}, () => {
+                                // this.setState({searchPending: false}, ()=> {});
+                            });
                         else    
-                            this.setState({showNothingFound: true, showSearchResults: false}, () => {});
+                            this.setState({showNothingFound: true, showSearchResults: false}, () => {
+                                // this.setState({searchPending: false}, ()=> {});
+                            });
                     });
+                    
                 }
             }
         );
@@ -112,7 +123,11 @@ class Layout extends Component {
         this.setState({
             showNothingFound: false,
             showSearchResults: false,
-        }, () => {});   
+            searchPending: true,
+        }, () => {
+            this.setState({searchPending: false}, ()=> {});
+        });   
+
     }
     handleCollectAllResult = async (keyWords) => {
         const result = await this.handleSearch(0); 
@@ -153,7 +168,6 @@ class Layout extends Component {
                         <br/>
                         <br/>
                         <LandingPage imageUrls={imageUrls}/>
-                        
                     </div>
                 }
                 />
@@ -167,6 +181,7 @@ class Layout extends Component {
                             models={dbModels} 
                             showFavorites={this.handleShowFavorizedOffers}
                             showWithoutTags={this.handleShowWithoutTag}
+                            searchPending={this.state.searchPending}
                         />
                     </div>
                 }
@@ -177,6 +192,7 @@ class Layout extends Component {
                         tagUrl={fetchUrls.tags}    
                         imageUrls={imageUrls}
                         models={dbModels}
+                        searchPending={this.state.searchPending}
                     />}
                 />
                 <Route exact path="/category/cranks" render={(props) => 
@@ -191,6 +207,7 @@ class Layout extends Component {
                         loadWithoutTags={this.state.loadWithoutTags}
                         showFavorites={this.handleShowFavorizedOffers}
                         showWithoutTags={this.handleShowWithoutTag}
+                        searchPending={this.state.searchPending}
                     />}
                 />
                 <Route exact path="/category/hubs" render={(props) => 
@@ -205,6 +222,7 @@ class Layout extends Component {
                         loadWithoutTags={this.state.loadWithoutTags}
                         showFavorites={this.handleShowFavorizedOffers}
                         showWithoutTags={this.handleShowWithoutTag}
+                        searchPending={this.state.searchPending}
                     />}
                 />
                 <Route exact path="/category/wheels" render={(props) => 
@@ -219,6 +237,7 @@ class Layout extends Component {
                         loadWithoutTags={this.state.loadWithoutTags}
                         showFavorites={this.handleShowFavorizedOffers}
                         showWithoutTags={this.handleShowWithoutTag}
+                        searchPending={this.state.searchPending}
                     />}
                 />
                 <Route exact path="/category/dhframes" render={(props) => 
@@ -233,6 +252,7 @@ class Layout extends Component {
                         loadWithoutTags={this.state.loadWithoutTags}
                         showFavorites={this.handleShowFavorizedOffers} 
                         showWithoutTags={this.handleShowWithoutTag}
+                        searchPending={this.state.searchPending}
                     />}
                 />
                 <Route exact path="/category/enduroframes" render={(props) => 
@@ -247,6 +267,7 @@ class Layout extends Component {
                         loadWithoutTags={this.state.loadWithoutTags}
                         showFavorites={this.handleShowFavorizedOffers}
                         showWithoutTags={this.handleShowWithoutTag}
+                        searchPending={this.state.searchPending}
                     />}
                 />
                 </div>

@@ -56,7 +56,7 @@ class HeaderLinks extends React.Component {
   }
   componentWillReceiveProps(nextProps){
 
-    console.log(`received color change = ${nextProps.changeColor} current state = ${this.state.changedHeaderColor}`);
+    // console.log(`received color change = ${nextProps.changeColor} current state = ${this.state.changedHeaderColor}`);
     // if (this.state.changedHeaderColor !== nextProps.changedHeaderColor)
       // this.setState({changedHeaderColor: nextProps.changeColor}, () => {});
   }
@@ -104,10 +104,7 @@ class HeaderLinks extends React.Component {
             id="input-with-icon-adornment"
             endAdornment={
               <InputAdornment position="start" className={classes.inputSearchBox}>
-                {/* <IconButton> */}
                   <Search />
-
-                {/* </IconButton> */}
               </InputAdornment>
             }
             onChange={this.handleSearchText}
@@ -117,7 +114,6 @@ class HeaderLinks extends React.Component {
         </MuiThemeProvider>
         </FormControl>
         
-
         {/* >> */}
       </ListItem>
       <ListItem className={classes.listItem}>
@@ -136,21 +132,6 @@ class HeaderLinks extends React.Component {
           
         </Tooltip>
       </ListItem>
-      {/* <ListItem className={classes.listItem}>
-        <Tooltip
-          id="instagram-tooltip"
-          title="Settings"
-          placement={window.innerWidth > 959 ? "top" : "left"}
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <IconButton
-            target="_blank"
-            className={classes.navLink}
-          >
-            <Settings/>
-          </IconButton>
-        </Tooltip>
-      </ListItem> */}
       <ListItem className={classes.listItem}>
         <Dropdown
           noLiPadding

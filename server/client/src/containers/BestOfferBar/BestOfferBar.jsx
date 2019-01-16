@@ -39,11 +39,11 @@ const applyCrankResult = (result) => (prevState) => ({
 class BestOfferBar extends React.Component {
     state = {
         //erase?
-        crankHits: [],
-        dhFramesHits: [],
-        wheelsHits: [],
-        hubsHits: [],
-        enduroFramesHits: [],
+        // crankHits: [],
+        // dhFramesHits: [],
+        // wheelsHits: [],
+        // hubsHits: [],
+        // enduroFramesHits: [],
         //valid
         offers: [],
         page: null,
@@ -60,25 +60,22 @@ class BestOfferBar extends React.Component {
         const url = `${fetchUrl}${model}/${skipRange}/${pageLimit}`;
 
         await axios.get(urlTotalResult).then(response => response.data).then(async totalResult => {
-            // console.log(`total for category ${model} = ${totalResult.length}`);
             await axios.get(url).then(
                 response => response.data
             ).then(result => {
-
                 const countTail = (Math.ceil(totalResult.length / pageLimit) * pageLimit) - totalResult.length;
-                // console.log(`${model} === count tail: ${countTail}`);
                 this.onSetResult(result, model, totalResult.length)
                 this.setState({loading: false, barTail: countTail});})
         })
     }
     handleReload = (objOffer) => {
-        this.setState({reload: !this.state.reload}, () => {
-            this.fetchData(this.props.bestUrl, this.state.skipRange, pageLimit, this.props.model);
-            this.props.showSnack(objOffer);
-            this.forceUpdate();
-            // console.log(`total result on bar = ${this.state.totalResult}`)
-            
-        });
+        console.log(`chips = ${this.props.searchPending}`);
+        if (!this.props.searchPending)
+            this.setState({reload: !this.state.reload}, () => {
+                this.fetchData(this.props.bestUrl, this.state.skipRange, pageLimit, this.props.model);
+                this.props.showSnack(objOffer);
+                this.forceUpdate();
+            });
         
     }
     handleShowNextOffers = () => {
@@ -117,13 +114,14 @@ class BestOfferBar extends React.Component {
         }
     }
     componentWillReceiveProps(){
-        // console.log(`received props for ${this.props.model}! ${this.props.reloadBar}`);
         if(this.props.reloadBar) this.fetchData(this.props.bestUrl, this.state.skipRange, pageLimit, this.props.model);
-
     }
     componentWillMount(){
-        
         this.fetchData(this.props.bestUrl, this.state.skipRange, pageLimit, this.props.model);
+    }
+    shouldComponentUpdate(){
+        // return true;
+        return !this.props.searchPending;
     }
     render(){
         const { classes } = this.props;
@@ -149,9 +147,6 @@ class BestOfferBar extends React.Component {
                 console.log(`bar tail: ${this.state.barTail } i = ${iTail}`)
             }
         }
-        // console.log(`offers ===`);
-        // console.log(offersArray);
-
         const offers = (
             offersArray.map(offer => {  
                 return(
@@ -163,11 +158,12 @@ class BestOfferBar extends React.Component {
                             category={this.props.category} 
                             model={this.props.model}
                             reload={this.handleReload}
+                            searchPending={this.props.searchPending}
                         />
                     </Grid>
                 )
             })
-        )
+        );
         return(
             <Aux>
                 <Grid container className={classes.containerBackground} direction="row" alignItems="center" justify="space-between">

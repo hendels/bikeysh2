@@ -91,6 +91,7 @@ async componentWillReceiveProps(nextProps){
                 rerender={this.props.rerender}
                 category={this.props.fullSearch ? fullSearchCategory: this.props.category}
                 fullSearch={this.props.fullSearch}
+                searchPending={this.props.searchPending}
             />
         )
     }) ;
@@ -98,6 +99,12 @@ async componentWillReceiveProps(nextProps){
         if (offers.length !== 0)
             this.setState({loading: false}, ()=>{})
     })
+}
+shouldComponentUpdate(){
+    if(!this.props.searchPending){
+        return true;
+    } else 
+        return false;
 }
 render(){
     console.log('rerender');

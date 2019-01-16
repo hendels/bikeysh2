@@ -156,18 +156,20 @@ class OfferDetails extends React.Component {
           }
           this.setState({statistics: statistics}, () => {});
       });
-    }
-    componentWillReceiveProps(){
-      if((this.props.manufacturerSetId !== 0 && this.props.modelSetId !== 0) && 
-      (this.props.manufacturerSetId !== this.state.manufacturerSetId || this.props.modelSetId !== this.state.modelSetId) ){
-        this.setState({
-          manufacturerSetId: this.props.manufacturerSetId, 
-          modelSetId: this.props.modelSetId
-        }, () => {
-          this.getScoringData();
-        })
-      } 
-    }
+    };
+    dummy = () => {};
+    componentWillReceiveProps(nextProps){
+      if (!nextProps.searchPending)
+        if((nextProps.manufacturerSetId !== 0 && nextProps.modelSetId !== 0) && 
+        (nextProps.manufacturerSetId !== this.state.manufacturerSetId || nextProps.modelSetId !== this.state.modelSetId) ){
+          this.setState({
+            manufacturerSetId: nextProps.manufacturerSetId, 
+            modelSetId: nextProps.modelSetId
+          }, () => {
+            this.getScoringData();
+          })
+        };
+    };
     render() {
       const { classes, onClose, selectedValue, ...other } = this.props;
       return (
@@ -263,7 +265,7 @@ class OfferDetails extends React.Component {
                                 offer={this.props.offer} 
                                 tagUrl={this.props.tagUrl}
                                 parentStatistics
-                                disableStatistics={this.props.disableStatistics}
+                                disableStatistics={this.dummy}
                               />
                             </Grid>
                             <Grid item xs={4}>

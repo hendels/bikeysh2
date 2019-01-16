@@ -23,6 +23,7 @@ import Menu from "@material-ui/icons/Menu";
 import headerStyle from "../../styles/components/headerStyle.jsx";
 // app components
 import Aux from '../../hoc/Ax/Ax';
+import { Chip } from "@material-ui/core";
 
 const themeListItem = createMuiTheme({
   overrides: {
@@ -56,7 +57,17 @@ const themeListItem = createMuiTheme({
           color: "#fff"
         }
       },
-    }
+    },
+    MuiChip: {
+      root: {
+        backgroundColor: `rgba(201, 101, 103, 0.3)`,
+        color: "pink",
+        borderRadius: "2px",
+        fontSize: "10px",
+        height: "20px",
+      },
+
+    },
   },
 });
 const themeListItemText = createMuiTheme({
@@ -76,6 +87,7 @@ const themeListItemText = createMuiTheme({
         }
       },
     },
+    
   },
 });
 class Header extends React.Component {
@@ -175,8 +187,9 @@ class Header extends React.Component {
             <ListItem  >
             {/* <ListItem className={classes.searchItem} > */}
               {/* <MuiThemeProvider theme={themeListItemText}> */}
+                <Chip label={item.category}></Chip>
                 <ListItemText
-                  primary={`[${item.category}] ${item.publishDate} - ${item.title}`}
+                  primary={`${item.publishDate} - ${item.title}`}
                 />
               {/* </MuiThemeProvider>        */}
             </ListItem>
@@ -277,11 +290,9 @@ class Header extends React.Component {
     );
   }
 }
-
 Header.defaultProp = {
   color: "bikeysh3_1"
 };
-
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
   color: PropTypes.oneOf([
@@ -305,12 +316,6 @@ Header.propTypes = {
   brand: PropTypes.string,
   fixed: PropTypes.bool,
   absolute: PropTypes.bool,
-  // this will cause the sidebar to change the color from
-  // this.props.color (see above) to changeColorOnScroll.color
-  // when the window.pageYOffset is heigher or equal to
-  // changeColorOnScroll.height and then when it is smaller than
-  // changeColorOnScroll.height change it back to
-  // this.props.color (see above)
   changeColorOnScroll: PropTypes.shape({
     height: PropTypes.number.isRequired,
     color: PropTypes.oneOf([
@@ -330,6 +335,6 @@ Header.propTypes = {
       `bikeysh5`,
     ]).isRequired
   })
-};
+}; 
 
 export default withStyles(headerStyle)(Header);

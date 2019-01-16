@@ -39,21 +39,7 @@ class OffersList extends Component {
             reload: false
         }
     }
-    componentWillMount() {
-        this.props.loadFavorites ? this.setState({loadFavorites: true}, () => {}) : this.setState({loadFavorites: false}, () => {});
-        this.props.loadWithoutTags ? this.setState({loadWithoutTags: true}, () => {}) : this.setState({loadWithoutTags: false}, () => {});
-    }
-    componentDidMount() {
-        axios.get(this.props.fetchUrl).then(response  => response.data).then(result => {
-            this.setState({totalResult: result}, ()=>{
-                this.fetchData(this.state.skip, this.state.pageItems);
-            });
-        });
-    }
-    async componentWillUnmount() {
-        await this.props.showFavorites(false);
-        await this.props.showWithoutTags(false);
-    }
+
     fetchData = (skip, pageLimit, showFirst, showLast) => {
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
         axios.get(`/api/bm/category/${this.props.model}/${skip}/${pageLimit}/${this.state.loadFavorites}/
@@ -119,6 +105,27 @@ class OffersList extends Component {
             });
         }
         // this.fetchData(this.state.skip + this.state.pageItems, this.state.pageItems, false, true);
+    }
+    componentWillMount() {
+        this.props.loadFavorites ? this.setState({loadFavorites: true}, () => {}) : this.setState({loadFavorites: false}, () => {});
+        this.props.loadWithoutTags ? this.setState({loadWithoutTags: true}, () => {}) : this.setState({loadWithoutTags: false}, () => {});
+    }
+    componentDidMount() {
+        axios.get(this.props.fetchUrl).then(response  => response.data).then(result => {
+            this.setState({totalResult: result}, ()=>{
+                this.fetchData(this.state.skip, this.state.pageItems);
+            });
+        });
+    }
+    async componentWillUnmount() {
+        await this.props.showFavorites(false);
+        await this.props.showWithoutTags(false);
+    }
+    shouldComponentUpdate(){
+        if(!this.props.searchPending){
+            return true;
+        } else 
+            return false;
     }
     render(){
         const { classes } = this.props;
@@ -197,6 +204,7 @@ class OffersList extends Component {
                                     category={this.props.category}
                                     model={this.props.model}
                                     rerender={this.state.reload}
+                                    searchPending={this.props.searchPending}
                                 />
                             </Grid>
                             {/* // pagination */}

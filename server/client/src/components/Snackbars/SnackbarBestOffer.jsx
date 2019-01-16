@@ -50,16 +50,17 @@ class SnackbarBestOffer extends React.Component {
             this.setState({statistics: statistics}, () => {});
       });
   }
-  componentWillReceiveProps(){
-    if((this.props.manufacturerSetId !== 0 && this.props.modelSetId !== 0) && 
-    (this.props.manufacturerSetId !== this.state.manufacturerSetId || this.props.modelSetId !== this.state.modelSetId) ){
-      this.setState({
-        manufacturerSetId: this.props.manufacturerSetId, 
-        modelSetId: this.props.modelSetId
-      }, () => {
-        this.getScoringData();
-      })
-    } 
+  componentWillReceiveProps(nextProps){
+    if (!nextProps.searchPending)
+      if((nextProps.manufacturerSetId !== 0 && nextProps.modelSetId !== 0) && 
+      (nextProps.manufacturerSetId !== this.state.manufacturerSetId || nextProps.modelSetId !== this.state.modelSetId) ){
+        this.setState({
+          manufacturerSetId: nextProps.manufacturerSetId, 
+          modelSetId: nextProps.modelSetId
+        }, () => {
+          this.getScoringData();
+        })
+      } 
   }
   render() {
     const { classes } = this.props;
@@ -102,6 +103,9 @@ class SnackbarBestOffer extends React.Component {
             </Grid>
             <Grid item item xs={5}>
               {parseFloat(this.state.statistics.avgPrice-this.props.price).toFixed(0)} {this.state.statistics.currency}
+            </Grid>
+            <Grid item item xs={12}>
+              <Button>Details</Button>
             </Grid>
           </Grid>
         }
