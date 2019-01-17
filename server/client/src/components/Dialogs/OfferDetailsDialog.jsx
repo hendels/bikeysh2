@@ -201,7 +201,10 @@ class OfferDetails extends React.Component {
                   <Avatar>
                     {parseFloat(this.props.scores).toFixed(1)}
                   </Avatar>
-                  : null
+                  : 
+                  <Avatar>
+                    ?
+                  </Avatar>
                 }
               </Grid>
             </Grid>

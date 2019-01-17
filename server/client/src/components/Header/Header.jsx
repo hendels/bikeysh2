@@ -31,16 +31,19 @@ const themeListItem = createMuiTheme({
       root: {
         backgroundColor: "#21262b",
         transition: "all 150ms linear",
+        
+        margin: "0px 0px 0px 0px",
+        position: "relative",
+        fontSize: "13px",
+        borderBottom: "1px solid #091528",
+      },
+      button: {
         "&:hover": {
           boxShadow:
           "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
           backgroundColor: "#343c44",
           color: "#fff"
         },
-        margin: "0px 0px 0px 0px",
-        position: "relative",
-        fontSize: "13px",
-        borderBottom: "1px solid #091528",
       },
     },
     MuiListItemText: {
@@ -151,6 +154,10 @@ class Header extends React.Component {
   handleShowAllResults() {
     this.props.collectAllResults();
   }
+  handleShowSingleRecord(_id, category){
+    console.log(_id, category);
+    this.props.getSingleRecord(_id, category);
+  }
   render() {
     const {
       classes,
@@ -184,14 +191,17 @@ class Header extends React.Component {
         >
           <div style={{transition: "all 150ms linear"}}> 
           <MuiThemeProvider theme={themeListItem}>
-            <ListItem  >
-            {/* <ListItem className={classes.searchItem} > */}
-              {/* <MuiThemeProvider theme={themeListItemText}> */}
-                <Chip label={item.category}></Chip>
-                <ListItemText
-                  primary={`${item.publishDate} - ${item.title}`}
-                />
-              {/* </MuiThemeProvider>        */}
+            <ListItem
+              button
+              key={item._id}
+              component={Link} 
+              to={`/offers/searchresult`}
+              onClick={() => this.handleShowSingleRecord(item._id, item.category)}  
+            >
+              <Chip label={item.category}></Chip>
+              <ListItemText                
+                primary={`${item.publishDate} - ${item.title}`}
+              />
             </ListItem>
           </MuiThemeProvider>
           </div>

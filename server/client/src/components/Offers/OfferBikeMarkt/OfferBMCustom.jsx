@@ -184,7 +184,7 @@ getScoringData = async () => {
                         currency: result.scoring[0].currency,
                         median: result.scoring[0].median,
                         countTotal: result.scoring[0].countTotal,
-                        scores: result.scoring[0].scores,
+                        scores: parseFloat(result.scoring[0].scores),
                         itemState: result.scoring[0].itemState,
                         yearTitle: result.scoring[0].yearTitle,
                         yearDescription: result.scoring[0].yearDescription,
@@ -192,6 +192,7 @@ getScoringData = async () => {
                         modelSetId: parseInt(result.scoring[0].modelSetId),
                         urlActive: result.scoring[0].urlActive
                     }
+                    console.log(scoringData);
                     this.setState({scoringData: scoringData}, () => {
                         if (this.props.fullSearch){
                             // console.log(`[3]RERENDER AFTER GETSCORING`);
@@ -271,9 +272,22 @@ if (!this.props.dummy){
 }
 return(
     <Aux>
-    <Grid container direction="row" justify="center" spacing={0}>
+    <Grid 
+        container 
+        direction="row" 
+        justify="center" 
+        spacing={0} 
+        style={{
+            padding: "5px", 
+        }}
+    >
         {/* // main & statistics section */}
-        <Grid item>
+        <Grid 
+            item 
+            style={{
+                boxShadow: "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
+            }}
+        >
             <Grid container direction="column" justify="space-between" alignItems="flex-start" className={classes.root} 
             style={{
                 background: `#000 url(${this.props.piclink})`,
@@ -360,7 +374,12 @@ return(
         {/* </div> */}
         </Grid>
         {/* // details & action section */}
-        <Grid item>
+        <Grid 
+            item
+            style={{
+                boxShadow: "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
+            }}
+        >
             <Grid container spacing={0} direction="column" justify="space-between" alignItems="flex-start" className={classes.gridElementInfo}>
                 <Grid item className={classes.gridElementInfoTitle}>
                     Stats:

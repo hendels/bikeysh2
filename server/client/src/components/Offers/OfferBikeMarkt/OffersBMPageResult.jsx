@@ -78,6 +78,7 @@ async componentWillReceiveProps(nextProps){
             };
     
             if(fullSearch){
+                console.log(`OFFER CATEGORY: ${offer.category}`);
                 switch (offer.category){
                     case "DHFrames":
                         fullSearchModel = model.dhframes
@@ -95,6 +96,7 @@ async componentWillReceiveProps(nextProps){
                         fullSearchModel = model.wheels
                         break;
                     default:
+                        fullSearchModel = offer.category;
                         break;
                 }
                 fullSearchCategory = offer.category;

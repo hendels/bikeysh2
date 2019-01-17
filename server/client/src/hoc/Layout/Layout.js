@@ -45,7 +45,7 @@ class Layout extends Component {
         loadWithoutTags: false,
         searchText: '',
         searchResults: {},
-        fullSearchResults: {},
+        fullSearchResults: [],
         showSearchResults: false,
         searchPending: false,
         changeHeaderColor: false,
@@ -64,6 +64,12 @@ class Layout extends Component {
             // console.log(`filter loadWithoutTags set as: ${this.state.loadWithoutTags}`);
         });
     };
+    handleChangeColor = () => {
+        this.setState({changeHeaderColor: true}, () => {})
+    }
+    handleRevertChangeColor = () => {
+        this.setState({changeHeaderColor: false}, () => {})
+    }
     handleChangeSearchText = async (searchText, searchLimit) => {
         await this.setState({searchPending: true}, ()=> {
 
@@ -78,45 +84,83 @@ class Layout extends Component {
             })
         }
     }
-    handleChangeColor = () => {
-        this.setState({changeHeaderColor: true}, () => {})
-    }
-    handleRevertChangeColor = () => {
-        this.setState({changeHeaderColor: false}, () => {})
-    }
-    handleSearch = async (searchLimit) => {
+    handleCollectAllResult = async () => {
+        const result = await this.handleSearch(0); 
+        this.setState({
+            fullSearchResults: result, 
+            searchPending: false,
+            showNothingFound: false,
+            showSearchResults: false,
+        }
+        , () => {
+            // console.log(`full search results [0] searchPending: ${this.state.searchPending}`);
+            // console.log(this.state.fullSearchResults);
+        });
+    }    
+    handleGetSingleRecord = async (_id, category) => {
+        const model = category.toLowerCase();
+        const result = await this.handleSearchOne(_id, model); 
+        this.setState({
+            fullSearchResults: result, 
+            searchPending: false,
+            showNothingFound: false,
+            showSearchResults: false,
+        }
+        , () => {
+            // console.log(`full search results [0] searchPending: ${this.state.searchPending}`);
+            // console.log(this.state.fullSearchResults);
+        });
+    }  
+    handleSearchOne = async (offerId, model) => { 
         let allResults = [];
-
-        await axios.get(`/api/search/${this.state.searchText}/${searchLimit}`)
-            .then(response  => response.data)
-            .then(result => {
-                if (searchLimit === 0){
-                    allResults = result.searchResults;
-                } else {
-                    let searchResults = [];
-                    for (let i = 0 ; i < result.searchResults.length; i++){
-                        let searchItem = {
-                            title: result.searchResults[i].title,
-                            bmartId: result.searchResults[i].bmartId,
-                            publishDate: result.searchResults[i].publishDate,
-                            category: result.searchResults[i].category,
-                        }
-                        searchResults.push(searchItem);
-                    }
-                    this.setState({searchResults: searchResults}, () => {
-                        if (this.state.searchResults.length > 0 )
-                            this.setState({showNothingFound: false, showSearchResults: true}, () => {
-                                // this.setState({searchPending: false}, ()=> {});
-                            });
-                        else    
-                            this.setState({showNothingFound: true, showSearchResults: false}, () => {
-                                // this.setState({searchPending: false}, ()=> {});
-                            });
-                    });
-                    
-                }
+        console.log(model);
+        //show results for single clicked record
+        await axios.get(`/api/searchOne/${offerId}/${model}`).then(response => response.data).then(result => {
+            if (result){
+                result.category = model;
+                allResults.push(result);
+                console.log(allResults);
             }
-        );
+        });
+        return allResults;
+    }
+    handleSearch = async (searchLimit, offerId, model) => {
+        let allResults = [];
+        //show results for single clicked record
+            await axios.get(`/api/search/${this.state.searchText}/${searchLimit}`)
+                .then(response  => response.data)
+                .then(result => {
+                    // full search after click "show all results" button
+                    if (searchLimit === 0){
+                        allResults = result.searchResults;
+                    }
+                    // show results on search window
+                    if (searchLimit > 0){ 
+                        let searchResults = [];
+                        for (let i = 0 ; i < result.searchResults.length; i++){
+                            let searchItem = {
+                                _id: result.searchResults[i]._id,
+                                title: result.searchResults[i].title,
+                                bmartId: result.searchResults[i].bmartId,
+                                publishDate: result.searchResults[i].publishDate,
+                                category: result.searchResults[i].category,
+                            }
+                            searchResults.push(searchItem);
+                        }
+                        this.setState({searchResults: searchResults}, () => {
+                            if (this.state.searchResults.length > 0 )
+                                this.setState({showNothingFound: false, showSearchResults: true}, () => {
+                                    // this.setState({searchPending: false}, ()=> {});
+                                });
+                            else    
+                                this.setState({showNothingFound: true, showSearchResults: false}, () => {
+                                    // this.setState({searchPending: false}, ()=> {});
+                                });
+                        });
+                    }
+                }
+            );
+
         return allResults;
     }
     handleCloseSearchResults = () => {
@@ -129,19 +173,7 @@ class Layout extends Component {
         });   
 
     }
-    handleCollectAllResult = async (keyWords) => {
-        const result = await this.handleSearch(0); 
-        this.setState({
-            fullSearchResults: result, 
-            searchPending: false,
-            showNothingFound: false,
-            showSearchResults: false,
-        }
-        , () => {
-            // console.log(`full search results [0] searchPending: ${this.state.searchPending}`);
-            // console.log(this.state.fullSearchResults);
-        });
-    }
+
     render () {
         const { classes, ...rest } = this.props;
         
@@ -168,6 +200,7 @@ class Layout extends Component {
                     showSearchResults={this.state.showSearchResults}
                     showNothingFound={this.state.showNothingFound}
                     collectAllResults={this.handleCollectAllResult}
+                    getSingleRecord={this.handleGetSingleRecord}
                     changeColor={this.handleChangeColor}
                     revertColor={this.handleRevertChangeColor}
                     {...rest}

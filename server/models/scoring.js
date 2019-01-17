@@ -54,12 +54,14 @@ exports.create = async (data) => {
 };
 exports.updateScores = async (id, data) => {
     await Scoring.findById(id, (err, scoring) => {
-        scoring.scores = data.scores;
+        const scores = data.scores.toFixed(1);
+        console.log(scores);
+        scoring.scores = scores;
         scoring.countTotal = data.countTotal;
         scoring.median = data.median;
         scoring.urlActive = data.urlActive;
         scoring.save().then(() => {
-            console.log(`[][][] update scores for Offer[scoring]... ${id} scores: ${data.scores}`);
+            // console.log(`[][][] update scores for Offer[scoring]... ${id} scores: ${data.scores}`);
         });
     });    
 };

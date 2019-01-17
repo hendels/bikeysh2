@@ -231,8 +231,12 @@ class OffersList extends Component {
                             )}
                         </Grid>
                         </Paper>   
-                        <p>  &nbsp;</p>
-                        <p>  &nbsp;</p>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
                     </div>
                 </div>
             </Aux>

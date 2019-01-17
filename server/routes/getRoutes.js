@@ -173,12 +173,20 @@ module.exports = app => {
     });
     app.post('/api/bm/offer/fav', async (req, res) => {
         console.log('fav to id: '+ req.body.id + ' / ' + req.body.model);
-        const model = req.body.model.toLowerCase();
-        genMgt.updateFavorite(req.body.id, model, favorite => {
+        
+        genMgt.updateFavorite(req.body.id, req.body.model, favorite => {
             res.send(favorite);
             console.log(`favorite send = ${favorite}`)
         });
     })
+    app.get('/api/searchOne/:offerId/:model', async (req, res) => {
+        //const model = req.body.model.toLowerCase();
+
+        const dbCollection = await mongoose.model(req.params.model)
+            .findOne({_id: req.params.offerId}).then(existingOffer => {
+                res.send(existingOffer);
+            });
+    });
     app.get('/api/search/:searchText/:searchLimit', async (req, res) => {
         const dhFramesResult = await bm_dhframe.dhFramesSearch(req.params.searchText, parseInt(req.params.searchLimit));
         let searchResults = [];
