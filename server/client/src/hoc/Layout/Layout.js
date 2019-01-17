@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Aux from '../Ax/Ax';
 import axios from 'axios';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 // pages
 import BestOfferPage from '../../pages/BestOfferPage';
 // app components
@@ -11,6 +11,7 @@ import HeaderLinks from '../../components/Header/HeaderLinks.jsx';
 //
 import LandingPage from '../../pages/LandingPage';
 import OfferSearchResult from '../../containers/OffersList/SearchResultsList.js';
+import Footer from '../../components/Footer/Footer.jsx';
 
 const fetchUrls = {
     hubs: '/api/bm/category/hubs/',
@@ -30,6 +31,7 @@ const imageUrls = {
     wheelsImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5ab923c674716.jpg`, tweak: `0px 0px`},
     // bikeyshImage: {url: `http://www.fullhdwpp.com/wp-content/uploads/Bicycling-Downhill_www.FullHDWpp.com_.jpg?x69613`, tweak: `0px -200px`},
     bikeyshImage: {url: `https://static.canyon.com/_img/bg/gravity/gravity-world.jpg`, tweak: `0px -200px`},
+    footerImage: {url: `http://factoryracing.canyon.com/downhill-team/wp-content/uploads/sites/2/2018/02/Canyon_DH_Nizza18_G4A9936.jpg`, tweak: `0px 650px`},
 }
 const dbModels = {
     cranks: `cranks`, dhframes: `dhframes`, enduroframes: `enduroframes`, hubs: `hubs`, wheels: `wheels` 
@@ -180,144 +182,149 @@ class Layout extends Component {
         return (
             <Aux>
                 <div style={{background: this.state.backgroundColor}}>
-                <Header
-                    color={this.state.changeColorHeader}
-                    routes={dashboardRoutes}
-                    brand="bikeysh"
-                    rightLinks={<HeaderLinks 
-                        clearFilters={this.handleClearFilterStates}
-                        searchText={this.handleChangeSearchText}
-                        changeColor={this.state.changeHeaderColor}
-                        showFavorites={this.handleShowFavorizedOffers}
-                        />}
-                    fixed
-                    changeColorOnScroll={{
-                        height: 400,
-                        color: "bikeysh3_1"
-                    }}
-                    searchResults={this.state.searchResults}
-                    closeSearchResults={this.handleCloseSearchResults}
-                    showSearchResults={this.state.showSearchResults}
-                    showNothingFound={this.state.showNothingFound}
-                    collectAllResults={this.handleCollectAllResult}
-                    getSingleRecord={this.handleGetSingleRecord}
-                    changeColor={this.handleChangeColor}
-                    revertColor={this.handleRevertChangeColor}
-                    {...rest}
-                />
-                <Route exact path="/" render={(props) => 
-                    <div>
-                        <br/>
-                        <br/>
-                        <LandingPage imageUrls={imageUrls}/>
-                    </div>
-                }
-                />
-                <Route exact path="/home" render={(props) => 
-                    <div>
-                        <br/>
-                        <br/>
-                        <BestOfferPage 
-                            fetchUrls={fetchUrls} 
-                            imageUrls={imageUrls} 
-                            models={dbModels} 
+                    <Header
+                        color={this.state.changeColorHeader}
+                        routes={dashboardRoutes}
+                        brand="bikeysh"
+                        rightLinks={<HeaderLinks 
+                            clearFilters={this.handleClearFilterStates}
+                            searchText={this.handleChangeSearchText}
+                            changeColor={this.state.changeHeaderColor}
+                            showFavorites={this.handleShowFavorizedOffers}
+                            showSearchResults={this.state.showSearchResults}
+                            collectAllResults={this.handleCollectAllResult}
+                            />}
+                        fixed
+                        changeColorOnScroll={{
+                            height: 400,
+                            color: "bikeysh3_1"
+                        }}
+                        searchResults={this.state.searchResults}
+                        closeSearchResults={this.handleCloseSearchResults}
+                        showSearchResults={this.state.showSearchResults}
+                        showNothingFound={this.state.showNothingFound}
+                        collectAllResults={this.handleCollectAllResult}
+                        getSingleRecord={this.handleGetSingleRecord}
+                        changeColor={this.handleChangeColor}
+                        revertColor={this.handleRevertChangeColor}
+                        {...rest}
+                    />
+                    <Route exact path="/" render={(props) => 
+                        <div>
+                            <br/>
+                            <br/>
+                            <LandingPage imageUrls={imageUrls}/>
+                        </div>
+                    }
+                    />
+                    <Route exact path="/home" render={(props) => 
+                        <div>
+                            <br/>
+                            <br/>
+                            <BestOfferPage 
+                                fetchUrls={fetchUrls} 
+                                imageUrls={imageUrls} 
+                                models={dbModels} 
+                                showFavorites={this.handleShowFavorizedOffers}
+                                showWithoutTags={this.handleShowWithoutTag}
+                                searchPending={this.state.searchPending}
+                            />
+                        </div>
+                    }
+                    />
+                    <Route exact path="/offers/searchresult" render={(props) => 
+
+                        <OffersList
+                            fullSearch 
+                            fullSearchResults={this.state.fullSearchResults}
+                            tagUrl={fetchUrls.tags}    
+                            imageUrls={imageUrls}
+                            models={dbModels}
+                            loadFavorites={this.state.loadFavorites}
+                            loadWithoutTags={this.state.loadWithoutTags}
                             showFavorites={this.handleShowFavorizedOffers}
                             showWithoutTags={this.handleShowWithoutTag}
                             searchPending={this.state.searchPending}
-                        />
-                    </div>
-                }
-                />
-                <Route exact path="/offers/searchresult" render={(props) => 
-
-                    <OffersList
-                        fullSearch 
-                        fullSearchResults={this.state.fullSearchResults}
-                        tagUrl={fetchUrls.tags}    
-                        imageUrls={imageUrls}
-                        models={dbModels}
-                        loadFavorites={this.state.loadFavorites}
-                        loadWithoutTags={this.state.loadWithoutTags}
-                        showFavorites={this.handleShowFavorizedOffers}
-                        showWithoutTags={this.handleShowWithoutTag}
-                        searchPending={this.state.searchPending}
-                    />}
-                />
-                <Route exact path="/category/cranks" render={(props) => 
-                    <OffersList 
-                        pageLimit={10} 
-                        fetchUrl={fetchUrls.cranks}    
-                        tagUrl={fetchUrls.tags}    
-                        category={`CRANKS`}  
-                        imageUrls={imageUrls}
-                        model={dbModels.cranks}
-                        loadFavorites={this.state.loadFavorites}
-                        loadWithoutTags={this.state.loadWithoutTags}
-                        showFavorites={this.handleShowFavorizedOffers}
-                        showWithoutTags={this.handleShowWithoutTag}
-                        searchPending={this.state.searchPending}
-                    />}
-                />
-                <Route exact path="/category/hubs" render={(props) => 
-                    <OffersList 
-                        pageLimit={10} 
-                        fetchUrl={fetchUrls.hubs}   
-                        tagUrl={fetchUrls.tags}    
-                        category={`HUBS`}     
-                        imageUrls={imageUrls}  
-                        model={dbModels.hubs}
-                        loadFavorites={this.state.loadFavorites}
-                        loadWithoutTags={this.state.loadWithoutTags}
-                        showFavorites={this.handleShowFavorizedOffers}
-                        showWithoutTags={this.handleShowWithoutTag}
-                        searchPending={this.state.searchPending}
-                    />}
-                />
-                <Route exact path="/category/wheels" render={(props) => 
-                    <OffersList 
-                        pageLimit={10} 
-                        fetchUrl={fetchUrls.wheels}     
-                        tagUrl={fetchUrls.tags}    
-                        category={`WHEELS`}   
-                        imageUrls={imageUrls}  
-                        model={dbModels.wheels}
-                        loadFavorites={this.state.loadFavorites}
-                        loadWithoutTags={this.state.loadWithoutTags}
-                        showFavorites={this.handleShowFavorizedOffers}
-                        showWithoutTags={this.handleShowWithoutTag}
-                        searchPending={this.state.searchPending}
-                    />}
-                />
-                <Route exact path="/category/dhframes" render={(props) => 
-                    <OffersList 
-                        pageLimit={10} 
-                        fetchUrl={fetchUrls.dhFrames}    
-                        tagUrl={fetchUrls.tags}    
-                        category={`DHFRAMES`} 
-                        imageUrls={imageUrls}    
-                        model={dbModels.dhframes}
-                        loadFavorites={this.state.loadFavorites}
-                        loadWithoutTags={this.state.loadWithoutTags}
-                        showFavorites={this.handleShowFavorizedOffers} 
-                        showWithoutTags={this.handleShowWithoutTag}
-                        searchPending={this.state.searchPending}
-                    />}
-                />
-                <Route exact path="/category/enduroframes" render={(props) => 
-                    <OffersList 
-                        pageLimit={10} 
-                        fetchUrl={fetchUrls.enduroFrames}      
-                        tagUrl={fetchUrls.tags}    
-                        category={`ENDUROFRAMES`} 
-                        imageUrls={imageUrls}   
-                        model={dbModels.enduroframes}
-                        loadFavorites={this.state.loadFavorites}
-                        loadWithoutTags={this.state.loadWithoutTags}
-                        showFavorites={this.handleShowFavorizedOffers}
-                        showWithoutTags={this.handleShowWithoutTag}
-                        searchPending={this.state.searchPending}
-                    />}
-                />
+                        />}
+                    />
+                    <Route exact path="/category/cranks" render={(props) => 
+                        <OffersList 
+                            pageLimit={10} 
+                            fetchUrl={fetchUrls.cranks}    
+                            tagUrl={fetchUrls.tags}    
+                            category={`CRANKS`}  
+                            imageUrls={imageUrls}
+                            model={dbModels.cranks}
+                            loadFavorites={this.state.loadFavorites}
+                            loadWithoutTags={this.state.loadWithoutTags}
+                            showFavorites={this.handleShowFavorizedOffers}
+                            showWithoutTags={this.handleShowWithoutTag}
+                            searchPending={this.state.searchPending}
+                        />}
+                    />
+                    <Route exact path="/category/hubs" render={(props) => 
+                        <OffersList 
+                            pageLimit={10} 
+                            fetchUrl={fetchUrls.hubs}   
+                            tagUrl={fetchUrls.tags}    
+                            category={`HUBS`}     
+                            imageUrls={imageUrls}  
+                            model={dbModels.hubs}
+                            loadFavorites={this.state.loadFavorites}
+                            loadWithoutTags={this.state.loadWithoutTags}
+                            showFavorites={this.handleShowFavorizedOffers}
+                            showWithoutTags={this.handleShowWithoutTag}
+                            searchPending={this.state.searchPending}
+                        />}
+                    />
+                    <Route exact path="/category/wheels" render={(props) => 
+                        <OffersList 
+                            pageLimit={10} 
+                            fetchUrl={fetchUrls.wheels}     
+                            tagUrl={fetchUrls.tags}    
+                            category={`WHEELS`}   
+                            imageUrls={imageUrls}  
+                            model={dbModels.wheels}
+                            loadFavorites={this.state.loadFavorites}
+                            loadWithoutTags={this.state.loadWithoutTags}
+                            showFavorites={this.handleShowFavorizedOffers}
+                            showWithoutTags={this.handleShowWithoutTag}
+                            searchPending={this.state.searchPending}
+                        />}
+                    />
+                    <Route exact path="/category/dhframes" render={(props) => 
+                        <OffersList 
+                            pageLimit={10} 
+                            fetchUrl={fetchUrls.dhFrames}    
+                            tagUrl={fetchUrls.tags}    
+                            category={`DHFRAMES`} 
+                            imageUrls={imageUrls}    
+                            model={dbModels.dhframes}
+                            loadFavorites={this.state.loadFavorites}
+                            loadWithoutTags={this.state.loadWithoutTags}
+                            showFavorites={this.handleShowFavorizedOffers} 
+                            showWithoutTags={this.handleShowWithoutTag}
+                            searchPending={this.state.searchPending}
+                        />}
+                    />
+                    <Route exact path="/category/enduroframes" render={(props) => 
+                        <OffersList 
+                            pageLimit={10} 
+                            fetchUrl={fetchUrls.enduroFrames}      
+                            tagUrl={fetchUrls.tags}    
+                            category={`ENDUROFRAMES`} 
+                            imageUrls={imageUrls}   
+                            model={dbModels.enduroframes}
+                            loadFavorites={this.state.loadFavorites}
+                            loadWithoutTags={this.state.loadWithoutTags}
+                            showFavorites={this.handleShowFavorizedOffers}
+                            showWithoutTags={this.handleShowWithoutTag}
+                            searchPending={this.state.searchPending}
+                        />}
+                    />
+                    <Footer
+                        imageUrls={imageUrls} 
+                    />
                 </div>
             </Aux>
         )

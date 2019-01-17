@@ -302,9 +302,18 @@ class BestOffer extends React.Component {
                 {this.props.offer._id !== `dummy` ? (
                 <Aux>
                     <span className={classes.imageScoring}>
-                        <Avatar aria-label="Recipe" className={classes.avatar}>
+                        {/* <Avatar aria-label="Recipe" className={classes.avatar}>
                             {parseFloat(this.state.scoringData.scores).toFixed(1)}
-                        </Avatar>
+                        </Avatar> */}
+                        {Math.round(this.state.scoringData.scores) !== 0 ? 
+                            <Avatar className={classes.avatar}>
+                                {parseFloat(this.state.scoringData.scores).toFixed(1)}
+                            </Avatar>
+                            : 
+                            <Avatar className={classes.avatar}>
+                            ?
+                            </Avatar>
+                        }
                     </span>
                     <span className={classes.imagePrice}>
                         {`${this.state.scoringData.price} ${this.state.scoringData.currency}`}  

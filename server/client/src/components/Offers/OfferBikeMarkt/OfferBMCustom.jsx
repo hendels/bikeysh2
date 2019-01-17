@@ -54,6 +54,7 @@ const styles = theme => ({
     //   position: "relative",
 
     },
+    
     gridElementTitle: {
         zIndex: 1,
         fontSize: "20px",

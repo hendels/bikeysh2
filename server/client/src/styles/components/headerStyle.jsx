@@ -50,6 +50,15 @@ const headerStyle = {
     justifyContent: "flex-start",
     zIndex: "1200",
   },
+  searchNoResults: {
+    display: "flex",
+    position: "fixed",
+    top: "66px",
+    right: "595px",
+    flexFlow: "row nowrap",
+    justifyContent: "flex-start",
+    zIndex: "1200",
+  },
   searchItem: {
     borderBottom: "1px solid #091528",
     margin: "0px 0px 0px 0px",

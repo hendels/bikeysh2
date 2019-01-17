@@ -153,10 +153,12 @@ class Header extends React.Component {
   }
   handleShowAllResults() {
     this.props.collectAllResults();
+    window.scrollTo(0, 0);
   }
   handleShowSingleRecord(_id, category){
     console.log(_id, category);
     this.props.getSingleRecord(_id, category);
+    window.scrollTo(0, 0);
   }
   render() {
     const {
@@ -263,10 +265,10 @@ class Header extends React.Component {
           </Drawer>
         </Hidden>
       </AppBar>
-      <div className={classes.searchResults} onMouseLeave={this.handleSearchClose}>
       <List dense={true}>
       {this.state.showSearchResults ? 
-        (<div >
+      (<div className={classes.searchResults} onMouseLeave={this.handleSearchClose}>
+        <div>
           {searchItems}
           <ListItem 
             className={classes.searchShowaAllItem} 
@@ -281,21 +283,21 @@ class Header extends React.Component {
               />
             </MuiThemeProvider>
           </ListItem>
-        </div>)
-        : null
+        </div>
+      </div>) : null
       }
       {this.state.showNothingFound ? 
-        (<ListItem className={classes.searchItem}>
+        (<div className={classes.searchNoResults} onMouseLeave={this.handleSearchClose}>
+        <ListItem className={classes.searchShowaAllItem}>
           <MuiThemeProvider theme={themeListItemText}>
             <ListItemText
               secondary={`nothing found...`}
             />
           </MuiThemeProvider>
-        </ListItem> ) : null
+        </ListItem> 
+        </div>) : null
       }
-      
       </List>
-    </div>
     </Aux>
     );
   }

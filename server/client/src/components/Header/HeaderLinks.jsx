@@ -2,7 +2,7 @@
 import React from "react";
 import axios from "axios";
 // react components for routing our app without refresh
-import { Link } from "react-router-dom";
+import { Link , Redirect, withRouter} from "react-router-dom";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -47,7 +47,13 @@ class HeaderLinks extends React.Component {
     this.props.searchText(target.value, searchLimit);
   }
   handleKeyUpEnter(event) {
-    if(event.keyCode === 13){
+    
+    if(event.keyCode === 13 && this.props.showSearchResults){
+      this.props.collectAllResults();
+      this.props.history.push('/offers/searchresult');
+      window.scrollTo(0, 0);
+    }
+    if(event.keyCode === 13 && !this.props.showSearchResults){
       this.props.searchText(event.target.value, searchLimit);
     }
   }
@@ -226,4 +232,4 @@ class HeaderLinks extends React.Component {
   }
 }
 
-export default withStyles(headerLinksStyle)(HeaderLinks);
+export default withStyles(headerLinksStyle)(withRouter(HeaderLinks));
