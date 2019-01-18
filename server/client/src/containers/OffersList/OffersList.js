@@ -42,8 +42,9 @@ class OffersList extends Component {
 
     fetchData = (skip, pageLimit, showFirst, showLast) => {
         const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
+        console.log(`favorites filter: ${this.state.loadFavorites} withoutTags filter: ${this.state.loadWithoutTags}`);
         axios.get(`/api/bm/category/${this.props.model}/${skip}/${pageLimit}/${this.state.loadFavorites}/
-            ${this.state.loadWithoutTags}/first=${showFirst}/last=${showLast}`)
+            ${this.state.loadWithoutTags}`)
             .then(response => response.data)
             .then(result => this.onSetResult(result, skip))
     }

@@ -2,16 +2,16 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-
+import Aux from '../../hoc/Ax/Ax';
 const style = () => ({
+    aboveFooter:{
+        height: "50px",
+        width: "100%",
+    },
     footer: {
         height: "200px",
         width: "100%",
-        // background: "#303030",rgba(48,48,48, 0.5)
-        // background: `rgba(48,48,48, 0.5) url(${this.props.imageUrl})`,
-        // backgroundPosition: `${this.props.tweak}`,
-        // backgroundAttachment: `fixed`,
-        width: `100%`,
+        background: "#303030",
         display: `flex`,
         justifyContent: `center`,
         alignItems: `center`,
@@ -73,6 +73,10 @@ const style = () => ({
 const Footer = (props) => {
     const {classes} = props;
     return (
+            <Aux>
+
+            <div className={classes.aboveFooter}/>
+
             <div className={classes.footer} style={{
                 background: `rgba(48,48,48, 0.5) url(${props.imageUrls.footerImage.url})`,
                 backgroundPosition: `${props.imageUrls.footerImage.tweak}`,
@@ -139,6 +143,7 @@ const Footer = (props) => {
                     {/* <i className="fab fa-cog" style={{fontSize: "1em", color: "Tomato"}}></i>  */}
                 <div className={classes.colorOverlay}/>
             </div>
+            </Aux>
         
     )
 }

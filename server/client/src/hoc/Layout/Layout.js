@@ -28,7 +28,7 @@ const imageUrls = {
     cranksImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5acb91737dbc8.jpeg`, tweak: `0px -450px`},
     hubsImage: {url: `https://cdn.bikemagic.com/featured_image/5ab936e5d5833.jpg`, tweak: `0px -200px`},
     enduroframesImage: {url: `https://brink.uk/assets/images/products/Bikes/Santa-Cruz-Nomad-4-CC-Frame-2018-3.jpg`, tweak: `0px -400px`},
-    wheelsImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5ab923c674716.jpg`, tweak: `0px 0px`},
+    wheelsImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5ab923c674716.jpg`, tweak: `0px 300px`},
     // bikeyshImage: {url: `http://www.fullhdwpp.com/wp-content/uploads/Bicycling-Downhill_www.FullHDWpp.com_.jpg?x69613`, tweak: `0px -200px`},
     bikeyshImage: {url: `https://static.canyon.com/_img/bg/gravity/gravity-world.jpg`, tweak: `0px -200px`},
     footerImage: {url: `http://factoryracing.canyon.com/downhill-team/wp-content/uploads/sites/2/2018/02/Canyon_DH_Nizza18_G4A9936.jpg`, tweak: `0px 650px`},
@@ -151,13 +151,9 @@ class Layout extends Component {
                         }
                         this.setState({searchResults: searchResults}, () => {
                             if (this.state.searchResults.length > 0 )
-                                this.setState({showNothingFound: false, showSearchResults: true}, () => {
-                                    // this.setState({searchPending: false}, ()=> {});
-                                });
+                                this.setState({showNothingFound: false, showSearchResults: true}, () => {});
                             else    
-                                this.setState({showNothingFound: true, showSearchResults: false}, () => {
-                                    // this.setState({searchPending: false}, ()=> {});
-                                });
+                                this.setState({showNothingFound: true, showSearchResults: false}, () => {});
                         });
                     }
                 }
@@ -191,8 +187,10 @@ class Layout extends Component {
                             searchText={this.handleChangeSearchText}
                             changeColor={this.state.changeHeaderColor}
                             showFavorites={this.handleShowFavorizedOffers}
+                            showWithoutTags={this.handleShowWithoutTag}
                             showSearchResults={this.state.showSearchResults}
                             collectAllResults={this.handleCollectAllResult}
+                            closeSearchResults={this.handleCloseSearchResults}
                             />}
                         fixed
                         changeColorOnScroll={{

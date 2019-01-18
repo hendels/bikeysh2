@@ -13,7 +13,9 @@ const styles = theme => ({
     root: {
       flexGrow: 1,
       background: '#C96567',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
+      paddingTop: '5px',
+      paddingBottom: '5px',
     },
     paper: {
       height: 140,
@@ -28,19 +30,12 @@ class BestOfferPage extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            //unused?
-            // crankHits: [],
-            // dhFramesHits: [],
-            // wheelsHits: [],
-            // hubsHits: [],
-            // enduroFramesHits: [],
             page: null,
             loading: false,
             reloadBars: false,
             //snack
             showSnackHideOffer: false,
             objOffer: {id: 0, trueName: ''}
-            //
         }
     }
     handleSnack = (objOffer) => {
@@ -73,7 +68,14 @@ class BestOfferPage extends React.Component {
                 {/* <div className={classes.container}> */}
                 <Paper className={classes.root} elevation={10}>
                     <div>
-                    <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="flex-start" spacing={Number(spacing)}>
+                    <Grid 
+                        className={classes.root} 
+                        container 
+                        direction="row" 
+                        justify="space-evenly" 
+                        alignItems="flex-start" 
+                        spacing={Number(spacing)}
+                    >
                         <BestOfferBar 
                             category="Cranks" 
                             bestUrl={this.props.fetchUrls.bestoffer}
@@ -90,7 +92,14 @@ class BestOfferPage extends React.Component {
                         <br/>
                     </Grid>
 
-                    <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
+                    <Grid 
+                        className={classes.root} 
+                        container 
+                        direction="row" 
+                        justify="space-evenly" 
+                        alignItems="center" 
+                        spacing={Number(spacing)}
+                    >
                         <BestOfferBar 
                             category="Downhill Frames" 
                             //offerCount={dhframes} 
@@ -138,7 +147,14 @@ class BestOfferPage extends React.Component {
                         />
                         <br/>
                     </Grid>
-                    <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
+                    <Grid 
+                        className={classes.root} 
+                        container 
+                        direction="row" 
+                        justify="space-evenly" 
+                        alignItems="center" 
+                        spacing={Number(spacing)}
+                    >
                         <BestOfferBar 
                             category="Enduro Frames" 
                             //offerCount={hubs} 

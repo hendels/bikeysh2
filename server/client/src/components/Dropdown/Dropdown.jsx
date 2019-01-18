@@ -31,6 +31,7 @@ class CustomDropdown extends React.Component {
   }
   handleClick() {
     this.setState({ open: true });
+    this.props.showSearchResults ? this.props.closeSearchResults() : null;
   }
   handleClose() {
     this.setState({ open: false });

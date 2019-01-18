@@ -373,6 +373,7 @@ class BestOffer extends React.Component {
                         price={this.state.scoringData.price}
                         itemState={this.state.itemState}
                         searchPending={this.props.searchPending}
+                        showOfferDetailsDialog={this.handleShowOfferDetailsDialog}
                     />
                 }
                 {this.state.showOfferDetails ? 

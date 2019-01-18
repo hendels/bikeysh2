@@ -13,6 +13,7 @@ import Badge from '@material-ui/core/Badge';
 import Zoom from '@material-ui/core/Zoom';
 //mui icons
 import InfoIcon from '@material-ui/icons/Info';
+import HttpIcon from '@material-ui/icons/Http';
 import DesiredAdd from '@material-ui/icons/PlaylistAdd';
 import AddComment from '@material-ui/icons/NoteAdd';
 import Vendor from '@material-ui/icons/MonetizationOn';
@@ -54,13 +55,17 @@ const styles = theme => ({
     //   position: "relative",
 
     },
-    
+
     gridElementTitle: {
         zIndex: 1,
         fontSize: "20px",
         color: "#fff",
         textShadow: `1px 1px ${bikeyshColor5}`,
         paddingLeft: `15px`,
+        "&:hover": {
+            // borderBottom:`2px solid ${bikeyshColor5}`,
+            textDecoration: 'underline',
+        },
     },
     gridElementTitleCategory: {
         zIndex: 1,
@@ -68,6 +73,7 @@ const styles = theme => ({
         color: "#C96567",
         textShadow: `1px 1px ${bikeyshColor6}`,
         paddingLeft: `15px`,
+
     },
     gridElementDownbar: {
         //position: 'relative',
@@ -299,10 +305,10 @@ return(
                 <Grid container className={classes.gridElementUpbar} direction="row" justify="space-between" alignItems="center">
                     <Grid item>
                         <span className={classes.gridElementTitleCategory}>{this.props.fullSearch ? `[${this.props.offer.category}]` : null}</span>
-                        <span className={classes.gridElementTitle}>
+                        <span className={classes.gridElementTitle} onClick={this.handleShowOfferDetailsDialog}>
                             {this.state.scoringData.trueName !== `` ? 
-                            `[${this.state.scoringData.trueName}] ${this.props.offer.title.length > 60 ? 
-                                this.props.offer.title.slice(0, 60) + "..." : this.props.offer.title}` :
+                            `[${this.state.scoringData.trueName}] ${this.props.offer.title.length > 48 ? 
+                                this.props.offer.title.slice(0, 48) + "..." : this.props.offer.title}` :
                             this.props.offer.title }
                         </span>
                     </Grid>
@@ -398,7 +404,7 @@ return(
                 {/* actions */}
                 <Grid item>
                     <Grid container className={classes.gridElementInfoActions} direction="row" justify="space-evenly" alignItems="center">
-                        <Grid item xs={4} className={classes.actionItem}>
+                        <Grid item xs={3} className={classes.actionItem}>
                             <FavoriteButton 
                                 dummy={this.props.dummy}
                                 dataKey={this.props.offer._id} 
@@ -412,7 +418,7 @@ return(
                                 <Delete style={{color: bikeyshColor5}}/> 
                             </IconButton>
                         </Grid> */}
-                        <Grid item xs={4} className={classes.actionItem}>
+                        <Grid item xs={3} className={classes.actionItem}>
                             <TagButton 
                                 dummy={this.props.dummy}    
                                 offer={this.props.offer} 
@@ -421,7 +427,7 @@ return(
                                 category={this.props.category}
                                 model={this.props.model}/>
                         </Grid>
-                        <Grid item xs={4} className={classes.actionItem}>
+                        <Grid item xs={3} className={classes.actionItem}>
                             <IconButton
                                 onClick={this.handleShowOfferDetailsDialog}
                             >
@@ -429,6 +435,15 @@ return(
                                     style={{color: bikeyshColor5, outline: "none",}}
                                 />
                             </IconButton>
+                        </Grid>
+                        <Grid item xs={3} className={classes.actionItem}>
+                        <IconButton 
+                                  href={this.props.offer.productUrl} 
+                                  target={`_blank`} 
+                                  style={{outline: "none",}}
+                              >
+                                  <HttpIcon />
+                              </IconButton>
                         </Grid>
                     </Grid>
                 </Grid>

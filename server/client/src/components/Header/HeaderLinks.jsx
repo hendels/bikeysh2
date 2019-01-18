@@ -2,7 +2,7 @@
 import React from "react";
 import axios from "axios";
 // react components for routing our app without refresh
-import { Link , Redirect, withRouter} from "react-router-dom";
+import { Link , withRouter} from "react-router-dom";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -57,8 +57,28 @@ class HeaderLinks extends React.Component {
       this.props.searchText(event.target.value, searchLimit);
     }
   }
-  handleFavorites = () => {
-    this.props.showFavorites(true);
+  // handleFavorites = () => {
+  //   this.props.showFavorites(true);
+  // }
+  handleClickDropdownLink = (action) => {
+    
+    switch(action){
+      case 'clearFilters':
+        this.props.clearFilters();
+        break;
+      case 'favorites':
+        this.props.showFavorites(true);
+        break;
+      case 'withoutTags':
+        this.props.showWithoutTags(true);
+      break;
+      default:
+      
+      break;
+      
+    }
+    this.props.showSearchResults ? this.props.closeSearchResults() : null;
+      
   }
   componentWillReceiveProps(nextProps){
 
@@ -95,6 +115,19 @@ class HeaderLinks extends React.Component {
       }
     }
   });
+  const themeToolTip = createMuiTheme({
+    overrides: {
+      MuiTooltip: {
+        tooltip:{
+          boxShadow:
+          "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
+          backgroundColor: "#343c44",
+          color: "#fff",
+          fontSize: "13px",
+        }
+      }
+    }
+  });
   const { classes } = this.props;
   return (
     <List className={classes.list}>
@@ -123,20 +156,33 @@ class HeaderLinks extends React.Component {
         {/* >> */}
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Tooltip
-          id="instagram-tooltip"
-          title="Best Offers"
-          placement={window.innerWidth > 959 ? "top" : "left"}
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <IconButton
-            target="_blank"
-            className={classes.navLink}
-          >
-            <Stars/>
-          </IconButton>
-          
-        </Tooltip>
+          <MuiThemeProvider theme={themeToolTip}>
+            
+            <Tooltip
+              id="instagram-tooltip"
+              title="Best Offers"
+              placement={window.innerWidth > 959 ? "top" : "left"}
+              // classes={{ tooltip: classes.tooltip }}
+            >
+              {/* <Link to="/home"> */}
+                <IconButton
+                  // component={Link} to="/home"
+                  className={classes.navLink}
+                  onClick={()=>{
+                    this.props.history.push('/home');
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  
+      {/* window.scrollTo(0, 0); */}
+                  {/* <Stars style={{color: "#000"}}/> */}
+                  <Stars />
+                </IconButton>
+
+              {/* </Link> */}
+              
+            </Tooltip>
+          </MuiThemeProvider>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Dropdown
@@ -149,20 +195,42 @@ class HeaderLinks extends React.Component {
           }}
           hoverColor="black"
           buttonIcon={Apps}
+          showSearchResults={this.props.showSearchResults}
+          closeSearchResults={this.props.closeSearchResults}
           dropdownList={[
-            <Link onClick={this.props.clearFilters} to="/category/cranks" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('clearFilters')}} 
+              to="/category/cranks" 
+              className={classes.dropdownLink}
+            >
               Cranks
             </Link>,
-            <Link onClick={this.props.clearFilters} to="/category/hubs" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('clearFilters')}}  
+              to="/category/hubs" 
+              className={classes.dropdownLink}
+            >
               Hubs
             </Link>,
-            <Link onClick={this.props.clearFilters} to="/category/dhframes" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('clearFilters')}} 
+              to="/category/dhframes" 
+              className={classes.dropdownLink}
+            >
               DH Frames
             </Link>,
-            <Link onClick={this.props.clearFilters} to="/category/enduroframes" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('clearFilters')}} 
+              to="/category/enduroframes" 
+              className={classes.dropdownLink}
+            >
               Enduro Frames
             </Link>,
-            <Link onClick={this.props.clearFilters} to="/category/wheels" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('clearFilters')}} 
+              to="/category/wheels" 
+              className={classes.dropdownLink}
+            >
               Wheels
             </Link>
           ]}
@@ -179,19 +247,39 @@ class HeaderLinks extends React.Component {
           hoverColor="black"
           buttonIcon={FavoriteBorder}
           dropdownList={[
-            <Link onClick={this.handleFavorites} to="/category/cranks" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('favorites')}} 
+              to="/category/cranks" 
+              className={classes.dropdownLink}
+            >
               Favorite Cranks
             </Link>,
-            <Link onClick={this.handleFavorites} to="/category/hubs" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('favorites')}} 
+              to="/category/hubs" 
+              className={classes.dropdownLink}
+            >
               Favorite Hubs
             </Link>,
-            <Link onClick={this.handleFavorites} to="/category/dhframes" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('favorites')}} 
+              to="/category/dhframes" 
+              className={classes.dropdownLink}
+            >
               Favorite DH Frames
             </Link>,
-            <Link onClick={this.handleFavorites} to="/category/enduroframes" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('favorites')}} 
+              to="/category/enduroframes" 
+              className={classes.dropdownLink}
+            >
               Favorite Enduro Frames
             </Link>,
-            <Link onClick={this.handleFavorites} to="/category/wheels" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('favorites')}} 
+              to="/category/wheels" 
+              className={classes.dropdownLink}
+            >
               Favorite Wheels
             </Link>
           ]}
@@ -208,19 +296,39 @@ class HeaderLinks extends React.Component {
           hoverColor="black"
           buttonIcon={LibraryAdd}
           dropdownList={[
-            <Link onClick={this.handleFavorites} to="/category/cranks" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('withoutTags')}} 
+              to="/category/cranks" 
+              className={classes.dropdownLink}
+            >
               Cranks Without Tags
             </Link>,
-            <Link onClick={this.handleFavorites} to="/category/hubs" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('withoutTags')}} 
+              to="/category/hubs" 
+              className={classes.dropdownLink}
+            >
               Hubs Without Tags
             </Link>,
-            <Link onClick={this.handleFavorites} to="/category/dhframes" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('withoutTags')}} 
+              to="/category/dhframes" 
+              className={classes.dropdownLink}
+            >
               DH Frames Without Tags
             </Link>,
-            <Link onClick={this.handleFavorites} to="/category/enduroframes" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('withoutTags')}} 
+              to="/category/enduroframes" 
+              className={classes.dropdownLink}
+            >
               Enduro Frames Without Tags
             </Link>,
-            <Link onClick={this.handleFavorites} to="/category/wheels" className={classes.dropdownLink}>
+            <Link 
+              onClick={() => {this.handleClickDropdownLink('withoutTags')}} 
+              to="/category/wheels" 
+              className={classes.dropdownLink}
+            >
               Wheels Without Tags
             </Link>
           ]}

@@ -18,7 +18,7 @@ import TagButton from '../Buttons/TagButton.jsx';
 import FavoriteButton from '../FavButton/FavButtonBikeMarkt.jsx';
 import Typography from '@material-ui/core/Typography';
 import { Avatar } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Http';
+import HttpIcon from '@material-ui/icons/Http';
 import ImageLightBox from '../ImageLightbox/ImageLightBox.jsx';
 import Aux from '../../hoc/Ax/Ax';
 
@@ -285,7 +285,7 @@ class OfferDetails extends React.Component {
                                   target={`_blank`} 
                                   style={{outline: "none",}}
                               >
-                                  <InfoIcon />
+                                  <HttpIcon />
                               </IconButton>
                             </Grid>
                           </Grid>

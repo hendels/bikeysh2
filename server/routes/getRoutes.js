@@ -291,20 +291,20 @@ module.exports = app => {
     //>>
     //==================================================================================================================
     //<<offerList
-    app.get('/api/bm/category/:model/:skipRange/:pageLimit/:favFilter/:withoutTagsFilter/first=:showFirst/last=:showLast',
+    app.get('/api/bm/category/:model/:skipRange/:pageLimit/:favFilter/:withoutTagsFilter',
         async (req, res) => {
-            let favFilter = (req.params.favFilter === `true`);
-            let withoutTagsFilter = (req.params.withoutTagsFilter === `true`);
-            let firstPage = (req.params.showFirst === `true`);
-            let lastPage = (req.params.showLast === `true`);
-            console.log(`favorite  filter: ${favFilter}`);
-            console.log(`withoutTags filter: ${withoutTagsFilter}`);
-            console.log(`firstPage : ${firstPage}`);
-            console.log(`lastPage : ${lastPage}`);
+            const strFavorite = req.params.favFilter.replace(/\s/g,'');
+            const strWithoutTags = req.params.withoutTagsFilter.replace(/\s/g,'');
+            let favFilter = (strFavorite === `true`);
+            let withoutTagsFilter = (strWithoutTags === `true`);
+            // let firstPage = (req.params.showFirst === `true`);
+            // let lastPage = (req.params.showLast === `true`);
+            console.log(`favorite  filter: ${favFilter} paramString: ${strFavorite}`);
+            console.log(`withoutTags filter: ${withoutTagsFilter} paramString: ${strWithoutTags}`);
+            // console.log(`firstPage : ${firstPage}`);
+            // console.log(`lastPage : ${lastPage}`);
             var pageLimit = parseInt(req.params.pageLimit);
             var skipRange = parseInt(req.params.skipRange);
-            if (firstPage) 
-                skipRange = 0;
                 
             let filters = {}
             if (favFilter){

@@ -6,6 +6,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 //mgt
 
 const styles = theme => ({
@@ -24,7 +25,23 @@ const styles = theme => ({
     fontSize: "14px",
   },
 });
-
+const themeCancelButton = createMuiTheme({
+  overrides: {
+    MuiButton: {
+      root: {
+        background: '#314455',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        height: 30,
+        padding: '0px 30px 0px 30px',
+        '&:hover': {
+            backgroundColor: '#838e99'
+        },
+      },
+    },
+  },
+});
 class SnackbarBestOffer extends React.Component {
   state = {
     statistics: {
@@ -77,6 +94,15 @@ class SnackbarBestOffer extends React.Component {
         }}
         message={
           <Grid container direction="row" justify="space-between" alignContent="center">
+          <Grid item item xs={7}>
+            <span style={{fontWeight: "bold"}}>Price:</span>
+            </Grid>
+            <Grid item item xs={5}>
+              {this.props.price} {this.state.statistics.currency}
+            </Grid>
+            <Grid item item xs={12}>
+              <br/>
+            </Grid>
             <Grid item item xs={12}>
               <span style={{fontWeight: "bold"}}>Offer based on:</span>
             </Grid>
@@ -105,7 +131,12 @@ class SnackbarBestOffer extends React.Component {
               {parseFloat(this.state.statistics.avgPrice-this.props.price).toFixed(0)} {this.state.statistics.currency}
             </Grid>
             <Grid item item xs={12}>
-              <Button>Details</Button>
+              <br/>
+            </Grid>
+            <Grid item item xs={12}>
+              <MuiThemeProvider theme={themeCancelButton}>
+                <Button fullWidth="true" onClick={this.props.showOfferDetailsDialog}>Details</Button>
+              </MuiThemeProvider>
             </Grid>
           </Grid>
         }
