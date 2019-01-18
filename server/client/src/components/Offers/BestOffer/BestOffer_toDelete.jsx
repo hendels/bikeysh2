@@ -21,7 +21,7 @@ import Delete from '@material-ui/icons/DeleteSweep';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 //app components
-import FavoriteButton from '../../FavButton/FavButtonBikeMarkt';
+import FavoriteButton from '../../Buttons/FavoriteButton';
 import TagButton from '../../Buttons/TagButton';
 import TagDialog from '../../Dialogs/TagDialog.jsx';
 

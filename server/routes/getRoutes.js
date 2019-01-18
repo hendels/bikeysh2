@@ -11,7 +11,6 @@ const tags = require('../models/tags');
 const globalSetup = require('../models/global_setup');
 const scoring = require('../models/scoring');
 const Tags = mongoose.model('tags');
-// const Scoring = mongoose.model('scoring');
 //management
 const tagMgt = require(`../db_management/tagManagement`);
 const genMgt = require('../db_management/generalManagement');

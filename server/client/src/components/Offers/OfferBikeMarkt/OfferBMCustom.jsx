@@ -25,7 +25,7 @@ import Block from '@material-ui/icons/Block';
 
 //custom components
 import Aux from '../../../hoc/Ax/Ax';
-import FavoriteButton from '../../FavButton/FavButtonBikeMarkt';
+import FavoriteButton from '../../Buttons/FavoriteButton';
 import TagButton from '../../Buttons/TagButton';
 import OfferDetailsDialog from '../../Dialogs/OfferDetailsDialog.jsx';
 //styles
@@ -153,6 +153,7 @@ const styles = theme => ({
     },
   });
 
+let attributes = [];
 
 class OfferBMCustom extends React.Component{
 
@@ -164,9 +165,9 @@ state = {
         yearTitle: 0, yearDescription: 0,
         manufacturerSetId: 0, modelSetId: 0,
         urlActive: null,
-        },
-    // rerender: false,
+    },
     showOfferDetails: false,
+    favorite: this.props.offer.favorite,
 }
 handleShowOfferDetailsDialog = () => {
     this.setState({showOfferDetails: true}, () => {});
@@ -174,6 +175,28 @@ handleShowOfferDetailsDialog = () => {
 handleCloseOfferDetailsDialog = () => {
     this.setState({showOfferDetails: false});
 };
+handleSetFavorite = (setAs) => {
+    this.setState({favorite: setAs}, ()=> {});
+}
+getOfferAttributes = (category) => {
+    
+    switch(category.toLowerCase()){
+        case 'cranks':{
+            this.props.offer.chainringMountType !== '' ? 
+                attributes.push({label: 'Mount type:', value: this.props.offer.chainringMountType}) : null;
+            this.props.offer.crankStandard !== '' ? 
+                attributes.push({label: 'Standard:', value: this.props.offer.crankStandard}) : null;
+            this.props.offer.crankArmLength !== '' ? 
+                attributes.push({label: 'Arm length:', value: this.props.offer.crankArmLength}) : null;
+            this.props.offer.crankWidth !== '' ? 
+                attributes.push({label: 'Width:', value: this.props.offer.crankWidth}) : null;
+            break;  
+        }
+        default:
+        break;
+    }
+    // return attributes;
+}
 getScoringData = async () => {
     // console.log(`[3]offer BM getScoring searchPending = ${this.props.searchPending} dummy = ${this.props.dummy}`);
     // console.log(`[3]searching score for offer id = ${this.props.offer._id}`)
@@ -213,6 +236,10 @@ getScoringData = async () => {
 }
 componentWillMount(){
     this.getScoringData();
+    if (this.props.category !== undefined){
+        attributes = [];
+        this.getOfferAttributes(this.props.category);
+    } 
 }
 componentWillReceiveProps(nextProps){
     // console.log(`receiving offer BM [3] search pending = ${nextProps.searchPending} offer = ${nextProps.offer._id}`);
@@ -389,17 +416,27 @@ return(
         >
             <Grid container spacing={0} direction="column" justify="space-between" alignItems="flex-start" className={classes.gridElementInfo}>
                 <Grid item className={classes.gridElementInfoTitle}>
-                    Stats:
+                    Details
                 </Grid>
                 {/* core info */}
                 <Grid item className={classes.gridElementInfoText}>
                     {`Days on market: ${diffDays !== undefined ? diffDays : `unknown`}`}
                 </Grid>
                 <Grid item className={classes.gridElementInfoText}>
-                    {`Total price drop: ${0} times: x${0}`}
-                </Grid>
-                <Grid item className={classes.gridElementInfoText}>
-                    {`Average price:${0}`}
+
+                    <Grid container justify="space-between" alignItems="flex-start">
+                        {attributes.map((attribute) => {
+                            if (attribute.value !== null){
+                                let attributeText = `${attribute.label} ${attribute.value}`;
+                                attributeText = attributeText.length > 32 ? attributeText.slice(0, 32) + "..." : attributeText;
+                                return (<Grid item xs={6}>{attributeText}</Grid>);
+                            }
+                        })}
+                    </Grid>
+
+
+
+
                 </Grid>
                 {/* actions */}
                 <Grid item>
@@ -408,7 +445,8 @@ return(
                             <FavoriteButton 
                                 dummy={this.props.dummy}
                                 dataKey={this.props.offer._id} 
-                                favorite={this.props.offer.favorite} 
+                                favorite={this.state.favorite} 
+                                setFavorite={this.handleSetFavorite}
                                 fetchUrl={this.props.fetchUrl} 
                                 model={this.props.model}
                             />
@@ -432,18 +470,18 @@ return(
                                 onClick={this.handleShowOfferDetailsDialog}
                             >
                                 <InfoIcon 
-                                    style={{color: bikeyshColor5, outline: "none",}}
+                                    style={{color: bikeyshColor5}}
                                 />
                             </IconButton>
                         </Grid>
                         <Grid item xs={3} className={classes.actionItem}>
-                        <IconButton 
-                                  href={this.props.offer.productUrl} 
-                                  target={`_blank`} 
-                                  style={{outline: "none",}}
-                              >
-                                  <HttpIcon />
-                              </IconButton>
+                            <IconButton 
+                                href={this.props.offer.productUrl} 
+                                target={`_blank`} 
+                                style={{color: bikeyshColor5, outline: "none",}}
+                            >
+                                <HttpIcon />
+                            </IconButton>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -455,11 +493,13 @@ return(
         close={this.handleCloseOfferDetailsDialog}
         //base info
         offer={this.props.offer} 
+        favorite={this.state.favorite} 
+        setFavorite={this.handleSetFavorite}
         category={this.props.category} 
         model={this.props.model}
         tagUrl={this.props.tagUrl}
-        // parentStatistics
-        // disableStatistics={this.handleDisableStatistics}
+        //attributes
+        attributes={attributes}
         //statistics
         manufacturerSetId={this.state.scoringData.manufacturerSetId}
         modelSetId={this.state.scoringData.modelSetId}

@@ -194,14 +194,14 @@ class DialogDragAndDrop extends React.Component {
     handleCancel = () => {
       this.props.onClose(false);
     };
-    componentWillReceiveProps() {
-      this.setState({reloadDialogDnd: this.props.reloadDialogDnd}, () => {
+    componentWillReceiveProps(nextProps) {
+      this.setState({reloadDialogDnd: nextProps.reloadDialogDnd}, () => {
         // console.log(`dnd received props reload MAIN DND state = ${this.state.reloadDialogDnd}`);
-        if (this.props.reloadDialogDnd !== this.state.reloadDialogDnd){
+        if (nextProps.reloadDialogDnd !== this.state.reloadDialogDnd){
           // console.log('GET TAGS WHILE RECEIVE PROPS');
           this.handleGetTagsForOffer();
         }
-        this.forceUpdate();
+        // this.forceUpdate();
       });
     }
     render()  {

@@ -11,7 +11,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import InfoIcon from '@material-ui/icons/Info';
 import Delete from '@material-ui/icons/DeleteSweep';
 //app components
-import FavoriteButton from '../../FavButton/FavButtonBikeMarkt.jsx';
+import FavoriteButton from '../../Buttons/FavoriteButton.jsx';
 import TagButton from '../../Buttons/TagButton';
 import SnackbarBestOffer from '../../Snackbars/SnackbarBestOffer.jsx';
 import OfferDetailsDialog from '../../Dialogs/OfferDetailsDialog.jsx';
@@ -21,24 +21,12 @@ import Aux from '../../../hoc/Ax/Ax';
 const styles = theme => ({
     root: {
         display: 'relative',
-        // flexWrap: 'wrap',
         height: 350,
         width: 250,
-        // minWidth: '100px',
-        // width: '100%',
     },
-    // card: {
-    //   minWidth: 250,
-    //   maxWidth: 250,
-    //   minHeight: 250,
-    // //   background: '#97AABD',
-    //   background: 'linear-gradient(180deg, #97aabd 0%,#314455 100%)',
-    // //   maxHeight: 500
-    // },
     media: {
       height: 0,
       paddingTop: '56.25%', // 16:9
-    //   background: '#000',
       opacity: 0.6
     },
     actions: {
@@ -187,7 +175,7 @@ class BestOffer extends React.Component {
         this.state = {
             offerCount: this.props.offerCount,
             openStatisticsChips: false,
-            favorite: false,
+            favorite: this.props.offer.favorite,
             disableStatistics: false,
             scoringData: {
                 trueName: '', price: 0, currency: "...", median: 0, 
@@ -211,12 +199,18 @@ class BestOffer extends React.Component {
         this.setState({openStatisticsChips: false});
     };
     handleCloseOfferDetailsDialog = () => {
-        this.setState({showOfferDetails: false});
+        this.setState({showOfferDetails: false, disableStatistics: false} , ()=> {
+            console.log(`close :${this.state.disableStatistics}`);
+        });
     };
     handleShowOfferDetailsDialog = () => {
-        this.setState({showOfferDetails: true});
+        this.setState({showOfferDetails: true, disableStatistics: true} , ()=> {
+            console.log(`show :${this.state.disableStatistics}`);
+        });
     };
-    
+    handleSetFavorite = (setAs) => {
+        this.setState({favorite: setAs}, ()=> {});
+    }
     getScoringData = async () => {
         if (this.props.offer._id !== `dummy`){
             await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
@@ -251,12 +245,20 @@ class BestOffer extends React.Component {
                 });
             });
     }
+    componentWillReceiveProps(nextProps){
+        // console.log(`nextProps : fav ${nextProps.offer.favorite}`);
+        if (nextProps.offer.favorite !== this.state.favorite){
+            this.setState({favorite: nextProps.offer.favorite}, () => {
+                // console.log(`state : fav ${nextProps.offer.favorite}`);
+            });
+        }
+    }
     async componentWillMount(){
-        if (!this.props.searchPending)
+        if (!this.props.searchPending){
             await this.getScoringData();
+        }
     }
     shouldComponentUpdate(){
-        // return true;
         return !this.props.searchPending;
     }
     render(){
@@ -287,7 +289,7 @@ class BestOffer extends React.Component {
         return(
             <div className={classes.root}>
                 <ButtonBase
-                    focusRipple={!this.state.disableStatistics}
+                    disableRipple={this.state.disableStatistics}
                     className={classes.image}
                     focusVisibleClassName={classes.focusVisible}
                     onClick={this.handleShowStatisticsChips}
@@ -302,9 +304,6 @@ class BestOffer extends React.Component {
                 {this.props.offer._id !== `dummy` ? (
                 <Aux>
                     <span className={classes.imageScoring}>
-                        {/* <Avatar aria-label="Recipe" className={classes.avatar}>
-                            {parseFloat(this.state.scoringData.scores).toFixed(1)}
-                        </Avatar> */}
                         {Math.round(this.state.scoringData.scores) !== 0 ? 
                             <Avatar className={classes.avatar}>
                                 {parseFloat(this.state.scoringData.scores).toFixed(1)}
@@ -324,9 +323,10 @@ class BestOffer extends React.Component {
                     <span className={classes.imageActionsFavorite}>
                         <FavoriteButton 
                             dataKey={this.props.offer._id} 
-                            favorite={this.props.offer.favorite} 
+                            favorite={this.state.favorite} 
                             fetchUrl={this.props.fetchUrl} 
                             model={this.props.model}
+                            setFavorite={this.handleSetFavorite}
                         />
                     </span>
                     <span className={classes.imageActionsTags}>
@@ -385,8 +385,11 @@ class BestOffer extends React.Component {
                     category={this.props.category} 
                     model={this.props.model}
                     tagUrl={this.props.tagUrl}
+                    favorite={this.state.favorite}
+                    //parent props
                     parentStatistics
                     disableStatistics={this.handleDisableStatistics}
+                    setFavorite={this.handleSetFavorite}
                     //statistics
                     manufacturerSetId={this.state.scoringData.manufacturerSetId}
                     modelSetId={this.state.scoringData.modelSetId}

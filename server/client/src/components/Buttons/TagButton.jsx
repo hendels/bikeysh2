@@ -50,8 +50,7 @@ class TagBadge extends React.Component {
       });
       if (!withReload)
         this.countAddedTags();
-      else
-      {
+      else {
         await this.setState({ 
             openTagDialog: true 
         }, ()=> {

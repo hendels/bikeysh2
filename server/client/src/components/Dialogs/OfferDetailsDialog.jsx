@@ -15,7 +15,7 @@ import ImageStepper from '../ImageStepper/ImageStepper.js';
 import blue from '@material-ui/core/colors/blue';
 import TranslateButton from '../Buttons/TranslateButton.jsx';
 import TagButton from '../Buttons/TagButton.jsx';
-import FavoriteButton from '../FavButton/FavButtonBikeMarkt.jsx';
+import FavoriteButton from '../Buttons/FavoriteButton.jsx';
 import Typography from '@material-ui/core/Typography';
 import { Avatar } from '@material-ui/core';
 import HttpIcon from '@material-ui/icons/Http';
@@ -94,10 +94,18 @@ const styles = {
     },
     statsContainer: {
       width: "200px",
-      height: "255px",
+      height: "135px",
       backgroundColor: "rgba(151, 170, 189, 0.2)",
-      padding: "10px 0px 10px 5px",
+      padding: "5px 0px 5px 5px",
       fontSize: "14px",
+    },
+    attributesContainer: {
+      width: "200px",
+      height: "120px",
+      backgroundColor: "rgba(151, 170, 189, 0.2)",
+      padding: "5px 0px 5px 5px",
+      fontSize: "14px",
+      borderTop: "1px solid rgb(151, 170, 189)"
     },
     actionContainer: {
       width: "200px",
@@ -159,17 +167,13 @@ class OfferDetails extends React.Component {
     };
     dummy = () => {};
     componentWillReceiveProps(nextProps){
-      console.log(`[4]manufacturerSetId: :${nextProps.manufacturerSetId} modelSetId: ${nextProps.modelSetId} count offers: ${this.state.statistics.countOffers}`);
+      // console.log(`[4]manufacturerSetId: :${nextProps.manufacturerSetId} modelSetId: ${nextProps.modelSetId} count offers: ${this.state.statistics.countOffers}`);
       //if (!nextProps.searchPending)
         if((nextProps.manufacturerSetId !== 0 && nextProps.modelSetId !== 0) && 
         (nextProps.manufacturerSetId !== this.state.manufacturerSetId || nextProps.modelSetId !== this.state.modelSetId) ){
-          // this.setState({
-          //   manufacturerSetId: nextProps.manufacturerSetId, 
-          //   modelSetId: nextProps.modelSetId
-          // }, () => {
-            this.getScoringData();
-          // })
+          this.getScoringData();
         };
+
     };
     render() {
       const { classes, onClose, selectedValue, ...other } = this.props;
@@ -226,47 +230,68 @@ class OfferDetails extends React.Component {
                           <span>{this.props.offer.price}</span>
                       </Grid>
                       <Grid item xs={12} className={classes.statsContainer}>
-                      {this.state.statistics.countOffers > 0 ? 
+                      {this.state.statistics.countOffers > 0 ? ( 
                         <Grid container direction="row" justify="space-between" alignContent="center">
                           <Grid item item xs={12}>
                             <span style={{fontWeight: "bold"}}>Offer based on:</span>
                           </Grid>
-                          <Grid item item xs={7}>
+                          <Grid item xs={7}>
                             Similar offers:
                           </Grid>
-                          <Grid item item xs={5}>
+                          <Grid item xs={5}>
                             {this.state.statistics.countOffers}
                           </Grid>
-                          <Grid item item xs={7}>
+                          <Grid item xs={7}>
                             Average price:
                           </Grid>
-                          <Grid item item xs={5}>
+                          <Grid item xs={5}>
                             {this.state.statistics.avgPrice} {this.state.statistics.currency}
                           </Grid>
-                          <Grid item item xs={7}>
+                          <Grid item xs={7}>
                             Median for {this.props.itemState}:
                           </Grid>
-                          <Grid item item xs={5}>
+                          <Grid item xs={5}>
                             {`[todo]`}
                           </Grid>
-                          <Grid item item xs={7}>
+                          <Grid item  xs={7}>
                             It's cheaper by:
                           </Grid>
-                          <Grid item item xs={5}>
+                          <Grid item xs={5}>
                             {parseFloat(this.state.statistics.avgPrice-this.props.price).toFixed(0)} {this.state.statistics.currency}
                           </Grid>
                         </Grid>
-                        : <span style={{fontWeight: "bold"}}>This offer currently has no assigned scores</span>
+                      ) : <span style={{fontWeight: "bold"}}>This offer currently has no assigned scores</span>
+                      
                       }
+                      </Grid>
+                      <Grid item xs={12} className={classes.attributesContainer}>
+                        <Grid container direction="row" justify="space-between" alignContent="center">
+                          {this.props.attributes.map((attribute) => {
+                            if (attribute.value !== null){
+                                const attributeText = attribute.value.length > 15 ? attribute.value.slice(0, 15) + "..." : attribute.value;
+                                return (
+                                  <Aux>
+                                    <Grid item xs={7}>
+                                      <b>{attribute.label}</b>
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                      {attributeText}
+                                    </Grid>
+                                  </Aux>
+                                );
+                            }
+                          })}
+                        </Grid>
                       </Grid>
                       <Grid item xs={12} className={classes.actionContainer}>
                           <Grid container justify="space-between" alignContent="center">
                             <Grid item xs={4}>
                               <FavoriteButton 
                                 dataKey={this.props.offer._id} 
-                                favorite={this.props.offer.favorite} 
+                                favorite={this.props.favorite} 
                                 fetchUrl={this.props.fetchUrl} 
                                 model={this.props.model}
+                                setFavorite={this.props.setFavorite}
                               />
                             </Grid>
                             <Grid item xs={4}>
