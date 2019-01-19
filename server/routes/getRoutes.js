@@ -317,7 +317,7 @@ module.exports = app => {
                 }
             }
             dbCollection = mongoose.model(req.params.model);
-            dbCollection.count(async (err, count) => {
+            dbCollection.find(filters).count(async (err, count) => {
                 counter = count;
                 const currentModel = await dbCollection
                     .find(filters)
@@ -325,8 +325,8 @@ module.exports = app => {
                     .skip(skipRange)
                     .limit(pageLimit)
                     .select({ __v: false });
-    
-                res.send(currentModel);   
+                const objSearch = {result: currentModel, count: counter};
+                res.send(objSearch);   
             });
         }
     );

@@ -5,8 +5,6 @@ import {withStyles} from '@material-ui/core/styles';
 //mui core
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
 import Tooltip from '@material-ui/core/Tooltip';
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
@@ -14,11 +12,8 @@ import Zoom from '@material-ui/core/Zoom';
 //mui icons
 import InfoIcon from '@material-ui/icons/Info';
 import HttpIcon from '@material-ui/icons/Http';
-import DesiredAdd from '@material-ui/icons/PlaylistAdd';
-import AddComment from '@material-ui/icons/NoteAdd';
 import Vendor from '@material-ui/icons/MonetizationOn';
 import Face from '@material-ui/icons/Face';
-import Delete from '@material-ui/icons/DeleteSweep';
 import Viewed from '@material-ui/icons/Visibility';
 import Link from '@material-ui/icons/Link';
 import Block from '@material-ui/icons/Block';
@@ -28,7 +23,8 @@ import Aux from '../../../hoc/Ax/Ax';
 import FavoriteButton from '../../Buttons/FavoriteButton';
 import TagButton from '../../Buttons/TagButton';
 import OfferDetailsDialog from '../../Dialogs/OfferDetailsDialog.jsx';
-//styles
+//common
+import {getOfferAttributes, getDayDifferencesFromToday} from '../../../common/common';
 import {
     bikeyshColor1,
     bikeyshColor2,
@@ -38,21 +34,15 @@ import {
     bikeyshColor6,
     bikeyshColor7,
 } from "../../../styles/material-kit-react";
-
+//
 const styles = theme => ({
     root: {
-    //   display: 'flex',
-    //   flexWrap: 'nowrap',
-    //   justifyContent: 'space-around',
-    //   position: 'relative',
         width: 1000,
         height: 200,
 
     },
     gridElement: {
       width: 1000,
-    //   height: 200,
-    //   position: "relative",
 
     },
 
@@ -63,7 +53,6 @@ const styles = theme => ({
         textShadow: `1px 1px ${bikeyshColor5}`,
         paddingLeft: `15px`,
         "&:hover": {
-            // borderBottom:`2px solid ${bikeyshColor5}`,
             textDecoration: 'underline',
         },
     },
@@ -76,7 +65,6 @@ const styles = theme => ({
 
     },
     gridElementDownbar: {
-        //position: 'relative',
         zIndex: 0,
         minWidth: 1000,
         minHeight: 70,
@@ -86,10 +74,6 @@ const styles = theme => ({
         color: "#fff",
         paddingLeft: `15px`,
         paddingRight: `15px`
-        // textOverflow: "ellipsis",
-        // !required for overflow!
-        // whiteSpace: "nowrap",
-        // overflow: "hidden"
     },
     gridElementDownbarIcons: {
         paddingTop: '10px'
@@ -111,12 +95,8 @@ const styles = theme => ({
         minHeight: 70,
         maxHeight: 70,
         minWidth: 250,
-        // background: "#000",
-        // opacity: "0.63",
         paddingLeft: `15px`,
         paddingRight: `15px`,
-        // borderInlineStart: `2px dotted ${bikeyshColor4}`,
-        // writingMode: `vertical-rl`,
         borderBottom: `1px dotted ${bikeyshColor4}`,
         borderTop: `1px dotted ${bikeyshColor4}`,
     },
@@ -153,7 +133,6 @@ const styles = theme => ({
     },
   });
 
-let attributes = [];
 
 class OfferBMCustom extends React.Component{
 
@@ -168,6 +147,7 @@ state = {
     },
     showOfferDetails: false,
     favorite: this.props.offer.favorite,
+    attributes: [],
 }
 handleShowOfferDetailsDialog = () => {
     this.setState({showOfferDetails: true}, () => {});
@@ -179,23 +159,8 @@ handleSetFavorite = (setAs) => {
     this.setState({favorite: setAs}, ()=> {});
 }
 getOfferAttributes = (category) => {
-    
-    switch(category.toLowerCase()){
-        case 'cranks':{
-            this.props.offer.chainringMountType !== '' ? 
-                attributes.push({label: 'Mount type:', value: this.props.offer.chainringMountType}) : null;
-            this.props.offer.crankStandard !== '' ? 
-                attributes.push({label: 'Standard:', value: this.props.offer.crankStandard}) : null;
-            this.props.offer.crankArmLength !== '' ? 
-                attributes.push({label: 'Arm length:', value: this.props.offer.crankArmLength}) : null;
-            this.props.offer.crankWidth !== '' ? 
-                attributes.push({label: 'Width:', value: this.props.offer.crankWidth}) : null;
-            break;  
-        }
-        default:
-        break;
-    }
-    // return attributes;
+    const attributes = getOfferAttributes(category, this.props.offer);
+    this.setState({attributes: attributes}, () =>{});
 }
 getScoringData = async () => {
     // console.log(`[3]offer BM getScoring searchPending = ${this.props.searchPending} dummy = ${this.props.dummy}`);
@@ -204,8 +169,6 @@ getScoringData = async () => {
         // console.log(`[3]getScoring after searchPending:`);
         await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
             if (result !== undefined){
-                // console.log(`[3]result getScoring:`);
-                // console.log(result);
                 if (result.scoring.length > 0) {
                     var scoringData = {
                         offerId: result.scoring[0].offerId,
@@ -223,21 +186,16 @@ getScoringData = async () => {
                         urlActive: result.scoring[0].urlActive
                     }
                     console.log(scoringData);
-                    this.setState({scoringData: scoringData}, () => {
-                        if (this.props.fullSearch){
-                            // console.log(`[3]RERENDER AFTER GETSCORING`);
-                            //this.props.rerender();
-                        }
-                    });
+                    this.setState({scoringData: scoringData}, () => {});
                 }
         }
         });
     }
 }
 componentWillMount(){
+    console.log('MOUNTED');
     this.getScoringData();
     if (this.props.category !== undefined){
-        attributes = [];
         this.getOfferAttributes(this.props.category);
     } 
 }
@@ -252,6 +210,7 @@ componentWillReceiveProps(nextProps){
             yearDescription: "",
             manufacturerSetId: 0,
             modelSetId: 0,
+            attributes: [],
             },
         }, () => {
             this.getScoringData();
@@ -259,9 +218,6 @@ componentWillReceiveProps(nextProps){
         });
     }
 }
-// shouldComponentUpdate(){
-//     return !this.props.searchPending;
-// }
 render(){
 
 const {classes} = this.props;
@@ -270,32 +226,15 @@ let linkActive = false;
 let linkTip = `null`;
 this.props.offer.dealer === "Nein" ? dealerTip = `Regular offer` : dealerTip = `Dealer`;
 let offerAvailable = undefined;
+
+let diffDays = null;
 let offerDate = null;
 
 if (!this.props.dummy){
-    //* date variables
-    const dateRegex = /((0[1-9]|[12]\d|3[01]).(0[1-9]|1[0-2]).[12]\d{3})/g;
-    const regexDate = dateRegex.exec(this.props.offer.publishDate);
-    // console.log(regexDate);
-    if (regexDate !== null && regexDate[0] !== undefined){
-        offerDate = regexDate[0]
-        var todayDate = new Date();
-        var dd = todayDate.getDate();
-        var mm = todayDate.getMonth() + 1;
-        var yyyy = todayDate.getFullYear();
-        var today = `${mm}.${dd}.${yyyy}`;
-        var date2 = new Date(today);
-    
-        dd = regexDate[0].slice(0,2);
-        mm = regexDate[0].slice(3,5);
-        yyyy = regexDate[0].slice(6,10);
-    
-        var convertedDate = `${mm}.${dd}.${yyyy}`;
-        var date1 = new Date(convertedDate);
-        var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    } else
-         offerDate = this.props.offer.publishDate;
+
+    const countDate = getDayDifferencesFromToday(this.props.offer.publishDate);
+    diffDays = countDate.diffDays;
+    offerDate = countDate.date;
     
     this.state.scoringData.urlActive !== undefined && this.state.scoringData.urlActive !== null ?
         JSON.parse(this.state.scoringData.urlActive) ?  offerAvailable = true : offerAvailable = false 
@@ -357,7 +296,8 @@ return(
                                     <Tooltip TransitionComponent={Zoom} title={dealerTip} placement="top-start">
                                         <Grid item >
                                             {this.props.offer.dealer === "Nein" ? 
-                                            <Face/>:<Vendor/>} 
+                                            <Face/> :
+                                            <Vendor/>} 
                                         </Grid>
                                     </Tooltip>
                                     {offerAvailable !== undefined ?
@@ -381,7 +321,6 @@ return(
                                 </Grid>
                             </Grid>
                             
-                            {/* <Grid item/> */}
                             <Grid item className={classes.gridElementInfoTitle}>
                                 {`${offerDate} `}
                                 {this.state.scoringData.itemState !== `` && this.state.scoringData.itemState !== undefined ?
@@ -405,7 +344,6 @@ return(
                 * price drop?
                 * how many scores do you have compared to total records in specific category table
                 *  */}
-        {/* </div> */}
         </Grid>
         {/* // details & action section */}
         <Grid 
@@ -425,18 +363,15 @@ return(
                 <Grid item className={classes.gridElementInfoText}>
 
                     <Grid container justify="space-between" alignItems="flex-start">
-                        {attributes.map((attribute) => {
-                            if (attribute.value !== null){
+                        {this.state.attributes.map((attribute) => {
+                            if (attribute.value !== null && attribute.value !== undefined){
                                 let attributeText = `${attribute.label} ${attribute.value}`;
                                 attributeText = attributeText.length > 32 ? attributeText.slice(0, 32) + "..." : attributeText;
                                 return (<Grid item xs={6}>{attributeText}</Grid>);
-                            }
+                            } else 
+                                return (<Grid item xs={6} style={{opacity: "0"}}>----------------</Grid>)
                         })}
                     </Grid>
-
-
-
-
                 </Grid>
                 {/* actions */}
                 <Grid item>
@@ -451,11 +386,6 @@ return(
                                 model={this.props.model}
                             />
                         </Grid>
-                        {/* <Grid item xs={4} className={classes.actionItem}>
-                            <IconButton onClick={this.setOfferVisibility}>
-                                <Delete style={{color: bikeyshColor5}}/> 
-                            </IconButton>
-                        </Grid> */}
                         <Grid item xs={3} className={classes.actionItem}>
                             <TagButton 
                                 dummy={this.props.dummy}    
@@ -499,12 +429,13 @@ return(
         model={this.props.model}
         tagUrl={this.props.tagUrl}
         //attributes
-        attributes={attributes}
+        attributes={this.state.attributes}
         //statistics
+        itemCondition={this.state.scoringData.itemState}
+        offerAvailable={offerAvailable}
         manufacturerSetId={this.state.scoringData.manufacturerSetId}
         modelSetId={this.state.scoringData.modelSetId}
         price={this.state.scoringData.price}
-        itemState={this.state.itemState}
         scores={this.state.scoringData.scores}
         searchPending={this.props.searchPending}
     />

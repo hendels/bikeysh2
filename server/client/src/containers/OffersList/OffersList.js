@@ -6,11 +6,7 @@ import OffersPageResult from '../../components/Offers/OfferBikeMarkt/OffersBMPag
 //material-ui core elements
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-
-import Button from '@material-ui/core/Button/Button';
-import GridList from '@material-ui/core/GridList';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 // # app components
 import PageInfo from '../../containers/PageInfos/PageInfo.jsx';
@@ -40,24 +36,22 @@ class OffersList extends Component {
         }
     }
 
-    fetchData = (skip, pageLimit, showFirst, showLast) => {
-        const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
-        console.log(`favorites filter: ${this.state.loadFavorites} withoutTags filter: ${this.state.loadWithoutTags}`);
+    fetchData = (skip, pageLimit) => {
         axios.get(`/api/bm/category/${this.props.model}/${skip}/${pageLimit}/${this.state.loadFavorites}/
             ${this.state.loadWithoutTags}`)
             .then(response => response.data)
-            .then(result => this.onSetResult(result, skip))
+            .then(objSearch => this.onSetResult(objSearch))
     }
     
-    onSetResult = (result, skip) =>{
-        if (result.length !== 0){
-            this.setState({hits: result}, () => {
+    onSetResult = (objSearch) =>{
+        if (objSearch.result.length !== 0){
+            this.setState({hits: objSearch.result, totalResult: objSearch.count}, () => {
                 window.scrollTo(0, 0);
             });}
     }
 
     onPaginatedSearchNext = () => {
-        const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
+        const totalArray = this.state.totalResult;
         let newSkip = this.state.skip + skipValue;
         if(newSkip >= totalArray)
             newSkip = totalArray;
@@ -83,23 +77,25 @@ class OffersList extends Component {
     }
     handleShowFirstPage = () => {
         let newSkip = 0;
+        if(newSkip <= 0) newSkip = 0;
         if(newSkip !== this.state.skip){
             this.setState(state => ({
                 skip: newSkip
             }), () => {
-                this.fetchData(this.state.skip - this.state.pageItems, this.state.pageItems);
+                this.fetchData(this.state.skip , this.state.pageItems);
             });
         }
     }
     handleShowLastPage = () => {
-        const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
+        const totalArray = this.state.totalResult;
         let newSkip = totalArray - skipValue;
-        if(newSkip <= 0) newSkip = 0;
+        if(newSkip >= totalArray)
+            newSkip = totalArray;
         if(newSkip !== this.state.skip){
             this.setState(() => ({
                 skip: newSkip
             }), () => {
-                this.fetchData(this.state.skip - this.state.pageItems, this.state.pageItems);
+                this.fetchData(this.state.skip, this.state.pageItems);
             });
         }
     }
@@ -111,11 +107,9 @@ class OffersList extends Component {
     }
     componentDidMount() {
         if (!this.props.fullSearch){
-            axios.get(this.props.fetchUrl).then(response  => response.data).then(result => {
-                this.setState({totalResult: result}, ()=>{
-                    this.fetchData(this.state.skip, this.state.pageItems);
-                });
-            });
+            this.fetchData(this.state.skip, this.state.pageItems);
+        } else {
+
         }
     }
     async componentWillUnmount() {
@@ -124,17 +118,10 @@ class OffersList extends Component {
             await this.props.showWithoutTags(false);
         }
     }
-    // shouldComponentUpdate(){
-    //     if(!this.props.searchPending){
-    //         return true;
-    //     } else 
-    //         return false;
-    // }
     render(){
         const { classes } = this.props;
-        const totalArray = this.state.totalResult[Object.keys(this.state.totalResult)[0]];
+        const totalArray = this.state.totalResult;
         renderCount += 1;
-        let offers = <p style={{textAlign: 'center'}}>Something went wrong!</p>;
         if (!this.state.error && this.state.hits !== null){
             let firstLevel = 0;
             for (var x in this.state.hits){
@@ -202,7 +189,7 @@ class OffersList extends Component {
                 {pageInfo}
                 <div className={classNames(classes.main, classes.mainRaised)} style={{background: containerStyle.bikeyshBackground.background}}>
                     <div className={classes.container}>
-                        <Paper className={classes.containerBackground} elevation={1}>
+                        <Paper className={classes.containerBackground} elevation={10}>
                         <Grid container direction="column" justify="center" alignContent="center">
                             {/* //offer list */}
                             <Grid item>
@@ -221,12 +208,16 @@ class OffersList extends Component {
                             {this.props.fullSearch ? null : (
                                 <Grid item>
                                     <Pagination 
-                                        show={this.state.skip + skipValue} 
+                                        show={
+                                            totalArray <= this.state.skip + skipValue ? 
+                                            totalArray : this.state.skip + skipValue
+                                        } 
                                         total={totalArray} 
-                                        lastPage={this.handleShowLastPage} 
-                                        firstPage={this.handleShowFirstPage}
+                                        showPerPage={skipValue}
                                         previous={this.onPaginatedSearchPrevious} 
                                         next={this.onPaginatedSearchNext}
+                                        firstPage={this.handleShowFirstPage}
+                                        lastPage={this.handleShowLastPage} 
                                     />
                                 </Grid>
                             )}

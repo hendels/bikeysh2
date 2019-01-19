@@ -17,7 +17,8 @@ import SnackbarBestOffer from '../../Snackbars/SnackbarBestOffer.jsx';
 import OfferDetailsDialog from '../../Dialogs/OfferDetailsDialog.jsx';
 //hoc components
 import Aux from '../../../hoc/Ax/Ax';
-
+//common
+import {getOfferAttributes} from '../../../common/common';
 const styles = theme => ({
     root: {
         display: 'relative',
@@ -184,6 +185,7 @@ class BestOffer extends React.Component {
                 manufacturerSetId: 0, modelSetId: 0
             },
             showOfferDetails: false,
+            attributes: [],
 
         }
     }
@@ -224,6 +226,7 @@ class BestOffer extends React.Component {
                     itemState: result.scoring[0].itemState,
                     yearTitle: result.scoring[0].yearTitle,
                     yearDescription: result.scoring[0].yearDescription,
+                    urlActive: result.scoring[0].urlActive,
                     manufacturerSetId: parseInt(result.scoring[0].manufacturerSetId),
                     modelSetId: parseInt(result.scoring[0].modelSetId),
                 }
@@ -245,6 +248,10 @@ class BestOffer extends React.Component {
                 });
             });
     }
+    getOfferAttributes = (category) => {
+        const attributes = getOfferAttributes(category, this.props.offer);
+        this.setState({attributes: attributes}, () =>{});
+    }
     componentWillReceiveProps(nextProps){
         // console.log(`nextProps : fav ${nextProps.offer.favorite}`);
         if (nextProps.offer.favorite !== this.state.favorite){
@@ -255,6 +262,10 @@ class BestOffer extends React.Component {
     }
     async componentWillMount(){
         if (!this.props.searchPending){
+            console.log(`BEST OFFER CATEGORY: ${this.props.category}`);
+            if (this.props.category !== undefined){
+                this.getOfferAttributes(this.props.category);
+            }
             await this.getScoringData();
         }
     }
@@ -286,6 +297,10 @@ class BestOffer extends React.Component {
             default:
                 break;
         }
+        let offerAvailable = undefined;
+        this.state.scoringData.urlActive !== undefined && this.state.scoringData.urlActive !== null ?
+            JSON.parse(this.state.scoringData.urlActive) ?  offerAvailable = true : offerAvailable = false 
+            : null;
         return(
             <div className={classes.root}>
                 <ButtonBase
@@ -331,8 +346,6 @@ class BestOffer extends React.Component {
                     </span>
                     <span className={classes.imageActionsTags}>
                         <TagButton 
-                            // onClick={this.handleClickOpenTagDialog} 
-                            // onClose={this.handleCloseTagDialog}
                             category={this.props.category} 
                             model={this.props.model}
                             offer={this.props.offer} 
@@ -354,13 +367,6 @@ class BestOffer extends React.Component {
                         >
                             <InfoIcon />
                         </IconButton>
-                        {/* <IconButton 
-                            href={this.props.offer.productUrl} 
-                            target={`_blank`} 
-                            style={{outline: "none",}}
-                        >
-                            <InfoIcon />
-                        </IconButton> */}
                     </span>
                 </Aux>
                 ): null}
@@ -376,8 +382,8 @@ class BestOffer extends React.Component {
                         showOfferDetailsDialog={this.handleShowOfferDetailsDialog}
                     />
                 }
-                {this.state.showOfferDetails ? 
                 <OfferDetailsDialog
+                    //component
                     open={this.state.showOfferDetails}
                     close={this.handleCloseOfferDetailsDialog}
                     //base info
@@ -386,18 +392,21 @@ class BestOffer extends React.Component {
                     model={this.props.model}
                     tagUrl={this.props.tagUrl}
                     favorite={this.state.favorite}
+                    //attributes
+                    attributes={this.state.attributes}
                     //parent props
                     parentStatistics
                     disableStatistics={this.handleDisableStatistics}
                     setFavorite={this.handleSetFavorite}
                     //statistics
+                    offerAvailable={offerAvailable}
+                    itemCondition={this.state.scoringData.itemState}
                     manufacturerSetId={this.state.scoringData.manufacturerSetId}
                     modelSetId={this.state.scoringData.modelSetId}
                     price={this.state.scoringData.price}
-                    itemState={this.state.itemState}
                     scores={this.state.scoringData.scores}
                     searchPending={this.props.searchPending}
-                /> : null}
+                /> 
                 </ButtonBase>
             </div>
         )

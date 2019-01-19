@@ -50,16 +50,21 @@ class SwipeableTextMobileStepper extends React.Component {
       };
       picArray = [];
       fullscreenPicArray = [];
-      Object.keys(props.offer.pictures).forEach((key, index) => {
-        if (props.offer.pictures[Object.keys(props.offer.pictures)[index]] !== null){
-          let pictureObj = {imgPath: props.offer.pictures[Object.keys(props.offer.pictures)[index]], label: 'Bikeysh!'};
-          let fullscreenPictureObj = {src: props.offer.pictures[Object.keys(props.offer.pictures)[index]]};
-
-          picArray.push(pictureObj);
-          fullscreenPicArray.push(fullscreenPictureObj);
-        }
-
-      })
+      try{
+        Object.keys(props.offer.pictures).forEach((key, index) => {
+          if (props.offer.pictures[Object.keys(props.offer.pictures)[index]] !== null){
+            let pictureObj = {imgPath: props.offer.pictures[Object.keys(props.offer.pictures)[index]], label: 'Bikeysh!'};
+            let fullscreenPictureObj = {src: props.offer.pictures[Object.keys(props.offer.pictures)[index]]};
+  
+            picArray.push(pictureObj);
+            fullscreenPicArray.push(fullscreenPictureObj);
+          }
+  
+        })
+      }
+      catch(err){
+        alert(`something wrong with record [props.offer.pictures] - constructor SwipeableTextMobileStepper`);
+      }
   }
 
   handleNext = () => {

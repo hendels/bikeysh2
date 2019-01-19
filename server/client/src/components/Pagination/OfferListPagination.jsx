@@ -1,11 +1,9 @@
-import React, {Component} from 'react';
-import Aux from '../../hoc/Ax/Ax';
+import React from 'react';
 //material-ui core elements
 import { withStyles } from '@material-ui/core/styles';
 
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 //styles
 import containerStyle from '../../styles/components/offerListStyle';
 //icons
@@ -13,41 +11,45 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
-import Filter from '@material-ui/icons/FilterList';
 import Typography from '@material-ui/core/Typography';
-class OfferListPagination extends Component {
-    render(){
-        const {classes} = this.props;
+
+const OfferListPagination = (props) => {
+    const {classes} = props;
+    let disableLeft = props.show <= props.showPerPage;
+    let disableRight = props.show >= props.total;
     return(
-        // <Aux>
-            <Grid container direction="row" justify="flex-end" alignContent="center" className={classes.containerOfferList}>
-                <Grid item>
-                    {/* <Button disabled size="medium">{`${this.props.show} of ${this.props.total}`}</Button> */}
-                    <Typography style={{marginTop: "15px"}} headlineMapping="h4" align="center">{`${this.props.show} of ${this.props.total}`}</Typography>
-                </Grid>
-                <Grid item>
-                    <IconButton variant="outlined" onClick={this.props.firstPage}><FirstPage/></IconButton>
-                </Grid>
-                <Grid item>
-                    <IconButton variant="outlined" onClick={this.props.previous}><ChevronLeft/></IconButton>
-                </Grid>
-                <Grid item>
-                    <IconButton variant="outlined" onClick={this.props.next}><ChevronRight/></IconButton>
-                </Grid>
-                <Grid item>
-                    <IconButton variant="outlined" onClick={this.props.lastPage}><LastPage/></IconButton>
-                </Grid>
-                {/* <Grid item> */}
-                    {/* [todo] show only with no tag at all */}
-                    {/* <IconButton variant="outlined" onClick={this.props.showFilter}><Filter/></IconButton> */}
-                {/* </Grid> */}
-                {/* <p>{this.state.skip} of {totalArray}</p>
-                <p>filter favs / without tags</p>
-                <p>add big arrow with back to home property and statistics below for cat</p> */}
+        <Grid container justify="flex-end" alignContent="center" className={classes.containerOfferList}>
+            <Grid item>
+                <Typography 
+                    style={{marginTop: "15px"}} 
+                    headlineMapping="h4" 
+                    align="center"
+                >
+                    {`${props.show} of ${props.total}`}
+                </Typography>
             </Grid>
-        // </Aux>
+            <Grid item>
+                <IconButton disabled={disableLeft} variant="outlined" onClick={props.firstPage}>
+                    <FirstPage/>
+                </IconButton>
+            </Grid>
+            <Grid item>
+                <IconButton disabled={disableLeft} variant="outlined" onClick={props.previous}>
+                    <ChevronLeft/>
+                </IconButton>
+            </Grid>
+            <Grid item>
+                <IconButton disabled={disableRight} variant="outlined" onClick={props.next}>
+                    <ChevronRight/>
+                </IconButton>
+            </Grid>
+            <Grid item>
+                <IconButton disabled={disableRight} variant="outlined" onClick={props.lastPage}>
+                    <LastPage/>
+                </IconButton>
+            </Grid>
+        </Grid>
     )
-    }
 }
 
 export default withStyles(containerStyle)(OfferListPagination);

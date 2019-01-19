@@ -64,8 +64,6 @@ class BestOfferPage extends React.Component {
                 searchPending={this.props.searchPending}
             />
             <BestOfferInfo imageUrl={this.props.imageUrls.defaultImage} pageInfoTitle={`best offers this week so far ...`}/>
-            {/* <div className={classNames(classes.main, classes.mainRaised)}> */}
-                {/* <div className={classes.container}> */}
                 <Paper className={classes.root} elevation={10}>
                     <div>
                     <Grid 
@@ -101,7 +99,7 @@ class BestOfferPage extends React.Component {
                         spacing={Number(spacing)}
                     >
                         <BestOfferBar 
-                            category="Downhill Frames" 
+                            category="DHFrames" 
                             //offerCount={dhframes} 
                             bestUrl={this.props.fetchUrls.bestoffer}
                             //fetchUrl={this.props.fetchUrls.dhFrames} 
@@ -156,7 +154,7 @@ class BestOfferPage extends React.Component {
                         spacing={Number(spacing)}
                     >
                         <BestOfferBar 
-                            category="Enduro Frames" 
+                            category="EnduroFrames" 
                             //offerCount={hubs} 
                             bestUrl={this.props.fetchUrls.bestoffer}
                             //fetchUrl={this.props.fetchUrls.wheels} 
