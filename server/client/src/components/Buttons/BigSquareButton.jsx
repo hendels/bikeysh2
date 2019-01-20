@@ -33,7 +33,7 @@ const styles = theme => ({
       },
     },
   },
-  focusVisible: {},
+  // focusVisible: {},
   imageButton: {
     position: 'absolute',
     left: 0,
@@ -80,7 +80,7 @@ const styles = theme => ({
 });
 
 
-function ButtonBases(props) {
+const ButtonBases = (props) => {
   const { classes } = props;
 
   return (

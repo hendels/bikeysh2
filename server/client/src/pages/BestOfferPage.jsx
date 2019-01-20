@@ -100,9 +100,7 @@ class BestOfferPage extends React.Component {
                     >
                         <BestOfferBar 
                             category="DHFrames" 
-                            //offerCount={dhframes} 
                             bestUrl={this.props.fetchUrls.bestoffer}
-                            //fetchUrl={this.props.fetchUrls.dhFrames} 
                             tagUrl={this.props.fetchUrls.tags}
                             model={this.props.models.dhframes}
                             showSnack={this.handleSnack}
@@ -116,9 +114,7 @@ class BestOfferPage extends React.Component {
                     <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
                         <BestOfferBar 
                             category="Hubs" 
-                            //offerCount={hubs} 
                             bestUrl={this.props.fetchUrls.bestoffer}
-                            //fetchUrl={this.props.fetchUrls.hubs} 
                             tagUrl={this.props.fetchUrls.tags}
                             model={this.props.models.hubs}
                             showSnack={this.handleSnack}
@@ -132,9 +128,7 @@ class BestOfferPage extends React.Component {
                     <Grid container direction="row" className={classes.root} justify="space-evenly" alignItems="center" spacing={Number(spacing)}>
                         <BestOfferBar 
                             category="Wheels" 
-                            //offerCount={hubs} 
                             bestUrl={this.props.fetchUrls.bestoffer}
-                            //fetchUrl={this.props.fetchUrls.wheels} 
                             tagUrl={this.props.fetchUrls.tags}
                             model={this.props.models.wheels}
                             showSnack={this.handleSnack}
@@ -155,9 +149,7 @@ class BestOfferPage extends React.Component {
                     >
                         <BestOfferBar 
                             category="EnduroFrames" 
-                            //offerCount={hubs} 
                             bestUrl={this.props.fetchUrls.bestoffer}
-                            //fetchUrl={this.props.fetchUrls.wheels} 
                             tagUrl={this.props.fetchUrls.tags}
                             model={this.props.models.enduroframes}
                             showSnack={this.handleSnack}
@@ -174,9 +166,7 @@ class BestOfferPage extends React.Component {
                     <br/>
                     <br/>
                 </Paper>
-                {/* </div> */}
             </div>
-            // </div>
         )
     }
 }

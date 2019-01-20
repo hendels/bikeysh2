@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Aux from '../Ax/Ax';
 import axios from 'axios';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 // pages
 import BestOfferPage from '../../pages/BestOfferPage';
 // app components
@@ -10,7 +10,7 @@ import Header from '../../components/Header/Header.jsx';
 import HeaderLinks from '../../components/Header/HeaderLinks.jsx';
 //
 import LandingPage from '../../pages/LandingPage';
-import OfferSearchResult from '../../containers/OffersList/SearchResultsList.js';
+import LoginPage from '../../pages/LoginPage.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
 
 const fetchUrls = {
@@ -29,7 +29,7 @@ const imageUrls = {
     hubsImage: {url: `https://cdn.bikemagic.com/featured_image/5ab936e5d5833.jpg`, tweak: `0px -200px`},
     enduroframesImage: {url: `https://brink.uk/assets/images/products/Bikes/Santa-Cruz-Nomad-4-CC-Frame-2018-3.jpg`, tweak: `0px -400px`},
     wheelsImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5ab923c674716.jpg`, tweak: `0px 300px`},
-    // bikeyshImage: {url: `http://www.fullhdwpp.com/wp-content/uploads/Bicycling-Downhill_www.FullHDWpp.com_.jpg?x69613`, tweak: `0px -200px`},
+    loginImage: {url: `http://www.fullhdwpp.com/wp-content/uploads/Bicycling-Downhill_www.FullHDWpp.com_.jpg?x69613`, tweak: `0px 0px`},
     bikeyshImage: {url: `https://static.canyon.com/_img/bg/gravity/gravity-world.jpg`, tweak: `0px -200px`},
     footerImage: {url: `http://factoryracing.canyon.com/downhill-team/wp-content/uploads/sites/2/2018/02/Canyon_DH_Nizza18_G4A9936.jpg`, tweak: `0px 650px`},
 }
@@ -51,6 +51,7 @@ class Layout extends Component {
         showSearchResults: false,
         searchPending: false,
         changeHeaderColor: false,
+        loginPageOpened: false,
     }
     handleShowFavorizedOffers = async (load) => {
         await this.setState({loadFavorites: load}, () => {});
@@ -95,8 +96,8 @@ class Layout extends Component {
             showSearchResults: false,
         }
         , () => {
-            // console.log(`full search results [0] searchPending: ${this.state.searchPending}`);
-            // console.log(this.state.fullSearchResults);
+            // console.log(`[0]full search results  searchPending: ${this.state.searchPending}`);
+            // console.log([0]this.state.fullSearchResults);
         });
     }    
     handleGetSingleRecord = async (_id, category) => {
@@ -109,19 +110,17 @@ class Layout extends Component {
             showSearchResults: false,
         }
         , () => {
-            // console.log(`full search results [0] searchPending: ${this.state.searchPending}`);
-            // console.log(this.state.fullSearchResults);
+            // console.log(`[0]full search results searchPending: ${this.state.searchPending}`);
+            // console.log([0]this.state.fullSearchResults);
         });
     }  
     handleSearchOne = async (offerId, model) => { 
         let allResults = [];
-        console.log(model);
         //show results for single clicked record
         await axios.get(`/api/searchOne/${offerId}/${model}`).then(response => response.data).then(result => {
             if (result){
                 result.category = model;
                 allResults.push(result);
-                console.log(allResults);
             }
         });
         return allResults;
@@ -169,9 +168,10 @@ class Layout extends Component {
         }, () => {
             this.setState({searchPending: false}, ()=> {});
         });   
-
     }
-
+    handleGoLogin = () => {
+        this.setState({loginPageOpened: true}, ()=>{});
+    }
     render () {
         const { classes, ...rest } = this.props;
         
@@ -215,7 +215,18 @@ class Layout extends Component {
                         </div>
                     }
                     />
-                    <Route exact path="/home" render={(props) => 
+                    <Route exact path="/login" render={(props) => 
+                        <div>
+                            <br/>
+                            <br/>
+                            <LoginPage 
+                                imageUrl={imageUrls.loginImage}
+                                handleGoLogin={this.handleGoLogin}
+                            />
+                        </div>
+                    }
+                    />
+                    <Route exact path="/bestoffers" render={(props) => 
                         <div>
                             <br/>
                             <br/>
@@ -231,7 +242,6 @@ class Layout extends Component {
                     }
                     />
                     <Route exact path="/offers/searchresult" render={(props) => 
-
                         <OffersList
                             fullSearch 
                             fullSearchResults={this.state.fullSearchResults}
@@ -322,6 +332,8 @@ class Layout extends Component {
                     />
                     <Footer
                         imageUrls={imageUrls} 
+                        loginPageOpened={this.state.loginPageOpened}
+                        
                     />
                 </div>
             </Aux>

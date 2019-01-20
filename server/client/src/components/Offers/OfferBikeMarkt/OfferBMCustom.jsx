@@ -193,7 +193,6 @@ getScoringData = async () => {
     }
 }
 componentWillMount(){
-    console.log('MOUNTED');
     this.getScoringData();
     if (this.props.category !== undefined){
         this.getOfferAttributes(this.props.category);

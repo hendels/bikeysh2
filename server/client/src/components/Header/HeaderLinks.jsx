@@ -149,38 +149,26 @@ class HeaderLinks extends React.Component {
             onChange={this.handleSearchText}
             onKeyUp={this.handleKeyUpEnter}
           />
-        
         </MuiThemeProvider>
         </FormControl>
-        
         {/* >> */}
       </ListItem>
       <ListItem className={classes.listItem}>
           <MuiThemeProvider theme={themeToolTip}>
-            
             <Tooltip
               id="instagram-tooltip"
               title="Best Offers"
               placement={window.innerWidth > 959 ? "top" : "left"}
-              // classes={{ tooltip: classes.tooltip }}
             >
-              {/* <Link to="/home"> */}
                 <IconButton
-                  // component={Link} to="/home"
                   className={classes.navLink}
                   onClick={()=>{
-                    this.props.history.push('/home');
+                    this.props.history.push('/bestoffershome');
                     window.scrollTo(0, 0);
                   }}
                 >
-                  
-      {/* window.scrollTo(0, 0); */}
-                  {/* <Stars style={{color: "#000"}}/> */}
                   <Stars />
                 </IconButton>
-
-              {/* </Link> */}
-              
             </Tooltip>
           </MuiThemeProvider>
       </ListItem>
@@ -189,7 +177,6 @@ class HeaderLinks extends React.Component {
           noLiPadding
           buttonText="Bikemarkt"
           buttonProps={{
-            
             className: classes.navLink,
             color: "transparent"
           }}

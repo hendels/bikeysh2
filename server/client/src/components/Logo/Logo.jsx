@@ -7,7 +7,7 @@ class Logo extends React.Component {
     console.log(`color Logo: ${this.props.color}`);
     return(
         <Button 
-            component={Link} to="/home" 
+            component={Link} to="/bestoffers" 
             mini={true} 
             variant={`text`} 
             style={{ fontFamily: 'Lobster, cursive', fontSize: `30px`, textTransform: "lowercase", color: this.props.color}}

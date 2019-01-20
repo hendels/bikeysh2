@@ -7,26 +7,18 @@ import generalPageStyle from '../styles/components/generalPageStyle.jsx';
 //app components
 import LandingButton from '../components/Buttons/LandingButton.jsx';
 
-const styles = theme => ({
-    root: {
-      ...theme.mixins.gutters(),
-      paddingTop: theme.spacing.unit * 2,
-      paddingBottom: theme.spacing.unit * 2,
-      
-    },
-  });
+const styles = theme => ({});
 
   
 const LandingPage = (props) => {
-    const {classes} = props;
     return (
         <div>
-            <Link to="/home" style={{textDecoration: "none"}}>
+            <Link to="/bestoffers" style={{textDecoration: "none"}}>
                 <LandingButton 
                     imageUrl={props.imageUrls.defaultImage.url} 
                     pageInfoTitle={`Best Offers`} 
                     tweak={props.imageUrls.defaultImage.tweak}
-                    linkTo={'/home'}
+                    linkTo={'/bestoffers'}
                 />
             </Link>
             <Link to="/category/dhframes" style={{textDecoration: "none"}}>

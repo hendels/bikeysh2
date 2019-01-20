@@ -16,12 +16,9 @@ const style = () => ({
         justifyContent: `center`,
         alignItems: `center`,
         position: `relative`,
-        // filter: `grayscale(50%)`,
     },
     textFooterActions: {
-        // margin: "auto",
         width: "50%",
-        // padding: "10px",
         textAlign: "center",
         zIndex: 1,
     },
@@ -31,9 +28,7 @@ const style = () => ({
         zIndex: 1,
     },
     textFooterDown: {
-        // margin: "auto",
         width: "50%",
-        // padding: "10px",
         fontSize: "10px",
         color: "white",
         textAlign: "center",
@@ -45,19 +40,15 @@ const style = () => ({
         fontFamily: `'Permanent Marker'`,
     },
     hr: {
-        // display: "block",
         height: "1px",
         border: "0",
         borderTop: "5px solid #232323",
-        // padding: "0",
         width: "640px"
     },
     hr2: {
-        // display: "block",
         height: "1px",
         border: "0",
         borderTop: "5px solid #232323",
-        // padding: "0",
         width: "480px"
     },
     colorOverlay: {
@@ -73,10 +64,9 @@ const style = () => ({
 const Footer = (props) => {
     const {classes} = props;
     return (
+            !props.loginPageOpened ? (
             <Aux>
-
             <div className={classes.aboveFooter}/>
-
             <div className={classes.footer} style={{
                 background: `rgba(48,48,48, 0.5) url(${props.imageUrls.footerImage.url})`,
                 backgroundPosition: `${props.imageUrls.footerImage.tweak}`,
@@ -117,18 +107,11 @@ const Footer = (props) => {
                             <Grid item xs={3} className={classes.textFooterActions}>
                                 <IconButton>
                                     <i className="fab fa-github-square" style={{fontSize: "1em", color: "#fff"}}></i>
-                                    {/* <i className="fab fa-github" style={{fontSize: "1em", color: "#fff"}}></i> */}
                                 </IconButton>
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item xs={4}/>
-                    {/* // 4th row */}
-                    {/* <Grid item xs={4}/>
-                    <Grid item xs={4} className={classes.textFooterActions}>
-                        <hr className={classes.hr2}/>
-                    </Grid>
-                    <Grid item xs={4}/> */}
                     <br/>
                     <br/>
                     <br/>
@@ -140,11 +123,10 @@ const Footer = (props) => {
                     <Grid item xs={4}/>
 
                 </Grid>
-                    {/* <i className="fab fa-cog" style={{fontSize: "1em", color: "Tomato"}}></i>  */}
                 <div className={classes.colorOverlay}/>
             </div>
             </Aux>
-        
+            ) : null
     )
 }
 

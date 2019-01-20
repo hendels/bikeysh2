@@ -136,7 +136,7 @@ exports.bmList = input => {
                                     //# check if bikemarkt ID already exist in [Promise] => Enduro Frame collection
                                     EnduroFrame.findOne({ bmartId: data.bm_id }).then(existingId => {
                                         if (existingId) {
-                                            //# update record => Hubs
+                                            //# update record => Enduro Frames
                                             bm_enduroframe.update(EnduroFrame, existingId.id, data, specificAtributes);
                                         } else {
                                             //# create new collection [.save is async] => Enduro Frame

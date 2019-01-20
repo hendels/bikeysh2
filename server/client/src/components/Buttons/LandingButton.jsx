@@ -6,15 +6,14 @@ import BigSquareButton from './BigSquareButton.jsx';
 import {Link} from 'react-router-dom';
 
 
-class LandingButton extends React.Component {
-    render (){
-    const { classes } = this.props;
+const LandingButton = (props) => {
+    const { classes } = props;
     return(
         <Grid container direction="row" justify="space-between" alignItems="center" spacing="0" 
             className={classes.container} 
             style={{
-                background: `#000 url(${this.props.imageUrl})`,
-                backgroundPosition: `${this.props.tweak}`,
+                background: `#000 url(${props.imageUrl})`,
+                backgroundPosition: `${props.tweak}`,
                 backgroundAttachment: `fixed`,
             }}
         >   
@@ -23,13 +22,13 @@ class LandingButton extends React.Component {
                 {/* empty space to preserve proportions */}
             </Grid>
             <Grid item className={classes.list}>
-                <h3 className={classes.title}>{this.props.pageInfoTitle}</h3>
+                <h3 className={classes.title}>{props.pageInfoTitle}</h3>
             </Grid>
             <Grid item>
-                <BigSquareButton component={Link} to={this.props.toLink} />
+                <BigSquareButton component={Link} to={props.toLink} />
             </Grid>
         </Grid>
-    )}
+    )
 }
 
 export default withStyles(pageInfoStyle)(LandingButton);

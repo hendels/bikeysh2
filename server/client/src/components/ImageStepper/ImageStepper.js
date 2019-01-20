@@ -3,17 +3,12 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import { Fullscreen } from '@material-ui/icons';
-import ImageLightBox from '../ImageLightbox/ImageLightBox.jsx';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -39,6 +34,18 @@ const styles = theme => ({
     maxWidth: 400,
     overflow: 'hidden',
     width: '100%',
+    // -- solution 1
+    // backgroundSize: 'auto',
+    // backgroundRepeat: `no-repeat`,
+    // backgroundPosition: 'center',
+    // -- solution 2 
+    // position: `relative`,
+    // margin: `auto`,
+    // top: 0,
+    // left: 0,
+    // right: 0,
+    // bottom: 0,
+    // position: 'absolute',
   },
 });
 
@@ -63,7 +70,7 @@ class SwipeableTextMobileStepper extends React.Component {
         })
       }
       catch(err){
-        alert(`something wrong with record [props.offer.pictures] - constructor SwipeableTextMobileStepper`);
+        alert(`something wrong with record [props.offer.pictures] - constructor class: SwipeableTextMobileStepper`);
       }
   }
 
@@ -87,8 +94,6 @@ class SwipeableTextMobileStepper extends React.Component {
     const { classes, theme } = this.props;
     const { activeStep } = this.state;
     const maxSteps = picArray.length;
-    // console.log(this.props.offer.pictures[Object.keys(this.props.offer.pictures)[0]]);
-    // console.log(Object.keys(this.props.offer.pictures)[0]);
     return (
       <div className={classes.root}>
         <Paper square elevation={0} className={classes.header}>
@@ -107,6 +112,7 @@ class SwipeableTextMobileStepper extends React.Component {
             <div key={step.label}>
               {Math.abs(activeStep - index) <= 2 ? (
                 <img className={classes.img} src={step.imgPath} alt={step.label} />
+                // <div className={{background: `url(${step.imgPath}) no-repeat center center fixed`}}  />
               ) : null}
             </div>
           ))}
@@ -127,7 +133,6 @@ class SwipeableTextMobileStepper extends React.Component {
             </IconButton>
           }
         />
-        {/* <ImageLightBox open={this.state.fullscreenOpen}/> */}
       </div>
     );
   }
