@@ -34,18 +34,6 @@ const styles = theme => ({
     maxWidth: 400,
     overflow: 'hidden',
     width: '100%',
-    // -- solution 1
-    // backgroundSize: 'auto',
-    // backgroundRepeat: `no-repeat`,
-    // backgroundPosition: 'center',
-    // -- solution 2 
-    // position: `relative`,
-    // margin: `auto`,
-    // top: 0,
-    // left: 0,
-    // right: 0,
-    // bottom: 0,
-    // position: 'absolute',
   },
 });
 

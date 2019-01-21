@@ -7,6 +7,7 @@ const bm_hub = require('../models/bmart_hub');
 const bm_dhframe = require('../models/bmart_dhframe');
 const bm_enduroframe = require('../models/bmart_enduroframe');
 const bm_wheel = require('../models/bmart_wheel');
+const users = require('../models/users');
 const tags = require('../models/tags');
 const globalSetup = require('../models/global_setup');
 const scoring = require('../models/scoring');
@@ -14,6 +15,7 @@ const Tags = mongoose.model('tags');
 //management
 const tagMgt = require(`../db_management/tagManagement`);
 const genMgt = require('../db_management/generalManagement');
+const userMgt = require('../db_management/userManagement');
 //translate
 const translateAPI = require('./testTranslateAPI.js')
 
@@ -69,8 +71,16 @@ module.exports = app => {
         //const translate = translateAPI.
         //######################
         //translateAPI.translateAPI('tekst do przetłumaczenia', 'eng');
-        
+        //######################
+        // var data = {        
+        //     name: "demo 1",
+        //     login: 'demo1',
+        //     password: 'qwe123!',
+        //     permissionSet: `admin`,
+        // }
+        // users.createUser(data);
         console.log(`[DONE] `);
+        //######################
     });
     
     //>>jobs
@@ -81,6 +91,16 @@ module.exports = app => {
             console.log(`Translation: ${translated}`);
             res.send(translated);
 
+        });
+    });
+    //>>
+    //==================================================================================================================
+    //==================================================================================================================
+    //<user
+    app.post('/api/authenticate', async (req, res) => {
+         
+        userMgt.loginUser(req.body.login, req.body.password, userExist => {
+            res.send(userExist);
         });
     });
     //>>
@@ -281,7 +301,6 @@ module.exports = app => {
     app.get('/api/scoring/update/visibility/:offerId', async (req, res) => {
         //console.log('searching for tag count for...' + req.params.offerId);
         await mongoose.model('scoring').find({offerId: req.params.offerId}, (err, record) => {
-
             scoring.updateVisibility(record[0]._id, visible => {
                 res.send(visible)
             });

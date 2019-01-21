@@ -18,7 +18,7 @@ import ListItem from "@material-ui/core/ListItem";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 // import red from '@material-ui/core/colors/red'
 // @material-ui/icons
-import { Apps, Search, Stars, Settings, FavoriteBorder, LibraryAdd } from "@material-ui/icons";
+import { Apps, Search, Stars, Settings, FavoriteBorder, LibraryAdd, AccountCircle, AccountBox } from "@material-ui/icons";
 
 // core components
 import Dropdown from "../Dropdown/Dropdown.jsx";
@@ -133,7 +133,8 @@ class HeaderLinks extends React.Component {
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
         {/* << SEARCH INPUT*/}
-        <FormControl className={classes.margin}>
+        {/* <FormControl className={classes.margin}> */}
+        <FormControl>
         <MuiThemeProvider theme={themeInputLabel}>
           <InputLabel focused={false} >Search</InputLabel>
         </MuiThemeProvider>
@@ -161,9 +162,10 @@ class HeaderLinks extends React.Component {
               placement={window.innerWidth > 959 ? "top" : "left"}
             >
                 <IconButton
+                  disableRipple={true}
                   className={classes.navLink}
                   onClick={()=>{
-                    this.props.history.push('/bestoffershome');
+                    this.props.history.push('/bestoffers');
                     window.scrollTo(0, 0);
                   }}
                 >
@@ -320,6 +322,27 @@ class HeaderLinks extends React.Component {
             </Link>
           ]}
         />
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <MuiThemeProvider theme={themeToolTip}>
+          <Tooltip
+            id="instagram-tooltip"
+            title="Logout"
+            placement={window.innerWidth > 959 ? "top" : "left"}
+          >
+            <IconButton
+              disableRipple={true}
+              className={classes.navLink}
+              onClick={()=>{
+                this.props.handleLoggedIn(false, '');
+                this.props.history.push('/login');
+                window.scrollTo(0, 0);
+              }}
+            >
+              <AccountCircle/>
+            </IconButton>
+          </Tooltip>
+        </MuiThemeProvider>
       </ListItem>
     </List>
 

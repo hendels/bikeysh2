@@ -99,8 +99,8 @@ class Header extends React.Component {
     this.state = {
       mobileOpen: false,
       showSearchResults: false,
-      // searchResults: null, 
       showNothingFound: false,
+      changeHeaderColor: true,
     };
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
     this.headerColorChange = this.headerColorChange.bind(this);
@@ -113,14 +113,18 @@ class Header extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       showSearchResults: nextProps.showSearchResults,
-      showNothingFound: nextProps.showNothingFound
+      showNothingFound: nextProps.showNothingFound,
+      changeHeaderColor: nextProps.changeHeaderColor,
     }, () => {});
   }
   
   componentDidMount() {
+    if (!this.props.changeHeaderColor){
+
+    };
     if (this.props.changeColorOnScroll) {
       window.addEventListener("scroll", this.headerColorChange);
-    }
+    };
   }
   headerColorChange() {
     const { classes, color, changeColorOnScroll } = this.props;
@@ -132,7 +136,6 @@ class Header extends React.Component {
         document.body
           .getElementsByTagName("header")[0]
           .classList.add(classes[changeColorOnScroll.color]);
-        //this.props.changeColor();
       } else {
         document.body
           .getElementsByTagName("header")[0]
@@ -140,7 +143,6 @@ class Header extends React.Component {
         document.body
             .getElementsByTagName("header")[0]
             .classList.remove(classes[changeColorOnScroll.color]);
-        //this.props.revertColor();
     }
   }
   componentWillUnmount() {
@@ -237,7 +239,7 @@ class Header extends React.Component {
           </div>
           <Hidden smDown implementation="css">
             
-            {!this.props.loginPageOpened ? rightLinks : null}
+            {!this.props.loginPageOpened && this.props.loggedId ? rightLinks : null}
           </Hidden>
           <Hidden mdUp>
             <IconButton

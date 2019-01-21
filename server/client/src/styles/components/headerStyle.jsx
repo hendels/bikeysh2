@@ -174,16 +174,18 @@ const headerStyle = {
       "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
   },
   bikeysh3: {
-    backgroundColor: bikeyshColor3,
-    color: "#000",
-    boxShadow:
-      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
+    backgroundColor: "#000",
+    // backgroundColor: bikeyshColor3,
+    color: bikeyshColor4,
+    // color: "#000",
+    // boxShadow:
+      // "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
   },
   bikeysh3_1: {
     backgroundColor: "#000",
     color: bikeyshColor4,
-    boxShadow:
-      "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(194, 216, 239, 0.46)"
+    // boxShadow:
+      // "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(194, 216, 239, 0.46)"
   },
   bikeysh4: {
     backgroundColor: bikeyshColor4,

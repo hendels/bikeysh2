@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Aux from '../Ax/Ax';
 import axios from 'axios';
-import { Route } from 'react-router-dom';
+import { Route, Link, withRouter } from 'react-router-dom';
 // pages
 import BestOfferPage from '../../pages/BestOfferPage';
 // app components
@@ -50,9 +50,19 @@ class Layout extends Component {
         fullSearchResults: [],
         showSearchResults: false,
         searchPending: false,
-        changeHeaderColor: false,
+        // changeHeaderColor: false,
         loginPageOpened: false,
+        activeUser: '',
+        loggedIn: false,
     }
+    handleLoggedIn = (logUser, userName) => {
+        this.setState({
+            loggedIn: logUser, 
+            userName: userName,
+        }, () => {
+            console.log(`state logged: ${this.state.loggedIn}`)
+        })
+    };
     handleShowFavorizedOffers = async (load) => {
         await this.setState({loadFavorites: load}, () => {});
     };
@@ -67,12 +77,6 @@ class Layout extends Component {
             // console.log(`filter loadWithoutTags set as: ${this.state.loadWithoutTags}`);
         });
     };
-    handleChangeColor = () => {
-        this.setState({changeHeaderColor: true}, () => {})
-    }
-    handleRevertChangeColor = () => {
-        this.setState({changeHeaderColor: false}, () => {})
-    }
     handleChangeSearchText = async (searchText, searchLimit) => {
         await this.setState({searchPending: true}, ()=> {
 
@@ -191,9 +195,10 @@ class Layout extends Component {
                             showSearchResults={this.state.showSearchResults}
                             collectAllResults={this.handleCollectAllResult}
                             closeSearchResults={this.handleCloseSearchResults}
-                            
+                            handleLoggedIn={this.handleLoggedIn}
                             />}
                         fixed
+                        changeHeaderColor={false}
                         changeColorOnScroll={{
                             height: 400,
                             color: "bikeysh3_1"
@@ -207,13 +212,14 @@ class Layout extends Component {
                         changeColor={this.handleChangeColor}
                         revertColor={this.handleRevertChangeColor}
                         loginPageOpened={this.state.loginPageOpened}
+                        loggedId={this.state.loggedId}
                         {...rest}
                     />
                     <Route exact path="/" render={(props) => 
                         <div>
                             <br/>
                             <br/>
-                            <LandingPage imageUrls={imageUrls}/>
+                            {this.state.loggedId ? (<LandingPage imageUrls={imageUrls}/>) : null}
                         </div>
                     }
                     />
@@ -221,10 +227,17 @@ class Layout extends Component {
                         <div>
                             <br/>
                             <br/>
-                            <LoginPage 
-                                imageUrl={imageUrls.loginImage}
-                                handleGoLogin={this.handleGoLogin}
-                            />
+                            {!this.state.loggedId ? (
+                                <LoginPage 
+                                    imageUrl={imageUrls.loginImage}
+                                    handleGoLogin={this.handleGoLogin}
+                                    handleLoggedIn={this.handleLoggedIn}
+                                    loggedIn={this.state.loggedIn}
+                                />
+                            ) : (()=>{
+                                this.props.history.push('/');
+                                window.scrollTo(0, 0);
+                            })}
                         </div>
                     }
                     />
@@ -342,4 +355,4 @@ class Layout extends Component {
         )
     }
 }
-export default Layout;
+export default withRouter(Layout);

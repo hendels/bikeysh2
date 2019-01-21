@@ -12,6 +12,11 @@ const style = () => ({
         height: "100px",
         width: "100%",
         background: "#303030",
+        display: `flex`,
+        justifyContent: `center`,
+        alignItems: `center`,
+        position: `relative`,
+        zIndex: 1,
     },
     footer: {
         height: "200px",
@@ -135,7 +140,7 @@ const Footer = (props) => {
             ) : (
                 //small footer [rewrite code ][todo]
                 <Aux>
-                    <div className={classes.aboveFooter}>
+                    <div className={classes.footerSmall}>
                     <Grid container justify="space-between" alignContent="center">
                         {/* // 1 row */}
                         <Grid item xs={4}/>
@@ -147,22 +152,22 @@ const Footer = (props) => {
                         <Grid item xs={4}/>
                         <Grid item xs={4}>
                             <Grid container justify="space-between" alignContent="center">
-                                <Grid item xs={3} >
+                                <Grid item xs={3} className={classes.textFooterActions}>
                                     <IconButton>
-                                        <span className={classes.textActions}>home</span>
+                                        <span className={classes.textActions}>about</span>
                                     </IconButton>
                                 </Grid>
-                                <Grid item xs={3} >
+                                <Grid item xs={3} className={classes.textFooterActions}>
                                     <IconButton>
                                         <span className={classes.textActions}>contact</span>
                                     </IconButton>
                                 </Grid>
-                                <Grid item xs={3} >
+                                <Grid item xs={3} className={classes.textFooterActions}>
                                     <IconButton>
                                         <i className="fab fa-linkedin" style={{fontSize: "1em", color: "#fff"}}></i> 
                                     </IconButton>
                                 </Grid>
-                                <Grid item xs={3} >
+                                <Grid item xs={3} className={classes.textFooterActions}>
                                     <IconButton>
                                         <i className="fab fa-github-square" style={{fontSize: "1em", color: "#fff"}}></i>
                                     </IconButton>
