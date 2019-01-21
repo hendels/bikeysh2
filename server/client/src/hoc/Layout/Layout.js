@@ -169,8 +169,8 @@ class Layout extends Component {
             this.setState({searchPending: false}, ()=> {});
         });   
     }
-    handleGoLogin = () => {
-        this.setState({loginPageOpened: true}, ()=>{});
+    handleGoLogin = (loginOpened) => {
+        this.setState({loginPageOpened: loginOpened}, ()=>{});
     }
     render () {
         const { classes, ...rest } = this.props;
@@ -191,6 +191,7 @@ class Layout extends Component {
                             showSearchResults={this.state.showSearchResults}
                             collectAllResults={this.handleCollectAllResult}
                             closeSearchResults={this.handleCloseSearchResults}
+                            
                             />}
                         fixed
                         changeColorOnScroll={{
@@ -205,6 +206,7 @@ class Layout extends Component {
                         getSingleRecord={this.handleGetSingleRecord}
                         changeColor={this.handleChangeColor}
                         revertColor={this.handleRevertChangeColor}
+                        loginPageOpened={this.state.loginPageOpened}
                         {...rest}
                     />
                     <Route exact path="/" render={(props) => 

@@ -236,7 +236,8 @@ class Header extends React.Component {
             )}
           </div>
           <Hidden smDown implementation="css">
-            {rightLinks}
+            
+            {!this.props.loginPageOpened ? rightLinks : null}
           </Hidden>
           <Hidden mdUp>
             <IconButton

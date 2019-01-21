@@ -8,6 +8,11 @@ const style = () => ({
         height: "50px",
         width: "100%",
     },
+    footerSmall:{
+        height: "100px",
+        width: "100%",
+        background: "#303030",
+    },
     footer: {
         height: "200px",
         width: "100%",
@@ -65,8 +70,9 @@ const Footer = (props) => {
     const {classes} = props;
     return (
             !props.loginPageOpened ? (
+            //standard footer
             <Aux>
-            <div className={classes.aboveFooter}/>
+            <div className={classes.footerSmall}/>
             <div className={classes.footer} style={{
                 background: `rgba(48,48,48, 0.5) url(${props.imageUrls.footerImage.url})`,
                 backgroundPosition: `${props.imageUrls.footerImage.tweak}`,
@@ -126,7 +132,59 @@ const Footer = (props) => {
                 <div className={classes.colorOverlay}/>
             </div>
             </Aux>
-            ) : null
+            ) : (
+                //small footer [rewrite code ][todo]
+                <Aux>
+                    <div className={classes.aboveFooter}>
+                    <Grid container justify="space-between" alignContent="center">
+                        {/* // 1 row */}
+                        <Grid item xs={4}/>
+                        <Grid item xs={4} >
+                            {/* <span className={classes.textFooterUp}>Footer Stuff</span> */}
+                        </Grid>
+                        <Grid item xs={4}/>
+                        {/* // 3rd row */}
+                        <Grid item xs={4}/>
+                        <Grid item xs={4}>
+                            <Grid container justify="space-between" alignContent="center">
+                                <Grid item xs={3} >
+                                    <IconButton>
+                                        <span className={classes.textActions}>home</span>
+                                    </IconButton>
+                                </Grid>
+                                <Grid item xs={3} >
+                                    <IconButton>
+                                        <span className={classes.textActions}>contact</span>
+                                    </IconButton>
+                                </Grid>
+                                <Grid item xs={3} >
+                                    <IconButton>
+                                        <i className="fab fa-linkedin" style={{fontSize: "1em", color: "#fff"}}></i> 
+                                    </IconButton>
+                                </Grid>
+                                <Grid item xs={3} >
+                                    <IconButton>
+                                        <i className="fab fa-github-square" style={{fontSize: "1em", color: "#fff"}}></i>
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={4}/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        {/* // last row */}
+                        <Grid item xs={4}/>
+                        <Grid item xs={4} className={classes.textFooterDown}>
+                            <span >© 2019 | bikeysh</span>
+                        </Grid>
+                        <Grid item xs={4}/>
+
+                    </Grid>
+                    </div>
+
+                </Aux>
+            )
     )
 }
 
