@@ -15,6 +15,8 @@ require('./models/bmart_wheel');
 mongoose.connect(keys.mongoURI);
 
 const app = express();
+app.use(express.static('public'));
+
 console.log('==================start====================');
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -24,6 +26,7 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.use('/static', express.static('public'))
 
 require('./routes/getRoutes')(app);
 

@@ -214,8 +214,9 @@ class LoginPage extends React.Component {
                 Build with <span>React.js</span>&nbsp;<i className="fab fa-react" style={{color: '#61DAFB', fontSize: '1rem'}}/>
                 &nbsp;|&nbsp;Node.js&nbsp;
                 <i class="fab fa-node-js" style={{color: "#90C53F", fontSize: '1rem'}}/>
-                &nbsp;|&nbsp;MongoDB&nbsp;and&nbsp;                
-                Material-UI
+                &nbsp;|&nbsp;MongoDB&nbsp;|&nbsp;                
+                Material-UI&nbsp;and&nbsp;
+                <i class="fab fab fa-aws" style={{color: "orange", fontSize: '1rem'}}/>
                 {/* <FavoriteBorder className={classes.heart}/>   */}
                 <br/>
             
