@@ -2,16 +2,16 @@ import React, {Component} from 'react';
 import Aux from '../Ax/Ax';
 import axios from 'axios';
 import { Route, Link, withRouter } from 'react-router-dom';
-// pages
-import BestOfferPage from '../../pages/BestOfferPage';
 // app components
 import OffersList from '../../containers/OffersList/OffersList';
 import Header from '../../components/Header/Header.jsx';
 import HeaderLinks from '../../components/Header/HeaderLinks.jsx';
-//
+import Footer from '../../components/Footer/Footer.jsx';
+// pages
 import LandingPage from '../../pages/LandingPage';
 import LoginPage from '../../pages/LoginPage.jsx';
-import Footer from '../../components/Footer/Footer.jsx';
+import BestOfferPage from '../../pages/BestOfferPage.jsx';
+import EmptyPage from '../../pages/EmptyPage.jsx';
 
 const fetchUrls = {
     hubs: '/api/bm/category/hubs/',
@@ -50,17 +50,20 @@ class Layout extends Component {
         fullSearchResults: [],
         showSearchResults: false,
         searchPending: false,
-        // changeHeaderColor: false,
         loginPageOpened: false,
         activeUser: '',
         loggedIn: false,
     }
-    handleLoggedIn = (logUser, userName) => {
-        this.setState({
+    handleLoggedIn = async (logUser, userName) => {
+        await this.setState({
             loggedIn: logUser, 
             userName: userName,
         }, () => {
-            console.log(`state logged: ${this.state.loggedIn}`)
+            console.log(`state logged: ${this.state.loggedIn}`);
+            if (this.state.loggedIn){
+                this.props.history.push('/');
+                window.scrollTo(0, 0);
+            }
         })
     };
     handleShowFavorizedOffers = async (load) => {
@@ -70,12 +73,8 @@ class Layout extends Component {
         await this.setState({loadWithoutTags: load}, () => {});
     };
     handleClearFilterStates = async () => {
-        await this.setState({loadFavorites: false}, () => {
-            // console.log(`filter loadFavorites set as: ${this.state.loadFavorites}`);
-        });
-        await this.setState({loadWithoutTags: false}, () => {
-            // console.log(`filter loadWithoutTags set as: ${this.state.loadWithoutTags}`);
-        });
+        await this.setState({loadFavorites: false}, () => {});
+        await this.setState({loadWithoutTags: false}, () => {});
     };
     handleChangeSearchText = async (searchText, searchLimit) => {
         await this.setState({searchPending: true}, ()=> {
@@ -99,10 +98,7 @@ class Layout extends Component {
             showNothingFound: false,
             showSearchResults: false,
         }
-        , () => {
-            // console.log(`[0]full search results  searchPending: ${this.state.searchPending}`);
-            // console.log([0]this.state.fullSearchResults);
-        });
+        , () => {});
     }    
     handleGetSingleRecord = async (_id, category) => {
         const model = category.toLowerCase();
@@ -113,10 +109,7 @@ class Layout extends Component {
             showNothingFound: false,
             showSearchResults: false,
         }
-        , () => {
-            // console.log(`[0]full search results searchPending: ${this.state.searchPending}`);
-            // console.log([0]this.state.fullSearchResults);
-        });
+        , () => {});
     }  
     handleSearchOne = async (offerId, model) => { 
         let allResults = [];
@@ -196,6 +189,7 @@ class Layout extends Component {
                             collectAllResults={this.handleCollectAllResult}
                             closeSearchResults={this.handleCloseSearchResults}
                             handleLoggedIn={this.handleLoggedIn}
+                            userName={this.state.userName}
                             />}
                         fixed
                         changeHeaderColor={false}
@@ -212,14 +206,14 @@ class Layout extends Component {
                         changeColor={this.handleChangeColor}
                         revertColor={this.handleRevertChangeColor}
                         loginPageOpened={this.state.loginPageOpened}
-                        loggedId={this.state.loggedId}
+                        loggedIn={this.state.loggedIn}
                         {...rest}
                     />
                     <Route exact path="/" render={(props) => 
                         <div>
                             <br/>
                             <br/>
-                            {this.state.loggedId ? (<LandingPage imageUrls={imageUrls}/>) : null}
+                            {this.state.loggedIn ? (<LandingPage imageUrls={imageUrls}/>) : <EmptyPage/>}
                         </div>
                     }
                     />
@@ -227,7 +221,7 @@ class Layout extends Component {
                         <div>
                             <br/>
                             <br/>
-                            {!this.state.loggedId ? (
+                            {!this.state.loggedIn ? (
                                 <LoginPage 
                                     imageUrl={imageUrls.loginImage}
                                     handleGoLogin={this.handleGoLogin}
@@ -243,112 +237,147 @@ class Layout extends Component {
                     />
                     <Route exact path="/bestoffers" render={(props) => 
                         <div>
-                            <br/>
-                            <br/>
-                            <BestOfferPage 
-                                fetchUrls={fetchUrls} 
-                                imageUrls={imageUrls} 
-                                models={dbModels} 
-                                showFavorites={this.handleShowFavorizedOffers}
-                                showWithoutTags={this.handleShowWithoutTag}
-                                searchPending={this.state.searchPending}
-                            />
+                            {this.state.loggedIn ? (
+                                <div>
+                                    <br/>
+                                    <br/>
+                                    <BestOfferPage 
+                                        fetchUrls={fetchUrls} 
+                                        imageUrls={imageUrls} 
+                                        models={dbModels} 
+                                        showFavorites={this.handleShowFavorizedOffers}
+                                        showWithoutTags={this.handleShowWithoutTag}
+                                        searchPending={this.state.searchPending}
+                                    />
+                                </div>
+                            ) : <EmptyPage/>}
                         </div>
                     }
                     />
                     <Route exact path="/offers/searchresult" render={(props) => 
-                        <OffersList
-                            fullSearch 
-                            fullSearchResults={this.state.fullSearchResults}
-                            tagUrl={fetchUrls.tags}    
-                            imageUrls={imageUrls}
-                            models={dbModels}
-                            loadFavorites={this.state.loadFavorites}
-                            loadWithoutTags={this.state.loadWithoutTags}
-                            showFavorites={this.handleShowFavorizedOffers}
-                            showWithoutTags={this.handleShowWithoutTag}
-                            searchPending={this.state.searchPending}
-                        />}
+                        <div>
+                        {this.state.loggedIn ? (
+                            <OffersList
+                                fullSearch 
+                                fullSearchResults={this.state.fullSearchResults}
+                                tagUrl={fetchUrls.tags}    
+                                imageUrls={imageUrls}
+                                models={dbModels}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                                showFavorites={this.handleShowFavorizedOffers}
+                                showWithoutTags={this.handleShowWithoutTag}
+                                searchPending={this.state.searchPending}
+                            />
+                        ) : <EmptyPage/>}
+                        </div>
+                    }
                     />
                     <Route exact path="/category/cranks" render={(props) => 
-                        <OffersList 
-                            pageLimit={10} 
-                            fetchUrl={fetchUrls.cranks}    
-                            tagUrl={fetchUrls.tags}    
-                            category={`CRANKS`}  
-                            imageUrls={imageUrls}
-                            model={dbModels.cranks}
-                            loadFavorites={this.state.loadFavorites}
-                            loadWithoutTags={this.state.loadWithoutTags}
-                            showFavorites={this.handleShowFavorizedOffers}
-                            showWithoutTags={this.handleShowWithoutTag}
-                            searchPending={this.state.searchPending}
-                        />}
+                        <div>
+                        {this.state.loggedIn ? (
+                            <OffersList 
+                                pageLimit={10} 
+                                fetchUrl={fetchUrls.cranks}    
+                                tagUrl={fetchUrls.tags}    
+                                category={`CRANKS`}  
+                                imageUrls={imageUrls}
+                                model={dbModels.cranks}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                                showFavorites={this.handleShowFavorizedOffers}
+                                showWithoutTags={this.handleShowWithoutTag}
+                                searchPending={this.state.searchPending}
+                            />
+                        ) : <EmptyPage/>}
+                        </div>
+                    }
                     />
                     <Route exact path="/category/hubs" render={(props) => 
-                        <OffersList 
-                            pageLimit={10} 
-                            fetchUrl={fetchUrls.hubs}   
-                            tagUrl={fetchUrls.tags}    
-                            category={`HUBS`}     
-                            imageUrls={imageUrls}  
-                            model={dbModels.hubs}
-                            loadFavorites={this.state.loadFavorites}
-                            loadWithoutTags={this.state.loadWithoutTags}
-                            showFavorites={this.handleShowFavorizedOffers}
-                            showWithoutTags={this.handleShowWithoutTag}
-                            searchPending={this.state.searchPending}
-                        />}
+                        <div>
+                        {this.state.loggedIn ? (
+                            <OffersList 
+                                pageLimit={10} 
+                                fetchUrl={fetchUrls.hubs}   
+                                tagUrl={fetchUrls.tags}    
+                                category={`HUBS`}     
+                                imageUrls={imageUrls}  
+                                model={dbModels.hubs}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                                showFavorites={this.handleShowFavorizedOffers}
+                                showWithoutTags={this.handleShowWithoutTag}
+                                searchPending={this.state.searchPending}
+                            />
+                        ) : <EmptyPage/>}
+                        </div>
+                    }
                     />
                     <Route exact path="/category/wheels" render={(props) => 
-                        <OffersList 
-                            pageLimit={10} 
-                            fetchUrl={fetchUrls.wheels}     
-                            tagUrl={fetchUrls.tags}    
-                            category={`WHEELS`}   
-                            imageUrls={imageUrls}  
-                            model={dbModels.wheels}
-                            loadFavorites={this.state.loadFavorites}
-                            loadWithoutTags={this.state.loadWithoutTags}
-                            showFavorites={this.handleShowFavorizedOffers}
-                            showWithoutTags={this.handleShowWithoutTag}
-                            searchPending={this.state.searchPending}
-                        />}
+                        <div>
+                        {this.state.loggedIn ? (
+                            <OffersList 
+                                pageLimit={10} 
+                                fetchUrl={fetchUrls.wheels}     
+                                tagUrl={fetchUrls.tags}    
+                                category={`WHEELS`}   
+                                imageUrls={imageUrls}  
+                                model={dbModels.wheels}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                                showFavorites={this.handleShowFavorizedOffers}
+                                showWithoutTags={this.handleShowWithoutTag}
+                                searchPending={this.state.searchPending}
+                            />
+                        ) : <EmptyPage/>}
+                        </div>
+                    }
                     />
                     <Route exact path="/category/dhframes" render={(props) => 
-                        <OffersList 
-                            pageLimit={10} 
-                            fetchUrl={fetchUrls.dhFrames}    
-                            tagUrl={fetchUrls.tags}    
-                            category={`DHFRAMES`} 
-                            imageUrls={imageUrls}    
-                            model={dbModels.dhframes}
-                            loadFavorites={this.state.loadFavorites}
-                            loadWithoutTags={this.state.loadWithoutTags}
-                            showFavorites={this.handleShowFavorizedOffers} 
-                            showWithoutTags={this.handleShowWithoutTag}
-                            searchPending={this.state.searchPending}
-                        />}
+                        <div>
+                        {this.state.loggedIn ? (
+                            <OffersList 
+                                pageLimit={10} 
+                                fetchUrl={fetchUrls.dhFrames}    
+                                tagUrl={fetchUrls.tags}    
+                                category={`DHFRAMES`} 
+                                imageUrls={imageUrls}    
+                                model={dbModels.dhframes}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                                showFavorites={this.handleShowFavorizedOffers} 
+                                showWithoutTags={this.handleShowWithoutTag}
+                                searchPending={this.state.searchPending}
+                            />
+
+                        ) : <EmptyPage/>}
+                        </div>
+                    }
                     />
                     <Route exact path="/category/enduroframes" render={(props) => 
-                        <OffersList 
-                            pageLimit={10} 
-                            fetchUrl={fetchUrls.enduroFrames}      
-                            tagUrl={fetchUrls.tags}    
-                            category={`ENDUROFRAMES`} 
-                            imageUrls={imageUrls}   
-                            model={dbModels.enduroframes}
-                            loadFavorites={this.state.loadFavorites}
-                            loadWithoutTags={this.state.loadWithoutTags}
-                            showFavorites={this.handleShowFavorizedOffers}
-                            showWithoutTags={this.handleShowWithoutTag}
-                            searchPending={this.state.searchPending}
-                        />}
+                        <div>
+                        {this.state.loggedIn ? (
+                            <OffersList 
+                                pageLimit={10} 
+                                fetchUrl={fetchUrls.enduroFrames}      
+                                tagUrl={fetchUrls.tags}    
+                                category={`ENDUROFRAMES`} 
+                                imageUrls={imageUrls}   
+                                model={dbModels.enduroframes}
+                                loadFavorites={this.state.loadFavorites}
+                                loadWithoutTags={this.state.loadWithoutTags}
+                                showFavorites={this.handleShowFavorizedOffers}
+                                showWithoutTags={this.handleShowWithoutTag}
+                                searchPending={this.state.searchPending}
+                            />
+                        ) : <EmptyPage/>}
+                        </div>
+                    }
                     />
                     <Footer
                         imageUrls={imageUrls} 
                         loginPageOpened={this.state.loginPageOpened}
-                        
+                        loggedIn={this.state.loggedIn}
                     />
                 </div>
             </Aux>

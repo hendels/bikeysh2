@@ -23,16 +23,18 @@ import {
       // background: bikeyshColor6
     },
     cardContent: {
-      fontFamily: "Pacifico, cursive",
-      // fontFamily: "Lobster, cursive",
-      fontSize: "25px",
-      color: `linear-gradient(135deg, ${bikeyshColor5} 0%, #fff 10%)`,
-      textShadow: `1px 1px ${bikeyshColor4}`,
       textAlign: `center`,
+    },
+    cardTitle:{
+      fontFamily: "Pacifico, cursive",
+      fontSize: "25px",
+      color: `rgba(255,255,255,0.5)`,
+      textShadow: `1px 1px ${bikeyshColor4}`,
 
     },
     cardButton: {
       color: bikeyshColor5,
+      outline: "none",
     }
 
   });

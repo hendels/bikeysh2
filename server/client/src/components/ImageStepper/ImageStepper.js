@@ -9,6 +9,7 @@ import { autoPlay } from 'react-swipeable-views-utils';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import { Fullscreen } from '@material-ui/icons';
+import noExist from '../../images/noimage.png';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -45,6 +46,7 @@ class SwipeableTextMobileStepper extends React.Component {
       };
       picArray = [];
       fullscreenPicArray = [];
+      let countBlank = 0;
       try{
         Object.keys(props.offer.pictures).forEach((key, index) => {
           if (props.offer.pictures[Object.keys(props.offer.pictures)[index]] !== null){
@@ -53,9 +55,15 @@ class SwipeableTextMobileStepper extends React.Component {
   
             picArray.push(pictureObj);
             fullscreenPicArray.push(fullscreenPictureObj);
-          }
-  
+          } else
+            countBlank += 1;
         })
+        if (countBlank === 6){
+          let pictureObj = {imgPath: noExist, label: 'Bikeysh!'};
+          let fullscreenPictureObj = {src: noExist};
+          picArray.push(pictureObj);
+          fullscreenPicArray.push(fullscreenPictureObj);
+        }
       }
       catch(err){
         alert(`something wrong with record [props.offer.pictures] - constructor class: SwipeableTextMobileStepper`);

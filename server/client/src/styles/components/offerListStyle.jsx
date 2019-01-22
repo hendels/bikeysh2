@@ -1,5 +1,6 @@
 
 import { container, title ,
+// import {  title ,
   containerBackground, containerOfferList,   
   bikeyshColor1,
   bikeyshColor2,
@@ -24,8 +25,11 @@ const style = {
     //   #9E5A63 44px
     // )`,
     background: "#C96567",
-    boxShadow: "-1px 2px 11px 0px rgba(0,0,0,0.74)"
+    boxShadow: "0px 5px 10px 0px rgba(0, 0, 0, 0.5)"
   },
+  // container:{
+  //   boxShadow: "0px 5px 10px 0px rgba(0, 0, 0, 0.5)"
+  // },
   container,
   bikeyshColor1, bikeyshColor2, bikeyshColor3, bikeyshColor4, bikeyshColor5, bikeyshColor6, bikeyshColor7,
 };

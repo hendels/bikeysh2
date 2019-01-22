@@ -19,11 +19,8 @@ const themeInput = createMuiTheme({
                 transform: 'translate(-50%, -50%)',
                 color: `#ffc4c5`,
                 background: "#644E5B",
-                // paddingLeft: `5px`,
             },
             input: {
-                // background: "#644E5B",
-                // border: "1px solid black"
                 paddingLeft: `5px`,
             },
             underline:{
@@ -38,19 +35,16 @@ const themeInput = createMuiTheme({
         },
         MuiInputLabel: {
             formControl:{
-            //   color: `#ffc4c5`,
             },
         },
         MuiInputAdornment: {
             root: {
-                // background: "#644E5B",
                 paddingRight: "5px",
-
             },
         }
     }
 });
-const themeLoginButton = createMuiTheme({
+const themeFeaturesButton = createMuiTheme({
     overrides: {
       MuiButton: {
         root: {
@@ -65,10 +59,9 @@ const themeLoginButton = createMuiTheme({
           },
           outline: "none",
         },
-
       },
     },
-  });
+});
 const styles = theme => ({
     paper: {
         position: 'fixed',
@@ -90,18 +83,14 @@ const styles = theme => ({
     },
     heart: {
         color: "#c96567"
-      },
-    // loginIcons:{
-    //     color: `#ffc4c5`,
-    //     // width: "50%",
-    //     textAlign: "center",
-    //     // zIndex: 1,
-    //     // position: `relative`,
-    // },
+    },
+    demoTextElement: {
+        padding: "7px 22px 0px 22px",
+        textAlign:" right",
+    },
     loginBackground: {
         height: 790,
         overflowY: 'hidden',
-        // width: 1700,
         background: `#000 url(http://www.fullhdwpp.com/wp-content/uploads/Bicycling-Downhill_www.FullHDWpp.com_.jpg?x69613)`,
         backgroundPosition: `0px 0px`,
         backgroundAttachment: `fixed`,
@@ -113,37 +102,52 @@ const styles = theme => ({
         left: '7%',
         width: 500,
         height: 100,
-        // border: "1px solid #000",
         zIndex: 3,
     },
     loginElement: {
         padding: "7px 0px 0px 22px",
     },
-})
+});
+const captions = {
+    login: `Basic authentication based on previously created combination of user & password on server side.`,
+
+}
 class LoginPage extends React.Component {
     state = {
         fullscreenOpen: false,
-        picArray: [{src: 'https://i.imgur.com/BokwoDd.png'}, {src: 'https://i.imgur.com/Kw46nND.png'}],
-        login: `ads`,
-        password: `asd`,
-        loginInput: '',
-        passwordInput: '',
+        picArray: [
+            {src: 'https://i.imgur.com/h5DP5G3.gif', caption: captions.login},
+            {src: 'https://i.imgur.com/h5DP5G3.gif', caption: captions.login},
+            {src: 'https://i.imgur.com/h5DP5G3.gif', caption: captions.login},
+        ],
+        login: process.env.REACT_APP_DEMO_CREDENTIALS_LOGIN,
+        password: process.env.REACT_APP_DEMO_CREDENTIALS_PASSWORD,
+        loginInput: process.env.REACT_APP_DEMO_CREDENTIALS_LOGIN,
+        passwordInput: process.env.REACT_APP_DEMO_CREDENTIALS_PASSWORD,
+        showError: false,
+        loginButtonColor: '#314455',
+        loginButtonText: 'Login',
     };
-    handleClickShowFeatures = (fullscreen, picArray) => {
-        // console.log(process.env.REACT_APP_DEMO_CREDENTIALS_LOGIN);
-        // console.log(process.env.REACT_APP_DEMO_CREDENTIALS_PASSWORD);
+    handleClickShowFeatures = (fullscreen) => {
         this.setState({
           fullscreenOpen: fullscreen, 
-          
         }, ()=> {});
     };
     handleInputUsername = ({target}) => {
         console.log(target.value);
-        this.setState({loginInput: target.value});
+        this.setState({
+            loginInput: target.value,
+            loginButtonColor: '#314455',
+            loginButtonText: 'Login',
+        });
     };
     handleInputPassword = ({target}) => {
         console.log(target.value);
-        this.setState({passwordInput: target.value});
+        this.setState({
+            passwordInput: target.value,
+            loginButtonColor: '#314455',
+            loginButtonText: 'Login',
+        });
     };
     handleLogin = async () => {
         console.log(`pending login ${this.state.loginInput} / ${this.state.passwordInput}...`);
@@ -152,14 +156,15 @@ class LoginPage extends React.Component {
             password: this.state.passwordInput,
         })
         .then(response  => response.data)
-        .then(result => {
+        .then(async result => {
             if (result.length > 0){
                 console.log(`logged as ${result[0].name}`);
-                this.props.handleLoggedIn(true, result[0].name);
-                this.props.history.push('/');
-                window.scrollTo(0, 0);
+                await this.props.handleLoggedIn(true, result[0].name);
             } else {
-                console.log('nie git');
+                this.setState({
+                    loginButtonColor: 'tomato',
+                    loginButtonText: 'Login failed',
+                });
             }
         })
     }
@@ -167,6 +172,7 @@ class LoginPage extends React.Component {
         console.log(nextProps);
         //nextProps.handleGoLogin();
     };
+    
     componentDidMount(){
         this.props.handleGoLogin(true);    
     };
@@ -176,7 +182,25 @@ class LoginPage extends React.Component {
     render(){
 
         const {classes} = this.props;
+        const themeLoginButton = createMuiTheme({
+            overrides: {
+              MuiButton: {
+                root: {
+                  background: this.state.loginButtonColor,
+                  borderRadius: 3,
+                  border: 0,
+                  color: 'white',
+                  height: 30,
+                  '&:hover': {
+                      backgroundColor: '#838e99',
+                      color: "#fff"
+                  },
+                  outline: "none",
+                },
         
+              },
+            },
+        });
         return (
         <div>
             <div className={classes.introduction}>
@@ -196,7 +220,7 @@ class LoginPage extends React.Component {
                 <br/>
             
             </Typography>
-            <MuiThemeProvider theme={themeLoginButton}>
+            <MuiThemeProvider theme={themeFeaturesButton}>
                 <Button size="small" onClick={() => {this.handleClickShowFeatures(true)}}>
                     Show Features
                 </Button>
@@ -205,8 +229,8 @@ class LoginPage extends React.Component {
             <Paper className={classes.paper} elevation={10} square="true">
                 <Grid container justify="center" alignContent="center">
                     <MuiThemeProvider theme={themeInput}>
-                        <Grid item xs={12} className={classes.loginElement}>
-                            <Typography component="h4" gutterBottom>Demo version v1.0</Typography>
+                        <Grid item xs={12} className={classes.demoTextElement} >
+                            <Typography component="h4" gutterBottom>Demo version</Typography>
                         </Grid>
                         <Grid item xs={12} className={classes.loginElement}>
                             <br/>
@@ -254,7 +278,7 @@ class LoginPage extends React.Component {
                                     autoCapitalize="false" 
                                     style={{outline: "none",}}
                                     onClick={this.handleLogin}
-                                >Login</Button>
+                                >{this.state.loginButtonText}</Button>
                             </MuiThemeProvider>
                         </Grid>
                     </MuiThemeProvider>
@@ -265,7 +289,7 @@ class LoginPage extends React.Component {
                 open={this.state.fullscreenOpen}
                 close={this.handleClickShowFeatures}
                 picArray={this.state.picArray}
-                />
+            />
             <div className={classes.loginBackground} />
         </div>
         )   

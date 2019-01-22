@@ -33,7 +33,7 @@ export default class Sample extends Component {
         onClose={this.closeLightbox}
         currentImage={this.state.photoIndex}
         backdropClosesModal={true}
-        
+        preloadNextImage={true}
       />
     );
   }

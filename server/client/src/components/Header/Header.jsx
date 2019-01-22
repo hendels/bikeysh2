@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // nodejs library to set properties for components
@@ -42,7 +42,8 @@ const themeListItem = createMuiTheme({
           boxShadow:
           "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
           backgroundColor: "#343c44",
-          color: "#fff"
+          color: "#fff",
+          outline: "none",
         },
       },
     },
@@ -86,7 +87,6 @@ const themeListItemText = createMuiTheme({
         fontSize: "4px",
         color: '#fff',
         "&:hover,&:focus": {
-          // color: "#fff"
         }
       },
     },
@@ -155,6 +155,7 @@ class Header extends React.Component {
   }
   handleShowAllResults() {
     this.props.collectAllResults();
+    this.props.history.push(`/offers/searchresult`);
     window.scrollTo(0, 0);
   }
   handleShowSingleRecord(_id, category){
@@ -228,10 +229,11 @@ class Header extends React.Component {
               // <Logo name={brand} color={color}/>
               <Button 
                   className={classes.title}
-                  component={Link} to="/" 
+                  component={Link} to={this.props.loggedIn ? '/' : '/login'} 
                   mini={true} 
                   variant={`text`} 
                   style={{ color: color}}
+                  onClick={()=>{window.scrollTo(0, 0);}}
               >
                   {brand}
               </Button>
@@ -239,7 +241,7 @@ class Header extends React.Component {
           </div>
           <Hidden smDown implementation="css">
             
-            {!this.props.loginPageOpened && this.props.loggedId ? rightLinks : null}
+            {!this.props.loginPageOpened && this.props.loggedIn ? rightLinks : null}
           </Hidden>
           <Hidden mdUp>
             <IconButton
@@ -276,8 +278,6 @@ class Header extends React.Component {
           <ListItem 
             className={classes.searchShowaAllItem} 
             button 
-            component={Link} 
-            to={`/offers/searchresult`}
             onClick={this.handleShowAllResults}
             >
             <MuiThemeProvider theme={themeListItemText}>
@@ -352,4 +352,4 @@ Header.propTypes = {
   })
 }; 
 
-export default withStyles(headerStyle)(Header);
+export default withStyles(headerStyle)(withRouter(Header));

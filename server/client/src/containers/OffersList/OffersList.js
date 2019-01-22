@@ -121,13 +121,6 @@ class OffersList extends Component {
     render(){
         const { classes } = this.props;
         const totalArray = this.state.totalResult;
-        renderCount += 1;
-        if (!this.state.error && this.state.hits !== null){
-            let firstLevel = 0;
-            for (var x in this.state.hits){
-                firstLevel += 1;
-            }
-        }
         let pageInfo = null;
         switch(this.props.category){
             case(`DHFRAMES`):
@@ -187,7 +180,10 @@ class OffersList extends Component {
         return(
             <Aux>
                 {pageInfo}
-                <div className={classNames(classes.main, classes.mainRaised)} style={{background: containerStyle.bikeyshBackground.background}}>
+                <div className={classNames(classes.main, classes.mainRaised)} style={{
+                    background: containerStyle.bikeyshBackground.background,
+                    boxShadow: containerStyle.bikeyshBackground.boxShadow
+                }}>
                     <div className={classes.container}>
                         <Paper className={classes.containerBackground} elevation={10}>
                         <Grid container direction="column" justify="center" alignContent="center">
