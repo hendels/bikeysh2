@@ -12,7 +12,8 @@ require('./models/bmart_dhframe');
 require('./models/bmart_enduroframe');
 require('./models/bmart_hub');
 require('./models/bmart_wheel');
-mongoose.connect(keys.mongoURI);
+// mongoose.connect(keys.mongoURI);
+mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();
 app.use(express.static('public'));
