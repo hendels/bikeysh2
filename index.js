@@ -30,6 +30,13 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/static', express.static('public'))
 
 require('./routes/getRoutes')(app);
+// ... other app.use middleware 
+app.use(express.static(path.join(__dirname, "client", "build")))
 
+// Right before your app.listen(), add this:
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
+//
 app.listen(process.env.PORT || 4000);
 console.log('===============end=================');
