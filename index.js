@@ -30,5 +30,5 @@ app.use('/static', express.static('public'))
 
 require('./routes/getRoutes')(app);
 
-app.listen(4000);
+app.listen(process.env.PORT || 4000);
 console.log('===============end=================');
