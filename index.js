@@ -19,14 +19,14 @@ const app = express();
 app.use(express.static('public'));
 
 console.log('==================start====================');
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-  }));
+// app.use(cors({
+//     origin: 'http://localhost:3000',
+//     credentials: true
+//   }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
-app.use(express.static(path.join(__dirname, 'client/build')));
+// app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/static', express.static('public'))
 
 require('./routes/getRoutes')(app);
