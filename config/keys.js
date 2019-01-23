@@ -4,7 +4,7 @@ var prod = true;
 
 if (prod) {
     module.exports = {
-        mongoURI: process.env.MONGODB_URI
+        mongoURI: process.env.MONGODB
     };
 } else {
     module.exports = require('./dev');
