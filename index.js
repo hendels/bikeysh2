@@ -13,7 +13,7 @@ require('./models/bmart_enduroframe');
 require('./models/bmart_hub');
 require('./models/bmart_wheel');
 // mongoose.connect(keys.mongoURI);
-mongoose.connect(process.env.MONGODB);
+mongoose.connect('mongodb://hend:przemek54@ds121309.mlab.com:21309/bikeysh');
 
 const app = express();
 app.use(express.static('public'));
