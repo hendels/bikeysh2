@@ -21,12 +21,7 @@ for (var iLink = 0; iLink < categoryLinks.length; iLink++) {
     };
     scraper
         .bmList(input)
-        .then(data => {
-            //for (var i = 0; i < data.length; i++) {
-            //console.log(data.bm_id);
-            //console.log("save");
-            //}
-        })
+        .then(data => {})
         .catch(error => {
             console.log('error scraping data' + error);
         });
