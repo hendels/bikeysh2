@@ -110,6 +110,10 @@ const styles = theme => ({
 });
 const captions = {
     login: `Basic authentication based on previously created combination of user & password on server side.`,
+    search: "Search offers by item / manufacturer / model name.",
+    tags: 'Insert / delete tags by Drag & drop view and add them manually.',
+    details: 'Check the details about offer best offer easily.',
+    favorites: 'Add offers to favorites.',
 
 }
 class LoginPage extends React.Component {
@@ -117,8 +121,10 @@ class LoginPage extends React.Component {
         fullscreenOpen: false,
         picArray: [
             {src: 'https://i.imgur.com/h5DP5G3.gif', caption: captions.login},
-            {src: 'https://i.imgur.com/h5DP5G3.gif', caption: captions.login},
-            {src: 'https://i.imgur.com/h5DP5G3.gif', caption: captions.login},
+            {src: 'https://i.imgur.com/2K8HN5d.gif', caption: captions.search},
+            {src: 'https://i.imgur.com/REREZL7.gif', caption: captions.tags},
+            {src: 'https://i.imgur.com/TV3MfIe.gif', caption: captions.details},
+            {src: 'https://i.imgur.com/4ldvuGJ.gif', caption: captions.favorites},
         ],
         login: process.env.REACT_APP_DEMO_CREDENTIALS_LOGIN,
         password: process.env.REACT_APP_DEMO_CREDENTIALS_PASSWORD,
