@@ -1,5 +1,5 @@
 // figures out what set of credentials to return
-var prod = true;
+var prod = false;
 
 
 if (prod) {

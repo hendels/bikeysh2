@@ -4,6 +4,7 @@ import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Aux from '../../hoc/Ax/Ax';
 import ImageLightBox from '../../components/ImageLightbox/ImageLightBox.jsx';
+import { Typography } from '@material-ui/core';
 
 const style = () => ({
     aboveFooter:{
@@ -11,75 +12,84 @@ const style = () => ({
         width: "100%",
     },
     footerSmall:{
-        height: "100px",
-        width: "100%",
         background: "#303030",
         display: `flex`,
+        flex: "0 1 100vw",
+        height: "15vh",
+        width: "100%",
         justifyContent: `center`,
         alignItems: `center`,
-        position: `relative`,
+        "@media (max-width: 425px)": {
+            height: "20vh",
+        },
+    },
+    textFooterDownSmall: {
+        background: "rgba(0, 0, 0, 0.2)",
+        width: "50%",
+        fontSize: "10px",
+        color: "white",
+        textAlign: "center",
         zIndex: 1,
+        "@media (max-width: 425px)": {
+            width: "100%",
+        },
     },
     footer: {
-        height: "200px",
-        width: "100%",
-        background: "#303030",
+        background: `rgba(48,48,48, 0.5) url(http://factoryracing.canyon.com/downhill-team/wp-content/uploads/sites/2/2018/02/Canyon_DH_Nizza18_G4A9936.jpg)`,
+        backgroundPosition: `0 650px`,
+        backgroundAttachment: `fixed`,
         display: `flex`,
+        flex: "0 1 100vw",
+        height: "15vh",
+        // width: "100%",
         justifyContent: `center`,
         alignItems: `center`,
-        position: `relative`,
+        zIndex: 0,
+        "@media (max-width: 425px)": {
+            height: "20vh",
+            backgroundPosition: `0px 750px`,
+        },
+    },
+    colorOverlay: {
+        height: "15vh",
+        width: "100%",
+        opacity: `.7`,
+        position: `absolute`,
+        background: `linear-gradient(to bottom, #c96567 0%,#133160 100%)`,
+        zIndex: 1,
+        "@media (max-width: 425px)": {
+            height: "20vh",
+        },
     },
     textFooterActions: {
         width: "50%",
         textAlign: "center",
-        zIndex: 1,
-    },
-    textActions: {
-        fontSize: "13px",
-        color: "white",
-        zIndex: 1,
+        zIndex: 2,
     },
     textFooterDown: {
-        width: "50%",
+        width: "100%",
         fontSize: "10px",
         color: "white",
         textAlign: "center",
-        zIndex: 1,
-    },
-    textFooterDownLogin: {
-        width: "50%",
-        fontSize: "10px",
-        color: "white",
-        textAlign: "center",
-        zIndex: 1,
-        background: "rgba(0, 0, 0, 0.2)",
-    },
-    textFooterUp: {
-        fontSize: "18px",
-        color: "white",
-        fontFamily: `'Permanent Marker'`,
+        zIndex: 2,
     },
     hr: {
         height: "1px",
         border: "0",
-        borderTop: "5px solid #232323",
-        width: "640px"
+        borderTop: "5px solid rgba(35, 35, 35, 0.75)",
+        width: "100%",
+        "@media (max-width: 425px)": {
+            width: "0%",
+        },
     },
-    hr2: {
-        height: "1px",
-        border: "0",
-        borderTop: "5px solid #232323",
-        width: "480px"
+    textActions: {
+        fontSize: "13px",
+        color: "white",
+        zIndex: 2,
     },
-    colorOverlay: {
-        width: `100%`,
-        height: `100%`,
-        opacity: `.7`,
-        position: `absolute`,
-        //rgba(48,48,48, 0.5) #303030 #133160 #c96567
-        background: `linear-gradient(to bottom, #c96567 0%,#133160 100%)`,
-        zIndex: 0,
-    },
+
+
+
 })
 class Footer extends React.Component {
     state = {
@@ -100,11 +110,12 @@ class Footer extends React.Component {
                 <Aux>
                 {/* //line above footer */}
                 <div className={classes.aboveFooter}/>
-                <div className={classes.footer} style={{
+                <div className={classes.footer}>
+                {/* <div className={classes.footer} style={{
                     background: `rgba(48,48,48, 0.5) url(${this.props.imageUrls.footerImage.url})`,
                     backgroundPosition: `${this.props.imageUrls.footerImage.tweak}`,
                     backgroundAttachment: `fixed`,}}
-                >
+                > */}
                     <Grid container justify="space-between" alignContent="center">
                         {/* // 1 row */}
                         <Grid item xs={4}/>
@@ -121,22 +132,22 @@ class Footer extends React.Component {
                         <Grid item xs={4}/>
                         <Grid item xs={4}>
                             <Grid container justify="space-between" alignContent="center">
-                                <Grid item xs={3} className={classes.textFooterActions}>
+                                <Grid item sm={6} md={3} lg={3}className={classes.textFooterActions}>
                                     <IconButton>
                                         <span className={classes.textActions}>home</span>
                                     </IconButton>
                                 </Grid>
-                                <Grid item xs={3} className={classes.textFooterActions}>
+                                <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions}>
                                     <IconButton>
                                         <span className={classes.textActions}>contact</span>
                                     </IconButton>
                                 </Grid>
-                                <Grid item xs={3} className={classes.textFooterActions}>
+                                <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions}>
                                     <IconButton>
                                         <i className="fab fa-linkedin" style={{fontSize: "1em", color: "#fff"}}></i> 
                                     </IconButton>
                                 </Grid>
-                                <Grid item xs={3} className={classes.textFooterActions}>
+                                <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions}>
                                     <IconButton>
                                         <i className="fab fa-github-square" style={{fontSize: "1em", color: "#fff"}}></i>
                                     </IconButton>
@@ -148,11 +159,11 @@ class Footer extends React.Component {
                         <br/>
                         <br/>
                         {/* // last row */}
-                        <Grid item xs={4}/>
-                        <Grid item xs={4} className={classes.textFooterDown}>
+                        <Grid item sm={12} md={4} lg={4}/>
+                        <Grid item sm={12} md={4} lg={4} className={classes.textFooterDown}>
                             <span >© 2019 | bikeysh</span>
                         </Grid>
-                        <Grid item xs={4}/>
+                        <Grid item sm={12} md={4} lg={4}/>
     
                     </Grid>
                     <div className={classes.colorOverlay}/>
@@ -166,29 +177,29 @@ class Footer extends React.Component {
                             {/* // 1 row */}
                             <Grid item xs={4}/>
                             <Grid item xs={4} >
-                                {/* <span className={classes.textFooterUp}>Footer Stuff</span> */}
+                                {/* <span>Footer Stuff</span> */}
                             </Grid>
                             <Grid item xs={4}/>
                             {/* // 3rd row */}
                             <Grid item xs={4}/>
                             <Grid item xs={4}>
                                 <Grid container justify="space-between" alignContent="center">
-                                    <Grid item xs={3} className={classes.textFooterActions}>
+                                    <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions} zeroMinWidth>
                                         <IconButton>
-                                            <span className={classes.textActions}>about</span>
+                                            <Typography noWrap className={classes.textActions}>about</Typography>
                                         </IconButton>
                                     </Grid>
-                                    <Grid item xs={3} className={classes.textFooterActions}>
+                                    <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions} zeroMinWidth>
                                         <IconButton>
-                                            <span className={classes.textActions}>contact</span>
+                                            <Typography noWrap className={classes.textActions}>contact</Typography>
                                         </IconButton>
                                     </Grid>
-                                    <Grid item xs={3} className={classes.textFooterActions}>
+                                    <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions} zeroMinWidth>
                                         <IconButton>
                                             <i className="fab fa-linkedin" style={{fontSize: "1em", color: "#fff"}}></i> 
                                         </IconButton>
                                     </Grid>
-                                    <Grid item xs={3} className={classes.textFooterActions}>
+                                    <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions} zeroMinWidth>
                                         <IconButton>
                                             <i className="fab fa-github-square" style={{fontSize: "1em", color: "#fff"}}></i>
                                         </IconButton>
@@ -200,11 +211,11 @@ class Footer extends React.Component {
                             <br/>
                             <br/>
                             {/* // last row */}
-                            <Grid item xs={4}/>
-                            <Grid item xs={4} className={classes.textFooterDownLogin}>
+                            <Grid item sm={12} md={4} lg={4}/>
+                            <Grid item sm={12} md={4} lg={4} className={classes.textFooterDownSmall}>
                                 <span >© 2019 | bikeysh</span>
                             </Grid>
-                            <Grid item xs={4}/>
+                            <Grid item sm={12} md={4} lg={4}/>
     
                         </Grid>
                         </div>

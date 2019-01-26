@@ -31,7 +31,7 @@ const imageUrls = {
     wheelsImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5ab923c674716.jpg`, tweak: `0px 300px`},
     loginImage: {url: `http://www.fullhdwpp.com/wp-content/uploads/Bicycling-Downhill_www.FullHDWpp.com_.jpg?x69613`, tweak: `0px 0px`},
     bikeyshImage: {url: `https://static.canyon.com/_img/bg/gravity/gravity-world.jpg`, tweak: `0px -200px`},
-    footerImage: {url: `http://factoryracing.canyon.com/downhill-team/wp-content/uploads/sites/2/2018/02/Canyon_DH_Nizza18_G4A9936.jpg`, tweak: `0px 650px`},
+    // footerImage: {url: `http://factoryracing.canyon.com/downhill-team/wp-content/uploads/sites/2/2018/02/Canyon_DH_Nizza18_G4A9936.jpg`, tweak: `0px 650px`},
 }
 const dbModels = {
     cranks: `cranks`, dhframes: `dhframes`, enduroframes: `enduroframes`, hubs: `hubs`, wheels: `wheels` 
@@ -50,9 +50,11 @@ class Layout extends Component {
         fullSearchResults: [],
         showSearchResults: false,
         searchPending: false,
-        loginPageOpened: false,
         activeUser: '',
-        loggedIn: false,
+        loginPageOpened: false,
+        // loginPageOpened: true, // << [todo] PRODUCTION STATE CHANGE
+        // loggedIn: false,
+        loggedIn: true,  // << [todo] PRODUCTION STATE CHANGE
     }
     handleLoggedIn = async (logUser, userName) => {
         await this.setState({
