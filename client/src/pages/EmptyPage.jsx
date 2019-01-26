@@ -2,9 +2,9 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {Paper, Grid, Typography, Button, MuiThemeProvider} from '@material-ui/core';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
-import generalPageStyle from '../styles/components/generalPageStyle.jsx';
+import generalPageStyle from '../styles/components/landingPageStyle.jsx';
 //app components
-import LandingButton from '../components/Buttons/LandingButton.jsx';
+import LandingButton from '../components/Buttons/LandingBar.jsx';
 
 const styles = theme => ({
     paper: {

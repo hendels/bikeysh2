@@ -1,24 +1,21 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import Typography from '@material-ui/core/Typography';
 import ArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import ArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 
 const styles = theme => ({
   root: {
     display: 'flex',
-    flexWrap: 'wrap',
-    minWidth: '200px',
-    // width: '100%',
+    flexWrap: 'nowrap',
   },
   image: {
     position: 'relative',
-    height: 420,
-    [theme.breakpoints.down('xs')]: {
-      width: '100% !important', // Overrides inline-style
-      height: 100,
+    width: '20vw',
+    height: '40vh',
+    "@media (max-width: 425px)": { 
+      width: `50vw`,
     },
     '&:hover, &$focusVisible': {
       zIndex: 1,
@@ -32,18 +29,18 @@ const styles = theme => ({
         border: '2px solid currentColor',
       },
     },
+    
   },
-  // focusVisible: {},
   imageButton: {
+    color: theme.palette.common.white,
+    display: 'flex',
     position: 'absolute',
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: theme.palette.common.white,
   },
   imageSrc: {
     position: 'absolute',
@@ -85,23 +82,24 @@ const ButtonBases = (props) => {
 
   return (
     <div className={classes.root}>
-        <ButtonBase
-          focusRipple
-          className={classes.image}
-          focusVisibleClassName={classes.focusVisible}
-          style={{
-            width: '200px',
-          }}
-          onClick={props.onClick}
-        >
-          <span
-            className={classes.imageSrc}
-          />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
-            <ArrowRight/>      
-          </span>
-        </ButtonBase>
+          <ButtonBase
+            focusRipple
+            className={classes.image}
+            focusVisibleClassName={classes.focusVisible}
+            onClick={()=>{
+              props.history.push(`${props.pushTo}`);
+              window.scrollTo(0, 0);
+            }}
+          >
+            <span
+              className={classes.imageSrc}
+            />
+            <span className={classes.imageBackdrop} />
+            <span className={classes.imageButton}>
+              <ArrowRight/>      
+            </span>
+          </ButtonBase>
+        
     </div>
   );
 }
@@ -110,4 +108,4 @@ ButtonBases.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ButtonBases);
+export default withStyles(styles)(withRouter(ButtonBases));

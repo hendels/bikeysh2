@@ -3,61 +3,45 @@ import {Link} from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import generalPageStyle from '../styles/components/generalPageStyle.jsx';
+import landingPageStyle from '../styles/components/landingPageStyle.jsx';
 //app components
-import LandingButton from '../components/Buttons/LandingButton.jsx';
+import LandingBar from '../components/Buttons/LandingBar.jsx';
 
-const styles = theme => ({});
-
-  
 const LandingPage = (props) => {
     return (
         <div>
-            <Link to="/bestoffers" style={{textDecoration: "none"}}>
-                <LandingButton 
-                    imageUrl={props.imageUrls.defaultImage.url} 
-                    pageInfoTitle={`Best Offers`} 
-                    tweak={props.imageUrls.defaultImage.tweak}
-                    linkTo={'/bestoffers'}
-                />
-            </Link>
-            <Link to="/category/dhframes" style={{textDecoration: "none"}}>
-            <LandingButton 
+            <LandingBar 
+                imageUrl={props.imageUrls.bestOfferImage.url} 
+                pageInfoTitle={`Best Offers`} 
+                pushTo="/bestoffers"
+            />
+            <LandingBar 
                 imageUrl={props.imageUrls.dhframesImage.url} 
                 pageInfoTitle={`Downhill Frames`} 
-                tweak="120px 0px"
+                pushTo="/category/dhframes"
             />
-            </Link>
-            <Link to="/category/cranks" style={{textDecoration: "none"}}>
-                <LandingButton 
-                    imageUrl={props.imageUrls.cranksImage.url} 
-                    pageInfoTitle={`Cranks`} 
-                    tweak="0px 0px"
-                />
-            </Link>
-            <Link to="/category/hubs" style={{textDecoration: "none"}}>
-                <LandingButton 
-                    imageUrl={props.imageUrls.hubsImage.url} 
-                    pageInfoTitle={`Hubs`} 
-                    tweak="0px 0px"
-                />
-            </Link>
-            <Link to="/category/enduroframes" style={{textDecoration: "none"}}>
-                <LandingButton 
-                    imageUrl={props.imageUrls.enduroframesImage.url} 
-                    pageInfoTitle={`Enduro Frames`} 
-                    tweak="0px 0px"
-                />
-            </Link>
-            <Link to="/category/wheels" style={{textDecoration: "none"}}>
-                <LandingButton 
-                    imageUrl={props.imageUrls.wheelsImage.url} 
-                    pageInfoTitle={`Wheels`} 
-                    tweak='0px 300px'
-                />
-            </Link>
+            <LandingBar 
+                imageUrl={props.imageUrls.cranksImage.url} 
+                pageInfoTitle={`Cranks`} 
+                pushTo="/category/cranks"
+            />
+            <LandingBar 
+                imageUrl={props.imageUrls.hubsImage.url} 
+                pageInfoTitle={`Hubs`} 
+                pushTo="/category/hubs"
+            />
+            <LandingBar 
+                imageUrl={props.imageUrls.enduroframesImage.url} 
+                pageInfoTitle={`Enduro Frames`} 
+                pushTo="/category/enduroframes"
+            />
+            <LandingBar 
+                imageUrl={props.imageUrls.wheelsImage.url} 
+                pageInfoTitle={`Wheels`} 
+                pushTo="/category/wheels"
+            />
         </div>
     )
 }
 
-export default withStyles(generalPageStyle)(LandingPage);
+export default withStyles(landingPageStyle)(LandingPage);

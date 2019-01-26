@@ -23,7 +23,7 @@ const fetchUrls = {
     tags: '/api/tags/'
 };
 const imageUrls = {
-    defaultImage: {url: `https://testy.bikeboard.pl/images/biblioteka/slider-d8683q_sender_testing_nice_canyon_greber_3nvv.jpg)`, tweak: `0px -70px`},
+    bestOfferImage: {url: `https://testy.bikeboard.pl/images/biblioteka/slider-d8683q_sender_testing_nice_canyon_greber_3nvv.jpg`, tweak: `0px -70px`},
     dhframesImage: {url: `https://static.canyon.com/_img/bg/gravity/gravity-technology-sender.jpg`, tweak: `0px -250px`},
     cranksImage: {url: `https://cdn.dirtmountainbike.com/featured_image/5acb91737dbc8.jpeg`, tweak: `0px -450px`},
     hubsImage: {url: `https://cdn.bikemagic.com/featured_image/5ab936e5d5833.jpg`, tweak: `0px -200px`},

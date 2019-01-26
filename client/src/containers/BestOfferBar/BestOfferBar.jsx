@@ -11,7 +11,7 @@ import CategoryInfo from '../../components/UI/CategoryInfoCard.jsx';
 import Dummies from '../../components/UI/SpinnerOffers';
 import LoadNext from '../../components/UI/LoadButtonNext.jsx';
 // # styles
-import containerStyle from '../../styles/components/generalPageStyle.jsx';
+import containerStyle from '../../styles/components/landingPageStyle.jsx';
 
 // # icons
 const pageLimit = 5;

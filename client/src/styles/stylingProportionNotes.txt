@@ -13,3 +13,36 @@ BACKGROUND (85vh)
 ================================================================
 ----------------------------------------------------------------
 FOOTER (15vh)                      FOOTER MOBILE (20vh)
+
+
+
+
+
+
+
+
+
+style stack order:
+//====== appearance
+* display
+* position
+* widths 
+* heights
+//====== alignments & flex / grid props
+* alignments
+//====== core & colors
+* fonts
+* fontColors
+* backgrounds
+* backgroundColors
+//====== colorRelated
+* opacities
+
+//====== shadows
+* boxShadows
+
+//====== others
+* filters
+* zIndex
+//====== media queries
+//====== hovers

@@ -63,7 +63,7 @@ class BestOfferPage extends React.Component {
                 reload={this.handleReload}
                 searchPending={this.props.searchPending}
             />
-            <BestOfferInfo imageUrl={this.props.imageUrls.defaultImage} pageInfoTitle={`best offers this week so far ...`}/>
+            <BestOfferInfo imageUrl={this.props.imageUrls.bestOfferImage} pageInfoTitle={`best offers this week so far ...`}/>
                 <Paper className={classes.root} elevation={10}>
                     <div>
                     <Grid 

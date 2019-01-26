@@ -111,11 +111,6 @@ class Footer extends React.Component {
                 {/* //line above footer */}
                 <div className={classes.aboveFooter}/>
                 <div className={classes.footer}>
-                {/* <div className={classes.footer} style={{
-                    background: `rgba(48,48,48, 0.5) url(${this.props.imageUrls.footerImage.url})`,
-                    backgroundPosition: `${this.props.imageUrls.footerImage.tweak}`,
-                    backgroundAttachment: `fixed`,}}
-                > */}
                     <Grid container justify="space-between" alignContent="center">
                         {/* // 1 row */}
                         <Grid item xs={4}/>
