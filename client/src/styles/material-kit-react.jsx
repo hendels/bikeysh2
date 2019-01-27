@@ -27,9 +27,6 @@ const containerColor = {
   opacity: "0.9"
 };
 const conatinerFluid = {
-  // paddingRight: "15px",
-  // paddingLeft: "15px",
-  // padding: "15px",
   marginRight: "auto",
   marginLeft: "auto",
   width: "100%",

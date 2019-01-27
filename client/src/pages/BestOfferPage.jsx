@@ -77,8 +77,6 @@ class BestOfferPage extends React.Component {
                         <BestOfferBar 
                             category="Cranks" 
                             bestUrl={this.props.fetchUrls.bestoffer}
-                            //offerCount={cranks} 
-                            //fetchUrl={this.props.fetchUrls.cranks} 
                             tagUrl={this.props.fetchUrls.tags}
                             model={this.props.models.cranks}
                             showSnack={this.handleSnack}
@@ -89,7 +87,6 @@ class BestOfferPage extends React.Component {
                         />
                         <br/>
                     </Grid>
-
                     <Grid 
                         className={classes.root} 
                         container 

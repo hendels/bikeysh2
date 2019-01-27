@@ -10,15 +10,19 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    minWidth: '50px',
-    // width: '100%',
+    width: '50px',
+    "@media (max-width: 425px)": {
+      height: "10vh",
+      width: "50vw",
+    },
   },
   image: {
     position: 'relative',
-    height: 350,
-    [theme.breakpoints.down('xs')]: {
-      width: '100% !important', // Overrides inline-style
-      height: 100,
+    height: "350px",
+    width: "50px",
+    "@media (max-width: 425px)": {
+      height: "10vh",
+      width: "50vw",
     },
     '&:hover, &$focusVisible': {
       zIndex: 1,
@@ -33,7 +37,6 @@ const styles = theme => ({
       },
     },
   },
-  focusVisible: {},
   imageButton: {
     position: 'absolute',
     left: 0,
@@ -89,9 +92,9 @@ function ButtonBases(props) {
           focusRipple
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
-          style={{
-            width: '50px',
-          }}
+          // style={{
+          //   width: '50px',
+          // }}
           onClick={props.onClick}
         >
           <span

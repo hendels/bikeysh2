@@ -7,26 +7,78 @@ import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 // #app components
-import MissedDealsDialog from '../Dialogs/StatisticsDialog';
-import FavoritesDialog from '../Dialogs/StatisticsDialog';
-import StatisticsDialog from '../Dialogs/StatisticsDialog';
+// import MissedDealsDialog from '../Dialogs/StatisticsDialog';
+// import FavoritesDialog from '../Dialogs/StatisticsDialog';
+// import StatisticsDialog from '../Dialogs/StatisticsDialog';
 // #hoc components
 // #style
-import categoryInfoStyle from '../../styles/components/categoryInfoStyle.jsx';
+//import categoryInfoStyle from '../../styles/components/categoryInfoStyle.jsx';
 //<<variables
 let categoryTitle = '';
 //>>
+
+const categoryInfoStyle = theme => ({
+    root:{
+      width: 180,
+      height: 350,
+
+      padding: '1.5em 0 1.5em 0',
+
+      "@media (max-width: 425px)": {
+        height: "10vh",
+        width: "100vw",
+        padding: '0 0 0 0',
+
+      }
+    },
+    card: {
+      width: 180,
+      height: 350,
+
+      background: `linear-gradient(180deg, #000 0%, #041424 1%)`,
+
+      "@media (max-width: 425px)": {
+        height: "10vh",
+        width: "100vw",
+        padding: '0 0 0 0',
+      }
+    },
+    cardContent: {
+      textAlign: `center`,
+    },
+    cardTitle:{
+      fontFamily: "Pacifico, cursive",
+      fontSize: "25px",
+      color: `rgba(255,255,255,0.5)`,
+
+      textShadow: `1px 1px #C96567`,
+      // background: "purple", //[dev]
+      "@media (max-width: 425px)": {
+        paddingLeft: '20px',
+      },
+      "@media (max-width: 375px)": {
+        paddingLeft: '20px',
+        fontSize: "20px",
+    },
+    },
+});
 const themeButton = createMuiTheme({
     overrides: {
         MuiButton: {
             root:{
                 outline: "none",
                 color: `#97AABD`,
+                // background: "green", //[dev]
+                borderRadius: 0,
+                "@media (max-width: 425px)": {
+                    border: '1px solid rgba(151, 170, 189, 0.2)',
+                },
+
             },
         },
-        
     }
 })
+  
 class CategoryInfo extends React.Component {
     constructor(props){
         super(props);
@@ -81,38 +133,29 @@ class CategoryInfo extends React.Component {
         };
         return(
             <Card className={classes.card} square='true'>
-            <Grid container direction="column" justify="space-between" alignItems="center" className={classes.root}>
-                <Grid item className={classes.cardContent}>
-                    <span className={classes.cardTitle}>{categoryTitle}</span>
+                <Grid container direction="row" justify="space-between" alignItems="center" className={classes.root}>
+                    <Grid item sm={12} md={12} lg={12} className={classes.cardContent}>
+                        <span className={classes.cardTitle}>{categoryTitle}</span>
+                    </Grid>
+                    <Grid item sm={0} md={12} lg={12}/>
+                    <Grid item sm={0} md={12} lg={12}/>
+                    <Grid item sm={0} md={12} lg={12}/>
+                    <Grid item sm={12} md={12} lg={12}>
+                        <MuiThemeProvider theme={themeButton}>
+                            <Button  size="small" fullWidth="true" 
+                                onClick={this.handleClickOpenFavoritesFilter} 
+                            >
+                                Favorites
+                            </Button>
+                        
+                            <Button size="small" fullWidth="true" 
+                                onClick={this.handleClickOpenWithoutTagFilter} 
+                            >
+                                Without tag
+                            </Button>
+                        </MuiThemeProvider>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <MuiThemeProvider theme={themeButton}>
-                        <Button  size="small" fullWidth="true" 
-                            onClick={this.handleClickOpenFavoritesFilter} 
-                        >
-                            Favorites
-                        </Button>
-                    </MuiThemeProvider>
-                    <Button className={classes.cardButton} color="primary" size="small" fullWidth="true" 
-                        onClick={this.handleClickOpenWithoutTagFilter} 
-                    >
-                        Without tag
-                    </Button>
-                </Grid>
-                <MissedDealsDialog
-                    open={this.state.openMissedDealsDialog}
-                    onClose={this.handleCloseDialog}
-                />
-                <FavoritesDialog
-                    open={this.state.openFavoritesDialog}
-                    onClose={this.handleCloseDialog}
-                />
-                <StatisticsDialog
-                    open={this.state.openStatisticsDialog}
-                    onClose={this.handleCloseDialog}
-                    category={this.props.category}
-                />
-            </Grid>
             </Card>
         )
     }

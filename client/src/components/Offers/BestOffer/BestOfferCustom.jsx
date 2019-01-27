@@ -24,6 +24,10 @@ const styles = theme => ({
         display: 'relative',
         height: 350,
         width: 250,
+        "@media (max-width: 425px)":{
+            height: "50vh",
+            width: "100vw",
+        },
     },
     media: {
       height: 0,
@@ -56,9 +60,9 @@ const styles = theme => ({
         position: 'relative',
         height: 350,
         width: 250,
-        [theme.breakpoints.down('xs')]: {
-          width: '100% !important', // Overrides inline-style
-          height: 100,
+        "@media (max-width: 425px)":{
+            height: "50vh",
+            width: "100vw",
         },
         '&:hover, &$focusVisible': {
           zIndex: 1,
@@ -262,7 +266,6 @@ class BestOffer extends React.Component {
     }
     async componentWillMount(){
         if (!this.props.searchPending){
-            console.log(`BEST OFFER CATEGORY: ${this.props.category}`);
             if (this.props.category !== undefined){
                 this.getOfferAttributes(this.props.category);
             }

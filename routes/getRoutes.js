@@ -399,25 +399,27 @@ module.exports = app => {
     app.get('/api/bm/bestoffer/:category/:skipRange/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
         var skipRange = parseInt(req.params.skipRange);
-        const Scoring = await mongoose
-            .model('scoring')
-            .find({
-                category: req.params.category,
-                urlActive: true,
-                showOffer: true,
-                countTotal: {$gt: 1}
-            })
-            .sort({'scores': -1})
-            .skip(skipRange)
-            .limit(pageLimit)
-            .select({ __v: false });
-        var obj_ids = Scoring.map(id => {return id.offerId;});
-        const Model = await mongoose
-            .model(req.params.category)
-            .find({_id: {$in: obj_ids}})
-            .limit(pageLimit)
-            .select({ __v: false }); 
-        res.send(Model);       
+        // if (pageLimit !== 0){ 
+            const Scoring = await mongoose
+                .model('scoring')
+                .find({
+                    category: req.params.category,
+                    urlActive: true,
+                    showOffer: true,
+                    countTotal: {$gt: 1}
+                })
+                .sort({'scores': -1})
+                .skip(skipRange)
+                .limit(pageLimit)
+                .select({ __v: false });
+            var obj_ids = Scoring.map(id => {return id.offerId;});
+            const Model = await mongoose
+                .model(req.params.category)
+                .find({_id: {$in: obj_ids}})
+                .limit(pageLimit)
+                .select({ __v: false }); 
+            res.send(Model);       
+        // }
     });
     //>>bestoffer
     //==================================================================================================================
