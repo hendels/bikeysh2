@@ -9,20 +9,45 @@ import CloseIcon from '@material-ui/icons/Close';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 //mgt
 
+const boW = 228;
+
 const styles = theme => ({
   snackbar: {
     position: 'absolute',
   },
   snackbarContent: {
-      minWidth: 205,
-      textAlign: "left"
+      minWidth: boW,
+
+      textAlign: "left",
+      "@media (max-width: 1024px)": {
+        minWidth: "152px",
+      },
+      "@media (max-width: 768px)": {
+        minWidth: "100px",
+      },
+      "@media (max-width: 425px)": {
+        minWidth: "162px",
+      },
+      "@media (max-width: 375px)": {
+        minWidth: "162px",
+      },
   },
   statsContainer: {
-    // width: "205px",
-    // height: "255px",
     backgroundColor: "rgba(151, 170, 189, 0.9)",
     padding: "10px 0px 10px 5px",
     fontSize: "14px",
+    "@media (max-width: 1024px)": {
+      fontSize: "10px",
+    },
+    // "@media (max-width: 768px)": {
+    //   minWidth: "162px",
+    // },
+    // "@media (max-width: 425px)": {
+    //   minWidth: "162px",
+    // },
+    // "@media (max-width: 375px)": {
+    //   minWidth: "162px",
+    // },
   },
 });
 const themeCancelButton = createMuiTheme({
@@ -94,46 +119,46 @@ class SnackbarBestOffer extends React.Component {
         }}
         message={
           <Grid container direction="row" justify="space-between" alignContent="center">
-          <Grid item item xs={7}>
+          <Grid item xs={7}>
             <span style={{fontWeight: "bold"}}>Price:</span>
             </Grid>
-            <Grid item item xs={5}>
+            <Grid item xs={5}>
               {this.props.price} {this.state.statistics.currency}
             </Grid>
-            <Grid item item xs={12}>
+            <Grid item xs={12}>
               <br/>
             </Grid>
-            <Grid item item xs={12}>
+            <Grid item xs={12}>
               <span style={{fontWeight: "bold"}}>Offer based on:</span>
             </Grid>
-            <Grid item item xs={7}>
+            <Grid item xs={7}>
               Similar offers:
             </Grid>
-            <Grid item item xs={5}>
+            <Grid item xs={5}>
               {this.state.statistics.countOffers}
             </Grid>
-            <Grid item item xs={7}>
+            <Grid item xs={7}>
               Average price:
             </Grid>
-            <Grid item item xs={5}>
+            <Grid item xs={5}>
               {this.state.statistics.avgPrice} {this.state.statistics.currency}
             </Grid>
-            <Grid item item xs={7}>
+            <Grid item xs={7}>
               Median for {this.props.itemState}:
             </Grid>
-            <Grid item item xs={5}>
+            <Grid item xs={5}>
               ADD
             </Grid>
-            <Grid item item xs={7}>
+            <Grid item xs={7}>
               It's cheaper by:
             </Grid>
-            <Grid item item xs={5}>
+            <Grid item xs={5}>
               {parseFloat(this.state.statistics.avgPrice-this.props.price).toFixed(0)} {this.state.statistics.currency}
             </Grid>
-            <Grid item item xs={12}>
+            <Grid item xs={12}>
               <br/>
             </Grid>
-            <Grid item item xs={12}>
+            <Grid item xs={12}>
               <MuiThemeProvider theme={themeCancelButton}>
                 <Button fullWidth="true" onClick={this.props.showOfferDetailsDialog}>Details</Button>
               </MuiThemeProvider>

@@ -3,8 +3,6 @@ import axios from 'axios';
 import BestOffer from '../../components/Offers/BestOffer/BestOfferCustom.jsx';
 import Grid from '@material-ui/core/Grid';
 import Aux from '../../hoc/Ax/Ax.js';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 //app components
 import CategoryInfo from '../../components/UI/CategoryInfoCard.jsx';
@@ -58,6 +56,7 @@ const styles = () => ({
         },
         // opacity: "0.9",
         background: "#314455",
+        // flexBasis: 20,
     }
 })
 
@@ -73,14 +72,14 @@ class BestOfferBar extends React.Component {
             skipRange: 0,
             totalResult: 0,
             barTail: 0,
-            pageLimit: this.getPageLimit(window.outerWidth, window.outerHeight).pageLimit,
-            categoryGridLen: this.getPageLimit(window.outerWidth, window.outerHeight).categoryGridLen,
-            arrowGridLen: this.getPageLimit(window.outerWidth, window.outerHeight).arrowGridLen,
-            bestOfferGridLen: this.getPageLimit(window.outerWidth, window.outerHeight).bestOfferGridLen,
-            mobileView: this.getPageLimit(window.outerWidth, window.outerHeight).mobileView,
+            pageLimit: this.getPageMeasures(window.outerWidth, window.outerHeight).pageLimit,
+            categoryGridLen: this.getPageMeasures(window.outerWidth, window.outerHeight).categoryGridLen,
+            arrowGridLen: this.getPageMeasures(window.outerWidth, window.outerHeight).arrowGridLen,
+            bestOfferGridLen: this.getPageMeasures(window.outerWidth, window.outerHeight).bestOfferGridLen,
+            mobileView: this.getPageMeasures(window.outerWidth, window.outerHeight).mobileView,
         }
     }
-    getPageLimit = (width, height) => {
+    getPageMeasures = (width, height) => {
         let currentWidth = 0;
         let currentHeight = 0;
         let resizeObj = {};
@@ -96,10 +95,19 @@ class BestOfferBar extends React.Component {
                 mobileView: true,
             }
         } 
-        if (currentWidth <= 1920 && currentWidth >= 425){
+        if (currentWidth <= 1560 && currentWidth > 425){
+            resizeObj = {
+                pageLimit: 3,
+                categoryGridLen: 1,
+                arrowGridLen: 1,
+                bestOfferGridLen: 2,
+                mobileView: false,
+            }
+        };
+        if (currentWidth <= 1920 && currentWidth > 1560){
             resizeObj = {
                 pageLimit: 4,
-                categoryGridLen: 2,
+                categoryGridLen: 1,
                 arrowGridLen: 1,
                 bestOfferGridLen: 2,
                 mobileView: false,
@@ -108,9 +116,7 @@ class BestOfferBar extends React.Component {
         return resizeObj;
     }
     onResize = (e) => {
-        const windowWidth = e.target.outerWidth;
-        const windowHeight = e.target.outerHeight;
-        const resizeObj = this.getPageLimit(windowWidth, windowHeight);
+        const resizeObj = this.getPageMeasures(e.target.outerWidth, e.target.outerHeight);
         if (this.state.pageLimit !== resizeObj.pageLimit){
             this.setState({
                 pageLimit: resizeObj.pageLimit,
@@ -119,9 +125,7 @@ class BestOfferBar extends React.Component {
                 bestOfferGridLen: resizeObj.bestOfferGridLen,
                 mobileView: resizeObj.mobileView,
             }, ()=> {
-
-                // this.forceUpdate();
-                console.log(`W: ${windowWidth} H: ${windowHeight} PageLimit: ${resizeObj.pageLimit} CatGL: ${this.state.categoryGridLen} ArrowGL: ${this.state.arrowGridLen} BestGL: ${this.state.bestOfferGridLen}`);
+                // console.log(`W: ${e.target.outerWidth} H: ${e.target.outerHeight} PageLimit: ${resizeObj.pageLimit} CatGL: ${this.state.categoryGridLen} ArrowGL: ${this.state.arrowGridLen} BestGL: ${this.state.bestOfferGridLen}`);
                 this.fetchData(this.props.bestUrl, this.state.skipRange, this.state.pageLimit, this.props.model);
             });
         }
@@ -247,7 +251,7 @@ class BestOfferBar extends React.Component {
         );
         return(
             <Aux>
-                <Grid container className={classes.containerBackground} justify="space-between" alignItems="center" >
+                <Grid container className={classes.containerBackground} justify="space-between" alignItems="center" alignContent="center" >
                     {categoryInfo}
                     {this.state.mobileView ? null : previousButton}
                     {this.state.loading ? <Dummies pageLimit={this.state.pageLimit}/> : (<Aux>{offers}</Aux>)}

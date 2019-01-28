@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import Snackbar from '@material-ui/core/Snackbar';
+import {Grid, IconButton, ButtonBase, Avatar} from '@material-ui/core';
 //icons
 import InfoIcon from '@material-ui/icons/Info';
 import Delete from '@material-ui/icons/DeleteSweep';
@@ -19,65 +16,53 @@ import OfferDetailsDialog from '../../Dialogs/OfferDetailsDialog.jsx';
 import Aux from '../../../hoc/Ax/Ax';
 //common
 import {getOfferAttributes} from '../../../common/common';
+
+const boH = 320;
+const boW = 275;
+
 const styles = theme => ({
     root: {
-        display: 'relative',
-        height: 350,
-        width: 250,
+        // position: 'relative',
+        height: boH,
+        width: boW,
+        "@media (max-width: 1024px)": {
+            width: boW - 80,
+            height: boH - 100,
+        },
+        "@media (max-width: 768px)": {
+            width: boW - 130,
+        },
         "@media (max-width: 425px)":{
             height: "50vh",
             width: "100vw",
         },
     },
-    media: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9
-      opacity: 0.6
-    },
-    actions: {
-      display: 'flex',
-    },
-    expand: {
-      transform: 'rotate(0deg)',
-      transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-      }),
-      marginLeft: 'auto',
-      [theme.breakpoints.up('sm')]: {
-        marginRight: -8,
-      },
-    },
-    expandOpen: {
-      transform: 'rotate(180deg)',
-    },
-    avatar: {
-      backgroundColor: `#C96567`,
-      fontSize: `20px`,
-      fontFamily: `Lobster`,
-      textShadow: `1px 1px #314455`,
-    },
     image: {
-        position: 'relative',
-        height: 350,
-        width: 250,
+        // position: 'relative',
+        height: boH,
+        width: boW,
+        "@media (max-width: 1024px)": {
+            width: boW - 80,
+            height: boH - 100,
+        },
+        "@media (max-width: 768px)": {
+            width: boW - 130,
+        },
         "@media (max-width: 425px)":{
             height: "50vh",
             width: "100vw",
         },
         '&:hover, &$focusVisible': {
           zIndex: 1,
-          '& $imageBackdrop': {
+          '& $bestOfferBackdrop': {
             opacity: 0.15,
-          },
-          '& $imageMarked': {
-            opacity: 0,
           },
           '& $imageTitle': {
             border: '2px solid currentColor',
           },
         },
     },
-    imageSrc: {
+    bestOfferImage: {
         position: 'absolute',
         left: 0,
         right: 0,
@@ -86,7 +71,7 @@ const styles = theme => ({
         backgroundSize: 'cover',
         backgroundPosition: 'center 40%',
     },
-    imageBackdrop: {
+    bestOfferBackdrop: {
         position: 'absolute',
         left: 0,
         right: 0,
@@ -96,83 +81,85 @@ const styles = theme => ({
         opacity: 0.4,
         transition: theme.transitions.create('opacity'),
     },
-    focusVisible: {},
-    imageButton: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 200,
-        bottom: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: theme.palette.common.white,
-        textShadow: '1px 1px #000',
-        fontSize: '15px'
+
+    bestOfferScore: {
+       backgroundColor: `#C96567`,
+       fontSize: `20px`,
+       fontFamily: `Lobster`,
+       textShadow: `1px 1px #314455`,
+       
     },
-    imagePrice: {
-        position: 'relative',
-        left: 175,
-        right: 0,
-        top: -150,
-        opacity: 1,
+    bestOfferAvatar: {
+       paddingLeft: "10px",
+    },
+    bestOfferPrice: {
+        fontFamily: "Roboto",
         color: '#fff',
-        fontSize: '15px'
+        fontSize: '15px',
+        zIndex: 2,
+        // background: "tomato", //[dev]
+        textAlign: "right",
+        paddingRight: "20px",
     },
-    imageScoring: {
-        position: 'relative',
-        left: 15,
-        right: 0,
-        top: -150,
-        opacity: 1,
+    bestOfferDummyAboveTitle: {
+        height: "155px",
+        zIndex: 2,
+        // background: "purple", //[dev]
+        opacity: "0.2",
+        "@media (max-width: 1024px)": {
+            height: "73px",
+        },
+        "@media (max-width: 768px)": {
+            height: "70px",
+        },
+        "@media (max-width: 425px)": {
+            height: "220px",
+        },
+        "@media (max-width: 375px)": {
+            height: "162px",
+        },
     },
-    imageTitle: {
-        position: 'relative',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 4}px ${theme.spacing.unit + 6}px`,
+    bestOfferTitle: {
+        height: "35px",
+        color: '#fff',
+        textShadow: '1px 1px #000',
+        fontSize: '15px',
+        zIndex: 2,
+        // background: "tomato", //[dev]
+        verticalAlign: 'text-bottom',
     },
-    imageMarked: {
-        height: 3,
-        width: 18,
-        backgroundColor: theme.palette.common.white,
-        position: 'absolute',
-        bottom: -2,
-        left: 'calc(50% - 9px)',
-        transition: theme.transitions.create('opacity'),
+    bestOfferUnderTitle: {
+        color: '#fff',
+        textShadow: '1px 1px #000',
+        fontSize: '13px',
+        zIndex: 2,
     },
-    imageActionsFavorite: {
-        position: 'relative',
-        zIndex: 10,
-        left: movePoint,
-        right: 0,
-        top: 150,
-        opacity: 1,
+    bestOfferDummyBelowTitle: {
+        height: '23px',
+        zIndex: 2,
+        // background: "limegreen", //[dev]
+        opacity: "0.2",
+        "@media (max-width: 1024px)": {
+            height: "5px",
+        },
+        "@media (max-width: 768px)": {
+            height: "2px",
+        },
+        "@media (max-width: 425px)": {
+            height: "5px",
+        },
+        "@media (max-width: 375px)": {
+            height: "30px",
+        },
     },
-    imageActionsTags: {
-        position: 'relative',
-        left: movePoint,
-        right: 0,
-        top: 150,
-        opacity: 1,
-    },
-    imageActionsHide: {
-        position: 'relative',
-        left: movePoint,
-        right: 0,
-        top: 150,
-        opacity: 1,
-    },
-    imageActionsInfo: {
-        position: 'relative',
-        left: movePoint,
-        right: 0,
-        top: 150,
-        opacity: 1,
+    bestOfferAction:{
+        // background: 'rgba(125, 222, 155, 0.8)', //[dev]
+        zIndex: 5,
     },
     icon: {
         outline: "none",
     }
 });
-const movePoint = -35;
 class BestOffer extends React.Component {
     constructor(props){
         super(props);
@@ -183,7 +170,7 @@ class BestOffer extends React.Component {
             favorite: this.props.offer.favorite,
             disableStatistics: false,
             scoringData: {
-                trueName: '', price: 0, currency: "...", median: 0, 
+                trueName: 'Loading...', price: 0, currency: "...", median: 0, 
                 countTotal: 0, scores: 0, itemState: "not defined",
                 yearTitle: 0, yearDescription: 0,
                 manufacturerSetId: 0, modelSetId: 0
@@ -223,7 +210,7 @@ class BestOffer extends React.Component {
                 let scoringData = {
                     trueName: result.scoring[0].fullName,
                     price: result.scoring[0].price,
-                    currency: result.scoring[0].currency,
+                    currency: result.scoring[0].currency === 'EUR' ? '\u20AC' : result.scoring[0].currency,
                     median: result.scoring[0].median,
                     countTotal: result.scoring[0].countTotal,
                     scores: result.scoring[0].scores,
@@ -301,9 +288,13 @@ class BestOffer extends React.Component {
                 break;
         }
         let offerAvailable = undefined;
-        this.state.scoringData.urlActive !== undefined && this.state.scoringData.urlActive !== null ?
-            JSON.parse(this.state.scoringData.urlActive) ?  offerAvailable = true : offerAvailable = false 
-            : null;
+        if(this.state.scoringData.urlActive !== undefined && this.state.scoringData.urlActive !== null){
+            if(JSON.parse(this.state.scoringData.urlActive)){
+                offerAvailable = true
+            } else {
+                offerAvailable = false 
+            }
+        } 
         return(
             <div className={classes.root}>
                 <ButtonBase
@@ -312,67 +303,85 @@ class BestOffer extends React.Component {
                     focusVisibleClassName={classes.focusVisible}
                     onClick={this.handleShowStatisticsChips}
                 >
-                <span
-                    className={classes.imageSrc}
-                    style={{
-                        backgroundImage: `url(${piclink})`,
-                    }}
-                />
-                <span className={classes.imageBackdrop} />
-                {this.props.offer._id !== `dummy` ? (
-                <Aux>
-                    <span className={classes.imageScoring}>
-                        {Math.round(this.state.scoringData.scores) !== 0 ? 
-                            <Avatar className={classes.avatar}>
-                                {parseFloat(this.state.scoringData.scores).toFixed(1)}
-                            </Avatar>
-                            : 
-                            <Avatar className={classes.avatar}>
-                            ?
-                            </Avatar>
-                        }
-                    </span>
-                    <span className={classes.imagePrice}>
-                        {`${this.state.scoringData.price} ${this.state.scoringData.currency}`}  
-                    </span>
-                    <span className={classes.imageButton}>
-                        <b>{`${this.state.scoringData.trueName}${yearString} [${this.state.scoringData.itemState}]`}</b>
-                    </span>
-                    <span className={classes.imageActionsFavorite}>
-                        <FavoriteButton 
-                            dataKey={this.props.offer._id} 
-                            favorite={this.state.favorite} 
-                            fetchUrl={this.props.fetchUrl} 
-                            model={this.props.model}
-                            setFavorite={this.handleSetFavorite}
-                        />
-                    </span>
-                    <span className={classes.imageActionsTags}>
-                        <TagButton 
-                            category={this.props.category} 
-                            model={this.props.model}
-                            offer={this.props.offer} 
-                            tagUrl={this.props.tagUrl}
-                            parentStatistics
-                            disableStatistics={this.handleDisableStatistics}
-                        />
-                    </span>
-                    <span className={classes.imageActionsHide}>
-                        <IconButton onClick={this.setOfferVisibility}>
-                            {/* [to do] erase tags, and make them ignored? */}
-                            <Delete/> 
-                        </IconButton>
-                    </span>
-                    <span className={classes.imageActionsInfo}>
-                        <IconButton 
-                            onClick={this.handleShowOfferDetailsDialog}
-                            style={{outline: "none",}}
-                        >
-                            <InfoIcon />
-                        </IconButton>
-                    </span>
-                </Aux>
-                ): null}
+                    <div
+                        className={classes.bestOfferImage}
+                        style={{
+                            backgroundImage: `url(${piclink})`,
+                        }}
+                    />
+                    <div className={classes.bestOfferBackdrop} />
+                    {/* //<< ELEMENTS */}
+                    {this.props.offer._id !== `dummy` ? (
+                    <Aux>
+                        <Grid container justify="space-between" alignItems="center">
+                            <Grid item xs={6} className={classes.bestOfferAvatar}>
+                                {Math.round(this.state.scoringData.scores) !== 0 ? 
+                                    <Avatar className={classes.bestOfferScore}>
+                                        {parseFloat(this.state.scoringData.scores).toFixed(1)}
+                                    </Avatar>
+                                    : 
+                                    <Avatar className={classes.bestOfferScore}>
+                                    ?
+                                    </Avatar>
+                                }
+                            </Grid>
+                            <Grid item className={classes.bestOfferPrice} xs={6}>
+                                {`${this.state.scoringData.price} ${this.state.scoringData.currency}`}  
+                            </Grid>
+                            <Grid item xs={12} className={classes.bestOfferDummyAboveTitle}>
+                                <br/>
+                            </Grid>
+                            <Grid item className={classes.bestOfferTitle} xs={12}>
+                                <b>{`${this.state.scoringData.trueName} ${yearString}`}</b>
+                            </Grid>
+                            <Grid item className={classes.bestOfferUnderTitle} xs={12}>
+                                {`[${this.state.scoringData.itemState}]`}
+                            </Grid>
+                            <Grid item xs={12} className={classes.bestOfferDummyBelowTitle}>
+                                <br/>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Grid container justify="space-between" alignItems="center">
+                                    <Grid item xs={3} className={classes.bestOfferAction}>
+                                        <FavoriteButton 
+                                            dataKey={this.props.offer._id} 
+                                            favorite={this.state.favorite} 
+                                            fetchUrl={this.props.fetchUrl} 
+                                            model={this.props.model}
+                                            setFavorite={this.handleSetFavorite}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={3} className={classes.bestOfferAction}>
+                                        <TagButton 
+                                            category={this.props.category} 
+                                            model={this.props.model}
+                                            offer={this.props.offer} 
+                                            tagUrl={this.props.tagUrl}
+                                            parentStatistics
+                                            disableStatistics={this.handleDisableStatistics}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={3} className={classes.bestOfferAction}>
+                                        <IconButton onClick={this.setOfferVisibility}>
+                                            {/* [to do] erase tags, and make them ignored? */}
+                                            <Delete/> 
+                                        </IconButton>
+                                    </Grid>
+                                    <Grid item  xs={3} className={classes.bestOfferAction}>
+                                        <IconButton 
+                                            onClick={this.handleShowOfferDetailsDialog}
+                                            style={{outline: "none",}}
+                                        >
+                                            <InfoIcon />
+                                        </IconButton>
+                                    
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Aux>)
+                    : null}
+                    {/* //>> ELEMENTS */}
                 {this.state.disableStatistics ? null : 
                     <SnackbarBestOffer
                         open={this.state.openStatisticsChips}

@@ -6,20 +6,35 @@ import Typography from '@material-ui/core/Typography';
 import ArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import ArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 
+const boH = 320;
+const boW = 145;
+
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    width: '50px',
+    height: boH,
+    width: boW,
+    "@media (max-width: 1024px)": {
+      width: boW - 35,
+      height: boH - 100,
+    },
+    "@media (max-width: 768px)": {
+      width: boW - 70,
+    },
     "@media (max-width: 425px)": {
       height: "10vh",
       width: "50vw",
     },
   },
   image: {
-    position: 'relative',
-    height: "350px",
-    width: "50px",
+    height: boH,
+    width: boW,
+    "@media (max-width: 1024px)": {
+      width: boW - 35,
+      height: boH - 100,
+    },
+    "@media (max-width: 768px)": {
+      width: boW - 70,
+    },
     "@media (max-width: 425px)": {
       height: "10vh",
       width: "50vw",
@@ -92,9 +107,6 @@ function ButtonBases(props) {
           focusRipple
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
-          // style={{
-          //   width: '50px',
-          // }}
           onClick={props.onClick}
         >
           <span

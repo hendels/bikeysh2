@@ -51,10 +51,10 @@ class Layout extends Component {
         showSearchResults: false,
         searchPending: false,
         activeUser: '',
-        loginPageOpened: false,
-        // loginPageOpened: true, // << [todo] PRODUCTION STATE CHANGE
-        // loggedIn: false,
-        loggedIn: true,  // << [todo] PRODUCTION STATE CHANGE
+        // loginPageOpened: false,
+        loginPageOpened: true, // << [todo] PRODUCTION STATE CHANGE
+        loggedIn: false,
+        // loggedIn: true,  // << [todo] PRODUCTION STATE CHANGE
     }
     handleLoggedIn = async (logUser, userName) => {
         await this.setState({

@@ -15,7 +15,7 @@ const style = () => ({
         background: "#303030",
         display: `flex`,
         flex: "0 1 100vw",
-        height: "15vh",
+        height: "20vh",
         width: "100%",
         justifyContent: `center`,
         alignItems: `center`,
@@ -101,6 +101,12 @@ class Footer extends React.Component {
           fullscreenOpen: fullscreen, 
         }, ()=> {});
     };
+    inprogressInfo = () => {
+        alert("in preparation");
+    }
+    goToLinkedIn = () => {
+        
+    }
     render(){
         const {classes} = this.props;
 
@@ -128,23 +134,29 @@ class Footer extends React.Component {
                         <Grid item xs={4}>
                             <Grid container justify="space-between" alignContent="center">
                                 <Grid item sm={6} md={3} lg={3}className={classes.textFooterActions}>
-                                    <IconButton>
+                                    <IconButton onClick={this.inprogressInfo}>
                                         <span className={classes.textActions}>home</span>
                                     </IconButton>
                                 </Grid>
                                 <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions}>
-                                    <IconButton>
+                                    <IconButton  href="tel:533702712">
                                         <span className={classes.textActions}>contact</span>
                                     </IconButton>
                                 </Grid>
                                 <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions}>
-                                    <IconButton>
-                                        <i className="fab fa-linkedin" style={{fontSize: "1em", color: "#fff"}}></i> 
+                                    <IconButton href="https://www.linkedin.com/in/przemysław-harendarz-4052b252" target="_blank">
+                                        <i className="fab fa-linkedin" style={{fontSize: "1em", color: "#fff"}}
+                                        
+                                        />
                                     </IconButton>
                                 </Grid>
                                 <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions}>
-                                    <IconButton>
-                                        <i className="fab fa-github-square" style={{fontSize: "1em", color: "#fff"}}></i>
+                                    <IconButton href="https://github.com/pharendarz" target="_blank">
+                                        <i 
+                                            className="fab fa-github-square" 
+                                            style={{fontSize: "1em", color: "#fff"}}
+                                            
+                                        />
                                     </IconButton>
                                 </Grid>
                             </Grid>
@@ -180,22 +192,22 @@ class Footer extends React.Component {
                             <Grid item xs={4}>
                                 <Grid container justify="space-between" alignContent="center">
                                     <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions} zeroMinWidth>
-                                        <IconButton>
+                                        <IconButton onClick={this.inprogressInfo}>
                                             <Typography noWrap className={classes.textActions}>about</Typography>
                                         </IconButton>
                                     </Grid>
                                     <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions} zeroMinWidth>
-                                        <IconButton>
+                                        <IconButton href="tel:533702712">
                                             <Typography noWrap className={classes.textActions}>contact</Typography>
                                         </IconButton>
                                     </Grid>
                                     <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions} zeroMinWidth>
-                                        <IconButton>
+                                        <IconButton href="https://www.linkedin.com/in/przemysław-harendarz-4052b252" target="_blank">
                                             <i className="fab fa-linkedin" style={{fontSize: "1em", color: "#fff"}}></i> 
                                         </IconButton>
                                     </Grid>
                                     <Grid item sm={6} md={3} lg={3} className={classes.textFooterActions} zeroMinWidth>
-                                        <IconButton>
+                                        <IconButton href="https://github.com/pharendarz" target="_blank">
                                             <i className="fab fa-github-square" style={{fontSize: "1em", color: "#fff"}}></i>
                                         </IconButton>
                                     </Grid>

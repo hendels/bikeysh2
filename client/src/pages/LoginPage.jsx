@@ -174,7 +174,7 @@ const captions = {
     login: `Basic authentication based on previously created combination of user & password on server side.`,
     search: "Search offers by item / manufacturer / model name.",
     tags: 'Insert / delete tags by Drag & drop view and add them manually.',
-    details: 'Check the details about offer best offer easily.',
+    details: 'Check the details about best offer easily.',
     favorites: 'Add offers to favorites.',
 
 }

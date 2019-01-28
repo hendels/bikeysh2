@@ -15,7 +15,7 @@ const styles = theme => ({
       background: '#C96567',
       overflowX: 'hidden',
       paddingTop: '5px',
-      paddingBottom: '5px',
+      paddingBottom: '8px',
     },
     paper: {
       height: 140,

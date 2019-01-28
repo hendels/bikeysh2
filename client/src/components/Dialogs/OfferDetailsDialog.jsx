@@ -285,7 +285,7 @@ class OfferDetails extends React.Component {
                       <Grid item xs={12} className={classes.statsContainer}>
                       {this.state.statistics.countOffers > 0 ? ( 
                         <Grid container direction="row" justify="space-between" alignContent="center">
-                          <Grid item item xs={12}>
+                          <Grid item xs={12}>
                             <span style={{fontWeight: "bold"}}>Offer based on:</span>
                           </Grid>
                           <Grid item xs={6}>

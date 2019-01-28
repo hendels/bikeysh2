@@ -7,9 +7,7 @@ class App extends Component {
     return (
       <div >
         <BrowserRouter>
-          <Layout>
-          siema pomiedzy layout
-          </Layout>
+          <Layout/>
         </BrowserRouter>
       </div>
     );

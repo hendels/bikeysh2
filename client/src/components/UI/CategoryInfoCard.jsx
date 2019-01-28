@@ -6,60 +6,73 @@ import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-// #app components
-// import MissedDealsDialog from '../Dialogs/StatisticsDialog';
-// import FavoritesDialog from '../Dialogs/StatisticsDialog';
-// import StatisticsDialog from '../Dialogs/StatisticsDialog';
-// #hoc components
 // #style
 //import categoryInfoStyle from '../../styles/components/categoryInfoStyle.jsx';
 //<<variables
 let categoryTitle = '';
 //>>
+const boH = 320;
+const boW = 145;
 
 const categoryInfoStyle = theme => ({
     root:{
-      width: 180,
-      height: 350,
+      height: boH,
+      width: boW,
 
       padding: '1.5em 0 1.5em 0',
 
+      "@media (max-width: 1024px)": {
+        width: boW - 40,
+        height: boH - 100,
+      },
+      "@media (max-width: 768px)": {
+        width: boW - 70,
+      },
       "@media (max-width: 425px)": {
         height: "10vh",
         width: "100vw",
         padding: '0 0 0 0',
-
-      }
+      },
     },
     card: {
-      width: 180,
-      height: 350,
+      height: boH,
+      width: boW,
 
       background: `linear-gradient(180deg, #000 0%, #041424 1%)`,
 
+      "@media (max-width: 1024px)": {
+        width: boW -40,
+        height: boH - 100,
+      },
+      "@media (max-width: 768px)": {
+        width: boW - 70,
+      },
       "@media (max-width: 425px)": {
         height: "10vh",
         width: "100vw",
         padding: '0 0 0 0',
-      }
+      },
     },
     cardContent: {
       textAlign: `center`,
     },
     cardTitle:{
-      fontFamily: "Pacifico, cursive",
-      fontSize: "25px",
-      color: `rgba(255,255,255,0.5)`,
+        fontFamily: "Pacifico, cursive",
+        fontSize: "25px",
+        color: `rgba(255,255,255,0.5)`,
 
-      textShadow: `1px 1px #C96567`,
-      // background: "purple", //[dev]
-      "@media (max-width: 425px)": {
-        paddingLeft: '20px',
-      },
-      "@media (max-width: 375px)": {
-        paddingLeft: '20px',
-        fontSize: "20px",
-    },
+          textShadow: `1px 1px #C96567`,
+        // background: "purple", //[dev]
+        "@media (max-width: 1024px)": {
+            fontSize: "17px",
+        },
+        "@media (max-width: 425px)": {
+            paddingLeft: '20px',
+        },
+        "@media (max-width: 375px)": {
+            paddingLeft: '20px',
+            fontSize: "20px",
+        },
     },
 });
 const themeButton = createMuiTheme({
