@@ -6,7 +6,7 @@ import axios from 'axios';
 import registerServiceWorker from './registerServiceWorker';
 
 require('dotenv').config();
-axios.defaults.baseURL  = process.env.PORT || 'http://localhost:4000';
+axios.defaults.baseURL  = process.env.PORT;
 // axios.defaults.baseURL  = 'http://localhost:4000';   << probably this is blocking heroku
 // // // // // // // // axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://localhost:4000';
 // // // // // // // // axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST';
