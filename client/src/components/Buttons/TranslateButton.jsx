@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import {Button, IconButton} from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state/index';
@@ -37,6 +37,11 @@ const buttonTheme = createMuiTheme({
                 textTransform: "capitalize",
             },
         },
+        MuiIconButton:{
+            root:{
+                color: "#4285F5",
+            },
+        },
     }    
 });
 function TranslateButton(props) {
@@ -61,10 +66,16 @@ function TranslateButton(props) {
       {popupState => (
         <React.Fragment>
             <MuiThemeProvider theme={buttonTheme}>
-            <Button variant="text" size="small" {...bindTrigger(popupState)}>
-                <Translate/>
-                Translate
-            </Button>
+            {!props.mobileView ? 
+                <Button variant="text" size="small" {...bindTrigger(popupState)}>
+                    <Translate/>
+                    Translate
+                </Button>
+            :
+                <IconButton variant="text" size="small" {...bindTrigger(popupState)}>
+                    <Translate/>
+                </IconButton>
+            }
             </MuiThemeProvider>
             <MuiThemeProvider theme={menuTheme}>
                 <Menu {...bindMenu(popupState)} PaperProps={{square: 'true'}}>

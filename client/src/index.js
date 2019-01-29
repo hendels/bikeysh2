@@ -4,12 +4,12 @@ import './index.css';
 import App from './App';
 import axios from 'axios';
 import registerServiceWorker from './registerServiceWorker';
+import config from './config/config.js';
 
 require('dotenv').config();
-axios.defaults.baseURL  = process.env.PORT;
-// axios.defaults.baseURL  = 'http://localhost:4000';   << probably this is blocking heroku
-// // // // // // // // axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://localhost:4000';
-// // // // // // // // axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST';
-// // // // // // // // axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-PINGOTHER, Content-Type';
+if (config.prod)
+    axios.defaults.baseURL  = process.env.PORT;
+else
+    axios.defaults.baseURL  = 'http://localhost:4000'; 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

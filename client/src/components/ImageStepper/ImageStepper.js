@@ -10,12 +10,14 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import { Fullscreen } from '@material-ui/icons';
 import noExist from '../../images/noimage.png';
+import {getPictureArray} from '../../common/common.js';
+
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 let picArray = [];
 let fullscreenPicArray = [];
-
+let objPictures = {};
 const styles = theme => ({
   root: {
     maxWidth: 400,
@@ -44,30 +46,16 @@ class SwipeableTextMobileStepper extends React.Component {
       this.state = {
         activeStep: 0,
       };
-      picArray = [];
-      fullscreenPicArray = [];
-      let countBlank = 0;
-      try{
-        Object.keys(props.offer.pictures).forEach((key, index) => {
-          if (props.offer.pictures[Object.keys(props.offer.pictures)[index]] !== null){
-            let pictureObj = {imgPath: props.offer.pictures[Object.keys(props.offer.pictures)[index]], label: 'Bikeysh!'};
-            let fullscreenPictureObj = {src: props.offer.pictures[Object.keys(props.offer.pictures)[index]]};
-  
-            picArray.push(pictureObj);
-            fullscreenPicArray.push(fullscreenPictureObj);
-          } else
-            countBlank += 1;
-        })
-        if (countBlank === 6){
-          let pictureObj = {imgPath: noExist, label: 'Bikeysh!'};
-          let fullscreenPictureObj = {src: noExist};
-          picArray.push(pictureObj);
-          fullscreenPicArray.push(fullscreenPictureObj);
-        }
-      }
-      catch(err){
-        alert(`something wrong with record [props.offer.pictures] - constructor class: SwipeableTextMobileStepper`);
-      }
+
+      // picArray = [];
+      // fullscreenPicArray = [];
+      // objPictures = {};
+      // try{
+        objPictures = getPictureArray(props.offer);
+      // }
+      // catch(err){
+      //   alert(`something wrong with record [props.offer.pictures] - constructor class: SwipeableTextMobileStepper`);
+      // }
   }
 
   handleNext = () => {
@@ -93,7 +81,7 @@ class SwipeableTextMobileStepper extends React.Component {
     return (
       <div className={classes.root}>
         <Paper square elevation={0} className={classes.header}>
-          <IconButton onClick={() => {this.props.openFullscreen(true, fullscreenPicArray)}}>
+          <IconButton onClick={() => {this.props.openFullscreen(true, objPictures.fullscreenPicArray)}}>
             <Fullscreen/>
           </IconButton>
         </Paper>
@@ -104,11 +92,10 @@ class SwipeableTextMobileStepper extends React.Component {
           enableMouseEvents
 
         >
-        {picArray.map((step, index) => (
+        {objPictures.picArray.map((step, index) => (
             <div key={step.label}>
               {Math.abs(activeStep - index) <= 2 ? (
                 <img className={classes.img} src={step.imgPath} alt={step.label} />
-                // <div className={{background: `url(${step.imgPath}) no-repeat center center fixed`}}  />
               ) : null}
             </div>
           ))}

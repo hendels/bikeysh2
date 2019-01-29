@@ -15,8 +15,9 @@ import { Avatar, Chip, Dialog, IconButton, DialogActions, Grid, DialogContent, D
 import HttpIcon from '@material-ui/icons/Http';
 import ImageLightBox from '../ImageLightbox/ImageLightBox.jsx';
 import Aux from '../../hoc/Ax/Ax';
+import { PhotoLibrary } from '@material-ui/icons';
 import {getDayDifferencesFromToday} from '../../common/common';
-
+import {getPictureArray} from '../../common/common';
 
 const themePaper = createMuiTheme({
   overrides: {
@@ -121,21 +122,26 @@ const styles = {
       borderTop: "2px solid rgb(151, 170, 189)"
     },
 };
+let objPictures = {};
 
 class OfferDetails extends React.Component {
-    state = {
-      loading: false,
-      description: this.props.offer.description,
-      statistics: {
-        countOffers: 0,
-        currency: null,
-        avgPrice: 0,
-        median: 0,
-        manufacturerSetId: 0,
-        modelSetId: 0,
-      },
-      fullscreenOpen: false,
-      picArray: [],
+    constructor(props){
+      super(props);
+      this.state = {
+        loading: false,
+        description: props.offer.description,
+        statistics: {
+          countOffers: 0,
+          currency: null,
+          avgPrice: 0,
+          median: 0,
+          manufacturerSetId: 0,
+          modelSetId: 0,
+        },
+        fullscreenOpen: false,
+        picArray: [],
+      }
+      objPictures = getPictureArray(props.offer);
     }
     handleClose = () => {
       this.props.close();
@@ -181,7 +187,7 @@ class OfferDetails extends React.Component {
 
     };
     render() {
-      const { classes, onClose, selectedValue, ...other } = this.props;
+      const { classes, onClose, selectedValue, mobileView, ...other } = this.props;
       const countDate = getDayDifferencesFromToday(this.props.offer.publishDate);
       const diffDays = countDate.diffDays;
       const offerDate = countDate.date;
@@ -268,14 +274,18 @@ class OfferDetails extends React.Component {
           </DialogTitle>
             <DialogContent>
               <Grid container justify='space-between' alignContent='center' spacing={0}>
-                <Grid item xs={8}>
-                  <ImageStepper
-                    offer={this.props.offer}
-                    openFullscreen={this.handleClickImageFullscreenButton}
-                  />
-                </Grid>
+                {mobileView ? 
+                  null
+                  :
+                  <Grid item xs={8}>
+                    <ImageStepper
+                      offer={this.props.offer}
+                      openFullscreen={this.handleClickImageFullscreenButton}
+                    />
+                  </Grid>
+                }
                   
-                <Grid item xs={4}>
+                <Grid item xs={mobileView ? 12 : 4}>
                   <DialogContentText>
                     {
                     <Grid container direction="row" justify="space-between" alignContent="center">
@@ -340,7 +350,7 @@ class OfferDetails extends React.Component {
                       </Grid>
                       <Grid item xs={12} className={classes.actionContainer}>
                           <Grid container justify="space-between" alignContent="center">
-                            <Grid item xs={4}>
+                            <Grid item xs={mobileView ? 3 : 4}>
                               <FavoriteButton 
                                 dataKey={this.props.offer._id} 
                                 favorite={this.props.favorite} 
@@ -349,7 +359,7 @@ class OfferDetails extends React.Component {
                                 setFavorite={this.props.setFavorite}
                               />
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={mobileView ? 3 : 4}>
                               <TagButton 
                                 category={this.props.category} 
                                 model={this.props.model}
@@ -357,9 +367,10 @@ class OfferDetails extends React.Component {
                                 tagUrl={this.props.tagUrl}
                                 parentStatistics
                                 disableStatistics={()=>{}}
+                                mobileView={mobileView}
                               />
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={mobileView ? 3 : 4}>
                               <IconButton 
                                   href={this.props.offer.productUrl} 
                                   target={`_blank`} 
@@ -368,6 +379,11 @@ class OfferDetails extends React.Component {
                                   <HttpIcon />
                               </IconButton>
                             </Grid>
+                            {mobileView ? 
+                              <IconButton onClick={() => {this.handleClickImageFullscreenButton(true, objPictures.fullscreenPicArray)}}>
+                                <PhotoLibrary/>
+                              </IconButton>
+                            : null}
                           </Grid>
                       </Grid>
                     </Grid>
@@ -385,7 +401,6 @@ class OfferDetails extends React.Component {
                     <Grid item xs={4} style={{fontWeight: "bold"}}>
                       {offerDate}
                     </Grid>
-                    {/* <Grid item xs={2}/>  */}
                     <Grid item xs={5} style={{fontWeight: "bold"}}>
                       
                       <MuiThemeProvider theme={themeChipState}>
@@ -403,7 +418,6 @@ class OfferDetails extends React.Component {
                     <Grid item xs={4} style={{fontWeight: "bold"}}>
                       {diffDays}
                     </Grid>
-                    {/* <Grid item xs={2}/> */}
                     <Grid item xs={5} style={{fontWeight: "bold"}}>
                       <MuiThemeProvider theme={themeChipAvailability}>
                         {this.props.offerAvailable ? 
@@ -419,6 +433,7 @@ class OfferDetails extends React.Component {
                       eng={() => this.handleClickTranslationButton('eng')} 
                       pl={() => this.handleClickTranslationButton('pl')} 
                       de={() => this.handleClickTranslationButton('de')}
+                      mobileView={mobileView}
                     />
                 </Grid>
                 <Grid item xs={12} className={classes.description}>

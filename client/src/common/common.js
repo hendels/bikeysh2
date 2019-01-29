@@ -1,4 +1,5 @@
 import React from 'react';
+import noExist from '../images/noimage.png';
 
 export const getOfferAttributes = (category, offer) => {
     let attributes = [];
@@ -44,7 +45,7 @@ export const getOfferAttributes = (category, offer) => {
             offer.frontAxle !== '' ? 
                 attributes.push({label: 'Front axle:', value: offer.frontAxle}) : null;
             offer.rearAxle !== '' ? 
-                attributes.push({label: 'Reat axle:', value: offer.rearAxle}) : null;
+                attributes.push({label: 'Rear axle:', value: offer.rearAxle}) : null;
             break; 
         };
         case 'wheels': {
@@ -93,4 +94,38 @@ export const getDayDifferencesFromToday = (date) => {
         return objDateDiff;
     }
 
+}
+
+export const getPictureArray = (offer) => {
+      let picArray = [];
+      let fullscreenPicArray = [];
+      let countBlank = 0;
+      let objPictures = {};
+
+      if (offer._id === `dummy`)
+        return null;
+    
+      try{
+        Object.keys(offer.pictures).forEach((key, index) => {
+          if (offer.pictures[Object.keys(offer.pictures)[index]] !== null){
+            let pictureObj = {imgPath: offer.pictures[Object.keys(offer.pictures)[index]], label: 'Bikeysh!'};
+            let fullscreenPictureObj = {src: offer.pictures[Object.keys(offer.pictures)[index]]};
+  
+            picArray.push(pictureObj);
+            fullscreenPicArray.push(fullscreenPictureObj);
+          } else
+            countBlank += 1;
+        })
+        if (countBlank === 6){
+          let pictureObj = {imgPath: noExist, label: 'Bikeysh!'};
+          let fullscreenPictureObj = {src: noExist};
+          picArray.push(pictureObj);
+          fullscreenPicArray.push(fullscreenPictureObj);
+        }
+        objPictures = {picArray: picArray, fullscreenPicArray: fullscreenPicArray}
+        return objPictures;
+      }
+      catch(err){
+        alert(`something wrong with record [props.offer.pictures] - constructor class: SwipeableTextMobileStepper`);
+      }
 }

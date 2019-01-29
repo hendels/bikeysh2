@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Aux from '../Ax/Ax';
 import axios from 'axios';
 import { Route, Link, withRouter } from 'react-router-dom';
+import config from '../../config/config';
 // app components
 import OffersList from '../../containers/OffersList/OffersList';
 import Header from '../../components/Header/Header.jsx';
@@ -51,10 +52,10 @@ class Layout extends Component {
         showSearchResults: false,
         searchPending: false,
         activeUser: '',
-        // loginPageOpened: false,
-        loginPageOpened: true, // << [todo] PRODUCTION STATE CHANGE
-        loggedIn: false,
-        // loggedIn: true,  // << [todo] PRODUCTION STATE CHANGE
+        loginPageOpened: config.prod, 
+        loggedIn: !config.prod,
+        // loginPageOpened: true, 
+        // loggedIn: false,
     }
     handleLoggedIn = async (logUser, userName) => {
         await this.setState({

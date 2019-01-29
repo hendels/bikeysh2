@@ -1,8 +1,8 @@
 // figures out what set of credentials to return
-var prod = true;
+const config = require('./config');
 
 
-if (prod) {
+if (config.prod) {
     module.exports = {
         mongoURI: process.env.MONGODB
     };

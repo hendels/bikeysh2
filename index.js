@@ -2,6 +2,7 @@ const express = require('express');
 const keys = require('./config/keys');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const config = require('./config/config.js');
 //<<post dependencies
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -37,6 +38,8 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "build", "index.html")); //[todo] Production depend!!!
 });
 //
-app.listen(process.env.PORT);
-// app.listen( 4000);
+if (config.prod)
+  app.listen(process.env.PORT);
+else
+  app.listen(4000);
 console.log('===============end=================');

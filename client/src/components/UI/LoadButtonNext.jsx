@@ -109,13 +109,13 @@ function ButtonBases(props) {
           focusVisibleClassName={classes.focusVisible}
           onClick={props.onClick}
         >
-          <span
-            className={classes.imageSrc}
+          <div
+            className={classes.imageSrc} style={{border: props.mobileView ? "1px solid #97AABD" : "none"}}
           />
-          <span className={classes.imageBackdrop} />
-          <span className={classes.imageButton}>
+          <div className={classes.imageBackdrop} />
+          <div className={classes.imageButton}>
               {props.caseHorizontal === `left` ? <ArrowLeft/> : <ArrowRight/>}              
-          </span>
+          </div>
         </ButtonBase>
     </div>
   );

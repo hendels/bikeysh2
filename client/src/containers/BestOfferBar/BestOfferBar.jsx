@@ -113,6 +113,15 @@ class BestOfferBar extends React.Component {
                 mobileView: false,
             }
         } 
+        if (currentWidth > 1920){
+            resizeObj = {
+                pageLimit: 4,
+                categoryGridLen: 1,
+                arrowGridLen: 1,
+                bestOfferGridLen: 2,
+                mobileView: false,
+            }
+        }
         return resizeObj;
     }
     onResize = (e) => {
@@ -217,12 +226,12 @@ class BestOfferBar extends React.Component {
         )
         const previousButton = (
             <Grid item xs={this.state.arrowGridLen}>
-                <LoadNext onClick={this.handleShowPreviousOffers} caseHorizontal='left'/>
+                <LoadNext onClick={this.handleShowPreviousOffers} mobileView={this.state.mobileView} caseHorizontal='left'/>
             </Grid>
         )
         const nextButton = (
             <Grid item xs={this.state.arrowGridLen}>
-                <LoadNext onClick={this.handleShowNextOffers} caseHorizontal='right'/>
+                <LoadNext onClick={this.handleShowNextOffers} mobileView={this.state.mobileView} caseHorizontal='right'/>
             </Grid>
         )
         // # add dummy placeholders to end of searching results
@@ -244,6 +253,7 @@ class BestOfferBar extends React.Component {
                             model={this.props.model}
                             reload={this.handleReload}
                             searchPending={this.props.searchPending}
+                            mobileView={this.state.mobileView}
                         />
                     </Grid>
                 )

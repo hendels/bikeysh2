@@ -67,6 +67,7 @@ const categoryInfoStyle = theme => ({
             fontSize: "17px",
         },
         "@media (max-width: 425px)": {
+            fontSize: "20px",
             paddingLeft: '20px',
         },
         "@media (max-width: 375px)": {

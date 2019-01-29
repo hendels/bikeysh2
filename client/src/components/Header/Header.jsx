@@ -244,30 +244,34 @@ class Header extends React.Component {
             {!this.props.loginPageOpened && this.props.loggedIn ? rightLinks : null}
           </Hidden>
           <Hidden mdUp>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={this.handleDrawerToggle}
-            >
-              <Menu />
-            </IconButton>
+            {!this.props.loginPageOpened && this.props.loggedIn ? 
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={this.handleDrawerToggle}
+              >
+                <Menu />
+              </IconButton>
+            : null}
           </Hidden>
         </Toolbar>
         <Hidden mdUp implementation="css">
-          <Drawer
-            variant="temporary"
-            anchor={"right"}
-            open={this.state.mobileOpen}
-            classes={{
-              paper: classes.drawerPaper
-            }}
-            onClose={this.handleDrawerToggle}
-          >
-            <div className={classes.appResponsive}>
-              {leftLinks}
-              {rightLinks}
-            </div>
-          </Drawer>
+          {!this.props.loginPageOpened && this.props.loggedIn ? 
+            <Drawer
+              variant="temporary"
+              anchor={"right"}
+              open={this.state.mobileOpen}
+              classes={{
+                paper: classes.drawerPaper
+              }}
+              onClose={this.handleDrawerToggle}
+            >
+              <div className={classes.appResponsive}>
+                {leftLinks}
+                {rightLinks}
+              </div>
+            </Drawer>
+          : null}    
         </Hidden>
       </AppBar>
       <List dense={true}>

@@ -75,7 +75,7 @@ class TagBadge extends React.Component {
     
     return (
       <Aux>
-        <IconButton aria-label="Cart" onClick={this.handleClickOpenTagDialog}>
+        <IconButton aria-label="Cart" onClick={this.handleClickOpenTagDialog} disabled={this.props.mobileView}>
           <Badge badgeContent={this.state.tagCount[Object.keys(this.state.tagCount)[0]]} color="primary" classes={{ badge: classes.badge }} >
             <LibraryAdd style={{color: this.props.color}}/>
           </Badge>

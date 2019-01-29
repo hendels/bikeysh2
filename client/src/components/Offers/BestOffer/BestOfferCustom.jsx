@@ -25,6 +25,10 @@ const styles = theme => ({
         // position: 'relative',
         height: boH,
         width: boW,
+        // "@media (max-width: 1560px)": {
+        //     width: boW - 80,
+        //     height: boH - 100,
+        // },
         "@media (max-width: 1024px)": {
             width: boW - 80,
             height: boH - 100,
@@ -359,10 +363,11 @@ class BestOffer extends React.Component {
                                             tagUrl={this.props.tagUrl}
                                             parentStatistics
                                             disableStatistics={this.handleDisableStatistics}
+                                            mobileView={this.props.mobileView}
                                         />
                                     </Grid>
                                     <Grid item xs={3} className={classes.bestOfferAction}>
-                                        <IconButton onClick={this.setOfferVisibility}>
+                                        <IconButton onClick={this.setOfferVisibility} >
                                             {/* [to do] erase tags, and make them ignored? */}
                                             <Delete/> 
                                         </IconButton>
@@ -410,6 +415,7 @@ class BestOffer extends React.Component {
                     parentStatistics
                     disableStatistics={this.handleDisableStatistics}
                     setFavorite={this.handleSetFavorite}
+                    mobileView={this.props.mobileView}
                     //statistics
                     offerAvailable={offerAvailable}
                     itemCondition={this.state.scoringData.itemState}
