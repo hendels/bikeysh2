@@ -196,10 +196,6 @@ class Layout extends Component {
                             />}
                         fixed
                         changeHeaderColor={false}
-                        changeColorOnScroll={{
-                            height: 400,
-                            color: "bikeysh3_1"
-                        }}
                         searchResults={this.state.searchResults}
                         closeSearchResults={this.handleCloseSearchResults}
                         showSearchResults={this.state.showSearchResults}

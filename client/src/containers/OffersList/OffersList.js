@@ -32,10 +32,39 @@ class OffersList extends Component {
             skip: 0,
             pageItems: props.pageLimit,
             totalResult: 0,
-            reload: false
+            reload: false,
+            mobileView: this.getPageMeasures(window.outerWidth, window.outerHeight).mobileView,
         }
     }
-
+    onResize = (e) => {
+        const resizeObj = this.getPageMeasures(e.target.outerWidth, e.target.outerHeight);
+        if (this.state.mobileView !== resizeObj.mobileView){
+          this.setState({
+              mobileView: resizeObj.mobileView,
+          }, ()=> {});
+      }};
+      getPageMeasures = (width, height) => {
+        let currentWidth = width;
+        let currentHeight = height;
+        let resizeObj = {};
+        
+        if (currentWidth <= 1200){
+            resizeObj = {
+                mobileView: true,
+            }
+        } 
+        if (currentWidth <= 1920 && currentWidth > 1200){
+            resizeObj = {
+                mobileView: false,
+            }
+        } 
+        if (currentWidth > 1920){
+            resizeObj = {
+                mobileView: false,
+            }
+        }
+        return resizeObj;
+    }
     fetchData = (skip, pageLimit) => {
         axios.get(`/api/bm/category/${this.props.model}/${skip}/${pageLimit}/${this.state.loadFavorites}/
             ${this.state.loadWithoutTags}`)
@@ -100,12 +129,14 @@ class OffersList extends Component {
         }
     }
     componentWillMount() {
+        window.addEventListener("resize", this.onResize);
         if (!this.props.fullSearch){
             this.props.loadFavorites ? this.setState({loadFavorites: true}, () => {}) : this.setState({loadFavorites: false}, () => {});
             this.props.loadWithoutTags ? this.setState({loadWithoutTags: true}, () => {}) : this.setState({loadWithoutTags: false}, () => {});
         }
     }
     componentDidMount() {
+
         if (!this.props.fullSearch){
             this.fetchData(this.state.skip, this.state.pageItems);
         } else {
@@ -113,6 +144,7 @@ class OffersList extends Component {
         }
     }
     async componentWillUnmount() {
+        window.removeEventListener("resize", this.onResize);
         if (!this.props.fullSearch){
             await this.props.showFavorites(false);
             await this.props.showWithoutTags(false);
@@ -198,6 +230,7 @@ class OffersList extends Component {
                                     model={this.props.fullSearch ? this.props.models : this.props.model}
                                     rerender={this.state.reload}
                                     searchPending={this.props.searchPending}
+                                    mobileView={this.state.mobileView}
                                 />
                             </Grid>
                             {/* // pagination */}

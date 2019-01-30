@@ -31,7 +31,9 @@ const themePaper = createMuiTheme({
           #5a6671 44px
         )`,
         outline: "none",
+        // padding: '0 0 0 0',
       },
+
     },
     MuiDialogContent:{
       root: {
@@ -88,6 +90,18 @@ const styles = {
       padding: "10px 15px 10px 5px",
       fontSize: "20px",
       fontWeight: "bold",
+      "@media (max-width: 425px)": {
+        fontSize: "3vh",
+        height: "9vh",
+      },
+      "@media (max-width: 300px)": {
+        height: "12vh",
+      }
+    },
+    priceContainerMobile: {
+      "@media (max-width: 425px)": {
+        fontSize: "2vh",
+      }  
     },
     statsContainer: {
       width: "200px",
@@ -109,7 +123,9 @@ const styles = {
       height: "64px",
       backgroundColor: "rgba(151, 170, 189, 0.4)",
       padding: "10px 0px 10px 5px",
-
+      "@media (max-width: 425px)": {
+        padding: "10px 0px 10px 3vw",
+      },
     },
     descriptionHeader: {
       padding: "5px 0px 5px 5px",
@@ -141,7 +157,6 @@ class OfferDetails extends React.Component {
         fullscreenOpen: false,
         picArray: [],
       }
-      console.log(`offer details ? ${props.offer}`);
       objPictures = getPictureArray(props.offer);
     }
     handleClose = () => {
@@ -250,6 +265,7 @@ class OfferDetails extends React.Component {
           PaperProps={{square: true}} 
           PaperComponent
           scroll="paper"
+          fullScreen={mobileView}
           aria-labelledby="scroll-dialog-title"
           {...other}
         >
@@ -291,13 +307,22 @@ class OfferDetails extends React.Component {
                     {
                     <Grid container direction="row" justify="space-between" alignContent="center">
                       <Grid item xs={12} className={classes.priceContainer}>
-                          <span>{this.props.offer.price}</span>
+                          {mobileView ? 
+                            <div>
+                                {this.props.offer.price} 
+                                <p className={classes.priceContainerMobile}>
+                                  Offer from: {offerDate} Days on market: {diffDays}
+                                </p>
+                            </div>
+                            : 
+                            <div>{this.props.offer.price}</div>
+                          }
                       </Grid>
                       <Grid item xs={12} className={classes.statsContainer}>
                       {this.state.statistics.countOffers > 0 ? ( 
                         <Grid container direction="row" justify="space-between" alignContent="center">
                           <Grid item xs={12}>
-                            <span style={{fontWeight: "bold"}}>Offer based on:</span>
+                            <div style={{fontWeight: "bold"}}>Offer based on:</div>
                           </Grid>
                           <Grid item xs={6}>
                             Similar:
@@ -350,7 +375,7 @@ class OfferDetails extends React.Component {
                         ) : <span style={{fontWeight: "bold"}}>This offer has no attributes</span>}
                       </Grid>
                       <Grid item xs={12} className={classes.actionContainer}>
-                          <Grid container justify="space-between" alignContent="center">
+                          <Grid container justify="space-between" alignItems="center">
                             <Grid item xs={mobileView ? 3 : 4}>
                               <FavoriteButton 
                                 dataKey={this.props.offer._id} 
@@ -381,9 +406,11 @@ class OfferDetails extends React.Component {
                               </IconButton>
                             </Grid>
                             {mobileView ? 
+                              <Grid item xs={3}>
                               <IconButton onClick={() => {this.handleClickImageFullscreenButton(true, objPictures.fullscreenPicArray)}}>
                                 <PhotoLibrary/>
                               </IconButton>
+                              </Grid>
                             : null}
                           </Grid>
                       </Grid>
@@ -395,14 +422,18 @@ class OfferDetails extends React.Component {
                 <Grid item xs={10} className={classes.descriptionHeader}>
                   <Grid container justify="space-between" alignItems="flex-start">
                     {/* // first row */}
+                    {!mobileView ? 
+                      <Aux>
+                        <Grid item xs={3}>
+                          Offer from:
+                        </Grid>
+                        <Grid item xs={4} style={{fontWeight: "bold"}}>
+                          {offerDate}
+                        </Grid>
+                      </Aux>
+                    : null}
                     
-                    <Grid item xs={3}>
-                      Offer from:
-                    </Grid>
-                    <Grid item xs={4} style={{fontWeight: "bold"}}>
-                      {offerDate}
-                    </Grid>
-                    <Grid item xs={5} style={{fontWeight: "bold"}}>
+                    <Grid item xs={mobileView ? 6 : 5} style={{fontWeight: "bold"}}>
                       
                       <MuiThemeProvider theme={themeChipState}>
                         {this.state.statistics.countOffers > 0 ?
@@ -412,14 +443,17 @@ class OfferDetails extends React.Component {
                       </MuiThemeProvider>
                     </Grid>
                     {/* //second row  */}
-                    
-                    <Grid item xs={3}>
-                      Days on market:
-                    </Grid>
-                    <Grid item xs={4} style={{fontWeight: "bold"}}>
-                      {diffDays}
-                    </Grid>
-                    <Grid item xs={5} style={{fontWeight: "bold"}}>
+                    {!mobileView ? 
+                      <Aux>
+                        <Grid item xs={3}>
+                          Days on market:
+                        </Grid>
+                        <Grid item xs={4} style={{fontWeight: "bold"}}>
+                          {diffDays}
+                        </Grid>
+                      </Aux>
+                    : null}
+                    <Grid item xs={mobileView ? 6 : 5} style={{fontWeight: "bold"}}>
                       <MuiThemeProvider theme={themeChipAvailability}>
                         {this.props.offerAvailable ? 
                         <Chip label={'available'}/>
@@ -429,7 +463,7 @@ class OfferDetails extends React.Component {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={2} className={classes.translateButton}>
+                <Grid item xs={mobileView ? 6 : 2} className={classes.translateButton}>
                     <TranslateButton 
                       eng={() => this.handleClickTranslationButton('eng')} 
                       pl={() => this.handleClickTranslationButton('pl')} 

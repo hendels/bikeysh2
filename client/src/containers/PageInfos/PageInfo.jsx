@@ -1,18 +1,59 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import pageInfoStyle from '../../styles/components/pageInfoStyle';
+// import pageInfoStyle from '../../styles/components/pageInfoStyle';
 //icons
 import {FavoriteBorder, LibraryAdd} from '@material-ui/icons/';
-class Info extends React.Component {
-    render (){
-    const { classes } = this.props;
+
+const pageInfoStyle = theme => ({
+    container: {
+      color: `#fff`,
+      height: "45vh",
+      width: `100%`,
+      display: `flex`,
+      justifyContent: `center`,
+      alignItems: `center`,
+      position: `relative`,
+      filter: `grayscale(50%)`,
+    },
+    colorOverlay: {
+      width: `100%`,
+      height: `100%`,
+      opacity: `.7`,
+      position: `absolute`,
+      background: `linear-gradient(to bottom, #133160 0%,#c96567 100%)`
+    },
+    list: {
+      zIndex: 1,
+      listStyleType: `none`,
+    },
+    title: {
+      fontFamily: `'Permanent Marker', cursive`,
+      color: `#fff`,
+      /* font-family: 'Pacifico', cursive; */
+      fontSize: `45px`,
+      zIndex: 1,
+    },
+    iconFavorite: {
+      fontSize: `38px`,
+      color: "#c96567"
+    },
+    iconTags: {
+      fontSize: `38px`,
+      color: "#000",
+      opacity: `.45`,
+    }
+});
+
+
+const PageInfo = (props) => {
+    const { classes } = props;
     let extraString = null;
     let extraSpace = null;
-    if (this.props.loadFavorites){
+    if (props.loadFavorites){
         extraString = <FavoriteBorder className={classes.iconFavorite}/>;
         extraSpace = ` `;
     } 
-    if (this.props.loadWithoutTags){
+    if (props.loadWithoutTags){
         extraString = <LibraryAdd className={classes.iconTags}/>;
         extraSpace = ` `;
     } 
@@ -20,17 +61,17 @@ class Info extends React.Component {
     <div 
         className={classes.container} 
         style={{
-            background: `#000 url(${this.props.imageUrl})`,
-            backgroundPosition: `${this.props.tweak}`,
+            background: `#000 url(${props.imageUrl})`,
+            backgroundPosition: `center`,
+            backgroundSize: `cover`,
             backgroundAttachment: `fixed`,
+            backgroundRepeat: `no-repeat`,
         }}
     >
-        <li className={classes.list}>
-            <h3 className={classes.title}>{extraString}{extraSpace}{this.props.pageInfoTitle}</h3>
-        </li>
+        <h3 className={classes.title}>{extraString}{extraSpace}{props.pageInfoTitle}</h3>
         <div className={classes.colorOverlay}></div>
     </div>
-    )}
+    )
 }
 
-export default withStyles(pageInfoStyle)(Info);
+export default withStyles(pageInfoStyle)(PageInfo);

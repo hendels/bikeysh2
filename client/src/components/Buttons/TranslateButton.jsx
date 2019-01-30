@@ -66,16 +66,16 @@ function TranslateButton(props) {
       {popupState => (
         <React.Fragment>
             <MuiThemeProvider theme={buttonTheme}>
-            {!props.mobileView ? 
+            {/* {!props.mobileView ?  */}
                 <Button variant="text" size="small" {...bindTrigger(popupState)}>
                     <Translate/>
                     Translate
                 </Button>
-            :
-                <IconButton variant="text" size="small" {...bindTrigger(popupState)}>
-                    <Translate/>
-                </IconButton>
-            }
+            {/* :
+                 <IconButton variant="text" size="small" {...bindTrigger(popupState)}>
+                     <Translate/>
+                 </IconButton>
+             }*/}
             </MuiThemeProvider>
             <MuiThemeProvider theme={menuTheme}>
                 <Menu {...bindMenu(popupState)} PaperProps={{square: 'true'}}>

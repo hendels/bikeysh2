@@ -217,7 +217,7 @@ class Header extends React.Component {
     //>>
     return (
       <Aux>
-      <AppBar className={appBarClasses}>
+      <AppBar className={appBarClasses} square={true}>
         <Toolbar className={classes.container}>
           {leftLinks !== undefined ? brandComponent : null}
           <div className={classes.flex}>

@@ -336,86 +336,81 @@ return(
                     </Grid>
                 </Grid>
             </Grid>
-                {/* date / price / trending - views / scores / tradesman / true name / stats for true name / href / fav / tags /used - new
-                3 top parameters per category : wheel size / 142 / frame size
-                //functions on the right side icons and actions// */}
-                {/* * was on market time / is on market
-                * price drop?
-                * how many scores do you have compared to total records in specific category table
-                *  */}
         </Grid>
         {/* // details & action section */}
-        <Grid 
-            item
-            style={{
-                boxShadow: "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
-            }}
-        >
-            <Grid container spacing={0} direction="column" justify="space-between" alignItems="flex-start" className={classes.gridElementInfo}>
-                <Grid item className={classes.gridElementInfoTitle}>
-                    Details
-                </Grid>
-                {/* core info */}
-                <Grid item className={classes.gridElementInfoText}>
-                    {`Days on market: ${diffDays !== undefined ? diffDays : `unknown`}`}
-                </Grid>
-                <Grid item className={classes.gridElementInfoText}>
-
-                    <Grid container justify="space-between" alignItems="flex-start">
-                        {this.state.attributes.map((attribute) => {
-                            if (attribute.value !== null && attribute.value !== undefined){
-                                let attributeText = `${attribute.label} ${attribute.value}`;
-                                attributeText = attributeText.length > 32 ? attributeText.slice(0, 32) + "..." : attributeText;
-                                return (<Grid item xs={6}>{attributeText}</Grid>);
-                            } else 
-                                return (<Grid item xs={6} style={{opacity: "0"}}>----------------</Grid>)
-                        })}
+        {!this.props.mobileView ? 
+            <Grid 
+                item
+                style={{
+                    boxShadow: "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
+                }}
+            >
+                <Grid container spacing={0} direction="column" justify="space-between" alignItems="flex-start" className={classes.gridElementInfo}>
+                    <Grid item className={classes.gridElementInfoTitle}>
+                        Details
                     </Grid>
-                </Grid>
-                {/* actions */}
-                <Grid item>
-                    <Grid container className={classes.gridElementInfoActions} direction="row" justify="space-evenly" alignItems="center">
-                        <Grid item xs={3} className={classes.actionItem}>
-                            <FavoriteButton 
-                                dummy={this.props.dummy}
-                                dataKey={this.props.offer._id} 
-                                favorite={this.state.favorite} 
-                                setFavorite={this.handleSetFavorite}
-                                fetchUrl={this.props.fetchUrl} 
-                                model={this.props.model}
-                            />
+                    {/* core info */}
+                    <Grid item className={classes.gridElementInfoText}>
+                        {`Days on market: ${diffDays !== undefined ? diffDays : `unknown`}`}
+                    </Grid>
+                    <Grid item className={classes.gridElementInfoText}>
+
+                        <Grid container justify="space-between" alignItems="flex-start">
+                            {this.state.attributes.map((attribute) => {
+                                if (attribute.value !== null && attribute.value !== undefined){
+                                    let attributeText = `${attribute.label} ${attribute.value}`;
+                                    attributeText = attributeText.length > 32 ? attributeText.slice(0, 32) + "..." : attributeText;
+                                    return (<Grid item xs={6}>{attributeText}</Grid>);
+                                } else 
+                                    return (<Grid item xs={6} style={{opacity: "0"}}>----------------</Grid>)
+                            })}
                         </Grid>
-                        <Grid item xs={3} className={classes.actionItem}>
-                            <TagButton 
-                                dummy={this.props.dummy}    
-                                offer={this.props.offer} 
-                                tagUrl={this.props.tagUrl} 
-                                color={bikeyshColor5} 
-                                category={this.props.category}
-                                model={this.props.model}/>
-                        </Grid>
-                        <Grid item xs={3} className={classes.actionItem}>
-                            <IconButton
-                                onClick={this.handleShowOfferDetailsDialog}
-                            >
-                                <InfoIcon 
-                                    style={{color: bikeyshColor5}}
+                    </Grid>
+                    {/* actions */}
+                    <Grid item>
+                        <Grid container className={classes.gridElementInfoActions} direction="row" justify="space-evenly" alignItems="center">
+                            <Grid item xs={3} className={classes.actionItem}>
+                                <FavoriteButton 
+                                    dummy={this.props.dummy}
+                                    dataKey={this.props.offer._id} 
+                                    favorite={this.state.favorite} 
+                                    setFavorite={this.handleSetFavorite}
+                                    fetchUrl={this.props.fetchUrl} 
+                                    model={this.props.model}
                                 />
-                            </IconButton>
-                        </Grid>
-                        <Grid item xs={3} className={classes.actionItem}>
-                            <IconButton 
-                                href={this.props.offer.productUrl} 
-                                target={`_blank`} 
-                                style={{color: bikeyshColor5, outline: "none",}}
-                            >
-                                <HttpIcon />
-                            </IconButton>
+                            </Grid>
+                            <Grid item xs={3} className={classes.actionItem}>
+                                <TagButton 
+                                    dummy={this.props.dummy}    
+                                    offer={this.props.offer} 
+                                    tagUrl={this.props.tagUrl} 
+                                    color={bikeyshColor5} 
+                                    category={this.props.category}
+                                    model={this.props.model}/>
+                            </Grid>
+                            <Grid item xs={3} className={classes.actionItem}>
+                                <IconButton
+                                    onClick={this.handleShowOfferDetailsDialog}
+                                >
+                                    <InfoIcon 
+                                        style={{color: bikeyshColor5}}
+                                    />
+                                </IconButton>
+                            </Grid>
+                            <Grid item xs={3} className={classes.actionItem}>
+                                <IconButton 
+                                    href={this.props.offer.productUrl} 
+                                    target={`_blank`} 
+                                    style={{color: bikeyshColor5, outline: "none",}}
+                                >
+                                    <HttpIcon />
+                                </IconButton>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+        : null}
     </Grid>
     <OfferDetailsDialog
         open={this.state.showOfferDetails}
@@ -437,6 +432,7 @@ return(
         price={this.state.scoringData.price}
         scores={this.state.scoringData.scores}
         searchPending={this.props.searchPending}
+        mobileView={this.props.mobileView}
     />
     </Aux>
 )

@@ -8,7 +8,6 @@ import { Link , withRouter} from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import {ListItem, List, IconButton, Input, InputAdornment, InputLabel, FormControl, Tooltip, Button} from "@material-ui/core";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-// import red from '@material-ui/core/colors/red'
 // @material-ui/icons
 import { Apps, Search, Stars, Settings, FavoriteBorder, LibraryAdd, AccountCircle, AccountBox } from "@material-ui/icons";
 
@@ -30,15 +29,44 @@ class HeaderLinks extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      changedHeaderColor: false
+      changedHeaderColor: false,
+      tabletView: this.getPageMeasures(window.outerWidth, window.outerHeight).tabletView,
     }
     this.handleKeyUpEnter = this.handleKeyUpEnter.bind(this);
   }
-  handleSearchText = ({target}) => {
-    console.log(target.value);
-    this.props.searchText(target.value, searchLimit);
+  onResize = (e) => {
+    const resizeObj = this.getPageMeasures(e.target.outerWidth, e.target.outerHeight);
+    if (this.state.tabletView !== resizeObj.tabletView){
+      this.setState({
+          tabletView: resizeObj.tabletView,
+      }, ()=> {});
+  }};
+  getPageMeasures = (width, height) => {
+    let currentWidth = width;
+    let currentHeight = height;
+    let resizeObj = {};
+    
+    if (currentWidth <= 1000){
+        resizeObj = {
+            tabletView: true,
+        }
+    } 
+    if (currentWidth <= 1920 && currentWidth > 1000){
+        resizeObj = {
+            tabletView: false,
+        }
+    } 
+    if (currentWidth > 1920){
+        resizeObj = {
+            tabletView: false,
+        }
+    }
+    return resizeObj;
   }
-  handleKeyUpEnter(event) {
+  handleSearchText = ({target}) => {
+    this.props.searchText(target.value, searchLimit);
+  };
+  handleKeyUpEnter(event){
     
     if(event.keyCode === 13 && this.props.showSearchResults){
       this.props.collectAllResults();
@@ -48,10 +76,7 @@ class HeaderLinks extends React.Component {
     if(event.keyCode === 13 && !this.props.showSearchResults){
       this.props.searchText(event.target.value, searchLimit);
     }
-  }
-  // handleFavorites = () => {
-  //   this.props.showFavorites(true);
-  // }
+  };
   handleClickDropdownLink = (action) => {
     
     switch(action){
@@ -71,13 +96,14 @@ class HeaderLinks extends React.Component {
     }
     this.props.showSearchResults ? this.props.closeSearchResults() : null;
       
-  }
-  componentWillReceiveProps(nextProps){
+  };
 
-    // console.log(`received color change = ${nextProps.changeColor} current state = ${this.state.changedHeaderColor}`);
-    // if (this.state.changedHeaderColor !== nextProps.changedHeaderColor)
-      // this.setState({changedHeaderColor: nextProps.changeColor}, () => {});
-  }
+  componentWillMount() {
+    window.addEventListener("resize", this.onResize);
+  };
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.onResize);
+  };
   render() {
 
   const themeInputLabel = createMuiTheme({
@@ -130,7 +156,6 @@ class HeaderLinks extends React.Component {
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
         {/* << SEARCH INPUT*/}
-        {/* <FormControl className={classes.margin}> */}
         <FormControl>
         <MuiThemeProvider theme={themeInputLabel}>
           <InputLabel focused={false} >Search</InputLabel>
@@ -225,7 +250,7 @@ class HeaderLinks extends React.Component {
       <ListItem className={classes.listItem}>
         <Dropdown
           noLiPadding
-          buttonText="Favorites"
+          buttonText={this.state.tabletView ? "" : "Favorites"}
           buttonProps={{
             className: classes.navLink,
             color: "transparent"
@@ -274,7 +299,7 @@ class HeaderLinks extends React.Component {
       <ListItem className={classes.listItem}>
         <Dropdown
           noLiPadding
-          buttonText="Without tags"
+          buttonText={this.state.tabletView ? "" : "Without tags"}
           buttonProps={{
             className: classes.navLink,
             color: "transparent"

@@ -24,21 +24,18 @@ const themeIconButton = createMuiTheme({
     overrides: {
         MuiIconButton: {
             root: {
-                width: '8vh',
-                height: '8vh'
+                "@media (max-width: 425px)":{
+                    width: '8vh',
+                    height: '8vh'
+                },
             }
         },
     }
 })
 const styles = theme => ({
     root: {
-        // position: 'relative',
         height: boH,
         width: boW,
-        // "@media (max-width: 1560px)": {
-        //     width: boW - 80,
-        //     height: boH - 100,
-        // },
         "@media (max-width: 1024px)": {
             width: boW - 80,
             height: boH - 100,
@@ -52,7 +49,6 @@ const styles = theme => ({
         },
     },
     image: {
-        // position: 'relative',
         height: boH,
         width: boW,
         "@media (max-width: 1024px)": {
@@ -139,7 +135,7 @@ const styles = theme => ({
         background: "tomato", //[dev]
         verticalAlign: 'text-bottom',
         "@media (max-width: 425px)": {
-            height: "3vh",
+            height: "5vh",
         },
     },
     bestOfferUnderTitle: {
@@ -198,6 +194,9 @@ class BestOffer extends React.Component {
         });
     };
     handleShowStatisticsChips = () => {
+        if (this.props.mobileView)
+            return;
+
         this.setState({openStatisticsChips: !this.state.openStatisticsChips});
     };
     handleCloseStatisticsChips = () => {
@@ -386,7 +385,7 @@ class BestOffer extends React.Component {
                                             </IconButton>
                                         </MuiThemeProvider>
                                     </Grid>
-                                    <Grid item  xs={3} className={classes.bestOfferAction}>
+                                    <Grid item xs={3} className={classes.bestOfferAction}>
                                         <MuiThemeProvider theme={themeIconButton}>
                                             <IconButton 
                                                 onClick={this.handleShowOfferDetailsDialog}

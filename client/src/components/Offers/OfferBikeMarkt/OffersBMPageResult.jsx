@@ -46,26 +46,15 @@ constructor(props) {
     });
 }
 rerender = () => {
-    // console.log(`[2] RERENDERING`);
     this.setState({rerender: !this.state.rerender}, ()=> {})
 }
 async componentWillReceiveProps(nextProps){
-    // console.log(`receiving offer BM [2] search pending  = ${nextProps.searchPending}`);
-    // if(!nextProps.searchPending && nextProps.fullSearch)
-    //     this.setState({fullSearchResults: nextProps.fullSearchResults})
     if(!nextProps.searchPending || nextProps.searchPending === undefined){
         const {classes, model, offers, fullSearch} = nextProps;
-        // let offers = [];
-        // if (fullSearch)
-        
-        // console.log(`[2]OFFERS:`);
-        // console.log(offers);
         let fullSearchModel = ``;
         let fullSearchCategory = ``;
         
         listElements = await offers.map(offer => {
-            // this.setState({loading: true}, ()=>{});
-            // console.log(offer);
             let piclink = "";
             if(offer.pictures !== null || offer.pictures !== undefined){
                 for (var x in offer.pictures){
@@ -78,7 +67,6 @@ async componentWillReceiveProps(nextProps){
             };
     
             if(fullSearch){
-                console.log(`OFFER CATEGORY: ${offer.category}`);
                 switch (offer.category){
                     case "DHFrames":
                         fullSearchModel = model.dhframes
@@ -114,6 +102,7 @@ async componentWillReceiveProps(nextProps){
                     fullSearch={this.props.fullSearch}
                     searchPending={this.props.searchPending}
                     rerender={this.rerender}
+                    mobileView={this.props.mobileView}
                 />
             )
         }) ;
@@ -130,7 +119,6 @@ shouldComponentUpdate(){
         return false;
 }
 render(){
-    console.log('rerender');
     return (
         <Aux>
             {this.state.loading ? dummyElements : listElements}
