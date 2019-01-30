@@ -67,12 +67,8 @@ const categoryInfoStyle = theme => ({
             fontSize: "17px",
         },
         "@media (max-width: 425px)": {
-            fontSize: "20px",
+            fontSize: "2.7vh",
             paddingLeft: '20px',
-        },
-        "@media (max-width: 375px)": {
-            paddingLeft: '20px',
-            fontSize: "20px",
         },
     },
 });
@@ -87,8 +83,14 @@ const themeButton = createMuiTheme({
                 "@media (max-width: 425px)": {
                     border: '1px solid rgba(151, 170, 189, 0.2)',
                 },
-
+                
             },
+            label:{
+                "@media (max-width: 425px)": {
+                    fontSize: "1.5vh",
+                },
+            },
+
         },
     }
 })

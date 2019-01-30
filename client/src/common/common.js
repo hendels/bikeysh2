@@ -102,7 +102,7 @@ export const getPictureArray = (offer) => {
       let countBlank = 0;
       let objPictures = {};
 
-      if (offer._id === `dummy`)
+      if (offer._id === `dummy` || offer._id === `dummyId`)
         return null;
     
       try{
@@ -126,6 +126,6 @@ export const getPictureArray = (offer) => {
         return objPictures;
       }
       catch(err){
-        alert(`something wrong with record [props.offer.pictures] - constructor class: SwipeableTextMobileStepper`);
+        alert(`something wrong with record [props.offer.pictures] - getPictureArray`);
       }
 }

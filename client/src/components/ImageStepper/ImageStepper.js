@@ -46,16 +46,7 @@ class SwipeableTextMobileStepper extends React.Component {
       this.state = {
         activeStep: 0,
       };
-
-      // picArray = [];
-      // fullscreenPicArray = [];
-      // objPictures = {};
-      // try{
-        objPictures = getPictureArray(props.offer);
-      // }
-      // catch(err){
-      //   alert(`something wrong with record [props.offer.pictures] - constructor class: SwipeableTextMobileStepper`);
-      // }
+      objPictures = getPictureArray(props.offer);
   }
 
   handleNext = () => {

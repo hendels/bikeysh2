@@ -141,6 +141,7 @@ class OfferDetails extends React.Component {
         fullscreenOpen: false,
         picArray: [],
       }
+      console.log(`offer details ? ${props.offer}`);
       objPictures = getPictureArray(props.offer);
     }
     handleClose = () => {

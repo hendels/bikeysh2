@@ -4,6 +4,8 @@ import BestOffer from '../../components/Offers/BestOffer/BestOfferCustom.jsx';
 import Grid from '@material-ui/core/Grid';
 import Aux from '../../hoc/Ax/Ax.js';
 import { withStyles } from '@material-ui/core/styles';
+//config
+import config from '../../config/config';
 //app components
 import CategoryInfo from '../../components/UI/CategoryInfoCard.jsx';
 import Dummies from '../../components/UI/SpinnerOffers';
@@ -14,6 +16,7 @@ import LoadNext from '../../components/UI/LoadButtonNext.jsx';
 // let pageLimit = 0;
 // let windowWidth = 0;
 // let windowHeight = 0;
+const {prod} = config;
 
 const applyCrankResult = (result) => (prevState) => ({
     crankHits: result,
@@ -88,7 +91,7 @@ class BestOfferBar extends React.Component {
         currentHeight = height;
         if (currentWidth <= 425){
             resizeObj = {
-                pageLimit: 1,
+                pageLimit: prod ? 1 : 1,
                 categoryGridLen: 12,
                 arrowGridLen: 6,
                 bestOfferGridLen: 12,
@@ -97,7 +100,7 @@ class BestOfferBar extends React.Component {
         } 
         if (currentWidth <= 1560 && currentWidth > 425){
             resizeObj = {
-                pageLimit: 3,
+                pageLimit: prod ? 3 : 1,
                 categoryGridLen: 1,
                 arrowGridLen: 1,
                 bestOfferGridLen: 2,
@@ -106,7 +109,7 @@ class BestOfferBar extends React.Component {
         };
         if (currentWidth <= 1920 && currentWidth > 1560){
             resizeObj = {
-                pageLimit: 4,
+                pageLimit: prod ? 4 : 1,
                 categoryGridLen: 1,
                 arrowGridLen: 1,
                 bestOfferGridLen: 2,
@@ -115,7 +118,7 @@ class BestOfferBar extends React.Component {
         } 
         if (currentWidth > 1920){
             resizeObj = {
-                pageLimit: 4,
+                pageLimit: prod ? 4 : 1,
                 categoryGridLen: 1,
                 arrowGridLen: 1,
                 bestOfferGridLen: 2,

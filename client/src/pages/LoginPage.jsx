@@ -56,7 +56,6 @@ const themeFeaturesButton = createMuiTheme({
         root: {
           background: '#314455',
           textTransform: "none",
-          fontSize: "13px",
           borderRadius: 0,
           border: 0,
           color: 'white',

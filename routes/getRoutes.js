@@ -399,7 +399,7 @@ module.exports = app => {
     app.get('/api/bm/bestoffer/:category/:skipRange/:pageLimit', async (req, res) => {
         var pageLimit = parseInt(req.params.pageLimit);
         var skipRange = parseInt(req.params.skipRange);
-        // if (pageLimit !== 0){ 
+        if (pageLimit !== 0){ 
             const Scoring = await mongoose
                 .model('scoring')
                 .find({
@@ -419,7 +419,7 @@ module.exports = app => {
                 .limit(pageLimit)
                 .select({ __v: false }); 
             res.send(Model);       
-        // }
+        }
     });
     //>>bestoffer
     //==================================================================================================================

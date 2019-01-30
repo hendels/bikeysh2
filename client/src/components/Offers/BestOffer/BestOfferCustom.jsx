@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles , MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import {Grid, IconButton, ButtonBase, Avatar} from '@material-ui/core';
 //icons
 import InfoIcon from '@material-ui/icons/Info';
@@ -20,6 +20,16 @@ import {getOfferAttributes} from '../../../common/common';
 const boH = 320;
 const boW = 275;
 
+const themeIconButton = createMuiTheme({
+    overrides: {
+        MuiIconButton: {
+            root: {
+                width: '8vh',
+                height: '8vh'
+            }
+        },
+    }
+})
 const styles = theme => ({
     root: {
         // position: 'relative',
@@ -101,14 +111,14 @@ const styles = theme => ({
         color: '#fff',
         fontSize: '15px',
         zIndex: 2,
-        // background: "tomato", //[dev]
+        background: "tomato", //[dev]
         textAlign: "right",
         paddingRight: "20px",
     },
     bestOfferDummyAboveTitle: {
         height: "155px",
         zIndex: 2,
-        // background: "purple", //[dev]
+        background: "purple", //[dev]
         opacity: "0.2",
         "@media (max-width: 1024px)": {
             height: "73px",
@@ -117,10 +127,7 @@ const styles = theme => ({
             height: "70px",
         },
         "@media (max-width: 425px)": {
-            height: "220px",
-        },
-        "@media (max-width: 375px)": {
-            height: "162px",
+            height: "25vh",
         },
     },
     bestOfferTitle: {
@@ -129,8 +136,11 @@ const styles = theme => ({
         textShadow: '1px 1px #000',
         fontSize: '15px',
         zIndex: 2,
-        // background: "tomato", //[dev]
+        background: "tomato", //[dev]
         verticalAlign: 'text-bottom',
+        "@media (max-width: 425px)": {
+            height: "3vh",
+        },
     },
     bestOfferUnderTitle: {
         color: '#fff',
@@ -141,7 +151,7 @@ const styles = theme => ({
     bestOfferDummyBelowTitle: {
         height: '23px',
         zIndex: 2,
-        // background: "limegreen", //[dev]
+        background: "limegreen", //[dev]
         opacity: "0.2",
         "@media (max-width: 1024px)": {
             height: "5px",
@@ -150,18 +160,16 @@ const styles = theme => ({
             height: "2px",
         },
         "@media (max-width: 425px)": {
-            height: "5px",
-        },
-        "@media (max-width: 375px)": {
-            height: "30px",
+            height: "1vh",
         },
     },
     bestOfferAction:{
-        // background: 'rgba(125, 222, 155, 0.8)', //[dev]
+        background: 'rgba(125, 222, 155, 0.8)', //[dev]
         zIndex: 5,
     },
     icon: {
         outline: "none",
+        fontSize: '0.5rem'
     }
 });
 class BestOffer extends React.Component {
@@ -347,38 +355,46 @@ class BestOffer extends React.Component {
                             <Grid item xs={12}>
                                 <Grid container justify="space-between" alignItems="center">
                                     <Grid item xs={3} className={classes.bestOfferAction}>
-                                        <FavoriteButton 
-                                            dataKey={this.props.offer._id} 
-                                            favorite={this.state.favorite} 
-                                            fetchUrl={this.props.fetchUrl} 
-                                            model={this.props.model}
-                                            setFavorite={this.handleSetFavorite}
-                                        />
+                                        <MuiThemeProvider theme={themeIconButton}>
+                                            <FavoriteButton 
+                                                dataKey={this.props.offer._id} 
+                                                favorite={this.state.favorite} 
+                                                fetchUrl={this.props.fetchUrl} 
+                                                model={this.props.model}
+                                                setFavorite={this.handleSetFavorite}
+                                            />
+                                        </MuiThemeProvider>
                                     </Grid>
                                     <Grid item xs={3} className={classes.bestOfferAction}>
-                                        <TagButton 
-                                            category={this.props.category} 
-                                            model={this.props.model}
-                                            offer={this.props.offer} 
-                                            tagUrl={this.props.tagUrl}
-                                            parentStatistics
-                                            disableStatistics={this.handleDisableStatistics}
-                                            mobileView={this.props.mobileView}
-                                        />
+                                        <MuiThemeProvider theme={themeIconButton}>
+                                            <TagButton 
+                                                category={this.props.category} 
+                                                model={this.props.model}
+                                                offer={this.props.offer} 
+                                                tagUrl={this.props.tagUrl}
+                                                parentStatistics
+                                                disableStatistics={this.handleDisableStatistics}
+                                                mobileView={this.props.mobileView}
+                                            />
+                                        </MuiThemeProvider>
                                     </Grid>
                                     <Grid item xs={3} className={classes.bestOfferAction}>
-                                        <IconButton onClick={this.setOfferVisibility} >
-                                            {/* [to do] erase tags, and make them ignored? */}
-                                            <Delete/> 
-                                        </IconButton>
+                                        <MuiThemeProvider theme={themeIconButton}>
+                                            <IconButton onClick={this.setOfferVisibility} >
+                                                {/* [to do] erase tags, and make them ignored? */}
+                                                <Delete/> 
+                                            </IconButton>
+                                        </MuiThemeProvider>
                                     </Grid>
                                     <Grid item  xs={3} className={classes.bestOfferAction}>
-                                        <IconButton 
-                                            onClick={this.handleShowOfferDetailsDialog}
-                                            style={{outline: "none",}}
-                                        >
-                                            <InfoIcon />
-                                        </IconButton>
+                                        <MuiThemeProvider theme={themeIconButton}>
+                                            <IconButton 
+                                                onClick={this.handleShowOfferDetailsDialog}
+                                                style={{outline: "none"}}
+                                            >
+                                                <InfoIcon />
+                                            </IconButton>
+                                        </MuiThemeProvider>
                                     
                                     </Grid>
                                 </Grid>
