@@ -107,14 +107,14 @@ const styles = theme => ({
         color: '#fff',
         fontSize: '15px',
         zIndex: 2,
-        background: "tomato", //[dev]
+        // background: "tomato", //[dev]
         textAlign: "right",
         paddingRight: "20px",
     },
     bestOfferDummyAboveTitle: {
         height: "155px",
         zIndex: 2,
-        background: "purple", //[dev]
+        //background: "purple", //[dev]
         opacity: "0.2",
         "@media (max-width: 1024px)": {
             height: "73px",
@@ -132,7 +132,7 @@ const styles = theme => ({
         textShadow: '1px 1px #000',
         fontSize: '15px',
         zIndex: 2,
-        background: "tomato", //[dev]
+        //background: "tomato", //[dev]
         verticalAlign: 'text-bottom',
         "@media (max-width: 425px)": {
             height: "5vh",
@@ -147,7 +147,7 @@ const styles = theme => ({
     bestOfferDummyBelowTitle: {
         height: '23px',
         zIndex: 2,
-        background: "limegreen", //[dev]
+        //background: "limegreen", //[dev]
         opacity: "0.2",
         "@media (max-width: 1024px)": {
             height: "5px",
@@ -160,7 +160,7 @@ const styles = theme => ({
         },
     },
     bestOfferAction:{
-        background: 'rgba(125, 222, 155, 0.8)', //[dev]
+        //background: 'rgba(125, 222, 155, 0.8)', //[dev]
         zIndex: 5,
     },
     icon: {
