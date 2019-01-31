@@ -42,6 +42,7 @@ constructor(props) {
                     key={dummyItem}
                     dummy
                     offer={dummyOffer}
+                    mobileView={this.props.mobileView}
                 />
     });
 }

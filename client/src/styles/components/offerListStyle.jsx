@@ -1,6 +1,5 @@
 
-import { container, title ,
-// import {  title ,
+import {  
   containerBackground, containerOfferList,   
   bikeyshColor1,
   bikeyshColor2,
@@ -13,24 +12,34 @@ import { container, title ,
 const style = {
   containerBackground, 
   containerOfferList: {
-    ...containerOfferList,
-    background: bikeyshColor5,
+    marginRight: "auto",
+    marginLeft: "auto",
+    width: "100%",
+    minWidth: `1250px`,
+    maxWidth: `1250px`,
+    background: `#97AABD`,
   }, 
   bikeyshBackground: {
-    // background: `repeating-linear-gradient(
-    //   -45deg,
-    //   #C96567,
-    //   #C96567 22px,
-    //   #9E5A63 22px,
-    //   #9E5A63 44px
-    // )`,
     background: "#C96567",
     boxShadow: "0px 5px 10px 0px rgba(0, 0, 0, 0.5)"
   },
-  // container:{
-  //   boxShadow: "0px 5px 10px 0px rgba(0, 0, 0, 0.5)"
-  // },
-  container,
+  container: {
+    marginRight: "auto",
+    marginLeft: "auto",
+    width: "100%",
+    "@media (min-width: 576px)": {
+      maxWidth: "540px"
+    },
+    "@media (min-width: 768px)": {
+      maxWidth: "720px"
+    },
+    "@media (min-width: 992px)": {
+      maxWidth: "960px"
+    },
+    "@media (min-width: 1200px)": {
+      maxWidth: "1600px"
+    }
+  },
   bikeyshColor1, bikeyshColor2, bikeyshColor3, bikeyshColor4, bikeyshColor5, bikeyshColor6, bikeyshColor7,
 };
 

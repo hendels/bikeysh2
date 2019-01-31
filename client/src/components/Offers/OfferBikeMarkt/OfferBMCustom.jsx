@@ -26,24 +26,33 @@ import OfferDetailsDialog from '../../Dialogs/OfferDetailsDialog.jsx';
 //common
 import {getOfferAttributes, getDayDifferencesFromToday} from '../../../common/common';
 import {
-    bikeyshColor1,
-    bikeyshColor2,
-    bikeyshColor3,
     bikeyshColor4,
     bikeyshColor5,
     bikeyshColor6,
     bikeyshColor7,
 } from "../../../styles/material-kit-react";
 //
+const boW = '53vw';
 const styles = theme => ({
     root: {
-        width: 1000,
-        height: 200,
-
-    },
-    gridElement: {
-      width: 1000,
-
+        width: "100vw" ,
+        height: `40vh`,
+        "@media (min-width: 576px)": {
+            width: "100vw",
+            height: `40vh`,
+        },
+        "@media (min-width: 768px)": {
+            width: "85vw",
+            height: `40vh`,
+        },
+        "@media (min-width: 992px)": {
+            maxWidth: "75vw",
+            height: 200,
+        },
+        "@media (min-width: 1200px)": {
+            maxWidth: boW,
+            height: 200,
+        },
     },
 
     gridElementTitle: {
@@ -55,38 +64,63 @@ const styles = theme => ({
         "&:hover": {
             textDecoration: 'underline',
         },
+        "@media (max-width: 425px)": {
+            fontSize: "13px",
+        },
+        "@media (max-width: 375px)": {
+            fontSize: "11px",
+        },
     },
     gridElementTitleCategory: {
         zIndex: 1,
         fontSize: "20px",
         color: "#C96567",
         textShadow: `1px 1px ${bikeyshColor6}`,
-        paddingLeft: `15px`,
+        // paddingLeft: `15px`,
+        "@media (max-width: 425px)": {
+            fontSize: "13px",
+        },
+        "@media (max-width: 375px)": {
+            fontSize: "11px",
+        },
 
     },
     gridElementDownbar: {
         zIndex: 0,
-        minWidth: 1000,
+        minWidth: boW,
         minHeight: 70,
-        maxHeight: 70,
         background: "#000",
         opacity: "0.63",
         color: "#fff",
         paddingLeft: `15px`,
-        paddingRight: `15px`
+        paddingRight: `15px`,
+        border: "1px solid rgba(201, 101, 103, 0)",
+        "@media (max-width: 425px)": {
+            minHeight: `10vh`,
+            fontSize: "13px",
+        },
+        "@media (max-width: 375px)": {
+            minHeight: `10vh`,
+            fontSize: "11px",
+        },
+        "&:hover":{
+            border: "1px solid rgba(201, 101, 103, 0.1)",
+            opacity: "0.72",
+        }
     },
     gridElementDownbarIcons: {
         paddingTop: '10px'
     },
     gridElementUpbar: {
         zIndex: 0,
-        minWidth: 1000,
+        minWidth: boW,
         minHeight: 30,
         maxHeight: 30,
         background: `rgba(39,31,36,0.7)`,
+
     },
     gridElementInfo: {
-        width: 250,
+        width: '13vw',
         height: 200,
         background: bikeyshColor6,
 
@@ -94,7 +128,7 @@ const styles = theme => ({
     gridElementInfoActions:{
         minHeight: 70,
         maxHeight: 70,
-        minWidth: 250,
+        minWidth: '13vw',
         paddingLeft: `15px`,
         paddingRight: `15px`,
         borderBottom: `1px dotted ${bikeyshColor4}`,
@@ -104,7 +138,13 @@ const styles = theme => ({
         color: "#fff",
         fontSize: "15px",
         textShadow: `1px 1px ${bikeyshColor4}`,
-        margin: `5px 5px 0px 15px`
+        margin: `5px 5px 0px 15px`,
+        "@media (max-width: 425px)": {
+            fontSize: "14px",
+        },
+        "@media (max-width: 375px)": {
+            fontSize: "12px",
+        },
     },
     gridElementInfoText:{
         color: "#fff",
@@ -117,10 +157,18 @@ const styles = theme => ({
         fontSize: `20px`,
         fontFamily: `Lobster`,
         textShadow: `1px 1px #314455`,
-        right: `15px`,
+        // right: `15px`,
         opacity: `1`,
         zIndex: 1,
         marginTop: `15px`,
+    },
+    scoreItem :{
+        "@media (min-width: 1000px)": {
+            paddingLeft: "20px"
+        },
+        "@media (min-width: 1600px)": {
+            paddingLeft: "35px"
+        },
     },
     badge: {
         top: 6,
@@ -163,10 +211,7 @@ getOfferAttributes = (category) => {
     this.setState({attributes: attributes}, () =>{});
 }
 getScoringData = async () => {
-    // console.log(`[3]offer BM getScoring searchPending = ${this.props.searchPending} dummy = ${this.props.dummy}`);
-    // console.log(`[3]searching score for offer id = ${this.props.offer._id}`)
-    if (!this.props.dummy){// && (!this.props.searchPending || this.props.searchPending === undefined)){
-        // console.log(`[3]getScoring after searchPending:`);
+    if (!this.props.dummy){
         await axios.get('/scoring/' + this.props.offer._id).then(response  => response.data).then(result => {
             if (result !== undefined){
                 if (result.scoring.length > 0) {
@@ -199,7 +244,6 @@ componentWillMount(){
     } 
 }
 componentWillReceiveProps(nextProps){
-    // console.log(`receiving offer BM [3] search pending = ${nextProps.searchPending} offer = ${nextProps.offer._id}`);
     if(!nextProps.searchPending){
         this.setState({scoringData: {
             offerId: 0, trueName: '', price: 0,
@@ -219,7 +263,7 @@ componentWillReceiveProps(nextProps){
 }
 render(){
 
-const {classes} = this.props;
+const {classes, mobileView} = this.props;
 let dealerTip = `null`;
 let linkActive = false;
 let linkTip = `null`;
@@ -228,6 +272,8 @@ let offerAvailable = undefined;
 
 let diffDays = null;
 let offerDate = null;
+let titleCutter = mobileView ? 35 : 48;
+console.log(`cutted to : ${titleCutter}`);
 
 if (!this.props.dummy){
 
@@ -266,18 +312,18 @@ return(
                 backgroundSize: 'cover',
                 backgroundRepeat: `no-repeat`,
                 backgroundPosition: 'center',
-            }}>
+            }} >
                 <Grid container className={classes.gridElementUpbar} direction="row" justify="space-between" alignItems="center">
-                    <Grid item>
+                    <Grid item xs={11}>
                         <span className={classes.gridElementTitleCategory}>{this.props.fullSearch ? `[${this.props.offer.category}]` : null}</span>
                         <span className={classes.gridElementTitle} onClick={this.handleShowOfferDetailsDialog}>
                             {this.state.scoringData.trueName !== `` ? 
-                            `[${this.state.scoringData.trueName}] ${this.props.offer.title.length > 48 ? 
-                                this.props.offer.title.slice(0, 48) + "..." : this.props.offer.title}` :
-                            this.props.offer.title }
+                            `[${this.state.scoringData.trueName}] ${this.props.offer.title.length > titleCutter ? 
+                                this.props.offer.title.slice(0, titleCutter) + "..." : this.props.offer.title}` :
+                            this.props.offer.title.length > titleCutter ? this.props.offer.title.slice(0, titleCutter) + "..." : this.props.offer.title }
                         </span>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={1} className={classes.scoreItem}>
                         {this.state.scoringData.scores !== 0 ? 
                             <Avatar aria-label="Recipe" className={classes.scores}>
                                 {parseFloat(this.state.scoringData.scores).toFixed(1)}
@@ -287,7 +333,14 @@ return(
                         }
                     </Grid>
                 </Grid>
-                <Grid container className={classes.gridElementDownbar} direction="column" justify="space-between" alignItems="stretch" >
+                <Grid 
+                    container 
+                    className={classes.gridElementDownbar} 
+                    direction="column" 
+                    justify="space-between" 
+                    alignItems="stretch" 
+                    onClick={this.handleShowOfferDetailsDialog}
+                >
                     <Grid item>
                         <Grid container spacing={0} direction="row" justify="space-between" alignItems="center">
                             <Grid item>

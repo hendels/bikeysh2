@@ -12,10 +12,51 @@ import Paper from '@material-ui/core/Paper';
 import PageInfo from '../../containers/PageInfos/PageInfo.jsx';
 import Pagination from '../../components/Pagination/OfferListPagination.jsx'
 //styles
-import containerStyle from '../../styles/components/offerListStyle';
+// import containerStyle from '../../styles/components/offerListStyle';
 
 let renderCount = 0;
 const skipValue = 10;
+const style = {
+    containerBackground :{
+        marginRight: "auto",
+        marginLeft: "auto",
+        // width: "100%",
+        "@media (min-width: 576px)": {
+          maxWidth: "100vw"
+        },
+        "@media (min-width: 768px)": {
+          maxWidth: "90vw"
+        },
+        "@media (min-width: 992px)": {
+          maxWidth: "80vw"
+        },
+        "@media (min-width: 1200px)": {
+          maxWidth: "72vw"
+        },
+        background: "#314455",
+    }, 
+    bikeyshBackground: {
+      background: "#C96567",
+      boxShadow: "0px 5px 10px 0px rgba(0, 0, 0, 0.5)"
+    },
+    container: {
+      marginRight: "auto",
+      marginLeft: "auto",
+      width: "100%",
+      "@media (min-width: 700px)": {
+        maxWidth: "100vw"
+      },
+    //   "@media (min-width: 768px)": {
+    //     maxWidth: "720px"
+    //   },
+    //   "@media (min-width: 992px)": {
+    //     maxWidth: "960px"
+    //   },
+      "@media (min-width: 1200px)": {
+        maxWidth: "1600px"
+      }
+    },
+  };
 class OffersList extends Component {
     constructor(props){
         super(props);
@@ -36,6 +77,7 @@ class OffersList extends Component {
             mobileView: this.getPageMeasures(window.outerWidth, window.outerHeight).mobileView,
         }
     }
+    
     onResize = (e) => {
         const resizeObj = this.getPageMeasures(e.target.outerWidth, e.target.outerHeight);
         if (this.state.mobileView !== resizeObj.mobileView){
@@ -211,11 +253,10 @@ class OffersList extends Component {
                 />
         return(
             <Aux>
+                <br/>
+                <br/>
                 {pageInfo}
-                <div className={classNames(classes.main, classes.mainRaised)} style={{
-                    background: containerStyle.bikeyshBackground.background,
-                    boxShadow: containerStyle.bikeyshBackground.boxShadow
-                }}>
+                <div className={classes.bikeyshBackground}>
                     <div className={classes.container}>
                         <Paper className={classes.containerBackground} elevation={10}>
                         <Grid container direction="column" justify="center" alignContent="center">
@@ -265,4 +306,4 @@ class OffersList extends Component {
     }
 }
 
-export default withStyles(containerStyle)(OffersList);
+export default withStyles(style)(OffersList);

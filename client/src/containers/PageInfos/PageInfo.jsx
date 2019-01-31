@@ -12,8 +12,11 @@ const pageInfoStyle = theme => ({
       display: `flex`,
       justifyContent: `center`,
       alignItems: `center`,
-      position: `relative`,
+    //   position: `relative`,
       filter: `grayscale(50%)`,
+      "@media (max-width: 425px)":{
+        height: "25vh",
+      },
     },
     colorOverlay: {
       width: `100%`,
@@ -29,9 +32,12 @@ const pageInfoStyle = theme => ({
     title: {
       fontFamily: `'Permanent Marker', cursive`,
       color: `#fff`,
-      /* font-family: 'Pacifico', cursive; */
       fontSize: `45px`,
+      textAlign: "center",
       zIndex: 1,
+      "@media (max-width: 425px)":{
+        fontSize: "5vh",
+      },
     },
     iconFavorite: {
       fontSize: `38px`,
@@ -63,8 +69,8 @@ const PageInfo = (props) => {
         style={{
             background: `#000 url(${props.imageUrl})`,
             backgroundPosition: `center`,
-            backgroundSize: `cover`,
-            backgroundAttachment: `fixed`,
+            backgroundSize: `auto`,
+            // backgroundAttachment: `fixed`,
             backgroundRepeat: `no-repeat`,
         }}
     >
