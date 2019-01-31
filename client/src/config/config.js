@@ -1,3 +1,3 @@
 module.exports = {
-    prod: false, // react.js to production or dev?
+    prod: true, // react.js to production or dev?
 };
