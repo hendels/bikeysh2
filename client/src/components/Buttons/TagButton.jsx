@@ -17,6 +17,11 @@ const styles = theme => ({
     height: `17px`,
     backgroundColor: `#C96567`,
   },
+  icon: {
+    outline: "none",
+    color: "#fff",
+    opacity: "0.8",
+  }
 });
 
 
@@ -77,7 +82,7 @@ class TagBadge extends React.Component {
       <Aux>
         <IconButton aria-label="Cart" onClick={this.handleClickOpenTagDialog} disabled={this.props.mobileView}>
           <Badge badgeContent={this.state.tagCount[Object.keys(this.state.tagCount)[0]]} color="primary" classes={{ badge: classes.badge }} >
-            <LibraryAdd style={{color: this.props.color}}/>
+            <LibraryAdd className={classes.icon}/>
           </Badge>
         </IconButton>
         <TagDialogDnd

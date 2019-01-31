@@ -162,10 +162,14 @@ const styles = theme => ({
     bestOfferAction:{
         //background: 'rgba(125, 222, 155, 0.8)', //[dev]
         zIndex: 5,
+        "@media (max-width: 425px)": {
+            // background: `rgba(201, 101, 103, 0.2)`,
+        },
     },
     icon: {
         outline: "none",
-        fontSize: '0.5rem'
+        color: "#fff",
+        opacity: "0.8",
     }
 });
 class BestOffer extends React.Component {
@@ -309,7 +313,7 @@ class BestOffer extends React.Component {
         return(
             <div className={classes.root}>
                 <ButtonBase
-                    disableRipple={this.state.disableStatistics}
+                    disableRipple={this.state.disableStatistics || this.props.mobileView}
                     className={classes.image}
                     focusVisibleClassName={classes.focusVisible}
                     onClick={this.handleShowStatisticsChips}
@@ -381,7 +385,7 @@ class BestOffer extends React.Component {
                                         <MuiThemeProvider theme={themeIconButton}>
                                             <IconButton onClick={this.setOfferVisibility} >
                                                 {/* [to do] erase tags, and make them ignored? */}
-                                                <Delete/> 
+                                                <Delete className={classes.icon}/> 
                                             </IconButton>
                                         </MuiThemeProvider>
                                     </Grid>
@@ -391,7 +395,7 @@ class BestOffer extends React.Component {
                                                 onClick={this.handleShowOfferDetailsDialog}
                                                 style={{outline: "none"}}
                                             >
-                                                <InfoIcon />
+                                                <InfoIcon className={classes.icon}/>
                                             </IconButton>
                                         </MuiThemeProvider>
                                     

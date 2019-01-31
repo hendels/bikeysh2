@@ -298,6 +298,7 @@ class OfferDetails extends React.Component {
                     <ImageStepper
                       offer={this.props.offer}
                       openFullscreen={this.handleClickImageFullscreenButton}
+                      mobileView={mobileView}
                     />
                   </Grid>
                 }
@@ -318,6 +319,15 @@ class OfferDetails extends React.Component {
                             <div>{this.props.offer.price}</div>
                           }
                       </Grid>
+                      {mobileView ? 
+                        <Grid item xs={12}>
+                          <ImageStepper
+                            offer={this.props.offer}
+                            openFullscreen={this.handleClickImageFullscreenButton}
+                            mobileView={mobileView}
+                          />
+                        </Grid>  
+                      : null}
                       <Grid item xs={12} className={classes.statsContainer}>
                       {this.state.statistics.countOffers > 0 ? ( 
                         <Grid container direction="row" justify="space-between" alignContent="center">
@@ -407,7 +417,11 @@ class OfferDetails extends React.Component {
                             </Grid>
                             {mobileView ? 
                               <Grid item xs={3}>
-                              <IconButton onClick={() => {this.handleClickImageFullscreenButton(true, objPictures.fullscreenPicArray)}}>
+                              <IconButton onClick={() => {
+                                objPictures = getPictureArray(this.props.offer);
+                                this.handleClickImageFullscreenButton(true, objPictures.fullscreenPicArray);
+                              }}
+                              >
                                 <PhotoLibrary/>
                               </IconButton>
                               </Grid>

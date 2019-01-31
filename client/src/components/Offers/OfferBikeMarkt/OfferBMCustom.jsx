@@ -157,12 +157,13 @@ const styles = theme => ({
         fontSize: `20px`,
         fontFamily: `Lobster`,
         textShadow: `1px 1px #314455`,
-        // right: `15px`,
+        right: `15px`,
         opacity: `1`,
         zIndex: 1,
         marginTop: `15px`,
     },
     scoreItem :{
+        paddingLeft: "0px",
         "@media (min-width: 1000px)": {
             paddingLeft: "20px"
         },
@@ -179,6 +180,11 @@ const styles = theme => ({
         fontSize: `9px`,
         textShadow: `1px 1px ${bikeyshColor7}`,
     },
+    icon: {
+        outline: "none",
+        color: "#fff",
+        opacity: "0.8",
+    }
   });
 
 

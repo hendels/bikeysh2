@@ -66,16 +66,18 @@ class SwipeableTextMobileStepper extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, mobileView } = this.props;
     const { activeStep } = this.state;
-    const maxSteps = picArray.length;
+    const maxSteps = objPictures.picArray.length;
     return (
       <div className={classes.root}>
-        <Paper square elevation={0} className={classes.header}>
-          <IconButton onClick={() => {this.props.openFullscreen(true, objPictures.fullscreenPicArray)}}>
-            <Fullscreen/>
-          </IconButton>
-        </Paper>
+        {!mobileView ? 
+          <Paper square elevation={0} className={classes.header}>
+            <IconButton onClick={() => {this.props.openFullscreen(true, objPictures.fullscreenPicArray)}}>
+              <Fullscreen/>
+            </IconButton>
+          </Paper>
+        : null}
         <AutoPlaySwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={activeStep}
