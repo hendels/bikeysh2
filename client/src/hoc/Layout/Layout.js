@@ -52,6 +52,7 @@ class Layout extends Component {
         showSearchResults: false,
         searchPending: false,
         activeUser: '',
+        openMobileDrawer: false,
         loginPageOpened: config.prod, 
         loggedIn: !config.prod,
         // loginPageOpened: true, 
@@ -168,10 +169,13 @@ class Layout extends Component {
         }, () => {
             this.setState({searchPending: false}, ()=> {});
         });   
-    }
+    };
     handleGoLogin = (loginOpened) => {
         this.setState({loginPageOpened: loginOpened}, ()=>{});
-    }
+    };
+    handleToggleMobileDrawer = (open) => {
+        this.setState({openMobileDrawer: open}, () => {})
+    };
     render () {
         const { classes, ...rest } = this.props;
         
@@ -193,6 +197,8 @@ class Layout extends Component {
                             closeSearchResults={this.handleCloseSearchResults}
                             handleLoggedIn={this.handleLoggedIn}
                             userName={this.state.userName}
+                            openMobileDrawer={this.state.openMobileDrawer}
+                            toggleMobileDrawer={this.handleToggleMobileDrawer}
                             />}
                         fixed
                         changeHeaderColor={false}
@@ -206,6 +212,8 @@ class Layout extends Component {
                         revertColor={this.handleRevertChangeColor}
                         loginPageOpened={this.state.loginPageOpened}
                         loggedIn={this.state.loggedIn}
+                        openMobileDrawer={this.state.openMobileDrawer}
+                        toggleMobileDrawer={this.handleToggleMobileDrawer}
                         {...rest}
                     />
                     <Route exact path="/" render={(props) => 

@@ -22,6 +22,12 @@ const styles = theme => ({
         )`,
         zIndex: 1,
         padding: "10px 10px 10px 10px",
+        "@media (max-width: 425px)":{
+            width: "80vw",
+        },
+        "@media (max-width: 375px)":{
+            width: "100vw",
+        }
       },
 })
 const themeLoginButton = createMuiTheme({

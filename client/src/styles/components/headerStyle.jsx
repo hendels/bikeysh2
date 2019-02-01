@@ -1,22 +1,13 @@
 import {
   container,
-  defaultFont,
-  primaryColor,
-  infoColor,
-  successColor,
-  warningColor,
-  dangerColor,
-  roseColor,
   transition,
   boxShadow,
   drawerWidth,
   bikeyshColor1,
   bikeyshColor2,
-  bikeyshColor3,
   bikeyshColor4,
   bikeyshColor5,
   bikeyshColor6,
-  bikeyshColor7,
 } from "../material-kit-react.jsx";
 
 const headerStyle = {
@@ -123,42 +114,6 @@ const headerStyle = {
   appResponsive: {
     margin: "20px 10px"
   },
-  // primary: {
-  //   backgroundColor: primaryColor,
-  //   color: "#FFFFFF",
-  //   boxShadow:
-  //     "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(156, 39, 176, 0.46)"
-  // },
-  // info: {
-  //   backgroundColor: infoColor,
-  //   color: "#FFFFFF",
-  //   boxShadow:
-  //     "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(0, 188, 212, 0.46)"
-  // },
-  // success: {
-  //   backgroundColor: successColor,
-  //   color: "#FFFFFF",
-  //   boxShadow:
-  //     "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(76, 175, 80, 0.46)"
-  // },
-  // warning: {
-  //   backgroundColor: warningColor,
-  //   color: "#FFFFFF",
-  //   boxShadow:
-  //     "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(255, 152, 0, 0.46)"
-  // },
-  // danger: {
-  //   backgroundColor: dangerColor,
-  //   color: "#FFFFFF",
-  //   boxShadow:
-  //     "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(244, 67, 54, 0.46)"
-  // },
-  // rose: {
-  //   backgroundColor: roseColor,
-  //   color: "#FFFFFF",
-  //   boxShadow:
-  //     "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 12px -5px rgba(233, 30, 99, 0.46)"
-  // },
   bikeysh1: {
     backgroundColor: bikeyshColor1,
     color: "#FFFFFF",
@@ -213,6 +168,9 @@ const headerStyle = {
       "0 4px 18px 0px rgba(0, 0, 0, 0.12), 0 7px 10px -5px rgba(0, 0, 0, 0.15)"
   },
   drawerPaper: {
+    // background: "#21262b",
+    backgroundColor: "#343c44",
+    color: "#ffc4c5",
     border: "none",
     bottom: "0",
     transitionProperty: "top, bottom, width",

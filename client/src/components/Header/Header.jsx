@@ -79,9 +79,6 @@ const themeListItemText = createMuiTheme({
     MuiListItemText: {
       primary: {
         color: '#fff',
-        "&:hover,&:focus": {
-          // color: "#fff"
-        }
       },
       secondary: {
         fontSize: "4px",
@@ -97,7 +94,6 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mobileOpen: false,
       showSearchResults: false,
       showNothingFound: false,
       changeHeaderColor: true,
@@ -108,23 +104,7 @@ class Header extends React.Component {
     this.handleShowAllResults = this.handleShowAllResults.bind(this);
   }
   handleDrawerToggle() {
-    this.setState({ mobileOpen: !this.state.mobileOpen });
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      showSearchResults: nextProps.showSearchResults,
-      showNothingFound: nextProps.showNothingFound,
-      changeHeaderColor: nextProps.changeHeaderColor,
-    }, () => {});
-  }
-  
-  componentDidMount() {
-    if (!this.props.changeHeaderColor){
-
-    };
-    if (this.props.changeColorOnScroll) {
-      window.addEventListener("scroll", this.headerColorChange);
-    };
+    this.props.toggleMobileDrawer(!this.props.openMobileDrawer)
   }
   headerColorChange() {
     const { classes, color, changeColorOnScroll } = this.props;
@@ -145,11 +125,6 @@ class Header extends React.Component {
             .classList.remove(classes[changeColorOnScroll.color]);
     }
   }
-  componentWillUnmount() {
-    if (this.props.changeColorOnScroll) {
-      window.removeEventListener("scroll", this.headerColorChange);
-    }
-  }
   handleSearchClose() {
     this.props.closeSearchResults();
   }
@@ -159,9 +134,30 @@ class Header extends React.Component {
     window.scrollTo(0, 0);
   }
   handleShowSingleRecord(_id, category){
-    console.log(_id, category);
     this.props.getSingleRecord(_id, category);
     window.scrollTo(0, 0);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      showSearchResults: nextProps.showSearchResults,
+      showNothingFound: nextProps.showNothingFound,
+      changeHeaderColor: nextProps.changeHeaderColor,
+    }, () => {});
+  }
+  
+  componentDidMount() {
+    if (!this.props.changeHeaderColor){
+
+    };
+    if (this.props.changeColorOnScroll) {
+      window.addEventListener("scroll", this.headerColorChange);
+    };
+  }
+  componentWillUnmount() {
+    if (this.props.changeColorOnScroll) {
+      window.removeEventListener("scroll", this.headerColorChange);
+    }
   }
   render() {
     const {
@@ -226,7 +222,6 @@ class Header extends React.Component {
                 {leftLinks}
               </Hidden>
             ) : (
-              // <Logo name={brand} color={color}/>
               <Button 
                   className={classes.title}
                   component={Link} to={this.props.loggedIn ? '/' : '/login'} 
@@ -260,7 +255,7 @@ class Header extends React.Component {
             <Drawer
               variant="temporary"
               anchor={"right"}
-              open={this.state.mobileOpen}
+              open={this.props.openMobileDrawer}
               classes={{
                 paper: classes.drawerPaper
               }}
@@ -275,7 +270,7 @@ class Header extends React.Component {
         </Hidden>
       </AppBar>
       <List dense={true}>
-      {this.state.showSearchResults ? 
+      {this.state.showSearchResults && !this.props.openMobileDrawer? 
       (<div className={classes.searchResults} onMouseLeave={this.handleSearchClose}>
         <div>
           {searchItems}
@@ -293,7 +288,7 @@ class Header extends React.Component {
         </div>
       </div>) : null
       }
-      {this.state.showNothingFound ? 
+      {this.state.showNothingFound && !this.props.openMobileDrawer ? 
         (<div className={classes.searchNoResults} onMouseLeave={this.handleSearchClose}>
         <ListItem className={classes.searchShowaAllItem}>
           <MuiThemeProvider theme={themeListItemText}>
@@ -315,15 +310,6 @@ Header.defaultProp = {
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
   color: PropTypes.oneOf([
-    "primary",
-    "info",
-    "success",
-    "warning",
-    "danger",
-    "transparent",
-    "white",
-    "rose",
-    "dark",
     `bikeysh1`,
     `bikeysh2`,
     `bikeysh3`,
@@ -338,15 +324,6 @@ Header.propTypes = {
   changeColorOnScroll: PropTypes.shape({
     height: PropTypes.number.isRequired,
     color: PropTypes.oneOf([
-      "primary",
-      "info",
-      "success",
-      "warning",
-      "danger",
-      "transparent",
-      "white",
-      "rose",
-      "dark",
       `bikeysh1`,
       `bikeysh2`,
       `bikeysh3`,

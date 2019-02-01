@@ -21,6 +21,11 @@ const styles = theme => ({
     outline: "none",
     color: "#fff",
     opacity: "0.8",
+  },
+  iconDisabled: {
+    outline: "none",
+    color: "#fff",
+    opacity: "0.3",
   }
 });
 
@@ -68,21 +73,19 @@ class TagBadge extends React.Component {
     this.setState({reloadDialogDnd: !this.state.reloadDialogDnd}, () => {});
   }
   countAddedTags = async () => {
-    //console.log(`tags count / offer id: ${this.props.offer._id} tag url: ${this.props.tagUrl}`);
     if (!this.props.dummy)
       await axios.get(this.props.tagUrl + 'tagCount/' + this.props.offer._id).then(response  => response.data).then(result => {
-        //console.log(`tags count: ${result[Object.keys(this.state.tagCount)[0]]} for offer id: ${this.props.offer._id}`);
         this.setState({tagCount: result}, () => {});
       });
   }
   render(){
-    const { classes } = this.props;
+    const { classes, mobileView, offerDetails } = this.props;
     
     return (
       <Aux>
-        <IconButton aria-label="Cart" onClick={this.handleClickOpenTagDialog} disabled={this.props.mobileView}>
+        <IconButton aria-label="Cart" onClick={this.handleClickOpenTagDialog} disabled={mobileView}>
           <Badge badgeContent={this.state.tagCount[Object.keys(this.state.tagCount)[0]]} color="primary" classes={{ badge: classes.badge }} >
-            <LibraryAdd className={classes.icon}/>
+            <LibraryAdd className={!offerDetails ? mobileView ? classes.iconDisabled : classes.icon : null}/>
           </Badge>
         </IconButton>
         <TagDialogDnd

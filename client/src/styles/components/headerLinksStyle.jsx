@@ -30,7 +30,27 @@ const headerLinksStyle = theme => ({
         display: "block",
         height: "1px",
         marginLeft: "15px",
-        backgroundColor: "#e5e5e5"
+        backgroundColor: "rgba(0,0,0,0.4)"
+      }
+    }
+  },
+  listItemSearch: {
+    float: "left",
+    color: "inherit",
+    position: "relative",
+    display: "block",
+    width: "auto",
+    margin: "0",
+    padding: "0",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      "&:after": {
+        width: "calc(100% - 30px)",
+        content: '""',
+        display: "block",
+        height: "1px",
+        marginLeft: "15px",
+        backgroundColor: "rgba(0,0,0,0.0)"
       }
     }
   },

@@ -404,6 +404,7 @@ class OfferDetails extends React.Component {
                                 parentStatistics
                                 disableStatistics={()=>{}}
                                 mobileView={mobileView}
+                                offerDetails
                               />
                             </Grid>
                             <Grid item xs={mobileView ? 3 : 4}>

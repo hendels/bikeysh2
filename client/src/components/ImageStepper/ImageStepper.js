@@ -38,6 +38,10 @@ const styles = theme => ({
     overflow: 'hidden',
     width: '100%',
   },
+  mobileStepper:{
+    background: "#fff",
+    opacity: "0.5",
+  },
 });
 
 class SwipeableTextMobileStepper extends React.Component {
@@ -88,7 +92,16 @@ class SwipeableTextMobileStepper extends React.Component {
         {objPictures.picArray.map((step, index) => (
             <div key={step.label}>
               {Math.abs(activeStep - index) <= 2 ? (
-                <img className={classes.img} src={step.imgPath} alt={step.label} />
+                // <img className={classes.img} src={step.imgPath} alt={step.label} />
+                <div
+                  className={classes.img}
+                  style={{
+                      backgroundImage: `url(${step.imgPath})`,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: `no-repeat`,
+                      backgroundPosition: 'center',
+                  }}
+            />
               ) : null}
             </div>
           ))}

@@ -31,36 +31,47 @@ class HeaderLinks extends React.Component {
     this.state = {
       changedHeaderColor: false,
       tabletView: this.getPageMeasures(window.outerWidth, window.outerHeight).tabletView,
+      mobileView: this.getPageMeasures(window.outerWidth, window.outerHeight).mobileView,
     }
     this.handleKeyUpEnter = this.handleKeyUpEnter.bind(this);
+    this.handleClickSearchIcon = this.handleClickSearchIcon.bind(this);
   }
   onResize = (e) => {
     const resizeObj = this.getPageMeasures(e.target.outerWidth, e.target.outerHeight);
     if (this.state.tabletView !== resizeObj.tabletView){
       this.setState({
           tabletView: resizeObj.tabletView,
+          mobileView: resizeObj.mobileView,
       }, ()=> {});
   }};
   getPageMeasures = (width, height) => {
     let currentWidth = width;
     let currentHeight = height;
     let resizeObj = {};
-    
-    if (currentWidth <= 1000){
+    if (currentWidth <= 425){
+      resizeObj = {
+          tabletView: false,
+          mobileView: true,
+      }
+  };
+    if (currentWidth <= 1000 && currentWidth > 425){
         resizeObj = {
             tabletView: true,
+            mobileView: false,
         }
-    } 
+    };
     if (currentWidth <= 1920 && currentWidth > 1000){
         resizeObj = {
             tabletView: false,
+            mobileView: false,
         }
-    } 
+    }; 
     if (currentWidth > 1920){
         resizeObj = {
             tabletView: false,
+            mobileView: false,
         }
-    }
+    };
     return resizeObj;
   }
   handleSearchText = ({target}) => {
@@ -68,15 +79,29 @@ class HeaderLinks extends React.Component {
   };
   handleKeyUpEnter(event){
     
-    if(event.keyCode === 13 && this.props.showSearchResults){
+    if(event.keyCode === 13 && this.props.showSearchResults && !this.props.openMobileDrawer){
       this.props.collectAllResults();
+      this.props.toggleMobileDrawer(false);
       this.props.history.push('/offers/searchresult');
+
+      window.scrollTo(0, 0);
+    };
+    if(event.keyCode === 13 && !this.props.showSearchResults && !this.props.openMobileDrawer){
+      this.props.searchText(event.target.value, searchLimit);
+    };
+    if(event.keyCode === 13 && this.props.openMobileDrawer){
+      this.props.collectAllResults();
+      this.props.toggleMobileDrawer(false);
+      this.props.history.push('/offers/searchresult');
+
       window.scrollTo(0, 0);
     }
-    if(event.keyCode === 13 && !this.props.showSearchResults){
-      this.props.searchText(event.target.value, searchLimit);
-    }
   };
+  handleClickSearchIcon(){
+      this.props.collectAllResults();
+      this.props.toggleMobileDrawer(false);
+      this.props.history.push('/offers/searchresult');
+  }
   handleClickDropdownLink = (action) => {
     
     switch(action){
@@ -105,7 +130,7 @@ class HeaderLinks extends React.Component {
     window.removeEventListener("resize", this.onResize);
   };
   render() {
-
+  
   const themeInputLabel = createMuiTheme({
     overrides: {
       MuiInputLabel: {
@@ -152,9 +177,10 @@ class HeaderLinks extends React.Component {
     }
   });
   const { classes } = this.props;
+  const {mobileView, tabletView} = this.state;
   return (
     <List className={classes.list}>
-      <ListItem className={classes.listItem}>
+      <ListItem className={classes.listItemSearch}>
         {/* << SEARCH INPUT*/}
         <FormControl>
         <MuiThemeProvider theme={themeInputLabel}>
@@ -166,7 +192,7 @@ class HeaderLinks extends React.Component {
             id="input-with-icon-adornment"
             endAdornment={
               <InputAdornment position="start" className={classes.inputSearchBox}>
-                  <Search />
+                  <Search onClick={this.handleClickSearchIcon}/>
               </InputAdornment>
             }
             onChange={this.handleSearchText}
@@ -192,6 +218,7 @@ class HeaderLinks extends React.Component {
                   }}
                 >
                   <Stars />
+                  {mobileView ? "Best Offers" : null}
                 </IconButton>
             </Tooltip>
           </MuiThemeProvider>
@@ -250,7 +277,7 @@ class HeaderLinks extends React.Component {
       <ListItem className={classes.listItem}>
         <Dropdown
           noLiPadding
-          buttonText={this.state.tabletView ? "" : "Favorites"}
+          buttonText={tabletView && !mobileView ? "" : "Favorites"}
           buttonProps={{
             className: classes.navLink,
             color: "transparent"
@@ -299,7 +326,7 @@ class HeaderLinks extends React.Component {
       <ListItem className={classes.listItem}>
         <Dropdown
           noLiPadding
-          buttonText={this.state.tabletView ? "" : "Without tags"}
+          buttonText={tabletView && !mobileView ? "" : "Without tags"}
           buttonProps={{
             className: classes.navLink,
             color: "transparent"
@@ -361,8 +388,8 @@ class HeaderLinks extends React.Component {
                   window.scrollTo(0, 0);
                 }}
               >
-                
                 <AccountCircle/>
+                {mobileView ? "Logout" : null}
               </IconButton>
             
           </Tooltip>

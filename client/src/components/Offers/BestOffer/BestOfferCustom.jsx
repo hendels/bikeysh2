@@ -162,9 +162,6 @@ const styles = theme => ({
     bestOfferAction:{
         //background: 'rgba(125, 222, 155, 0.8)', //[dev]
         zIndex: 5,
-        "@media (max-width: 425px)": {
-            // background: `rgba(201, 101, 103, 0.2)`,
-        },
     },
     icon: {
         outline: "none",
