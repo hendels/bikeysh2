@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import { withStyles , MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
-import {Grid, IconButton, ButtonBase, Avatar} from '@material-ui/core';
+import {Grid, IconButton, ButtonBase, Avatar, CircularProgress} from '@material-ui/core';
 //icons
 import InfoIcon from '@material-ui/icons/Info';
 import Delete from '@material-ui/icons/DeleteSweep';
@@ -30,6 +30,15 @@ const themeIconButton = createMuiTheme({
                 },
             }
         },
+    }
+})
+const themeProgress = createMuiTheme({
+    overrides: {
+        MuiCircularProgress: {
+            colorPrimary: {
+                color: "#C96567"
+            }
+        }
     }
 })
 const styles = theme => ({
@@ -322,6 +331,11 @@ class BestOffer extends React.Component {
                         }}
                     />
                     <div className={classes.bestOfferBackdrop} />
+                    {this.props.useLoader ? 
+                    <MuiThemeProvider theme={themeProgress}>
+                        <CircularProgress/> 
+                    </MuiThemeProvider>
+                    : null}
                     {/* //<< ELEMENTS */}
                     {this.props.offer._id !== `dummy` ? (
                     <Aux>

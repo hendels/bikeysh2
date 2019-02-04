@@ -3,12 +3,7 @@ import axios from 'axios';
 
 import {withStyles} from '@material-ui/core/styles';
 //mui core
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import Avatar from '@material-ui/core/Avatar';
-import Badge from '@material-ui/core/Badge';
-import Zoom from '@material-ui/core/Zoom';
+import {Grid, IconButton, Tooltip, Avatar, Badge, Zoom, CircularProgress} from '@material-ui/core';
 //mui icons
 import InfoIcon from '@material-ui/icons/Info';
 import HttpIcon from '@material-ui/icons/Http';
@@ -311,14 +306,15 @@ return(
             style={{
                 boxShadow: "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
             }}
-        >
+        >   
             <Grid container direction="column" justify="space-between" alignItems="flex-start" className={classes.root} 
             style={{
-                background: `#000 url(${this.props.piclink})`,
+                background: `rgba(0, 0, 0, 0.7) url(${this.props.piclink})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: `no-repeat`,
                 backgroundPosition: 'center',
             }} >
+                {/* upperbar */}
                 <Grid container className={classes.gridElementUpbar} direction="row" justify="space-between" alignItems="center">
                     <Grid item xs={11}>
                         <span className={classes.gridElementTitleCategory}>{this.props.fullSearch ? `[${this.props.offer.category}]` : null}</span>
@@ -339,6 +335,16 @@ return(
                         }
                     </Grid>
                 </Grid>
+                {this.props.useLoader ? 
+                <Grid container direction="row" justify="space-between" alignItems="center" alignContent="center">
+                    <Grid item xs={4}/>
+                    <Grid item xs={4}>
+                        <CircularProgress/>
+                    </Grid>
+                    <Grid item xs={4}/>
+                </Grid>
+                :null}
+                {/* downbar */}
                 <Grid 
                     container 
                     className={classes.gridElementDownbar} 
@@ -394,6 +400,7 @@ return(
                         : null}
                     </Grid>
                 </Grid>
+
             </Grid>
         </Grid>
         {/* // details & action section */}

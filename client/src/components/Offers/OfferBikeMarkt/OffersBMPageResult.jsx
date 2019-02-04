@@ -43,6 +43,7 @@ constructor(props) {
                     dummy
                     offer={dummyOffer}
                     mobileView={this.props.mobileView}
+                    useLoader
                 />
     });
 }

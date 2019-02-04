@@ -267,7 +267,7 @@ class BestOfferBar extends React.Component {
                 <Grid container className={classes.containerBackground} justify="space-between" alignItems="center" alignContent="center" >
                     {categoryInfo}
                     {this.state.mobileView ? null : previousButton}
-                    {this.state.loading ? <Dummies pageLimit={this.state.pageLimit}/> : (<Aux>{offers}</Aux>)}
+                    {this.state.loading ? <Dummies pageLimit={this.state.pageLimit} xs={this.state.bestOfferGridLen}/> : (<Aux>{offers}</Aux>)}
                     {this.state.mobileView ? previousButton : null}
                     {nextButton}
                 <br/>

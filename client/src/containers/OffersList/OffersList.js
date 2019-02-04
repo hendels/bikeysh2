@@ -20,7 +20,6 @@ const style = {
     containerBackground :{
         marginRight: "auto",
         marginLeft: "auto",
-        // width: "100%",
         "@media (min-width: 576px)": {
           maxWidth: "100vw"
         },
@@ -46,12 +45,6 @@ const style = {
       "@media (min-width: 700px)": {
         maxWidth: "100vw"
       },
-    //   "@media (min-width: 768px)": {
-    //     maxWidth: "720px"
-    //   },
-    //   "@media (min-width: 992px)": {
-    //     maxWidth: "960px"
-    //   },
       "@media (min-width: 1200px)": {
         maxWidth: "1600px"
       }

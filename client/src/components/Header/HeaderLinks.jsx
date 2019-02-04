@@ -102,6 +102,14 @@ class HeaderLinks extends React.Component {
       this.props.toggleMobileDrawer(false);
       this.props.history.push('/offers/searchresult');
   }
+  handleMoveBetweenRoutes(action){
+    this.handleClickDropdownLink(action);
+
+    if (this.state.mobileView)
+      this.props.toggleMobileDrawer(false);
+
+    window.scrollTo(0, 0);
+  }
   handleClickDropdownLink = (action) => {
     
     switch(action){
@@ -214,6 +222,7 @@ class HeaderLinks extends React.Component {
                   className={classes.navLink}
                   onClick={()=>{
                     this.props.history.push('/bestoffers');
+                    this.props.toggleMobileDrawer(false);
                     window.scrollTo(0, 0);
                   }}
                 >
@@ -237,35 +246,35 @@ class HeaderLinks extends React.Component {
           closeSearchResults={this.props.closeSearchResults}
           dropdownList={[
             <Link 
-              onClick={() => {this.handleClickDropdownLink('clearFilters')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('clearFilters')}} 
               to="/category/cranks" 
               className={classes.dropdownLink}
             >
               Cranks
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('clearFilters')}}  
+              onClick={() => {this.handleMoveBetweenRoutes('clearFilters')}}  
               to="/category/hubs" 
               className={classes.dropdownLink}
             >
               Hubs
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('clearFilters')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('clearFilters')}} 
               to="/category/dhframes" 
               className={classes.dropdownLink}
             >
               DH Frames
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('clearFilters')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('clearFilters')}} 
               to="/category/enduroframes" 
               className={classes.dropdownLink}
             >
               Enduro Frames
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('clearFilters')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('clearFilters')}} 
               to="/category/wheels" 
               className={classes.dropdownLink}
             >
@@ -286,35 +295,35 @@ class HeaderLinks extends React.Component {
           buttonIcon={FavoriteBorder}
           dropdownList={[
             <Link 
-              onClick={() => {this.handleClickDropdownLink('favorites')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('favorites')}} 
               to="/category/cranks" 
               className={classes.dropdownLink}
             >
               Favorite Cranks
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('favorites')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('favorites')}} 
               to="/category/hubs" 
               className={classes.dropdownLink}
             >
               Favorite Hubs
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('favorites')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('favorites')}} 
               to="/category/dhframes" 
               className={classes.dropdownLink}
             >
               Favorite DH Frames
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('favorites')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('favorites')}} 
               to="/category/enduroframes" 
               className={classes.dropdownLink}
             >
               Favorite Enduro Frames
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('favorites')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('favorites')}} 
               to="/category/wheels" 
               className={classes.dropdownLink}
             >
@@ -335,35 +344,35 @@ class HeaderLinks extends React.Component {
           buttonIcon={LibraryAdd}
           dropdownList={[
             <Link 
-              onClick={() => {this.handleClickDropdownLink('withoutTags')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('withoutTags')}} 
               to="/category/cranks" 
               className={classes.dropdownLink}
             >
               Cranks Without Tags
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('withoutTags')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('withoutTags')}} 
               to="/category/hubs" 
               className={classes.dropdownLink}
             >
               Hubs Without Tags
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('withoutTags')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('withoutTags')}} 
               to="/category/dhframes" 
               className={classes.dropdownLink}
             >
               DH Frames Without Tags
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('withoutTags')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('withoutTags')}} 
               to="/category/enduroframes" 
               className={classes.dropdownLink}
             >
               Enduro Frames Without Tags
             </Link>,
             <Link 
-              onClick={() => {this.handleClickDropdownLink('withoutTags')}} 
+              onClick={() => {this.handleMoveBetweenRoutes('withoutTags')}} 
               to="/category/wheels" 
               className={classes.dropdownLink}
             >
