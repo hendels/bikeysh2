@@ -79,11 +79,9 @@ return new Promise(async (resolve, reject) => {
                                             .model('tags')
                                             .find({tagName: item})
                                             .select();
-                                        //console.log(PairSets);
                                         var counts = {};
                                         PairSets.forEach((x) => {counts[x.manufacturerTagPair] = (counts[x.manufacturerTagPair] || 0)+1;});
                                         var bestPair = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
-                                        // console.log(`best value = ${bestPair}`);
                                         var newObj = {
                                             name: item, 
                                             nameNum: NameSets[0].setId,
@@ -107,11 +105,9 @@ return new Promise(async (resolve, reject) => {
                                                 .model('tags')
                                                 .find({tagName: item})
                                                 .select();
-                                            //console.log(PairSets);
                                             var countModelPairs = {};
                                             PairSets.forEach((x) => {countModelPairs[x.modelTagPair] = (countModelPairs[x.modelTagPair] || 0)+1;});
                                             var bestPair = Object.keys(countModelPairs).reduce((a, b) => countModelPairs[a] > countModelPairs[b] ? a : b);
-                                            // console.log(`best value = ${bestPair}`);
                                             var newObj = {
                                                 name: item, 
                                                 nameNum: NameSets[0].setId,
@@ -123,15 +119,12 @@ return new Promise(async (resolve, reject) => {
                                     });
 
                                     Promise.all(defineModels).then(async () => {
-                                        //console.log(arrayManufacturer);
-                                        //console.log(arrayModel);
                                         // sprawdz czy pairNumber jest równy we wszystkich elementach, jezeli nie to olej
                                         // arrayManufacturer.map(item => {
                                             var countPairManufacturer = {};
                                             var countPairModel = {};
                                             arrayManufacturer.forEach((x) => {countPairManufacturer[x.pairNum] = (countPairManufacturer[x.pairNum] || 0)+1;});
                                             arrayModel.forEach((x) => {countPairModel[x.pairNum] = (countPairModel[x.pairNum] || 0)+1;});
-                                            //console.log(countPairManufacturer);
                                             let allowInsert = false;
                                             switch (true){
                                                 case Object.keys(countPairManufacturer).length > 1 || 
@@ -271,31 +264,12 @@ return new Promise(async (resolve, reject) => {
                                                 console.log(countPairManufacturer);
                                                 console.log(countPairModel);
                                             }
-                                        // })
                                     })
-                                //     var sortedObj = _.sortBy(Manufacturers, (obj)=> {return obj.nameNum});
-                                //     var uniqueObj = _.uniq(sortedObj, (item, key, name) => {
-                                //         return item.name;
-                                //     })
-                                //     console.log(`sorted manufacturers`);
-                                //     console.log(uniqueObj);
-                                //     // const defineManufacturers = await uniqueObj.map(async item => {
-                                    
-                                //     // })
                                 })
-                                // var uniqModel = [...new Set(arrayModel)];
-                                // var uniqGroup = [...new Set(arrayGroup)];
-                                
-
-                                //znajdź ofertę
-
-                                //zaktualizuj rekord lub utworz rekord
-                                // console.log(currentCategory);
                                 resolve()                                 
                             });
                         }
                         await defineArray(offerInfo);
-                        // console.log(`wait for it!`);
                     }
                 }           
             })

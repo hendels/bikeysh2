@@ -71,7 +71,6 @@ exports.offerDetails = input => {
             input.attributeArray = partArtibutes;
             var output = input;
             setTimeout(() => {
-                console.log('pops... 5 sek...');
                 resolve(output);
             }, 50);
         });

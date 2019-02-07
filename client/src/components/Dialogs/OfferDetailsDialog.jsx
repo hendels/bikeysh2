@@ -195,7 +195,6 @@ class OfferDetails extends React.Component {
     };
     componentWillReceiveProps(nextProps){
       this.forceUpdate();
-      // console.log(`[4]manufacturerSetId: :${nextProps.manufacturerSetId} modelSetId: ${nextProps.modelSetId} count offers: ${this.state.statistics.countOffers}`);
         if((nextProps.manufacturerSetId !== 0 && nextProps.modelSetId !== 0) && 
         (nextProps.manufacturerSetId !== this.state.manufacturerSetId || nextProps.modelSetId !== this.state.modelSetId) ){
           this.getStatisticsData();

@@ -179,6 +179,9 @@ const styles = theme => ({
         outline: "none",
         color: "#fff",
         opacity: "0.8",
+    },
+    spinner: {
+        textAlign: "center",
     }
   });
 
@@ -231,7 +234,6 @@ getScoringData = async () => {
                         modelSetId: parseInt(result.scoring[0].modelSetId),
                         urlActive: result.scoring[0].urlActive
                     }
-                    console.log(scoringData);
                     this.setState({scoringData: scoringData}, () => {});
                 }
         }
@@ -274,7 +276,6 @@ let offerAvailable = undefined;
 let diffDays = null;
 let offerDate = null;
 let titleCutter = mobileView ? 35 : 48;
-console.log(`cutted to : ${titleCutter}`);
 
 if (!this.props.dummy){
 
@@ -338,7 +339,7 @@ return(
                 {this.props.useLoader ? 
                 <Grid container direction="row" justify="space-between" alignItems="center" alignContent="center">
                     <Grid item xs={4}/>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} className={classes.spinner}>
                         <CircularProgress/>
                     </Grid>
                     <Grid item xs={4}/>

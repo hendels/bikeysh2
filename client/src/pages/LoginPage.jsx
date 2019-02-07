@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {Link, withRouter} from 'react-router-dom';
-import {Grid, Paper, Input, Button, createMuiTheme, FormControl, InputAdornment} from '@material-ui/core';
+import {Grid, Paper, Input, Button, createMuiTheme, FormControl, InputAdornment, CircularProgress} from '@material-ui/core';
 import {withStyles, MuiThemeProvider} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
 import {FavoriteBorder, AccountCircle, VpnKey, } from '@material-ui/icons/';
@@ -50,6 +50,16 @@ const themeInput = createMuiTheme({
         }
     }
 });
+const themeProgress = createMuiTheme({
+    overrides: {
+        MuiCircularProgress: {
+            colorPrimary: {
+                color: "#000"
+
+            }
+        }
+    }
+})
 const themeFeaturesButton = createMuiTheme({
     overrides: {
       MuiButton: {
@@ -170,6 +180,7 @@ const styles = theme => ({
 
 });
 const captions = {
+    rwd: `It's fully responsive.`,
     login: `Basic authentication based on previously created combination of user & password on server side.`,
     search: "Search offers by item / manufacturer / model name.",
     tags: 'Insert / delete tags by Drag & drop view and add them manually.',
@@ -181,6 +192,7 @@ class LoginPage extends React.Component {
     state = {
         fullscreenOpen: false,
         picArray: [
+            {src: 'https://i.imgur.com/h5DP5G3.gif', caption: captions.rwd},
             {src: 'https://i.imgur.com/h5DP5G3.gif', caption: captions.login},
             {src: 'https://i.imgur.com/2K8HN5d.gif', caption: captions.search},
             {src: 'https://i.imgur.com/REREZL7.gif', caption: captions.tags},
@@ -192,6 +204,7 @@ class LoginPage extends React.Component {
         loginInput: process.env.REACT_APP_DEMO_CREDENTIALS_LOGIN,
         passwordInput: process.env.REACT_APP_DEMO_CREDENTIALS_PASSWORD,
         showError: false,
+        loading: false,
         loginButtonColor: '#314455',
         loginButtonText: 'Login',
     };
@@ -201,7 +214,6 @@ class LoginPage extends React.Component {
         }, ()=> {});
     };
     handleInputUsername = ({target}) => {
-        console.log(target.value);
         this.setState({
             loginInput: target.value,
             loginButtonColor: '#314455',
@@ -209,7 +221,6 @@ class LoginPage extends React.Component {
         });
     };
     handleInputPassword = ({target}) => {
-        console.log(target.value);
         this.setState({
             passwordInput: target.value,
             loginButtonColor: '#314455',
@@ -217,7 +228,7 @@ class LoginPage extends React.Component {
         });
     };
     handleLogin = async () => {
-        console.log(`pending login ${this.state.loginInput} / ${this.state.passwordInput}...`);
+        this.setState({loading: true,});
         await axios.post(`/api/authenticate`, {
             login: this.state.loginInput,
             password: this.state.passwordInput,
@@ -225,12 +236,15 @@ class LoginPage extends React.Component {
         .then(response  => response.data)
         .then(async result => {
             if (result.length > 0){
-                console.log(`logged as ${result[0].name}`);
                 await this.props.handleLoggedIn(true, result[0].name);
+                this.setState({loading: false})
             } else {
                 this.setState({
                     loginButtonColor: 'tomato',
                     loginButtonText: 'Login failed',
+                    loading: false,
+                }, ()=>{
+                    this.forceUpdate(()=>{});
                 });
             }
         })
@@ -243,7 +257,6 @@ class LoginPage extends React.Component {
         this.props.handleGoLogin(false);
     };
     render(){
-
         const {classes} = this.props;
         const themeLoginButton = createMuiTheme({
             overrides: {
@@ -334,10 +347,14 @@ class LoginPage extends React.Component {
                                 <Button 
                                     fullWidth="true" 
                                     autoCapitalize="false" 
-                                    style={{outline: "none",}}
+                                    // style={{outline: "none",}}
                                     onClick={this.handleLogin}
                                 >
-                                    {this.state.loginButtonText}
+                                    {this.state.loading ? 
+                                    <MuiThemeProvider theme={themeProgress}>
+                                        <CircularProgress size={23}/> 
+                                    </MuiThemeProvider>
+                                    : this.state.loginButtonText}
                                 </Button>
                             </MuiThemeProvider>
                         </Grid>

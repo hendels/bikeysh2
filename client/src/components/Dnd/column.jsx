@@ -26,15 +26,6 @@ const TaskList = styled.div`
     min-height: 100px;
     min-width: 100px;
 `;
-//*#f4f6f8
-//*#eaeef1
-//*#97AABD
-//*#697684
-//*#5a6671
-//*
-//*
-//*
-//*
 
 export default class Column extends React.Component{
     state ={
@@ -42,9 +33,6 @@ export default class Column extends React.Component{
     }
     componentWillReceiveProps() {
         this.setState({reloadDialogDnd: this.props.reloadDialogDnd}, () => {
-            // console.log(`dnd received props INNER COLUMN: ${this.props.reloadDialogDnd}`);
-            // this.forceUpdate();
-            // console.log(this.props.existingTags);
         })
     }
     render(){

@@ -63,13 +63,21 @@ class Layout extends Component {
             loggedIn: logUser, 
             userName: userName,
         }, () => {
-            console.log(`state logged: ${this.state.loggedIn}`);
             if (this.state.loggedIn){
                 this.props.history.push('/');
                 window.scrollTo(0, 0);
             }
         })
     };
+    handleCheckIfLogin = async () => {
+        let logged = false;
+        await axios.get(`/checkUserIsLoggedIn`).then(response => response.data).then(result => {
+            if (result){
+                logged = result;
+            } 
+        });
+        return logged;
+    }
     handleShowFavorizedOffers = async (load) => {
         await this.setState({loadFavorites: load}, () => {});
     };
@@ -103,6 +111,7 @@ class Layout extends Component {
             showSearchResults: false,
         }
         , () => {});
+        return result;
     }    
     handleGetSingleRecord = async (_id, category) => {
         const model = category.toLowerCase();

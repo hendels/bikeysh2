@@ -124,13 +124,9 @@ class BestOffer extends React.Component {
                 yearDescription: result.scoring[0].yearDescription
             }
             this.setState({scoringData: scoringData}, () => {});
-            // console.log(`scoring name: ${result[Object.keys(this.state.trueName)[0]]} for offer id: ${this.props.offer._id}`);
-            // console.log(result[Object.keys(this.state.trueName)[0]]);
-            // console.log(`scoring - name: ${result.scoring[0].fullName} price: ${result.scoring[0].price}`);
       });
     }
     setOfferVisibility = async () => {
-        console.log(`setting offer visibility`);
         await axios.get('/api/scoring/update/visibility/' + this.props.offer._id).then(response  => response.data).then(result => {
             this.setState({visible: result}, () => {
                 let objOffer = {
@@ -149,7 +145,6 @@ class BestOffer extends React.Component {
         let piclink = <a>No image at all.</a>;
         if(this.props.offer.pictures !== null || this.props.offer.pictures !== undefined){
             for (var x in this.props.offer.pictures){
-                // piclink = <img src={this.props.offer.pictures[x]} alt={"No Image for: " + this.props.offer._id}/>
                 piclink = this.props.offer.pictures[x];
                 break;
             }
@@ -212,13 +207,7 @@ class BestOffer extends React.Component {
                         offer={this.props.offer} 
                         tagUrl={this.props.tagUrl}
                     />
-                    {/* <TagDialog
-                        open={this.state.openTagDialog}
-                        onClose={this.handleClose}
-                    /> */}
-                    {/* delete from best offers + [todo] add modal popup */}
                     <IconButton onClick={this.setOfferVisibility}>
-                        {/* [to do] erase tags, and make them ignored? */}
                         <Delete/> 
                     </IconButton>
                     <IconButton q

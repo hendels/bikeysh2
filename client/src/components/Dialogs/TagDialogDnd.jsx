@@ -196,33 +196,15 @@ class DialogDragAndDrop extends React.Component {
     };
     componentWillReceiveProps(nextProps) {
       this.setState({reloadDialogDnd: nextProps.reloadDialogDnd}, () => {
-        // console.log(`dnd received props reload MAIN DND state = ${this.state.reloadDialogDnd}`);
         if (nextProps.reloadDialogDnd !== this.state.reloadDialogDnd){
-          // console.log('GET TAGS WHILE RECEIVE PROPS');
           this.handleGetTagsForOffer();
         }
-        // this.forceUpdate();
       });
     }
     render()  {
       const { classes, onClose, selectedValue, ...other } = this.props;
-      //<<split data to array [todo << da sie to zrobić lepiej] 
-      // let title = this.props.offer.title;
-      // let titleArray = title.split('.').join(``).split(',').join(``);
-      // titleArray = titleArray.split('/').join(``).split(" ");
-      // titleArray = titleArray.filter(function(e) {return e});
-      
-      
-
-      //<< get tags from db
-
-      //>>
-      //const titleWords = cleanTitle;
-      //console.log(titleWords);
-      //>>
       
       return (
-        // <Aux>
         <Dialog 
           onClose={this.handleCloseDialog} 
           maxWidth="xm"{...other} 
@@ -241,7 +223,6 @@ class DialogDragAndDrop extends React.Component {
               showIgnored={this.state.showIgnored}
               reloadDialogDnd={this.props.reloadDialogDnd}
               deleteTag={this.handleDeleteTag}
-              // tagArray={this.state.tagArray}
             />
           </div>
           <DialogActions>
@@ -269,7 +250,6 @@ class DialogDragAndDrop extends React.Component {
                   </Grid>
                   <Grid item>
                     <FormControl component="fieldset">
-                      {/* <FormLabel component="legend">labelPlacement</FormLabel> */}
                       <RadioGroup
                         aria-label="position"
                         name="position"
@@ -303,7 +283,6 @@ class DialogDragAndDrop extends React.Component {
                   
                   </Grid>
                   <Grid item>
-                  {/* <MuiThemeProvider theme={themeLeftButtons}> */}
                   <FormControlLabel
                     control={
                       <Switch
@@ -315,7 +294,6 @@ class DialogDragAndDrop extends React.Component {
                     }
                     label="Show Ignored"
                   />
-                  {/* </MuiThemeProvider> */}
                   </Grid>
                 </Grid>
               </Grid>
@@ -329,7 +307,6 @@ class DialogDragAndDrop extends React.Component {
             </Grid>
           </DialogActions>
         </Dialog>
-        // </Aux>            
       );
     }
 }

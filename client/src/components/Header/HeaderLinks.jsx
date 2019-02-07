@@ -97,10 +97,13 @@ class HeaderLinks extends React.Component {
       window.scrollTo(0, 0);
     }
   };
-  handleClickSearchIcon(){
-      this.props.collectAllResults();
-      this.props.toggleMobileDrawer(false);
-      this.props.history.push('/offers/searchresult');
+  async handleClickSearchIcon(){
+      const result = await this.props.collectAllResults();
+      if (result){
+        this.props.toggleMobileDrawer(false);
+        this.props.history.push('/offers/searchresult');
+      } else
+        alert(`Nothing found.`)
   }
   handleMoveBetweenRoutes(action){
     this.handleClickDropdownLink(action);

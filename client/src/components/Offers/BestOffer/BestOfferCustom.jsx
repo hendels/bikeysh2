@@ -176,6 +176,10 @@ const styles = theme => ({
         outline: "none",
         color: "#fff",
         opacity: "0.8",
+        textAlign: "center",
+    },
+    spinner: {
+        textAlign: "center",
     }
 });
 class BestOffer extends React.Component {
@@ -214,12 +218,10 @@ class BestOffer extends React.Component {
     };
     handleCloseOfferDetailsDialog = () => {
         this.setState({showOfferDetails: false, disableStatistics: false} , ()=> {
-            console.log(`close :${this.state.disableStatistics}`);
         });
     };
     handleShowOfferDetailsDialog = () => {
         this.setState({showOfferDetails: true, disableStatistics: true} , ()=> {
-            console.log(`show :${this.state.disableStatistics}`);
         });
     };
     handleSetFavorite = (setAs) => {
@@ -265,10 +267,8 @@ class BestOffer extends React.Component {
         this.setState({attributes: attributes}, () =>{});
     }
     componentWillReceiveProps(nextProps){
-        // console.log(`nextProps : fav ${nextProps.offer.favorite}`);
         if (nextProps.offer.favorite !== this.state.favorite){
             this.setState({favorite: nextProps.offer.favorite}, () => {
-                // console.log(`state : fav ${nextProps.offer.favorite}`);
             });
         }
     }
@@ -333,7 +333,9 @@ class BestOffer extends React.Component {
                     <div className={classes.bestOfferBackdrop} />
                     {this.props.useLoader ? 
                     <MuiThemeProvider theme={themeProgress}>
-                        <CircularProgress/> 
+                        <div className={classes.spinner}>
+                            <CircularProgress/> 
+                        </div>
                     </MuiThemeProvider>
                     : null}
                     {/* //<< ELEMENTS */}

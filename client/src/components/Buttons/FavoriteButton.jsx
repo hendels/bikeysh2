@@ -14,7 +14,6 @@ import Favorite from '@material-ui/icons/Favorite';
 const FavoriteButton = (props) => {
 
     const handleAddToFavorite = async (event) => {
-        console.log(props.category);
         if (!props.dummy)
             await axios.post(`/api/bm/offer/fav`, {
                 userId: 'sa',

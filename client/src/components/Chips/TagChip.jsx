@@ -32,7 +32,6 @@ class TagChip extends React.Component{
     componentWillReceiveProps(){
       this.handleSearchTagx(this.props.existingTags);
       this.setState({reloadDialogDnd: this.props.reloadDialogDnd}, () => {
-        // console.log(`dnd received props INNER CHIP: ${this.props.reloadDialogDnd}`);
         this.forceUpdate();
       });
     }
@@ -52,7 +51,6 @@ class TagChip extends React.Component{
         }
         if(this.props.word === currentKey && currentValue === true){
           this.setState({tagExist: true});
-          // console.log('TAG FOUND');
           this.forceUpdate();
           break;
         }
@@ -60,7 +58,6 @@ class TagChip extends React.Component{
     }
     handleDeleteTag = async () => {
       this.props.deleteTag('', this.props.offerId, this.props.word);
-      console.log('You clicked the delete icon.'); 
     }
         
     render(){

@@ -6,7 +6,6 @@ exports.updateFavorite = (id, model, favorite) => {
 
         record.favorite = !record.favorite;
         record.save().then(() => {
-            // console.log(`[][][] favorizing ${Model} to: ${record.favorite}...`);
             favorite(record.favorite);
         });
     });    
@@ -82,7 +81,6 @@ exports.findSimilarOffers = async (manufacturerSetId, modelSetId, scoreStats) =>
             countOffers: countOffers,
             median: median
         }
-        // console.log(stats);
         scoreStats(stats);
         
     });

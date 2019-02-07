@@ -41,7 +41,6 @@ class BestOfferPage extends React.Component {
     handleSnack = (objOffer) => {
         if (!this.props.searchPending)
             this.setState({showSnackHideOffer: true, objOffer: objOffer}, () => {
-                console.log(`snack state on bestOfferPage = ${this.state.showSnackHideOffer}`);
             });
     }
     handleReload = () => {

@@ -29,15 +29,11 @@ export default class Task extends React.Component {
     }
     componentWillReceiveProps() {
         this.setState({reloadDialogDnd: this.props.reloadDialogDnd}, () => {
-            // console.log(`dnd received props INNER TASK: ${this.props.reloadDialogDnd}`);
             this.forceUpdate();
         })
     }
     render() {
-        //console.log(this.props);
-        
         return (
-
             <Draggable draggableId={this.props.task.id} index={this.props.index}>
             {(provided, snapshot)=>(
                 <Container
@@ -46,7 +42,6 @@ export default class Task extends React.Component {
                     isDragging={snapshot.isDragging}
                     {...provided.dragHandleProps}
                 > 
-                {/* <Handle {...provided.dragHandleProps}/> */}
                     <TagChip 
                         offerId={this.props.offerId} 
                         word={this.props.task.content} 

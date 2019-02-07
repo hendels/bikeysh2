@@ -70,7 +70,6 @@ const pageInfoStyle = theme => ({
 });       
 const LandingButton = (props) => {
     const { classes } = props;
-    console.log(props.toLink);
     return(
         <div className={classes.container} 
             style={{

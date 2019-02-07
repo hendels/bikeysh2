@@ -47,7 +47,6 @@ exports.create = async (data) => {
 //# update record
 exports.updateTagSet = async (id, tagName, updateCase, tagPairNo) => {
     await Tag.findById(id, (err, tag) => {
-        // console.log('========================[update]===============================');
         eraseTags(tag);
         switch(updateCase){
             case `Manufacturer`:

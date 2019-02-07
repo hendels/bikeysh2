@@ -73,12 +73,10 @@ exports.bmList = input => {
                         .children()
                         .eq(4)
                         .text();
-                    // console.log('====' + productLink);
                     var productUrl = productLink.find('a').attr('href');
                     var regex = /(\d{6,7})/g;
                     var bm_id = regex.exec(productUrl);
                     if (bm_id !== null) {
-                        //console.log(bm_id[0] + " -- " + productPrice);
                         if (productPrice === null || productPrice === undefined) productPrice = 0;
                         //# set metadata from scraping the list#
                         var metadata = {
@@ -92,7 +90,6 @@ exports.bmList = input => {
                         };
                         //# receive data from product link >> get line details#
                         details.offerDetails(metadata).then(data => {
-                            console.log(data.bm_id);
                             //# write to file
                             var stream = fs.createWriteStream('./sample2.csv', {
                                 flags: 'a'
@@ -103,7 +100,6 @@ exports.bmList = input => {
                             for (var itemAtr = 0; itemAtr < data.attributeArray.length; itemAtr++) {
                                 // # translate & prepare array of additional attributes for specific item category
                                 translate.translation(data.attributeArray[itemAtr].labels, eng => {
-                                    //console.log('translated: ' + eng + ': ' + data.attributeArray[itemAtr].values);
                                     specificAtributes.push({ field: eng, value: data.attributeArray[itemAtr].values });
                                 });
                             }

@@ -82,7 +82,6 @@ class SnackbarBestOffer extends React.Component {
   getScoringData = async () => {
         await axios.get(`/api/statistics/similiarOffers/${this.props.manufacturerSetId}/${this.props.modelSetId}`)
           .then(response  => response.data).then(result => {
-            // console.log(result.scoreStats);
             let statistics = {
               countOffers: result.scoreStats.countOffers,
               currency: result.scoreStats.currency,

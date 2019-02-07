@@ -17,7 +17,6 @@ return new Promise(async (resolve, reject) => {
             .find({name: SearchCurrentTag[iModel].tagName})
             .select({ setId: false });
             
-        // console.log(NameSets);
 
         if(NameSets.length === 0 ){
 
@@ -29,11 +28,6 @@ return new Promise(async (resolve, reject) => {
                 tagName: SearchCurrentTag[iModel].tagName,
                 lastSetNumber :GlobalSetup[0].lastNumberNameSets + 1
             }
-            // const NameSets = await mongoose
-            //     .model('nameSets')
-            //     .find({name: SearchCurrentTag[iModel].tagName})
-            //     .select({ setId: false });
-
             await globalSetup.updateLastNumberNameSets(GlobalSetup[0]._id, data.lastSetNumber);
             await nameSets.create(data);
         }

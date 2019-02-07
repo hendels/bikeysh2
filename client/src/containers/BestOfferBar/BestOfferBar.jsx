@@ -137,7 +137,6 @@ class BestOfferBar extends React.Component {
                 bestOfferGridLen: resizeObj.bestOfferGridLen,
                 mobileView: resizeObj.mobileView,
             }, ()=> {
-                // console.log(`W: ${e.target.outerWidth} H: ${e.target.outerHeight} PageLimit: ${resizeObj.pageLimit} CatGL: ${this.state.categoryGridLen} ArrowGL: ${this.state.arrowGridLen} BestGL: ${this.state.bestOfferGridLen}`);
                 this.fetchData(this.props.bestUrl, this.state.skipRange, this.state.pageLimit, this.props.model);
             });
         }
@@ -147,7 +146,6 @@ class BestOfferBar extends React.Component {
 
         const urlTotalResult = `/scoring/category/${model}`;
         const url = `${fetchUrl}${model}/${skipRange}/${pageLimit}`;
-        // console.log(url);
         await axios.get(urlTotalResult).then(response => response.data).then(async totalResult => {
             await axios.get(url).then(
                 response => response.data

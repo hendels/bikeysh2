@@ -48,8 +48,6 @@ exports.create = async (data) => {
     })
     .save()
     .then(() => {
-        // console.log(`[*][*][*] creating Scoring [Manufacturer pair : ${data.manufacturerSetId} / Model pair : ${data.modelSetId} 
-        //     offer: ${data.offerId}]...`);
     });
 };
 exports.updateScores = async (id, data) => {
@@ -61,13 +59,11 @@ exports.updateScores = async (id, data) => {
         scoring.median = data.median;
         scoring.urlActive = data.urlActive;
         scoring.save().then(() => {
-            // console.log(`[][][] update scores for Offer[scoring]... ${id} scores: ${data.scores}`);
         });
     });    
 };
 exports.updateVisibility = async (id, visible) => {
     await Scoring.findById(id, (err, scoring) => {
-        // scoring.showOffer === null ? scoring.showOffer = false : null;
         const currentStatus = scoring.showOffer;
         scoring.showOffer = !currentStatus;
         scoring.save().then(() => {

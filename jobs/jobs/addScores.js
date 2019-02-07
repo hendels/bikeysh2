@@ -48,13 +48,10 @@ return new Promise(async (resolve, reject) => {
             let uniqueObj = _.uniq(SearchScoringCategory, (item, key, name) => {return item.manufacturerSetId && item.modelSetId;});
             // 
             SearchScoringCategory.map(async uniqItem => {
-                // console.log(`========category: ${categories[iCategories]} ========`)
-                // console.log(`ITEM: ${uniqItem.fullName} manu: ${uniqItem.manufacturerSetId} model: ${uniqItem.modelSetId}`);
                 let search = SearchScoringCategory.filter(categoryItem => {if((categoryItem.manufacturerSetId === uniqItem.manufacturerSetId)
                     &&(categoryItem.modelSetId === uniqItem.modelSetId)&&(categoryItem.stateCategory === uniqItem.stateCategory)) return categoryItem});
                 if (search){
                     
-                    //let multiplier = 
                     let priceTotal = 0;
                     let priceArray = [];
                     for (var i in search) {
@@ -62,12 +59,9 @@ return new Promise(async (resolve, reject) => {
                         priceArray.push(search[i].price);
                     };
                     var median = median(priceArray);
-                    // console.log(`median: ${median}`);
-                    // console.log(`price : ${uniqItem.price} average: ${priceTotal/search.length} count: ${search.length}`);
                     // # count multiplier based on sum of similar offer history
                     let arrThreshold = historyMultiplier.filter(hm => {if((hm.threshold <= search.length)) return hm});
                     let threshold = arrThreshold.slice(-1)[0];
-                    // console.log(`multiplier : ${threshold.multiplier}`);
                     // # additional points
                     let addScores = 0;
                     switch(uniqItem.itemState){
@@ -99,12 +93,10 @@ return new Promise(async (resolve, reject) => {
                             .model(categories[iCategories])
                             .find({_id: uniqItem.offerId})
                             .select({ bmartId: false, __v: false });
-                            // console.log(`offer FOUND url ===: ${Offer[0].productUrl}`);
                             
                             var request = new XMLHttpRequest();
                             request.open(`GET`, Offer[0].productUrl, false);
                             request.send();
-                            // console.log(`request STATUS ===: ${request.status}`);
                             request.status === 301 || request.status === 404 ? urlActive = false : urlActive = true;
                         }
                     } else 
@@ -115,7 +107,6 @@ return new Promise(async (resolve, reject) => {
                     // # count final scores
                     //<<
                     let scores = ((median / uniqItem.price) * threshold.multiplier) + addScores;
-                    console.log(`category: ${categories[iCategories]} url active = ${urlActive} SCORE = ${scores} finished = ${parseInt((SearchScoringCategory.indexOf(uniqItem) / SearchScoringCategory.length )* 100)}%`);
                     var objScores = {
                         scores: scores, 
                         median: median,
@@ -151,7 +142,6 @@ return new Promise(async (resolve, reject) => {
             })
         }
     }
-    console.log(`job done.`);
     
 });
 

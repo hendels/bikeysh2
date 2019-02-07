@@ -62,6 +62,13 @@ module.exports = app => {
         require('../jobs/jobs/addScores');
         res.send({ server: 'apply scores' });
     });
+    const redirectLogin = (req,res,next) => {
+        if(!req.session.userId){
+            res.redirect('/login')
+        } else {
+            next()
+        }
+    }
     app.get('/test', async (req, res) => {
         //######################
         // genMgt.clearHidesFromScoringTable();
@@ -100,9 +107,22 @@ module.exports = app => {
     app.post('/api/authenticate', async (req, res) => {
          
         userMgt.loginUser(req.body.login, req.body.password, userExist => {
+            console.log(userExist);
+            if (userExist[0].name){
+                req.session.user = userExist[0].name;
+                console.log(`logged user = ${req.session.user}`);
+                console.log(req.session);
+            }
             res.send(userExist);
         });
     });
+    app.get('/checkUserIsLoggedIn', (req, res) => {
+        console.log(req.session);
+        if (req.session.user)
+            res.send(true);
+        else
+            res.send(false);
+    })
     //>>
     //==================================================================================================================
     app.get('/api/bm/run', (req, res) => {
@@ -121,9 +141,7 @@ module.exports = app => {
     //>>
     //<<tags
     app.post('/api/tags/create', (req, res) => {
-        console.log('im in tags');
         Tags.findOne({ name: req.body.name }).then(existingId => {
-            console.log('existing Id: '+ existingId);
             if (existingId) {
                 tags.update(Tags, existingId.id, req.body);
             } else {                
@@ -143,7 +161,6 @@ module.exports = app => {
     });
     app.post('/api/tags/update/:setTagTo', async (req, res) => {
         Tags.findOne({ offerId: req.body.id, tagName: req.body.tagName}).then(async existingTag => {
-            console.log('existing TAg Id: '+ existingTag);
             if (existingTag) {
 
                 const tagPairNo = await tagMgt.defineTagPair(req.body.id, req.body.tagName, req.params.setTagTo);
@@ -187,20 +204,14 @@ module.exports = app => {
     app.get('/scoring/:offerId', async (req, res) => {
         await mongoose.model('scoring').find({offerId: req.params.offerId}, (err, scoring) => {
             res.send({ scoring });
-            console.log(`got scored offer ${req.params.offerId}...`);
         });
     });
     app.post('/api/bm/offer/fav', async (req, res) => {
-        console.log('fav to id: '+ req.body.id + ' / ' + req.body.model);
-        
         genMgt.updateFavorite(req.body.id, req.body.model, favorite => {
             res.send(favorite);
-            console.log(`favorite send = ${favorite}`)
         });
     })
     app.get('/api/searchOne/:offerId/:model', async (req, res) => {
-        //const model = req.body.model.toLowerCase();
-
         const dbCollection = await mongoose.model(req.params.model)
             .findOne({_id: req.params.offerId}).then(existingOffer => {
                 res.send(existingOffer);
@@ -299,7 +310,6 @@ module.exports = app => {
     //==================================================================================================================
     //<<scoring
     app.get('/api/scoring/update/visibility/:offerId', async (req, res) => {
-        //console.log('searching for tag count for...' + req.params.offerId);
         await mongoose.model('scoring').find({offerId: req.params.offerId}, (err, record) => {
             scoring.updateVisibility(record[0]._id, visible => {
                 res.send(visible)
@@ -315,12 +325,8 @@ module.exports = app => {
             const strWithoutTags = req.params.withoutTagsFilter.replace(/\s/g,'');
             let favFilter = (strFavorite === `true`);
             let withoutTagsFilter = (strWithoutTags === `true`);
-            // let firstPage = (req.params.showFirst === `true`);
-            // let lastPage = (req.params.showLast === `true`);
             console.log(`favorite  filter: ${favFilter} paramString: ${strFavorite}`);
             console.log(`withoutTags filter: ${withoutTagsFilter} paramString: ${strWithoutTags}`);
-            // console.log(`firstPage : ${firstPage}`);
-            // console.log(`lastPage : ${lastPage}`);
             var pageLimit = parseInt(req.params.pageLimit);
             var skipRange = parseInt(req.params.skipRange);
                 
@@ -378,7 +384,6 @@ module.exports = app => {
     //==================================================================================================================
     //<<bestoffer
     app.get('/scoring/category/:category', async (req, res) => {
-        console.log('in scoring/cat');
         const Scoring = await mongoose
             .model('scoring')
             .find({
@@ -388,7 +393,6 @@ module.exports = app => {
                 countTotal: {$gt: 1}
             })
             .select({ __v: false });
-        //console.log(Scoring);
         var obj_ids = Scoring.map(id => {return id.offerId;});
         const Model = await mongoose
             .model(req.params.category)

@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 
 class Logo extends React.Component {
     render (){
-    console.log(`color Logo: ${this.props.color}`);
     return(
         <Button 
             component={Link} to="/bestoffers" 
