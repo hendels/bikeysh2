@@ -1,48 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+//@mui
 import { withStyles } from '@material-ui/core/styles';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
+import {IconButton, MobileStepper, Paper} from '@material-ui/core/';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
+import {ChevronLeft, ChevronRight} from '@material-ui/icons';
 import { Fullscreen } from '@material-ui/icons';
-import noExist from '../../images/noimage.png';
+//commons
 import {getPictureArray} from '../../common/common.js';
-
+//styles
+import imageStepperStyle from '../../styles/components/ImageSteppers/imageStepperStyle';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 let picArray = [];
 let fullscreenPicArray = [];
 let objPictures = {};
-const styles = theme => ({
-  root: {
-    maxWidth: 400,
-    flexGrow: 1,
-  },
-  header: {
-    display: 'flex',
-    justifyContent: "flex-end",
-    alignItems: 'center',
-    height: 50,
-    paddingLeft: theme.spacing.unit * 4,
-    backgroundColor: theme.palette.background.default,
-  },
-  img: {
-    height: 255,
-    display: 'block',
-    maxWidth: 400,
-    overflow: 'hidden',
-    width: '100%',
-  },
-  mobileStepper:{
-    background: "#fff",
-    opacity: "0.5",
-  },
-});
+
 
 class SwipeableTextMobileStepper extends React.Component {
   constructor(props){
@@ -92,7 +67,6 @@ class SwipeableTextMobileStepper extends React.Component {
         {objPictures.picArray.map((step, index) => (
             <div key={step.label}>
               {Math.abs(activeStep - index) <= 2 ? (
-                // <img className={classes.img} src={step.imgPath} alt={step.label} />
                 <div
                   className={classes.img}
                   style={{
@@ -132,4 +106,4 @@ SwipeableTextMobileStepper.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(SwipeableTextMobileStepper);
+export default withStyles(imageStepperStyle, { withTheme: true })(SwipeableTextMobileStepper);

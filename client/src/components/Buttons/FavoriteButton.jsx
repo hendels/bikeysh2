@@ -1,14 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
-import {withStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-
-
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import Favorite from '@material-ui/icons/Favorite';
-
-
+import {FavoriteBorder, Favorite} from '@material-ui/icons';
 
 
 const FavoriteButton = (props) => {

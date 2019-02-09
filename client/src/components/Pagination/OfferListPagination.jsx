@@ -1,27 +1,12 @@
 import React from 'react';
-//material-ui core elements
+//@mui
 import { withStyles } from '@material-ui/core/styles';
 
-import IconButton from '@material-ui/core/IconButton';
-import Grid from '@material-ui/core/Grid';
+import {IconButton, Grid, Typography} from '@material-ui/core/';
+import {ChevronLeft, ChevronRight, FirstPage, LastPage, } from '@material-ui/icons/';
 //styles
-// import containerStyle from '../../styles/components/offerListStyle';
-//icons
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import FirstPage from '@material-ui/icons/FirstPage';
-import LastPage from '@material-ui/icons/LastPage';
-import Typography from '@material-ui/core/Typography';
+import paginationStyle from '../../styles/components/Pagination/paginationStyle';
 
-const style = {
-    containerOfferList: {
-      marginRight: "auto",
-      marginLeft: "auto",
-      width: "100%",
-      background: `#97AABD`,
-      paddingRight: "3vw"
-  },
-};
 const OfferListPagination = (props) => {
     const {classes} = props;
     let disableLeft = props.show <= props.showPerPage;
@@ -61,4 +46,4 @@ const OfferListPagination = (props) => {
     )
 }
 
-export default withStyles(style)(OfferListPagination);
+export default withStyles(paginationStyle)(OfferListPagination);

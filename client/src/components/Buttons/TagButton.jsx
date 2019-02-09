@@ -1,35 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import { withStyles } from '@material-ui/core/styles';
+//@mui
+import {IconButton, Badge} from '@material-ui/core';
 import LibraryAdd from '@material-ui/icons/LibraryAdd';
+//app components
 import TagDialogDnd from '../Dialogs/TagDialogDnd';
 import Aux from '../../hoc/Ax/Ax';
-
-const styles = theme => ({
-  badge: {
-    top: 6,
-    right: -15,
-    width: `17px`,
-    height: `17px`,
-    backgroundColor: `#C96567`,
-  },
-  icon: {
-    outline: "none",
-    color: "#fff",
-    opacity: "0.8",
-  },
-  iconDisabled: {
-    outline: "none",
-    color: "#fff",
-    opacity: "0.3",
-  }
-});
-
-
+//styles
+import { withStyles } from '@material-ui/core/styles';
+import tagButtonStyle from '../../styles/components/Buttons/tagButtonStyle';
 
 class TagBadge extends React.Component {
   state = {
@@ -108,4 +88,4 @@ TagBadge.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TagBadge);
+export default withStyles(tagButtonStyle)(TagBadge);

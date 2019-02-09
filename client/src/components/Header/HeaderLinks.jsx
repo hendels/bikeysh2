@@ -4,26 +4,19 @@ import axios from "axios";
 // react components for routing our app without refresh
 import { Link , withRouter} from "react-router-dom";
 
-// @material-ui/core components
+// @mui
 import withStyles from "@material-ui/core/styles/withStyles";
 import {ListItem, List, IconButton, Input, InputAdornment, InputLabel, FormControl, Tooltip, Button} from "@material-ui/core";
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-// @material-ui/icons
-import { Apps, Search, Stars, Settings, FavoriteBorder, LibraryAdd, AccountCircle, AccountBox } from "@material-ui/icons";
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import { Apps, Search, Stars, FavoriteBorder, LibraryAdd, AccountCircle, AccountBox } from "@material-ui/icons";
 
-// core components
+// app components
 import Dropdown from "../Dropdown/Dropdown.jsx";
+//styles
+import headerLinksStyle from "../../styles/components/Header/headerLinksStyle";
+import {themeInputLabel, themeInput, themeToolTip} from "../../styles/components/Header/headerLinksStyle";
 
-import headerLinksStyle from "../../styles/components/headerLinksStyle.jsx";
-// import style from "../../styles/components/offerListStyle.jsx";
-const colors = {
-  bikeyshColor2: `#644E5B`,
-  bikeyshColor7: `#000`,
-  bikeyshColor4: `#ffc4c5`,
-
-}
 const searchLimit = 4;
-
 
 class HeaderLinks extends React.Component {
   constructor(props){
@@ -140,53 +133,9 @@ class HeaderLinks extends React.Component {
   componentWillUnmount() {
     window.removeEventListener("resize", this.onResize);
   };
+  
   render() {
   
-  const themeInputLabel = createMuiTheme({
-    overrides: {
-      MuiInputLabel: {
-        formControl:{
-          color: colors.bikeyshColor2,
-        },
-      },
-    },
-  });
-  const themeInput = createMuiTheme({
-    overrides: {
-      MuiInput: {
-        root:{
-          color: this.state.changedHeaderColor ? "#fff" : colors.bikeyshColor4
-        },
-        underline:{
-          '&:before': {
-            borderBottom:`1px solid ${colors.bikeyshColor2}`,
-            
-          },
-          '&:after': {
-            borderBottom:`1px solid ${colors.bikeyshColor2}`,
-          },
-        },
-      },
-      MuiButton: {
-        root: {
-          height: "50px"
-        }
-      }
-    }
-  });
-  const themeToolTip = createMuiTheme({
-    overrides: {
-      MuiTooltip: {
-        tooltip:{
-          boxShadow:
-          "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
-          backgroundColor: "#343c44",
-          color: "#fff",
-          fontSize: "13px",
-        }
-      }
-    }
-  });
   const { classes } = this.props;
   const {mobileView, tabletView} = this.state;
   return (

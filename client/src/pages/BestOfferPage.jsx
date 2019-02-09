@@ -1,30 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import classNames from 'classnames';
-import Grid from '@material-ui/core/Grid';
+import {Paper, Grid} from '@material-ui/core';
 //app components
-import BestOfferBar from '../containers/BestOfferBar/BestOfferBar';
-import BestOfferInfo from '../containers/PageInfos/PageInfo';
+import BestOfferBar from '../containers/BestOfferBar';
+import BestOfferInfo from '../components/UI/PageInfo';
 import SnackbarHideOffer from '../components/Snackbars/Snackbar';
-const styles = theme => ({
-    root: {
-      flexGrow: 1,
-      background: '#C96567',
-      overflowX: 'hidden',
-      paddingTop: '5px',
-      paddingBottom: '8px',
-    },
-    paper: {
-      height: 140,
-      width: 100,
-    },
-    control: {
-      padding: theme.spacing.unit * 2,
-    },
-  });
+//styles
+import bestOfferPageStyle from '../styles/pages/bestOfferPageStyle';
 
 class BestOfferPage extends React.Component {
     constructor(props){
@@ -166,8 +149,8 @@ class BestOfferPage extends React.Component {
         )
     }
 }
-BestOfferPage.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+// BestOfferPage.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
 
-export default withStyles(styles)(BestOfferPage);
+export default withStyles(bestOfferPageStyle)(BestOfferPage);

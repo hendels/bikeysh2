@@ -1,143 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+//@mui
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import ImageStepper from '../ImageStepper/ImageStepper.js';
-import blue from '@material-ui/core/colors/blue';
-import TranslateButton from '../Buttons/TranslateButton.jsx';
-import TagButton from '../Buttons/TagButton.jsx';
-import FavoriteButton from '../Buttons/FavoriteButton.jsx';
-import Typography from '@material-ui/core/Typography';
 import { Avatar, Chip, Dialog, IconButton, DialogActions, Grid, DialogContent, DialogContentText,
-  DialogTitle } from '@material-ui/core';
+  DialogTitle, Button, Typography } from '@material-ui/core';
+  
 import HttpIcon from '@material-ui/icons/Http';
-import ImageLightBox from '../ImageLightbox/ImageLightBox.jsx';
-import Aux from '../../hoc/Ax/Ax';
 import { PhotoLibrary } from '@material-ui/icons';
+//app commons
 import {getDayDifferencesFromToday} from '../../common/common';
 import {getPictureArray} from '../../common/common';
+//app components
+import Aux from '../../hoc/Ax/Ax';
+import FavoriteButton from '../Buttons/FavoriteButton.jsx';
+import ImageStepper from '../ImageStepper/ImageStepper.js';
+import ImageLightBox from '../ImageLightbox/ImageLightBox.jsx';
+import TagButton from '../Buttons/TagButton.jsx';
+import TranslateButton from '../Buttons/TranslateButton.jsx';
+//styles
+import { withStyles } from '@material-ui/core/styles';
+import offerDetailsDialogStyle from '../../styles/components/Dialogs/offerDetailsDialogStyle';
+import {themeCancelButton, themePaper} from '../../styles/components/Dialogs/offerDetailsDialogStyle';
 
-const themePaper = createMuiTheme({
-  overrides: {
-    MuiDialog: {
-      paper: {
-        background: `repeating-linear-gradient(
-          -45deg,
-          #697684,
-          #697684 22px,
-          #5a6671 22px,
-          #5a6671 44px
-        )`,
-        outline: "none",
-        // padding: '0 0 0 0',
-      },
-
-    },
-    MuiDialogContent:{
-      root: {
-        backgroundColor: 'rgba(255, 255, 255, 0.8)'
-      }
-    },
-    MuiDialogTitle:{
-      root:{
-        fontSize: "18px",
-        color: "#fff",
-        fontWeight: "bold",
-        textShadow: `1px 1px #314455`,
-      }
-    },
-    MuiAvatar: {
-      root: {
-        fontSize: `20px`,
-        fontFamily: `Lobster`,
-        textShadow: `1px 1px #314455`,
-      },
-    },
-  },
-});
-const themeCancelButton = createMuiTheme({
-  overrides: {
-    MuiButton: {
-      root: {
-        background: '#314455',
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 30,
-        padding: '0px 30px 0px 30px',
-        '&:hover': {
-            backgroundColor: '#838e99'
-        },
-      },
-    },
-  },
-});
-const styles = {
-    dialog: {
-      maxWidth: "700px",
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      margin: "auto",
-    },
-    priceContainer: {
-      width: "200px",
-      height: "50px",
-      backgroundColor: "rgba(0,0,0,0.1)",
-      padding: "10px 15px 10px 5px",
-      fontSize: "20px",
-      fontWeight: "bold",
-      "@media (max-width: 425px)": {
-        fontSize: "3vh",
-        height: "9vh",
-      },
-      "@media (max-width: 300px)": {
-        height: "12vh",
-      }
-    },
-    priceContainerMobile: {
-      "@media (max-width: 425px)": {
-        fontSize: "2vh",
-      }  
-    },
-    statsContainer: {
-      width: "200px",
-      height: "135px",
-      backgroundColor: "rgba(151, 170, 189, 0.2)",
-      padding: "5px 0px 5px 5px",
-      fontSize: "14px",
-    },
-    attributesContainer: {
-      width: "200px",
-      height: "120px",
-      backgroundColor: "rgba(151, 170, 189, 0.2)",
-      padding: "5px 0px 5px 5px",
-      fontSize: "14px",
-      borderTop: "1px solid rgb(151, 170, 189)"
-    },
-    actionContainer: {
-      width: "200px",
-      height: "64px",
-      backgroundColor: "rgba(151, 170, 189, 0.4)",
-      padding: "10px 0px 10px 5px",
-      "@media (max-width: 425px)": {
-        padding: "10px 0px 10px 3vw",
-      },
-    },
-    descriptionHeader: {
-      padding: "5px 0px 5px 5px",
-      fontSize: "14px",
-    },
-    translateButton: {
-      padding: "7px 0px 7px 0px",
-    },
-    description: {
-      borderTop: "2px solid rgb(151, 170, 189)"
-    },
-};
 let objPictures = {};
 
 class OfferDetails extends React.Component {
@@ -385,7 +270,7 @@ class OfferDetails extends React.Component {
                       </Grid>
                       <Grid item xs={12} className={classes.actionContainer}>
                           <Grid container justify="space-between" alignItems="center">
-                            <Grid item xs={mobileView ? 3 : 4}>
+                            <Grid item xs={mobileView ? 3 : 4} className={classes.actionItem}>
                               <FavoriteButton 
                                 dataKey={this.props.offer._id} 
                                 favorite={this.props.favorite} 
@@ -394,7 +279,7 @@ class OfferDetails extends React.Component {
                                 setFavorite={this.props.setFavorite}
                               />
                             </Grid>
-                            <Grid item xs={mobileView ? 3 : 4}>
+                            <Grid item xs={mobileView ? 3 : 4} className={classes.actionItem}>
                               <TagButton 
                                 category={this.props.category} 
                                 model={this.props.model}
@@ -406,7 +291,7 @@ class OfferDetails extends React.Component {
                                 offerDetails
                               />
                             </Grid>
-                            <Grid item xs={mobileView ? 3 : 4}>
+                            <Grid item xs={mobileView ? 3 : 4} className={classes.actionItem}>
                               <IconButton 
                                   href={this.props.offer.productUrl} 
                                   target={`_blank`} 
@@ -416,7 +301,7 @@ class OfferDetails extends React.Component {
                               </IconButton>
                             </Grid>
                             {mobileView ? 
-                              <Grid item xs={3}>
+                              <Grid item xs={3} className={classes.actionItem}>
                               <IconButton onClick={() => {
                                 objPictures = getPictureArray(this.props.offer);
                                 this.handleClickImageFullscreenButton(true, objPictures.fullscreenPicArray);
@@ -517,4 +402,4 @@ onClose: PropTypes.func,
 selectedValue: PropTypes.string,
 };
 
-export default withStyles(styles)(OfferDetails);
+export default withStyles(offerDetailsDialogStyle)(OfferDetails);

@@ -1,23 +1,12 @@
 import React from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
+//@mui
 import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import DeleteIcon from '@material-ui/icons/Close';
-import NoTag from '@material-ui/icons/AddCircle';
 
-const styles = theme => ({
-    root: {
-      display: 'flex',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
-    },
-    chip: {
-      margin: theme.spacing.unit,
-      color: "white"
-    },
-  });
+//styles
+import tagChipStyle from '../../styles/components/Chips/tagChipStyle'
 
 
 class TagChip extends React.Component{
@@ -78,4 +67,4 @@ class TagChip extends React.Component{
 TagChip.propTypes = {
     classes: PropTypes.object.isRequired,
   };
-export default withStyles(styles)(TagChip);
+export default withStyles(tagChipStyle)(TagChip);

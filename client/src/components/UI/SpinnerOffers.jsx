@@ -1,8 +1,7 @@
 import React from 'react';
 import {Grid} from '@material-ui/core';
-import BestOffer from '../../components/Offers/BestOffer/BestOfferCustom.jsx';
+import BestOffer from '../Cards/BestOffer';
 import Aux from '../../hoc/Ax/Ax';
-
 
 const Spinner = (props) => {
     let offer = {};

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Route, Link, withRouter } from 'react-router-dom';
 import config from '../../config/config';
 // app components
-import OffersList from '../../containers/OffersList/OffersList';
+import OffersList from '../../containers/OffersList';
 import Header from '../../components/Header/Header.jsx';
 import HeaderLinks from '../../components/Header/HeaderLinks.jsx';
 import Footer from '../../components/Footer/Footer.jsx';

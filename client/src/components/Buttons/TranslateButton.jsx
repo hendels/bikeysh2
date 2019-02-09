@@ -1,49 +1,12 @@
 import React from 'react';
-import {Button, IconButton} from '@material-ui/core';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+//@mui
+import {Button, Menu, MenuItem} from '@material-ui/core';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state/index';
 import Translate from '@material-ui/icons/GTranslate';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+//styles
+import {menuTheme, buttonTheme} from '../../styles/components/Buttons/translateButtonStyle';
 
-const menuTheme = createMuiTheme({
-    overrides: {
-        MuiMenu:{
-            paper: {
-                backgroundColor: "#21262b",
-                margin: "0px 0px 0px 0px"
-            }
-        },
-        MuiMenuItem:{
-            root: {
-                backgroundColor: "#21262b",
-                borderBottom: `1px solid #041424`,
-                color: '#fff',
-                '&:hover':{
-                    boxShadow:
-                    "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
-                    backgroundColor: "#343c44",
-                    color: '#fff',
-                }
-            }
-        }
-    },
-  });
-const buttonTheme = createMuiTheme({
-    overrides: {
-        MuiButton:{
-            root:{
-                color: "#4285F5",
-                textTransform: "capitalize",
-            },
-        },
-        MuiIconButton:{
-            root:{
-                color: "#4285F5",
-            },
-        },
-    }    
-});
 function TranslateButton(props) {
   const translate = (popupState, language) => {
     switch(language){
@@ -66,16 +29,10 @@ function TranslateButton(props) {
       {popupState => (
         <React.Fragment>
             <MuiThemeProvider theme={buttonTheme}>
-            {/* {!props.mobileView ?  */}
                 <Button variant="text" size="small" {...bindTrigger(popupState)}>
                     <Translate/>
                     Translate
                 </Button>
-            {/* :
-                 <IconButton variant="text" size="small" {...bindTrigger(popupState)}>
-                     <Translate/>
-                 </IconButton>
-             }*/}
             </MuiThemeProvider>
             <MuiThemeProvider theme={menuTheme}>
                 <Menu {...bindMenu(popupState)} PaperProps={{square: 'true'}}>

@@ -1,95 +1,22 @@
 import React from "react";
 import {Link, withRouter} from 'react-router-dom';
-// nodejs library that concatenates classes
+
 import classNames from "classnames";
-// nodejs library to set properties for components
 import PropTypes from "prop-types";
-// @material-ui/core components
+// @mui
 import withStyles from "@material-ui/core/styles/withStyles";
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
-import Hidden from "@material-ui/core/Hidden";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from '@material-ui/core/ListItemText';
-import Grow from "@material-ui/core/Grow";
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import {AppBar, Toolbar, IconButton, Button, Hidden, Drawer, List, ListItem, ListItemText, Grow} from "@material-ui/core";
 // @material-ui/icons
 import Menu from "@material-ui/icons/Menu";
-// core components
-import headerStyle from "../../styles/components/headerStyle.jsx";
 // app components
 import Aux from '../../hoc/Ax/Ax';
 import { Chip } from "@material-ui/core";
+// styles 
+import headerStyle from "../../styles/components/Header/headerStyle";
+import {themeListItem, themeListItemText} from "../../styles/components/Header/headerStyle";
 
-const themeListItem = createMuiTheme({
-  overrides: {
-    MuiListItem: {
-      root: {
-        backgroundColor: "#21262b",
-        transition: "all 150ms linear",
-        
-        margin: "0px 0px 0px 0px",
-        position: "relative",
-        fontSize: "13px",
-        borderBottom: "1px solid #091528",
-      },
-      button: {
-        "&:hover": {
-          boxShadow:
-          "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
-          backgroundColor: "#343c44",
-          color: "#fff",
-          outline: "none",
-        },
-      },
-    },
-    MuiListItemText: {
-      primary: {
-        color: '#fff',
-        "&:hover,&:focus": {
-          color: "#fff"
-        }
-      },
-      secondary: {
-        fontSize: "4px",
-        color: '#fff',
-        "&:hover,&:focus": {
-          color: "#fff"
-        }
-      },
-    },
-    MuiChip: {
-      root: {
-        backgroundColor: `rgba(201, 101, 103, 0.3)`,
-        color: "pink",
-        borderRadius: "2px",
-        fontSize: "10px",
-        height: "20px",
-      },
 
-    },
-  },
-});
-const themeListItemText = createMuiTheme({
-  overrides: {
-    MuiListItemText: {
-      primary: {
-        color: '#fff',
-      },
-      secondary: {
-        fontSize: "4px",
-        color: '#fff',
-        "&:hover,&:focus": {
-        }
-      },
-    },
-    
-  },
-});
 class Header extends React.Component {
   constructor(props) {
     super(props);

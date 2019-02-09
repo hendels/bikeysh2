@@ -1,74 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import Dialog from '@material-ui/core/Dialog';
+//@mui
+import {Dialog, DialogActions, Button, Grid, FormControlLabel, Switch, Input, IconButton, Radio, 
+  FormControl, RadioGroup, DialogTitle} from '@material-ui/core';
+
 import { withStyles } from '@material-ui/core/styles';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import Input from '@material-ui/core/Input';
-import IconButton from '@material-ui/core/IconButton';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+
 import AddBox from '@material-ui/icons/AddBox';
-import Radio from '@material-ui/core/Radio';
-import FormControl from '@material-ui/core/FormControl'
-import RadioGroup from '@material-ui/core/RadioGroup';
-import DialogTitle from '@material-ui/core/DialogTitle';
 //app components
-import Dnd from '../Dnd/dragDrop';
-const themeLeftButtons = createMuiTheme({
-  overrides: {
-    MuiIconButton: {
-      root: {
-        background: '#9E5A63',
-        // border: 0,
-        color: 'white',
-        minHeight: `50px`,
-        minWidth: `50px`,
-        fontSize: '16px',
-        borderRadius: '50%',
-        '&:hover': {
-            backgroundColor: '#d68b8c'
-        },
-      },
-    },
-  },
-});
-const themeRightButtons = createMuiTheme({
-  overrides: {
-    MuiButton: {
-      root: {
-        background: '#314455',
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 30,
-        padding: '0px 30px 0px 30px',
-        '&:hover': {
-            backgroundColor: '#838e99'
-        },
-      },
-    },
-  },
-});
-const styles = {
-    root: {
-      flexGrow: 1,
-    },
-    tagContainer: {
-      // background: '#314455',
-      background: `repeating-linear-gradient(
-        -45deg,
-        #697684,
-        #697684 22px,
-        #5a6671 22px,
-        #5a6671 44px
-      )`,
-      outline: "none",
-    },
-  };
+import Dnd from '../DragAndDrop/dragDrop';
+import {themeRightButtons} from '../../styles/components/Dialogs/tagDialogDndStyle';
+import tagDialogDndStyle from '../../styles/components/Dialogs/tagDialogDndStyle';
+
 function mergeArrays(array1, array2) {
     const result_array = [];
     const arr = array1.concat(array2);
@@ -317,4 +262,4 @@ onClose: PropTypes.func,
 selectedValue: PropTypes.string,
 };
 
-export default withStyles(styles)(DialogDragAndDrop);
+export default withStyles(tagDialogDndStyle)(DialogDragAndDrop);

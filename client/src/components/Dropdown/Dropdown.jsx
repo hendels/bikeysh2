@@ -1,24 +1,13 @@
 import React from "react";
-// nodejs library that concatenates classes
 import classNames from "classnames";
-// nodejs library to set properties for components
 import PropTypes from "prop-types";
 
-// @material-ui/core components
+// @mui
 import withStyles from "@material-ui/core/styles/withStyles";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Paper from "@material-ui/core/Paper";
-import Grow from "@material-ui/core/Grow";
-import Divider from "@material-ui/core/Divider";
-import Icon from "@material-ui/core/Icon";
-import Popper from "@material-ui/core/Popper";
-import Button from '@material-ui/core/Button/Button';
+import {MenuItem ,Button, MenuList, ClickAwayListener, Paper, Grow, Divider, Icon, Popper} from "@material-ui/core";
 
-// core components
-
-import dropdownStyle from "../../styles/components/dropdownStyle.jsx";
+// style
+import dropdownStyle from "../../styles/components/Dropdowns/dropdownStyle";
 
 class CustomDropdown extends React.Component {
   constructor(props) {

@@ -10,10 +10,6 @@ export default class Sample extends Component {
       isOpen: false,
     };
   }
-//   componentWillReceiveProps(nextProps){
-//       if(nextProps.open !== this.state.isOpen)
-//         this.setState({isOpen: nextProps.open})
-//   }
   gotoNext = () => {
       this.setState({photoIndex: this.state.photoIndex + 1}, () => {});
   }

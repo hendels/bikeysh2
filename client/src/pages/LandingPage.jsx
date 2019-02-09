@@ -1,11 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import landingPageStyle from '../styles/components/landingPageStyle.jsx';
 //app components
-import LandingBar from '../components/Buttons/LandingBar.jsx';
+import LandingBar from '../components/Bars/LandingBar';
 
 const LandingPage = (props) => {
     return (
@@ -44,4 +39,4 @@ const LandingPage = (props) => {
     )
 }
 
-export default withStyles(landingPageStyle)(LandingPage);
+export default LandingPage;
