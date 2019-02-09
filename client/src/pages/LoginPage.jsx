@@ -249,7 +249,13 @@ class LoginPage extends React.Component {
             }
         })
     }
-    
+    handleKeyUpEnter = (event) => {
+        if(event.keyCode === 13){
+            this.handleLogin(); 
+            // this.props.history.push('/offers/searchresult');
+            // window.scrollTo(0, 0);
+        };
+      };
     componentDidMount(){
         this.props.handleGoLogin(true);    
     };
@@ -318,7 +324,7 @@ class LoginPage extends React.Component {
                                         <AccountCircle/>
                                     </InputAdornment>
                                     }
-                                    onKeyUp={()=>{}}
+                                    onKeyUp={this.handleKeyUpEnter}
                                 />
                                 </MuiThemeProvider>
                             </FormControl>
@@ -336,7 +342,7 @@ class LoginPage extends React.Component {
                                         <VpnKey/>
                                     </InputAdornment>
                                     }
-                                    onKeyUp={()=>{}}
+                                    onKeyUp={this.handleKeyUpEnter}
                                 />
                                 </MuiThemeProvider>
                             </FormControl>

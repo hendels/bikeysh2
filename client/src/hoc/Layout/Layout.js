@@ -71,11 +71,11 @@ class Layout extends Component {
     };
     handleCheckIfLogin = async () => {
         let logged = false;
-        await axios.get(`/checkUserIsLoggedIn`).then(response => response.data).then(result => {
-            if (result){
-                logged = result;
-            } 
-        });
+        // await axios.get(`/checkUserIsLoggedIn`).then(response => response.data).then(result => {
+        //     if (result){
+        //         logged = result;
+        //     } 
+        // });
         return logged;
     }
     handleShowFavorizedOffers = async (load) => {
@@ -185,6 +185,7 @@ class Layout extends Component {
     handleToggleMobileDrawer = (open) => {
         this.setState({openMobileDrawer: open}, () => {})
     };
+
     render () {
         const { classes, ...rest } = this.props;
         

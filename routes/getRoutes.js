@@ -108,11 +108,11 @@ module.exports = app => {
          
         userMgt.loginUser(req.body.login, req.body.password, userExist => {
             console.log(userExist);
-            if (userExist[0].name){
-                req.session.user = userExist[0].name;
-                console.log(`logged user = ${req.session.user}`);
-                console.log(req.session);
-            }
+            // if (userExist[0].name){
+            //     req.session.user = userExist[0].name;
+            //     console.log(`logged user = ${req.session.user}`);
+            //     console.log(req.session);
+            // }
             res.send(userExist);
         });
     });

@@ -47,7 +47,10 @@ const style = {
       },
       "@media (min-width: 1200px)": {
         maxWidth: "1600px"
-      }
+      },
+      "@media (min-width: 1960px)": {
+        maxWidth: "1800px"
+      },
     },
   };
 class OffersList extends Component {

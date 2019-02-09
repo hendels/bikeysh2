@@ -115,10 +115,6 @@ return new Promise(async (resolve, reject) => {
                     }
                     //>>
                     await scoring.updateScores(uniqItem._id, objScores);
-                    // for (var i in search) {
-                    //     let price = search[i].price;
-
-                    // };
 
                 }
                 function median(values) {
@@ -132,13 +128,6 @@ return new Promise(async (resolve, reject) => {
                     else
                         return (values[half-1] + values[half]) / 2.0;
                 }
-                // SearchScoringCategory.map(categoryItem => {
-                //     if(categoryItem.manufacturerSetId === uniqItem.manufacturerSetId && 
-                //     categoryItem.modelSetId === uniqItem.modelSetId){
-
-
-                //     }
-                // })
             })
         }
     }

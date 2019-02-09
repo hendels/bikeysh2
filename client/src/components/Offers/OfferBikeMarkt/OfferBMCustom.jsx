@@ -48,8 +48,8 @@ const styles = theme => ({
             maxWidth: boW,
             height: 200,
         },
-    },
 
+    },
     gridElementTitle: {
         zIndex: 1,
         fontSize: "20px",
@@ -71,7 +71,6 @@ const styles = theme => ({
         fontSize: "20px",
         color: "#C96567",
         textShadow: `1px 1px ${bikeyshColor6}`,
-        // paddingLeft: `15px`,
         "@media (max-width: 425px)": {
             fontSize: "13px",
         },
@@ -114,11 +113,14 @@ const styles = theme => ({
         background: `rgba(39,31,36,0.7)`,
 
     },
+    //<<left info area
     gridElementInfo: {
         width: '13vw',
         height: 200,
         background: bikeyshColor6,
-
+        "@media (max-width: 1200px)": {
+            display: "none",
+        },
     },
     gridElementInfoActions:{
         minHeight: 70,
@@ -128,12 +130,22 @@ const styles = theme => ({
         paddingRight: `15px`,
         borderBottom: `1px dotted ${bikeyshColor4}`,
         borderTop: `1px dotted ${bikeyshColor4}`,
+        "@media (max-width: 1200px)": {
+            display: "none",
+        },
+        "@media (min-width: 1960px)": {
+            width: "11vw",
+            height: 200,
+        },
     },
     gridElementInfoTitle: {
         color: "#fff",
         fontSize: "15px",
         textShadow: `1px 1px ${bikeyshColor4}`,
         margin: `5px 5px 0px 15px`,
+        "@media (max-width: 1200px)": {
+            display: "none",
+        },
         "@media (max-width: 425px)": {
             fontSize: "14px",
         },
@@ -145,8 +157,16 @@ const styles = theme => ({
         color: "#fff",
         fontSize: "12px",
         textAlign: "left",
-        margin: `0px 0px 0px 15px`
+        margin: `0px 0px 0px 15px`,
+        "@media (max-width: 1200px)": {
+            display: "none",
+        },
     },
+    actionItem: {
+        textAlign: "center",
+    },
+    //>>
+    //<<main area elements
     scores: {
         backgroundColor: `#C96567`,
         fontSize: `20px`,
@@ -182,7 +202,9 @@ const styles = theme => ({
     },
     spinner: {
         textAlign: "center",
-    }
+    },
+    //>>
+
   });
 
 
