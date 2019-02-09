@@ -91,9 +91,9 @@ exports.bmList = input => {
                         //# receive data from product link >> get line details#
                         details.offerDetails(metadata).then(data => {
                             //# write to file
-                            var stream = fs.createWriteStream('./sample2.csv', {
-                                flags: 'a'
-                            });
+                            // var stream = fs.createWriteStream('./sample2.csv', {
+                            //     flags: 'a'
+                            // });
                             //# create empty array for attributes
                             var specificAtributes = [];
                             //# loop through attributes & push to array
