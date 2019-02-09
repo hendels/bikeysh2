@@ -149,6 +149,12 @@ const styles = theme => ({
             width: '80vw',
             height: 200,
         },
+        "@media (max-width: 220px)": { 
+            display: "none",
+        },
+        "@media (max-height: 465px)": { 
+            display: "none",
+        },
     },
     introductionTextUp :{
         fontSize: "25px",
@@ -160,6 +166,12 @@ const styles = theme => ({
         },
         "@media (max-width: 375px)": {
             fontSize: "18px",
+        },
+        "@media (max-width: 350px)": {
+            fontSize: "13px",
+        },
+        "@media (max-height: 520px)": {
+            fontSize: "13px",
         },
     },
     introductionTextDown :{

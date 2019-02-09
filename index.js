@@ -15,11 +15,9 @@ require('./models/bmart_enduroframe');
 require('./models/bmart_hub');
 require('./models/bmart_wheel');
 mongoose.connect(keys.mongoURI);
-const users = [
-  {id: 1, name: 'demo', login: 'demo1', password: 'qwe'},
-  {id: 2, name: 'demo2', login: 'demo2', password: 'qwe'},
-]
+
 const app = express();
+
 app.use(express.static('public'));
 
 console.log('==================start====================');
