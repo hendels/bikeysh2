@@ -14,10 +14,7 @@ import imageStepperStyle from '../../styles/components/ImageSteppers/imageSteppe
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-let picArray = [];
-let fullscreenPicArray = [];
 let objPictures = {};
-
 
 class SwipeableTextMobileStepper extends React.Component {
   constructor(props){

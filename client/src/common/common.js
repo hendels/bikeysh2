@@ -1,10 +1,11 @@
-import React from 'react';
 import noExist from '../images/noimage.png';
 
+/*eslint-disable */
 export const getOfferAttributes = (category, offer) => {
     let attributes = [];
     switch(category.toLowerCase()){
         case 'cranks':{
+            
             offer.chainringMountType !== '' ? 
                 attributes.push({label: 'Mount type:', value: offer.chainringMountType}) : null;
             offer.crankStandard !== '' ? 
@@ -64,14 +65,13 @@ export const getOfferAttributes = (category, offer) => {
     }
     return attributes;
 }
+/*eslint-enable */
 export const getDayDifferencesFromToday = (date) => {
     //* date variables
     const dateRegex = /((0[1-9]|[12]\d|3[01]).(0[1-9]|1[0-2]).[12]\d{3})/g;
     const regexDate = dateRegex.exec(date);
-    let offerDate = null;
     let objDateDiff = {};
     if (regexDate !== null && regexDate[0] !== undefined){
-        let offerDate = regexDate[0]
         var todayDate = new Date();
         var dd = todayDate.getDate();
         var mm = todayDate.getMonth() + 1;
@@ -128,4 +128,8 @@ export const getPictureArray = (offer) => {
       catch(err){
         alert(`something wrong with record [props.offer.pictures] - getPictureArray`);
       }
+}
+
+export const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

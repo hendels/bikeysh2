@@ -13,7 +13,7 @@ import {getDayDifferencesFromToday} from '../../common/common';
 import {getPictureArray} from '../../common/common';
 //app components
 import Aux from '../../hoc/Ax/Ax';
-import FavoriteButton from '../Buttons/FavoriteButton.jsx';
+import FavoriteButton from '../Buttons/FavoriteButton';
 import ImageStepper from '../ImageStepper/ImageStepper.js';
 import ImageLightBox from '../ImageLightbox/ImageLightBox.jsx';
 import TagButton from '../Buttons/TagButton.jsx';
@@ -251,9 +251,10 @@ class OfferDetails extends React.Component {
                         {this.props.attributes.length > 0 ? (
                           <Grid container direction="row" justify="space-between" alignContent="center">
                             {this.props.attributes.map((attribute) => {
+                              let attributePair = null;
                               if (attribute.value !== null && attribute.value !== undefined){
                                   const attributeText = attribute.value.length > 15 ? attribute.value.slice(0, 15) : attribute.value;
-                                  return (
+                                  attributePair = 
                                     <Aux>
                                       <Grid item xs={6}>
                                         <b>{attribute.label}</b>
@@ -262,8 +263,9 @@ class OfferDetails extends React.Component {
                                         {attributeText}
                                       </Grid>
                                     </Aux>
-                                  );
+                                  ;
                               }
+                              return attributePair;
                             })}
                           </Grid>
                         ) : <span style={{fontWeight: "bold"}}>This offer has no attributes</span>}

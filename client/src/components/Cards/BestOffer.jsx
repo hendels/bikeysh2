@@ -77,8 +77,8 @@ class BestOffer extends React.Component {
                     yearTitle: result.scoring[0].yearTitle,
                     yearDescription: result.scoring[0].yearDescription,
                     urlActive: result.scoring[0].urlActive,
-                    manufacturerSetId: parseInt(result.scoring[0].manufacturerSetId),
-                    modelSetId: parseInt(result.scoring[0].modelSetId),
+                    manufacturerSetId: parseInt(result.scoring[0].manufacturerSetId, 10),
+                    modelSetId: parseInt(result.scoring[0].modelSetId, 10),
                 }
                 this.setState({scoringData: scoringData}, () => {});
             });

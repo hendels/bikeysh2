@@ -8,7 +8,7 @@ import ArrowRight from '@material-ui/icons/KeyboardArrowRight';
 //styles
 import bigSquareButtonStyle from '../../styles/components/Buttons/bigSquareButtonStyle.jsx';
 
-const ButtonBases = (props) => {
+export const BigSquareButton = (props) => {
   const { classes } = props;
 
   return (
@@ -34,8 +34,5 @@ const ButtonBases = (props) => {
   );
 }
 
-ButtonBases.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
-export default withStyles(bigSquareButtonStyle)(withRouter(ButtonBases));
+export default withStyles(bigSquareButtonStyle)(withRouter(BigSquareButton));

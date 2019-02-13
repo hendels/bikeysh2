@@ -190,7 +190,6 @@ class HeaderLinks extends React.Component {
           buttonText="Bikemarkt"
           buttonProps={{
             className: classes.navLink,
-            color: "transparent"
           }}
           hoverColor="black"
           buttonIcon={Apps}
@@ -241,7 +240,6 @@ class HeaderLinks extends React.Component {
           buttonText={tabletView && !mobileView ? "" : "Favorites"}
           buttonProps={{
             className: classes.navLink,
-            color: "transparent"
           }}
           hoverColor="black"
           buttonIcon={FavoriteBorder}
@@ -290,7 +288,6 @@ class HeaderLinks extends React.Component {
           buttonText={tabletView && !mobileView ? "" : "Without tags"}
           buttonProps={{
             className: classes.navLink,
-            color: "transparent"
           }}
           hoverColor="black"
           buttonIcon={LibraryAdd}

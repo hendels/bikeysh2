@@ -43,7 +43,6 @@ class OffersList extends Component {
       }};
       getPageMeasures = (width, height) => {
         let currentWidth = width;
-        let currentHeight = height;
         let resizeObj = {};
         
         if (currentWidth <= 1200){

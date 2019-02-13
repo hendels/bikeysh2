@@ -13,10 +13,6 @@ import initialData from './initial-data';
 import {Container} from '../../styles/components/DragAndDrop/dragDropStyle';
 import dragDropStyle from '../../styles/components/DragAndDrop/dragDropStyle';
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 class DragDrop extends React.Component{
     constructor(props){
         super(props);

@@ -1,72 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+//@mui
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-//mgt
+import {Button, Snackbar, Grid} from '@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import snackbarStyle from '../../styles/components/Snackbars/snackbarStyle';
+import {themeCancelButton} from '../../styles/components/Snackbars/snackbarStyle';
 
-const boW = 228;
-
-const styles = theme => ({
-  snackbar: {
-    position: 'absolute',
-  },
-  snackbarContent: {
-      minWidth: boW,
-
-      textAlign: "left",
-      "@media (max-width: 1024px)": {
-        minWidth: "152px",
-      },
-      "@media (max-width: 768px)": {
-        minWidth: "100px",
-      },
-      "@media (max-width: 425px)": {
-        minWidth: "162px",
-      },
-      "@media (max-width: 375px)": {
-        minWidth: "162px",
-      },
-  },
-  statsContainer: {
-    backgroundColor: "rgba(151, 170, 189, 0.9)",
-    padding: "10px 0px 10px 5px",
-    fontSize: "14px",
-    "@media (max-width: 1024px)": {
-      fontSize: "10px",
-    },
-    // "@media (max-width: 768px)": {
-    //   minWidth: "162px",
-    // },
-    // "@media (max-width: 425px)": {
-    //   minWidth: "162px",
-    // },
-    // "@media (max-width: 375px)": {
-    //   minWidth: "162px",
-    // },
-  },
-});
-const themeCancelButton = createMuiTheme({
-  overrides: {
-    MuiButton: {
-      root: {
-        background: '#314455',
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 30,
-        padding: '0px 30px 0px 30px',
-        '&:hover': {
-            backgroundColor: '#838e99'
-        },
-      },
-    },
-  },
-});
 class SnackbarBestOffer extends React.Component {
   state = {
     statistics: {
@@ -169,4 +109,4 @@ class SnackbarBestOffer extends React.Component {
     );
   }
 }
-export default withStyles(styles)(SnackbarBestOffer);
+export default withStyles(snackbarStyle)(SnackbarBestOffer);

@@ -38,7 +38,6 @@
     "node-cron": "^2.0.1",
     "nodemon": "^1.17.5",
     "path": "^0.12.7",
-    "react-swipeable-views": "^0.13.0",
     "request": "^2.87.0",
     "underscore": "^1.9.1",
     "xmlhttprequest": "^1.8.0"

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Aux from '../Ax/Ax';
 import axios from 'axios';
-import { Route, Link, withRouter } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import config from '../../config/config';
 // app components
 import OffersList from '../../containers/OffersList';
@@ -71,7 +71,7 @@ class Layout extends Component {
     };
     handleCheckIfLogin = async () => {
         let logged = false;
-        // await axios.get(`/checkUserIsLoggedIn`).then(response => response.data).then(result => {
+        // await axios.get(`/checkUserIsLoggedIn`).then(response => response.data).then(result => { 
         //     if (result){
         //         logged = result;
         //     } 

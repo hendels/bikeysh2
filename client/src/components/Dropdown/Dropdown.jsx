@@ -20,7 +20,8 @@ class CustomDropdown extends React.Component {
   }
   handleClick() {
     this.setState({ open: true });
-    this.props.showSearchResults ? this.props.closeSearchResults() : null;
+    if(this.props.showSearchResults)
+      this.props.closeSearchResults();
   }
   handleClose() {
     this.setState({ open: false });
@@ -153,19 +154,13 @@ class CustomDropdown extends React.Component {
 
 CustomDropdown.defaultProps = {
   caret: true,
-  hoverColor: "primary"
+  hoverColor: "black"
 };
 
 CustomDropdown.propTypes = {
   classes: PropTypes.object.isRequired,
   hoverColor: PropTypes.oneOf([
     "black",
-    "primary",
-    "info",
-    "success",
-    "warning",
-    "danger",
-    "rose"
   ]),
   buttonText: PropTypes.node,
   buttonIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),

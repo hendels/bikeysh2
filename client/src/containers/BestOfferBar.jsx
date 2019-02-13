@@ -58,11 +58,9 @@ class BestOfferBar extends React.Component {
     }
     getPageMeasures = (width, height) => {
         let currentWidth = 0;
-        let currentHeight = 0;
         let resizeObj = {};
         
         currentWidth = width;
-        currentHeight = height;
         if (currentWidth <= 425){
             resizeObj = {
                 pageLimit: prod ? 1 : 1,

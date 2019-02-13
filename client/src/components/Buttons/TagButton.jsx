@@ -11,7 +11,7 @@ import Aux from '../../hoc/Ax/Ax';
 import { withStyles } from '@material-ui/core/styles';
 import tagButtonStyle from '../../styles/components/Buttons/tagButtonStyle';
 
-class TagBadge extends React.Component {
+export class TagBadge extends React.Component {
   state = {
       openTagDialog: false,
       tagCount: 0,
@@ -84,8 +84,5 @@ class TagBadge extends React.Component {
   }
 }
 
-TagBadge.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(tagButtonStyle)(TagBadge);

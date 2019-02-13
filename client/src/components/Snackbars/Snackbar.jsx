@@ -1,9 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+//@mui
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
+import {Button, Snackbar, IconButton} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 //mgt
 
@@ -11,20 +10,14 @@ const styles = theme => ({
     close: {
       padding: theme.spacing.unit / 2,
     },
-  });
+});
 
 class SimpleSnackbar extends React.Component {
     state = {
       open: false,
     };
-    // handleClick = () => {
-    //   this.setState({ open: true });
-    // };
     handleClose = (event, reason) => {
       this.setState({ open: false });
-      // if (reason === 'clickaway') {
-      //   return;
-      // }
     };
     handleUndo = (event, reason) => {
       if (!this.props.searchPending){
@@ -62,9 +55,6 @@ class SimpleSnackbar extends React.Component {
             open={this.state.open}
             autoHideDuration={6000}
             onClose={this.handleClose}
-            // ContentProps={{
-            //   'aria-describedby': 'message-id',
-            // }}
             message={
               <span id="message-id">{`Offer [${offerName}] has been hidden.`}</span>
             }
@@ -86,5 +76,5 @@ class SimpleSnackbar extends React.Component {
         </div>
       );
     }
-  }
-  export default withStyles(styles)(SimpleSnackbar);
+}
+export default withStyles(styles)(SimpleSnackbar);

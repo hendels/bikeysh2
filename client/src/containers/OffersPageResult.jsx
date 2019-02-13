@@ -45,7 +45,7 @@ rerender = () => {
 }
 async componentWillReceiveProps(nextProps){
     if(!nextProps.searchPending || nextProps.searchPending === undefined){
-        const {classes, model, offers, fullSearch} = nextProps;
+        const { model, offers, fullSearch} = nextProps;
         let fullSearchModel = ``;
         let fullSearchCategory = ``;
         
@@ -55,7 +55,7 @@ async componentWillReceiveProps(nextProps){
                 for (var x in offer.pictures){
                     const picUrl = offer.pictures[x];
                     if (picUrl !== null){
-                        picUrl.length > 0? piclink = picUrl.replace(`large`, `medium`) : null;
+                        picUrl.length > 0 ? piclink = picUrl.replace(`large`, `medium`) : null; // eslint-disable-line 
                     }
                     break;
                 }
@@ -96,7 +96,7 @@ async componentWillReceiveProps(nextProps){
                     category={this.props.fullSearch ? fullSearchCategory: this.props.category}
                     fullSearch={this.props.fullSearch}
                     searchPending={this.props.searchPending}
-                    rerender={this.rerender}
+                    // rerender={this.rerender}
                     mobileView={this.props.mobileView}
                 />
             )

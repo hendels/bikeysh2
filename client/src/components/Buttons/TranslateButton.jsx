@@ -7,7 +7,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 //styles
 import {menuTheme, buttonTheme} from '../../styles/components/Buttons/translateButtonStyle';
 
-function TranslateButton(props) {
+export const TranslateButton = (props) => {
   const translate = (popupState, language) => {
     switch(language){
         case 'eng':
@@ -35,7 +35,7 @@ function TranslateButton(props) {
                 </Button>
             </MuiThemeProvider>
             <MuiThemeProvider theme={menuTheme}>
-                <Menu {...bindMenu(popupState)} PaperProps={{square: 'true'}}>
+                <Menu {...bindMenu(popupState)} PaperProps={{square: true}}>
                     <MenuItem onClick={() => {translate(popupState, 'eng')}}>English</MenuItem>
                     <MenuItem onClick={() => {translate(popupState, 'pl')}}>Polish</MenuItem>
                     <MenuItem onClick={() => {translate(popupState, 'de')}}>German</MenuItem>

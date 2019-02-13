@@ -8,11 +8,8 @@ import {Grid, IconButton, Tooltip, Avatar, Badge, Zoom, CircularProgress} from '
 import InfoIcon from '@material-ui/icons/Info';
 import HttpIcon from '@material-ui/icons/Http';
 import Vendor from '@material-ui/icons/MonetizationOn';
-import Face from '@material-ui/icons/Face';
+import {Face, Link, Block} from '@material-ui/icons/';
 import Viewed from '@material-ui/icons/Visibility';
-import Link from '@material-ui/icons/Link';
-import Block from '@material-ui/icons/Block';
-
 //custom components
 import Aux from '../../hoc/Ax/Ax';
 import FavoriteButton from '../Buttons/FavoriteButton';
@@ -20,195 +17,11 @@ import TagButton from '../Buttons/TagButton';
 import OfferDetailsDialog from '../Dialogs/OfferDetailsDialog';
 //common
 import {getOfferAttributes, getDayDifferencesFromToday} from '../../common/common';
-import {
-    bikeyshColor4,
-    bikeyshColor5,
-    bikeyshColor6,
-    bikeyshColor7,
-} from "../../styles/material-kit-react";
-//
-const boW = '53vw';
-const styles = theme => ({
-    root: {
-        width: "100vw" ,
-        height: `40vh`,
-        "@media (min-width: 576px)": {
-            width: "100vw",
-            height: `40vh`,
-        },
-        "@media (min-width: 768px)": {
-            width: "85vw",
-            height: `40vh`,
-        },
-        "@media (min-width: 992px)": {
-            maxWidth: "75vw",
-            height: 200,
-        },
-        "@media (min-width: 1200px)": {
-            maxWidth: boW,
-            height: 200,
-        },
+//styles
+import offerStyle from '../../styles/components/Cards/offerStyle';
+import {bikeyshColor5} from "../../styles/material-kit-react";
 
-    },
-    gridElementTitle: {
-        zIndex: 1,
-        fontSize: "20px",
-        color: "#fff",
-        textShadow: `1px 1px ${bikeyshColor5}`,
-        paddingLeft: `15px`,
-        "&:hover": {
-            textDecoration: 'underline',
-        },
-        "@media (max-width: 425px)": {
-            fontSize: "13px",
-        },
-        "@media (max-width: 375px)": {
-            fontSize: "11px",
-        },
-    },
-    gridElementTitleCategory: {
-        zIndex: 1,
-        fontSize: "20px",
-        color: "#C96567",
-        textShadow: `1px 1px ${bikeyshColor6}`,
-        "@media (max-width: 425px)": {
-            fontSize: "13px",
-        },
-        "@media (max-width: 375px)": {
-            fontSize: "11px",
-        },
-
-    },
-    gridElementDownbar: {
-        zIndex: 0,
-        minWidth: boW,
-        minHeight: 70,
-        background: "#000",
-        opacity: "0.63",
-        color: "#fff",
-        paddingLeft: `15px`,
-        paddingRight: `15px`,
-        border: "1px solid rgba(201, 101, 103, 0)",
-        "@media (max-width: 425px)": {
-            minHeight: `10vh`,
-            fontSize: "13px",
-        },
-        "@media (max-width: 375px)": {
-            minHeight: `10vh`,
-            fontSize: "11px",
-        },
-        "&:hover":{
-            border: "1px solid rgba(201, 101, 103, 0.1)",
-            opacity: "0.72",
-        }
-    },
-    gridElementDownbarIcons: {
-        paddingTop: '10px'
-    },
-    gridElementUpbar: {
-        zIndex: 0,
-        minWidth: boW,
-        minHeight: 30,
-        maxHeight: 30,
-        background: `rgba(39,31,36,0.7)`,
-
-    },
-    //<<left info area
-    gridElementInfo: {
-        width: '13vw',
-        height: 200,
-        background: bikeyshColor6,
-        "@media (max-width: 1200px)": {
-            display: "none",
-        },
-    },
-    gridElementInfoActions:{
-        minHeight: 70,
-        maxHeight: 70,
-        minWidth: '13vw',
-        paddingLeft: `15px`,
-        paddingRight: `15px`,
-        borderBottom: `1px dotted ${bikeyshColor4}`,
-        borderTop: `1px dotted ${bikeyshColor4}`,
-        "@media (max-width: 1200px)": {
-            display: "none",
-        },
-        "@media (min-width: 1960px)": {
-            width: "11vw",
-            height: 200,
-        },
-    },
-    gridElementInfoTitle: {
-        color: "#fff",
-        fontSize: "15px",
-        textShadow: `1px 1px ${bikeyshColor4}`,
-        margin: `5px 5px 0px 15px`,
-        // "@media (max-width: 1200px)": {
-        //     display: "none",
-        // },
-        "@media (max-width: 425px)": {
-            fontSize: "14px",
-        },
-        "@media (max-width: 375px)": {
-            fontSize: "12px",
-        },
-    },
-    gridElementInfoText:{
-        color: "#fff",
-        fontSize: "12px",
-        textAlign: "left",
-        margin: `0px 0px 0px 15px`,
-        "@media (max-width: 1200px)": {
-            display: "none",
-        },
-    },
-    actionItem: {
-        textAlign: "center",
-    },
-    //>>
-    //<<main area elements
-    scores: {
-        backgroundColor: `#C96567`,
-        fontSize: `20px`,
-        fontFamily: `Lobster`,
-        textShadow: `1px 1px #314455`,
-        right: `15px`,
-        opacity: `1`,
-        zIndex: 1,
-        marginTop: `15px`,
-    },
-    scoreItem :{
-        paddingLeft: "0px",
-        "@media (min-width: 1000px)": {
-            paddingLeft: "20px"
-        },
-        "@media (min-width: 1600px)": {
-            paddingLeft: "35px"
-        },
-    },
-    badge: {
-        top: 6,
-        right: -15,
-        width: `17px`,
-        height: `17px`,
-        backgroundColor: `#C96567`,
-        fontSize: `9px`,
-        textShadow: `1px 1px ${bikeyshColor7}`,
-    },
-    icon: {
-        outline: "none",
-        color: "#fff",
-        opacity: "0.8",
-    },
-    spinner: {
-        textAlign: "center",
-    },
-    //>>
-
-  });
-
-
-class OfferBMCustom extends React.Component{
+class Offer extends React.Component{
 
 state = {
     scoringData: {
@@ -252,8 +65,8 @@ getScoringData = async () => {
                         itemState: result.scoring[0].itemState,
                         yearTitle: result.scoring[0].yearTitle,
                         yearDescription: result.scoring[0].yearDescription,
-                        manufacturerSetId: parseInt(result.scoring[0].manufacturerSetId),
-                        modelSetId: parseInt(result.scoring[0].modelSetId),
+                        manufacturerSetId: parseInt(result.scoring[0].manufacturerSetId, 10),
+                        modelSetId: parseInt(result.scoring[0].modelSetId, 10),
                         urlActive: result.scoring[0].urlActive
                     }
                     this.setState({scoringData: scoringData}, () => {});
@@ -290,7 +103,6 @@ render(){
 
 const {classes, mobileView} = this.props;
 let dealerTip = `null`;
-let linkActive = false;
 let linkTip = `null`;
 this.props.offer.dealer === "Nein" ? dealerTip = `Regular offer` : dealerTip = `Dealer`;
 let offerAvailable = undefined;
@@ -305,12 +117,16 @@ if (!this.props.dummy){
     diffDays = countDate.diffDays;
     offerDate = countDate.date;
     
-    this.state.scoringData.urlActive !== undefined && this.state.scoringData.urlActive !== null ?
-        JSON.parse(this.state.scoringData.urlActive) ?  offerAvailable = true : offerAvailable = false 
-        : null;
+    if(this.state.scoringData.urlActive !== undefined && this.state.scoringData.urlActive !== null){
+        if(JSON.parse(this.state.scoringData.urlActive)){
+            offerAvailable = true
+        } else {
+            offerAvailable = false 
+        }
+    };
     if(offerAvailable !== undefined){
         offerAvailable ?  linkTip = 'Offer available' : linkTip = `Offer not available`;
-    }
+    };
 }
 return(
     <Aux>
@@ -526,4 +342,4 @@ return(
     </Aux>
 )
 }};
-export default withStyles(styles)(OfferBMCustom);
+export default withStyles(offerStyle)(Offer);
